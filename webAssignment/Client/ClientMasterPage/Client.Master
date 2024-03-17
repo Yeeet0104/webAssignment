@@ -1,0 +1,123 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Client.Master.cs" Inherits="webAssignment.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="m-0 p-0">
+    <form id="form1" runat="server">
+        <nav class="bg-gray-100 p-4 shadow-lg">
+            <div class="flex items-center justify-between max-w-6xl m-auto">
+                <div class="flex items-center">
+                    <img alt="Logo" class="h-auto w-4" src="image/logo.png" />
+                    <span class="text-gray-600 text-lg ml-2 font-semibold">G-Tech</span>
+                </div>
+                <div class="flex items-center pt-2 md:hidden ">
+                    <img src="image/menu.png" class="h-9 w-auto">
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-gray-600 font-bold hover:text-gray-300">Home</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-300">Products</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-300">About Us</a>
+                    <!-- Add more links as needed -->
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <img src="image/shopping-cart.png" class="h-5 w-auto">
+                    <img src="image/heart.png" class="h-5 w-auto mt-1">
+                    <img src="image/user.png" class="h-5 w-auto">
+                    <!-- Add more links as needed -->
+                </div>
+            </div>
+        </nav>
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+        <!-- To be deleted-->
+        <div class="h-96 flex justify-center items-center">
+            <p>body</p>
+        </div>
+
+        <!--Footer-->
+        <div class=" bg-gradient-to-br from-black to-gray-700 p-16">
+            <div class="flex justify-between w-full max-w-6xl mx-auto">
+
+                <!--Feedback form-->
+                <div class="flex flex-col text-white bg-gray-800 rounded-2xl px-6 py-8 min-h-[300px] w-2/5">
+                    <p class="text-xs text-blue-700 font-bold">FEEDBACK</p>
+                    <p class="text-3xl font-bold my-4"><span class="text-gray-500">Seeking personalised support?</span> Request a call from our team</p>
+
+                    <asp:Label ID="lbl_email" runat="server" Text="Email" class="text-gray-400"></asp:Label>
+                    <asp:TextBox ID="txt_email" runat="server" class="my-2 text-black border border-gray-300 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="example@gmail.com"></asp:TextBox>
+
+                    <asp:Label ID="lbl_username" runat="server" Text="Username" class="text-gray-400"></asp:Label>
+                    <asp:TextBox ID="txt_username" runat="server" class="my-2 text-black border border-gray-300 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="Dengwait"></asp:TextBox>
+
+                    <asp:Button ID="btn_send_request" runat="server" Text="Send Request" class="mt-2 text-white bg-blue-500 rounded-lg w-36 p-2 font-bold" />
+
+                    <br />
+                    <br />
+                    <p class="text-gray-500 font-bold text-xs">Privacy</p>
+                </div>
+
+
+                <div class="flex ml-10  w-3/5">
+                    <div class="w-full flex justify-between">
+                        <div class="w-full flex flex-col py-6 px-4">
+                            <div class="w-full h-full">
+                                <p class="text-xs text-blue-700 font-bold">INFO</p>
+                                <a class="no-underline text-sm text-white font-bold" href="#">Company</a><br />
+                                <a class="no-underline text-sm text-white font-bold" href="#">Product</a><br />
+                                <a class="no-underline text-sm text-white font-bold" href="#">Services</a><br />
+                            </div>
+                            <div class="w-full h-full">
+                                <p class="text-xs text-blue-700 font-bold">CONTACT US</p>
+                                <a class="no-underline text-sm text-white font-bold" href="#">+60 123456 7890</a><br />
+                                <a class="no-underline text-sm text-white font-bold" href="#">help@gtech.com</a><br />
+                                <a class="no-underline text-sm text-white font-bold" href="#">Setapak, Kl, Malaysia</a><br />
+                            </div>
+                            <!--Social Media Icons-->
+                            <div class="w-full flex justify-between pr-10">
+                                <div class="">
+                                    <a href="https://www.facebook.com/">
+                                        <img class="h-6 w-auto" src="image/facebook.png" /></a>
+                                </div>
+                                <div class="">
+                                    <a href="https://www.instagram.com/">
+                                        <img class="h-6 w-auto" src="image/instagram.png" /></a>
+                                </div>
+                                <div class="">
+                                    <a href="https://twitter.com/">
+                                        <img class="h-6 w-auto" src="image/twitter.png" /></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full py-6 px-4">
+                            <div class="w-full h-full">
+                                <p class="text-xs text-blue-700 font-bold">ABOUT US</p>
+                                <a class="no-underline text-sm text-white font-bold" href="#">Gallery</a><br />
+                                <a class="no-underline text-sm text-white font-bold" href="#">Technologies</a><br />
+                                <a class="no-underline text-sm text-white font-bold" href="#">Contacts</a><br />
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between w-full py-6 px-4">
+                            <div class="w-full h-full flex justify-end">
+                                <img class="h-20 w-auto" src="image/logo.png" />
+                            </div>
+                            <div class="w-full h-full flex flex-col justify-end text-right">
+                                <p class="text-gray-500 font-bold text-xs">&copy;2024 - G-Tech</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</body>
+</html>
