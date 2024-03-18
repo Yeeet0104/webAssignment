@@ -38,8 +38,6 @@
 
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
-        <!-- To be deleted-->
-
         <!--Footer-->
         <div class=" bg-gradient-to-br from-black to-gray-700 p-16">
             <div class="flex justify-between w-full max-w-6xl mx-auto">
