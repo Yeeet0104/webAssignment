@@ -6,6 +6,7 @@
 <head runat="server">
     <title></title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -14,11 +15,11 @@
         <nav class="bg-gray-100 p-4 shadow-lg">
             <div class="flex items-center justify-between max-w-6xl m-auto">
                 <div class="flex items-center">
-                    <img alt="Logo" class="h-auto w-4" src="image/logo.png" />
+                    <i class="fa-brands fa-google text-2xl"></i>
                     <span class="text-gray-600 text-lg ml-2 font-semibold">G-Tech</span>
                 </div>
                 <div class="flex items-center pt-2 md:hidden ">
-                    <img src="image/menu.png" class="h-9 w-auto">
+                    <i class="fa-solid fa-bars text-2xl "></i>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="#" class="text-gray-600 font-bold hover:text-gray-300">Home</a>
@@ -27,9 +28,9 @@
                     <!-- Add more links as needed -->
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <img src="image/shopping-cart.png" class="h-5 w-auto">
-                    <img src="image/heart.png" class="h-5 w-auto mt-1">
-                    <img src="image/user.png" class="h-5 w-auto">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <i class="fa-regular fa-heart"></i>
+                    <i class="fa-regular fa-user" class="h-5"></i>
                     <!-- Add more links as needed -->
                 </div>
             </div>
@@ -38,9 +39,6 @@
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
         <!-- To be deleted-->
-        <div class="h-96 flex justify-center items-center">
-            <p>body</p>
-        </div>
 
         <!--Footer-->
         <div class=" bg-gradient-to-br from-black to-gray-700 p-16">
@@ -84,15 +82,18 @@
                             <div class="w-full flex justify-between pr-10">
                                 <div class="">
                                     <a href="https://www.facebook.com/">
-                                        <img class="h-6 w-auto" src="image/facebook.png" /></a>
+                                        <i class="fa-brands fa-facebook text-lg text-white"></i>
+                                    </a>
                                 </div>
                                 <div class="">
                                     <a href="https://www.instagram.com/">
-                                        <img class="h-6 w-auto" src="image/instagram.png" /></a>
+                                        <i class="fa-brands fa-instagram text-lg text-white"></i>
+                                    </a>
                                 </div>
                                 <div class="">
                                     <a href="https://twitter.com/">
-                                        <img class="h-6 w-auto" src="image/twitter.png" /></a>
+                                        <i class="fa-brands fa-x-twitter text-lg text-white"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +107,7 @@
                         </div>
                         <div class="flex flex-col justify-between w-full py-6 px-4">
                             <div class="w-full h-full flex justify-end">
-                                <img class="h-20 w-auto" src="image/logo.png" />
+                                <i class="fa-brands fa-google text-5xl text-gray-200"></i>
                             </div>
                             <div class="w-full h-full flex flex-col justify-end text-right">
                                 <p class="text-gray-500 font-bold text-xs">&copy;2024 - G-Tech</p>
