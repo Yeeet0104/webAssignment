@@ -68,9 +68,11 @@
                             </asp:HyperLink>
 
                             <asp:HyperLink ID="customerLk" runat="server"
-                                class=" 
-                               flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
-                                ">
+                            class=" 
+                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                                "
+                                NavigateUrl="~/Admin/Customer/customerManagement.aspx"                            
+                                >
                                 <i class="fas fa-user mr-4 icon-16x16"></i>Customers
 
 

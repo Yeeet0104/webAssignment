@@ -13,19 +13,7 @@ namespace webAssignment
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string currentPage = Path.GetFileName(Request.Path).ToLower();
-            // Remove 'active' class if it was previously appended
-
-            // Append 'active' class based on current page
-            switch (currentPage)
-            {
-                case "dashboard.aspx":
-                    dashboardLk.Attributes["class"] += " activeNavItem";
-                    break;
-                case "adminproducts.aspx":
-                    productLk.Attributes["class"] += " activeNavItem";
-                    break;
-            }
+            assignActiveClass();
 
 
 
@@ -33,6 +21,25 @@ namespace webAssignment
 
         }
 
+        private void assignActiveClass( )
+        {
+            string currentPage = Path.GetFileName(Request.Path).ToLower();
+
+            // Append 'active' class based on current page
+            switch ( currentPage )
+            {
+                case "customermanagement.aspx":
+                    customerLk.Attributes["class"] += " activeNavItem";
+                    break;
+                case "dashboard.aspx":
+                    dashboardLk.Attributes["class"] += " activeNavItem";
+                    break;
+                case "adminproducts.aspx":
+                    productLk.Attributes["class"] += " activeNavItem";
+                    break;
+
+            }
+        }
  
 
     }
