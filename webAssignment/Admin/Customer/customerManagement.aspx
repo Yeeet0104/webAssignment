@@ -29,7 +29,7 @@
 
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4">
-        <div class="p-1 border border-gray-200 flex flex-row justify-between w-52 h-11 rounded-lg">
+        <div class="p-1 border border-gray-200 flex flex-row justify-between w-52 h-11 rounded-lg bg-white">
             <div class="px-3 py-2 text-blue-600 bg-gray-100 rounded-lg">
                 All
             </div>
@@ -43,11 +43,11 @@
         <div class="flex">
             <div class="relative mr-2">
                 <i class="fa-solid fa-calendar-days absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnSelectDate" runat="server" Text="Select Date" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg" />
+                <asp:Button ID="btnSelectDate" runat="server" Text="Select Date" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white" />
             </div>
             <div class="relative ml-2">
                 <i class="fa-solid fa-sliders absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnFilters" runat="server" Text="Filters" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg" />
+                <asp:Button ID="btnFilters" runat="server" Text="Filters" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white" />
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@
 
     <asp:Repeater ID="rptCustomer" runat="server">
         <HeaderTemplate>
-            <div class="border-b-2 border-gray-300 bg-gray-100 rounded-t-lg text-sm text-black text-normal px-3 py-4 flex justify-between">
+            <div class="border-b-2 border-gray-300 bg-gray-100 rounded-t-lg text-sm text-black text-normal px-3 py-4 flex justify-between bg-white">
                 <div class="w-36">Name</div>
                 <div class="w-36">Email</div>
                 <div class="w-20">Phone No</div>
@@ -68,7 +68,7 @@
             </div>
         </HeaderTemplate>
         <ItemTemplate>
-            <div class="bg-blue-50 border-b-2 bg-gray-100 border-gray-300 text-sm flex justify-between px-3 py-5">
+            <div class="bg-blue-50 border-b-2 bg-gray-100 border-gray-300 text-sm flex justify-between px-3 py-5 bg-white">
                 <div class="w-36 text-black"><%# Eval("Name") %></div>
                 <div class="w-36"><%# Eval("Email") %></div>
                 <div class="w-20"><%# Eval("PhoneNo") %></div>
@@ -91,7 +91,7 @@
             </div>
         </ItemTemplate>
         <FooterTemplate>
-            <div class="flex flex-row justify-between bg-gray-100 rounded-b-lg">
+            <div class="flex flex-row justify-between bg-gray-100 rounded-b-lg bg-white">
                 <asp:Label ID="pageNumFoot" runat="server" Text="Showing 1-10 from 100" class="text-normal text-sm p-5"></asp:Label>
                 <div class="flex">
                     <div class="p-4 text-xl flex flex-row">
