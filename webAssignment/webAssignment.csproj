@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Customer\customerManagement.aspx" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="App_Data\MainDatabase.mdf" />
@@ -79,6 +80,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\Customer\customerManagement.aspx.cs">
+      <DependentUpon>customerManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Customer\customerManagement.aspx.designer.cs">
+      <DependentUpon>customerManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Customer\testCustomer.cs" />
     <Compile Include="Admin\Layout\AdminPage.Master.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -135,6 +144,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
