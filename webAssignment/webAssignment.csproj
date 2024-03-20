@@ -69,6 +69,8 @@
   <ItemGroup>
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Customer\customerManagement.aspx" />
+    <Content Include="Admin\Product Management\addNewProduct.aspx" />
+    <Content Include="Admin\Product Management\addNewProduct.js" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="App_Data\MainDatabase.mdf" />
@@ -95,6 +97,13 @@
     </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.designer.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Product Management\addNewProduct.aspx.cs">
+      <DependentUpon>addNewProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Product Management\addNewProduct.aspx.designer.cs">
+      <DependentUpon>addNewProduct.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Product Management\adminProducts.aspx.cs">
       <DependentUpon>adminProducts.aspx</DependentUpon>

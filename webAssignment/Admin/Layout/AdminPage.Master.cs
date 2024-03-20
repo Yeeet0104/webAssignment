@@ -34,6 +34,7 @@ namespace webAssignment
                 case "dashboard.aspx":
                     dashboardLk.Attributes["class"] += " activeNavItem";
                     break;
+                case "addnewproduct.aspx":
                 case "adminproducts.aspx":
                     productLk.Attributes["class"] += " activeNavItem";
                     break;

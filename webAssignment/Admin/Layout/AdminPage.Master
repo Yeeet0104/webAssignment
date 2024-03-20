@@ -128,7 +128,7 @@
                 <!-- MAIN CONTENT GOES HERE -->
                 <main class="px-10 overflow-y-scroll scrollbar-hide" style="height:85%">
 
-                    <div class="text-2xl font-bold ">
+                    <div class="text-2xl font-semibold ">
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
                     </div>
