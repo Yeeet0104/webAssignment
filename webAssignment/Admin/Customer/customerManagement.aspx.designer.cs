@@ -51,12 +51,12 @@ namespace webAssignment.Admin.Customer
         protected global::System.Web.UI.WebControls.Button btnFilters;
 
         /// <summary>
-        /// rptCustomer control.
+        /// customerListView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCustomer;
+        protected global::System.Web.UI.WebControls.ListView customerListView;
     }
 }

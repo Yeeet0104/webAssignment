@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Customer\editCustomer.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Customer\customerManagement.aspx" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
@@ -88,7 +89,13 @@
     <Compile Include="Admin\Customer\customerManagement.aspx.designer.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Customer\testCustomer.cs" />
+    <Compile Include="Admin\Customer\editCustomer.aspx.cs">
+      <DependentUpon>editCustomer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Customer\editCustomer.aspx.designer.cs">
+      <DependentUpon>editCustomer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
