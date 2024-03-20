@@ -67,11 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
-
     <Content Include="Admin\Customer\customerManagement.aspx" />
-
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="App_Data\MainDatabase.mdf" />
