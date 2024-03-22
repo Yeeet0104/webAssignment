@@ -42,48 +42,48 @@ namespace webAssignment.Client.ClientMasterPage
         protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
 
         /// <summary>
-        /// lbl_email control.
+        /// lblFeedbackEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_email;
+        protected global::System.Web.UI.WebControls.Label lblFeedbackEmail;
 
         /// <summary>
-        /// txt_email control.
+        /// txtFeedbackEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_email;
+        protected global::System.Web.UI.WebControls.TextBox txtFeedbackEmail;
 
         /// <summary>
-        /// lbl_username control.
+        /// lblFeedbackUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_username;
+        protected global::System.Web.UI.WebControls.Label lblFeedbackUsername;
 
         /// <summary>
-        /// txt_username control.
+        /// txtFeedbackUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_username;
+        protected global::System.Web.UI.WebControls.TextBox txtFeedbackUsername;
 
         /// <summary>
-        /// btn_send_request control.
+        /// btnSendRequest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_send_request;
+        protected global::System.Web.UI.WebControls.Button btnSendRequest;
     }
 }

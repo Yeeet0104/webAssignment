@@ -79,6 +79,8 @@
     </Content>
     <Content Include="Admin\Dashboard\Dashboard.aspx" />
     <Content Include="Client\Cart\CartPage.aspx" />
+    <Content Include="Client\Cart\images\i7.png" />
+    <Content Include="Client\Checkout\CheckoutPage.aspx" />
     <Content Include="testingDb.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -125,6 +127,13 @@
     </Compile>
     <Compile Include="Client\Cart\CartPage.aspx.designer.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\Checkout\CheckoutPage.aspx.cs">
+      <DependentUpon>CheckoutPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Checkout\CheckoutPage.aspx.designer.cs">
+      <DependentUpon>CheckoutPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\ClientMasterPage\ClientMasterPage.Master.cs">
       <DependentUpon>ClientMasterPage.Master</DependentUpon>
