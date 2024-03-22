@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment
+namespace webAssignment.Admin.Orders
 {
 
 
-    public partial class adminProducts
+    public partial class Order
     {
 
         /// <summary>
@@ -42,15 +42,6 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Button btnExport;
 
         /// <summary>
-        /// HyperLink1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
-
-        /// <summary>
         /// filterDateBtn control.
         /// </summary>
         /// <remarks>
@@ -69,12 +60,12 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
 
         /// <summary>
-        /// productListView control.
+        /// ordersListView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView productListView;
+        protected global::System.Web.UI.WebControls.ListView ordersListView;
     }
 }

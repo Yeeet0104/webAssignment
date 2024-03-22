@@ -7,30 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment
+namespace webAssignment.Admin.Category
 {
 
 
-    public partial class adminProducts
+    public partial class CreateCategory
     {
-
-        /// <summary>
-        /// productSearchBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox productSearchBox;
-
-        /// <summary>
-        /// searchBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton searchBtn;
 
         /// <summary>
         /// btnExport control.
@@ -42,39 +24,39 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Button btnExport;
 
         /// <summary>
-        /// HyperLink1 control.
+        /// btnAddNewCust control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+        protected global::System.Web.UI.WebControls.Button btnAddNewCust;
 
         /// <summary>
-        /// filterDateBtn control.
+        /// newCategoryName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
+        protected global::System.Web.UI.WebControls.TextBox newCategoryName;
 
         /// <summary>
-        /// filterOptionbtn control.
+        /// newCategoryDes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
+        protected global::System.Web.UI.WebControls.TextBox newCategoryDes;
 
         /// <summary>
-        /// productListView control.
+        /// imageInputPd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView productListView;
+        protected global::System.Web.UI.WebControls.FileUpload imageInputPd;
     }
 }

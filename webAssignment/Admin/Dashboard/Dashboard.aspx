@@ -3,10 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-    <div class="mb-3">
-        <h3>Dashboard</h3>
-    </div>
     <div class="grid grid-row-3 gap-4 h-full">
 
         <!--Daily details  Section -->
