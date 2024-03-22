@@ -67,8 +67,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Category\Category.aspx" />
+    <Content Include="Admin\Category\CreateCategory.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Customer\customerManagement.aspx" />
+    <Content Include="Admin\Orders\EditOrder.aspx" />
+    <Content Include="Admin\Orders\Order.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.js" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
@@ -83,6 +87,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\Category\Category.aspx.cs">
+      <DependentUpon>Category.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Category\Category.aspx.designer.cs">
+      <DependentUpon>Category.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Category\CreateCategory.aspx.cs">
+      <DependentUpon>CreateCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Category\CreateCategory.aspx.designer.cs">
+      <DependentUpon>CreateCategory.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Customer\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -97,6 +115,20 @@
     </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.designer.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Orders\EditOrder.aspx.cs">
+      <DependentUpon>EditOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Orders\EditOrder.aspx.designer.cs">
+      <DependentUpon>EditOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Orders\Order.aspx.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Orders\Order.aspx.designer.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Product Management\addNewProduct.aspx.cs">
       <DependentUpon>addNewProduct.aspx</DependentUpon>
