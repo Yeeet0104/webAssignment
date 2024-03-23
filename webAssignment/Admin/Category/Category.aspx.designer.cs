@@ -15,24 +15,6 @@ namespace webAssignment.Admin.Category
     {
 
         /// <summary>
-        /// categorySearchBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox categorySearchBox;
-
-        /// <summary>
-        /// searchBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton searchBtn;
-
-        /// <summary>
         /// btnExport control.
         /// </summary>
         /// <remarks>

@@ -119,6 +119,7 @@
     <Compile Include="Admin\Layout\AdminPage.Master.designer.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Layout\Filterable.cs" />
     <Compile Include="Admin\Orders\EditOrder.aspx.cs">
       <DependentUpon>EditOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

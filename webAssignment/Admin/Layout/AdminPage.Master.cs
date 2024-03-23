@@ -9,6 +9,10 @@ using System.Web.UI.WebControls;
 
 namespace webAssignment
 {
+    public interface IFilterable
+    {
+        void FilterListView( string searchTerm );
+    }
     public partial class AdminPage : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -65,10 +69,37 @@ namespace webAssignment
                     pageTitleStr = "Orders";
                     break;
             }
-            pageTitle.Text = pageTitleStr;
         }
- 
 
+        protected void SearchButton_Click( object sender, EventArgs e )
+        {
+            string searchTerm = SearchTextBox.Text;
+            var currentContent = this.Page as IFilterable;
+
+            if ( currentContent != null )
+            {
+                currentContent.FilterListView(searchTerm);
+            }
+            else
+            {
+                // Handle the case where the content page does not implement IFilterable
+            }
+        }
+
+        protected void SearchTextBox_TextChanged( object sender, EventArgs e )
+        {
+            string searchTerm = SearchTextBox.Text;
+            var currentContent = this.Page as IFilterable;
+
+            if ( currentContent != null )
+            {
+                currentContent.FilterListView(searchTerm);
+            }
+            else
+            {
+                // Handle the case where the content page does not implement IFilterable
+            }
+        }
     }
 
 
