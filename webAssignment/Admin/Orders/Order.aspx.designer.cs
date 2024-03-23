@@ -15,24 +15,6 @@ namespace webAssignment.Admin.Orders
     {
 
         /// <summary>
-        /// productSearchBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox productSearchBox;
-
-        /// <summary>
-        /// searchBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton searchBtn;
-
-        /// <summary>
         /// btnExport control.
         /// </summary>
         /// <remarks>

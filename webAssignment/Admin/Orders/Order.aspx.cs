@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace webAssignment.Admin.Orders
 {
-    public partial class Order : System.Web.UI.Page
+    public partial class Order : System.Web.UI.Page , IFilterable
     {
         protected void Page_Load( object sender, EventArgs e )
         {
@@ -83,7 +83,46 @@ namespace webAssignment.Admin.Orders
             return clearText;
         }
 
+        public void FilterListView( string searchTerm )
+        {
+            DataTable dummyData = GetDummyData();
+            DataTable filteredData = FilterDataTable(dummyData, searchTerm);
 
+            ordersListView.DataSource = filteredData;
+            ordersListView.DataBind();
+        }
+
+        private DataTable FilterDataTable( DataTable dataTable, string searchTerm )
+        {
+            // Escape single quotes in the search term which can break the filter expression.
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build a filter expression that checks if any of the columns contain the search term.
+            string expression = string.Format(
+                "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
+                "ProductName LIKE '%{0}%' OR " +
+                "Convert(AdditionalProductsCount, 'System.String') LIKE '%{0}%' OR " +
+              
+                "CustomerName LIKE '%{0}%' OR " +
+                "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
+                "Convert(PaymentDate, 'System.String') LIKE '%{0}%' OR " +
+                "Status LIKE '%{0}%'",
+                safeSearchTerm);
+
+            // Use the Select method to find all rows matching the filter expression.
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable to hold the filtered rows.
+            DataTable filteredDataTable = dataTable.Clone(); // Clone the structure of the table.
+
+            // Import the filtered rows into the new DataTable.
+            foreach ( DataRow row in filteredRows )
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
+        }
 
     }
 }

@@ -107,17 +107,14 @@
             </aside>
             <div class="w-full max-h-screen">
 
-                <%-- <!-- Header -->
+                 <!-- Header -->
                 <div class="items-center justify-center w-auto m-4 mt-10 mb-5">
                     <div class="flex flex-row w-full px-6 justify-between items-center">
                         <div class="w-4/5 flex flex-row items-center">
-                            <asp:TextBox ID="searchBox" runat="server" CssClass="
+                            <asp:TextBox ID="SearchTextBox" runat="server" CssClass="
                                 w-11/12 px-4 py-2 mr-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:outline-none focus:ring h-fit"
-                                placeholder="Search...">
-
-
-                            </asp:TextBox>
-                            <asp:LinkButton ID="searchBtn" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md">
+                                placeholder="Search..." AutoPostBack="True" OnTextChanged="SearchTextBox_TextChanged"></asp:TextBox>
+                            <asp:LinkButton ID="SearchButton" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md" OnClick="SearchButton_Click" Text="ok">
 
                                   <i class="fa-solid fa-magnifying-glass text-xl "></i>
                             </asp:LinkButton>
@@ -139,10 +136,10 @@
                             </div>
                         </div>
                     </div>
-                </div>--%>
+                </div>
 
-                <!--First Row-->
-                <div class="flex flex-row justify-between font-medium items-center w-auto pt-10 pl-10 pr-10 pb-5">
+                <!--First Row V2--> 
+<%--                <div class="flex flex-row justify-between font-medium items-center w-auto pt-10 pl-10 pr-10 pb-5">
                     <div class="flex flex-col">
                         <div class="text-2xl font-bold ">
                             <asp:Label ID="pageTitle" runat="server" Text=""></asp:Label>
@@ -166,7 +163,7 @@
                             <i class="fa-solid fa-chevron-down cursor-pointer"></i>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
 
 

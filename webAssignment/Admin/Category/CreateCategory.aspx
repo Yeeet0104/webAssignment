@@ -4,8 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!--First Row-->
-    <div class="flex flex-row justify-between font-medium pt-3 items-center">
-        <%--        <div class="flex flex-col">
+    <div class="flex flex-row justify-between font-medium pt-3 items-center mb-3">
+        <div class="flex flex-col w-3/5">
             <div class="text-2xl font-bold ">
                 <p>
                     Create Category
@@ -18,7 +18,7 @@
                 <i class="fa-solid fa-caret-right px-6 mt-1"></i>
                 <div>Create Category</div>
             </div>
-        </div>--%>
+        </div>
         <div class="flex w-full justify-end mb-3">
             <div class="relative mr-2">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>

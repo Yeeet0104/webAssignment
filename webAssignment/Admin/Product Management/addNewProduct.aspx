@@ -4,7 +4,31 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    <!--First Row-->
+    <div class="flex flex-row justify-between font-medium pt-3 items-center pb-5">
+        <div class="flex flex-col">
+            <div class="text-2xl font-bold ">
+                <p>Product</p>
+            </div>
+            <div class="flex flex-row text-sm py-2">
+                <div class="text-blue-600">Dashboard</div>
+                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
+                <div>Products List</div>
+            </div>
+        </div>
 
+        <div class="flex justify-between">
+            <div class="relative mr-2">
+                <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
+                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
+            </div>
+            <div class="relative ml-2">
+                <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
+                <asp:Button ID="btnAddNewCust" runat="server" Text="Add Product" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg" />
+            </div>
+
+        </div>
+    </div>
     <!--First Row-->
     <%--    <div class="flex flex-row justify-between font-medium pt-3 items-center">
         <div class="w-3/5 flex flex-row items-center">
@@ -120,17 +144,7 @@
 
         <!--Left Col-->
         <div class="col-span-1 flex flex-col gap-6">
-            <div class="flex justify-between">
-                <div class="relative mr-2">
-                    <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                    <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
-                </div>
-                <div class="relative ml-2">
-                    <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
-                    <asp:Button ID="btnAddNewCust" runat="server" Text="Add Product" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg" />
-                </div>
 
-            </div>
             <div class="bg-white flex flex-col p-4 bg-white rounded-xl h-fit">
 
                 <span class="mb-3">Category</span>

@@ -5,16 +5,16 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!--First Row-->
     <div class="flex flex-row justify-between font-medium pt-3 items-center pb-6">
-        <div class="w-3/5 flex flex-row items-center">
-            <asp:TextBox ID="categorySearchBox" runat="server" CssClass="
-                        w-11/12 px-4 py-2 mr-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:outline-none focus:ring h-fit"
-                placeholder="Search...">
+        <div class="flex flex-col">
+            <div class="text-2xl font-bold ">
+                <p>Category</p>
+            </div>
+            <div class="flex flex-row text-sm py-2">
+                <div class="text-blue-600">Dashboard</div>
+                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
+                <div>Category List</div>
 
-
-            </asp:TextBox>
-            <asp:LinkButton ID="searchBtn" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md">
-        <i class="fa-solid fa-magnifying-glass text-xl "></i>
-            </asp:LinkButton>
+            </div>
         </div>
         <div class="flex">
             <div class="relative mr-2">

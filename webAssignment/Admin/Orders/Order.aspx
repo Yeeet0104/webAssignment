@@ -7,20 +7,19 @@
     <!--First Row-->
     <div class="flex flex-row justify-between font-medium pt-3 items-center pb-5">
 
-        <div class="w-3/5 flex flex-row items-center">
-            <asp:TextBox ID="productSearchBox" runat="server" CssClass="
-                                w-11/12 px-4 py-2 mr-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:outline-none focus:ring h-fit"
-                placeholder="Search...">
-
-
-            </asp:TextBox>
-            <asp:LinkButton ID="searchBtn" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md">
-                <i class="fa-solid fa-magnifying-glass text-xl "></i>
-            </asp:LinkButton>
+        <div class="flex flex-col">
+            <div class="text-2xl font-bold ">
+                <p>Orders</p>
+            </div>
+            <div class="flex flex-row text-sm py-2">
+                <div class="text-blue-600">Dashboard</div>
+                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
+                <div>Order List</div>
+            </div>
         </div>
 
         <div class="flex">
-            <div class="relative mr-2">
+            <div class="relative">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
                 <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
             </div>
@@ -192,7 +191,7 @@
 
                     </td>
                     <td class="col-span-1 flex justify-end items-center">
-                        <div class="flex flex-row gap-2">
+                        <div class="flex flex-row gap-2 items-center">
                             <asp:LinkButton ID="editItem" runat="server" CommandName="EditOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
                                 <i class="fa-solid fa-pen"></i>
                             </asp:LinkButton>
