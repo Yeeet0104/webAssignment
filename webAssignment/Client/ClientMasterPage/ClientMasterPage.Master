@@ -12,19 +12,20 @@
 </head>
 <body class="m-0 p-0">
     <form id="form1" runat="server">
-        <nav class="bg-gray-100 p-4 shadow-lg">
+        <!-- Navigation Bar -->
+        <nav class="bg-gradient-to-br to-gray-800 from-black p-4 shadow-gray-500 shadow-lg text-gray-200">
             <div class="flex items-center justify-between max-w-6xl m-auto">
                 <div class="flex items-center">
-                    <i class="fa-brands fa-google text-2xl"></i>
-                    <span class="text-gray-600 text-lg ml-2 font-semibold cursor-default">G-Tech</span>
+                    <i class="fa-brands fa-google text-2xl text-white"></i>
+                    <span class="text-lg ml-2 font-semibold cursor-default">G-Tech</span>
                 </div>
                 <div class="flex items-center pt-2 md:hidden ">
                     <i class="fa-solid fa-bars text-2xl "></i>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="#" class="text-gray-600 font-bold hover:text-gray-300">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-300">Products</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-300">About Us</a>
+                    <a href="#" class="font-bold hover:text-gray-300">Home</a>
+                    <a href="#" class="hover:text-gray-300">Products</a>
+                    <a href="#" class="hover:text-gray-300">About Us</a>
                     <!-- Add more links as needed -->
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
@@ -46,12 +47,12 @@
         </asp:ContentPlaceHolder>
 
         <!--Footer-->
-        <div class=" bg-gradient-to-br from-black to-gray-700 p-16">
+        <div class="bg-gradient-to-br from-black to-gray-700 p-16">
             <div class="flex justify-between w-full max-w-6xl mx-auto">
 
                 <!--Feedback form-->
                 <div class="flex flex-col text-white bg-gray-800 rounded-2xl px-6 py-8 min-h-[300px] w-2/5">
-                    <p class="text-xs text-blue-700 font-bold">FEEDBACK</p>
+                    <p class="text-xs text-blue-600 font-bold">FEEDBACK</p>
                     <p class="text-3xl font-bold my-4"><span class="text-gray-500">Seeking personalised support?</span> Request a call from our team</p>
 
                     <asp:Label ID="lblFeedbackEmail" runat="server" Text="Email" class="text-gray-400"></asp:Label>
@@ -72,13 +73,13 @@
                     <div class="w-full flex justify-between">
                         <div class="w-full flex flex-col py-6 px-4">
                             <div class="w-full h-full">
-                                <p class="text-xs text-blue-700 font-bold">INFO</p>
+                                <p class="text-xs text-blue-600 font-bold">INFO</p>
                                 <a class="no-underline text-sm text-white font-bold" href="#">Company</a><br />
                                 <a class="no-underline text-sm text-white font-bold" href="#">Product</a><br />
                                 <a class="no-underline text-sm text-white font-bold" href="#">Services</a><br />
                             </div>
                             <div class="w-full h-full">
-                                <p class="text-xs text-blue-700 font-bold">CONTACT US</p>
+                                <p class="text-xs text-blue-600 font-bold">CONTACT US</p>
                                 <a class="no-underline text-sm text-white font-bold" href="#">+60 123456 7890</a><br />
                                 <a class="no-underline text-sm text-white font-bold" href="#">help@gtech.com</a><br />
                                 <a class="no-underline text-sm text-white font-bold" href="#">Setapak, Kl, Malaysia</a><br />
@@ -104,7 +105,7 @@
                         </div>
                         <div class="w-full py-6 px-4">
                             <div class="w-full h-full">
-                                <p class="text-xs text-blue-700 font-bold">ABOUT US</p>
+                                <p class="text-xs text-blue-600 font-bold">ABOUT US</p>
                                 <a class="no-underline text-sm text-white font-bold" href="#">Gallery</a><br />
                                 <a class="no-underline text-sm text-white font-bold" href="#">Technologies</a><br />
                                 <a class="no-underline text-sm text-white font-bold" href="#">Contacts</a><br />
