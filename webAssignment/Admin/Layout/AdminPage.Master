@@ -15,8 +15,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="flex h-screen rounded-2xl " style="color: #8B8E99">
-            <aside class="bg-white shadow-md w-64 px-4 py-6">
+        <div class="flex min-h-screen max-h-full rounded-2xl " style="background: #f2f2f2">
+            <aside class="bg-white shadow-md w-64 px-4 py-6" style="color: #8B8E99">
                 <div class="flex items-center justify-center p-6 h-20 drop-shadow-2xl border-b-2 border-indigo-500 ">
                     <h1 class="text-2xl font-bold text-gray-800">G-Tech</h1>
                 </div>
@@ -38,7 +38,6 @@
 
                         </asp:HyperLink>
 
-
                         <asp:HyperLink ID="productLk" runat="server"
                             class=" 
                                 flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
@@ -46,6 +45,24 @@
                             NavigateUrl="~/Admin/Product Management/adminProducts.aspx">
                                 <i class="fas fa-box mr-4 icon-16x16"></i>Products
 
+
+                        </asp:HyperLink>
+
+                        <asp:HyperLink ID="categoryLk" runat="server"
+                            class=" 
+                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                                "
+                            NavigateUrl="~/Admin/Category/Category.aspx">
+                                <i class="fa-solid fa-layer-group mr-4 icon-16x16""></i>Category
+
+
+                        </asp:HyperLink>
+                        <asp:HyperLink ID="orderLk" runat="server"
+                            class=" 
+                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                                "
+                            NavigateUrl="~/Admin/Orders/Order.aspx">
+                                <i class="fa-solid fa-cart-shopping mr-4 icon-16x16""></i>Orders
 
                         </asp:HyperLink>
                     </div>
@@ -57,22 +74,21 @@
                             USER MANAGEMENT
                         </div>
                         <div>
-                                                 
+
                             <asp:HyperLink ID="adminLk" runat="server"
                                 class=" 
                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
-                                "
-                                >
+                                ">
                                 <i class="fas fa-user-secret mr-4 icon-16x16"></i>Admins
 
 
                             </asp:HyperLink>
-                                
+
                             <asp:HyperLink ID="customerLk" runat="server"
                                 class=" 
-                               flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                                 "
-                                >
+                                NavigateUrl="~/Admin/Customer/customerManagement.aspx">
                                 <i class="fas fa-user mr-4 icon-16x16"></i>Customers
 
 
@@ -89,19 +105,16 @@
                     </div>
                 </nav>
             </aside>
-            <div class="w-full">
+            <div class="w-full max-h-screen">
 
-                <!-- Header -->
-                <div class="items-center justify-center w-auto m-4 my-10">
-                    <div class="flex flex-row bg-white rounded w-full px-6 justify-between items-center">
+                 <!-- Header -->
+                <div class="items-center justify-center w-auto m-4 mt-10 mb-5">
+                    <div class="flex flex-row w-full px-6 justify-between items-center">
                         <div class="w-4/5 flex flex-row items-center">
-                            <asp:TextBox ID="searchBox" runat="server" CssClass="
+                            <asp:TextBox ID="SearchTextBox" runat="server" CssClass="
                                 w-11/12 px-4 py-2 mr-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:outline-none focus:ring h-fit"
-                                placeholder="Search...">
-
-
-                            </asp:TextBox>
-                            <asp:LinkButton ID="searchBtn" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md">
+                                placeholder="Search..." AutoPostBack="True" OnTextChanged="SearchTextBox_TextChanged"></asp:TextBox>
+                            <asp:LinkButton ID="SearchButton" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md" OnClick="SearchButton_Click" Text="ok">
 
                                   <i class="fa-solid fa-magnifying-glass text-xl "></i>
                             </asp:LinkButton>
@@ -125,11 +138,39 @@
                     </div>
                 </div>
 
+                <!--First Row V2--> 
+<%--                <div class="flex flex-row justify-between font-medium items-center w-auto pt-10 pl-10 pr-10 pb-5">
+                    <div class="flex flex-col">
+                        <div class="text-2xl font-bold ">
+                            <asp:Label ID="pageTitle" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div class="flex flex-row text-sm py-2">
+                            <div class="text-blue-600">Dashboard</div>
+                            <i class="fa-solid fa-caret-right px-6 mt-1"></i>
+                            <div>Products List</div>
+                        </div>
+                    </div>
+                    <div class="w-1/10 mr-6">
+                        <div class="flex flex-row items-center justify-end">
+                            <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" Height="50px" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Width="50px"
+                                CssClass="rounded-full" />
+
+                            <div class=" gap-0.5 justify-start w-fit mx-4">
+
+                                <p id="UserName" class="text-black font-bold">Ryan Lee</p>
+                                <p id="Role">Admin</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down cursor-pointer"></i>
+                        </div>
+                    </div>
+                </div>--%>
+
+
 
                 <!-- MAIN CONTENT GOES HERE -->
-                <main class="flex-1 p-10">
+                <main class="px-10 overflow-y-scroll scrollbar-hide" style="height: 85%">
 
-                    <div class="flex-1 text-2xl font-bold">
+                    <div class=" font-semibold ">
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
                     </div>
@@ -163,7 +204,18 @@
     .activeNavItem {
         color: white;
         border-radius: 5px;
-        background-color: #6366F1; 
+        background-color: #6366F1;
         border: none;
+        font-weight: bold;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* For IE, Edge and Firefox */
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
     }
 </style>

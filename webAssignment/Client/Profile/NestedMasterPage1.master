@@ -1,0 +1,44 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Client/ClientMasterPage/ClientMasterPage.Master" AutoEventWireup="true" CodeBehind="NestedMasterPage1.master.cs" Inherits="webAssignment.Client.Profile.NestedMasterPage1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+
+<div class="flex max-w-6xl mx-auto gap-10 my-16">
+    <!-- Left Panel : Nav -->
+    <div class="border border-gray-200 flex shadow-xl rounded-md h-80 w-[25%] text-lg font-semibold text-gray-600">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-border-all"></i>
+            <asp:LinkButton ID="lnkDashBoard" runat="server">Dashboard</asp:LinkButton>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-border-all"></i>
+            <asp:LinkButton ID="lnkAccount" runat="server">Account Details</asp:LinkButton>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-border-all"></i>
+            <asp:LinkButton ID="lnkHistory" runat="server">Order History</asp:LinkButton>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-border-all"></i>
+            <asp:LinkButton ID="lnkCart" runat="server">Shopping Cart</asp:LinkButton>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-border-all"></i>
+            <asp:LinkButton ID="lnkWishlist" runat="server">Wishlist</asp:LinkButton>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-border-all"></i>
+            <asp:LinkButton ID="lnkAddress" runat="server">Address</asp:LinkButton>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-border-all"></i>
+            <asp:LinkButton ID="lnkWallet" runat="server">Wallet</asp:LinkButton>
+        </div>
+    </div>
+    <div class="border border-black h-80 w-[75%]">
+        <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+        </asp:Content>
+    </div>
+</div>
+
+
