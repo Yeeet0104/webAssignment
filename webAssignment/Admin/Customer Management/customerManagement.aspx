@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="webAssignment.Admin.Customer.WebForm1" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="customerManagement.aspx.cs" Inherits="webAssignment.Admin.Customer.customerManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -15,14 +15,9 @@
         </div>
         <div class="flex">
             <div class="relative mr-2">
-                <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
+                <i class="fa-solid fa-download text-white absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
+                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-blue-600 text-white rounded-lg" />
             </div>
-            <div class="relative ml-2">
-                <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
-                <asp:Button ID="btnAddNewCust" runat="server" Text="Add New Customer" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg" />
-            </div>
-
         </div>
     </div>
     <!--End-->
@@ -144,8 +139,8 @@
             <ItemTemplate>
                 <tr class="grid grid-cols-10 gap-6 w-full mb-5" style="color: #8B8E99">
                     <td class="col-span-3 flex flex-row gap-2 items-center">
-                        <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
-                            ImageUrl='<%# Eval("ProductImageUrl", "{0}") %>' CssClass="rounded border" />
+                        <asp:Image ID="customerImage" runat="server" AlternateText="Customer Image" Height="64" Width="64"
+                            ImageUrl='<%# Eval("CustomerImageUrl", "{0}") %>' CssClass="rounded border" />
                             <span class="text-black">
                                 <%# Eval("CustomerName") %>  
                             </span>
@@ -160,15 +155,14 @@
                     </td>
                      <td class="col-span-1 flex items-center"><%# Eval("Added", "{0:dd MMM yyyy}") %></td>
                     <td class="col-span-1 flex justify-end items-center">
-                        <div class="flex flex-row gap-2">
-                            <i class="fa-solid fa-pen"></i>
+                        <div class="flex flex-row gap-2">      
+                            <asp:HyperLink ID="customerEditLink" runat="server" NavigateUrl='<%# "~/Admin/Customer Management/editCustomer.aspx?name=" + HttpUtility.UrlEncode(Eval("CustomerName").ToString()) + "&email=" + HttpUtility.UrlEncode(Eval("CustomerEmail").ToString()) + "&phone=" + HttpUtility.UrlEncode(Eval("PhoneNo").ToString()) + "&dob=" + Eval("DOB").ToString() + "&imgUrl=" + HttpUtility.UrlEncode(Eval("CustomerImageUrl").ToString()) %>' CssClass="fa-solid fa-pen"></asp:HyperLink>
                             <i class="fa-solid fa-eye"></i>
                             <i class="fa-solid fa-trash"></i>
                         </div>
                     </td>
                 </tr>
             </ItemTemplate>
-
         </asp:ListView>
     </div>
     <!--End-->

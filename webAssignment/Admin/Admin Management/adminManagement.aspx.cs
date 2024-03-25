@@ -6,18 +6,20 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace webAssignment.Admin.Customer
+namespace webAssignment.Admin.Admin_Management
 {
-    public partial class WebForm1 : System.Web.UI.Page
+    public partial class adminManagement : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
-                customerListView.DataSource = GetDummyData();
+                adminListView.DataSource = GetDummyData();
 
-                customerListView.DataBind();
+                adminListView.DataBind();
             }
+
         }
 
         private DataTable GetDummyData()
@@ -26,9 +28,9 @@ namespace webAssignment.Admin.Customer
 
             // Add columns to match your GridView's DataFields
 
-            dummyData.Columns.Add("ProductImageUrl", typeof(string));
-            dummyData.Columns.Add("CustomerName", typeof(string));
-            dummyData.Columns.Add("CustomerEmail", typeof(string));
+            dummyData.Columns.Add("AdminImageUrl", typeof(string));
+            dummyData.Columns.Add("AdminName", typeof(string));
+            dummyData.Columns.Add("AdminEmail", typeof(string));
             dummyData.Columns.Add("PhoneNo", typeof(string));
             dummyData.Columns.Add("DOB", typeof(DateTime));
             dummyData.Columns.Add("Status", typeof(string));
@@ -42,7 +44,7 @@ namespace webAssignment.Admin.Customer
             dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "Bob Williams", "bobwilliams@gmail.com", "0123136742", DateTime.Now, "Active", DateTime.Now);
             dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "Emma Davis", "emmadavis@gmail.com", "01231363742", DateTime.Now, "Active", DateTime.Now);
             dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "Michael Brown", "michaelbrown@gmail.com", "0123136742", DateTime.Now, "Active", DateTime.Now);
-            dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "Olivia Jones", "oliviajones@gmail.com", "0123136742", DateTime.Now, "Active", DateTime.Now);
+            dummyData.Rows.Add("~/Admin/Dashboard/Images/iphone11.jpg", "Olivia Jones", "oliviajones@gmail.com", "0123136742", DateTime.Now, "Active", DateTime.Now);
             dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "Sophia Taylor", "sophiataylor@gmail.com", "0123136742", DateTime.Now, "Active", DateTime.Now);
             dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "James Miller", "jamesmiller@gmail.com", "0123136742", DateTime.Now, "Active", DateTime.Now);
             dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "Ava Moore", "avamoore@gmail.com", "01231367423", DateTime.Now, "Active", DateTime.Now);
@@ -51,7 +53,7 @@ namespace webAssignment.Admin.Customer
             return dummyData;
         }
 
-        protected void customerListView_SelectedIndexChanged(object sender, EventArgs e)
+        protected void adminListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Add your event handling logic here
         }

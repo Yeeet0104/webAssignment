@@ -67,9 +67,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin\Customer\editCustomer.aspx" />
+    <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
+    <Content Include="Admin\Admin Management\adminManagement.aspx" />
+    <Content Include="Admin\Customer Management\editCustomer.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
-    <Content Include="Admin\Customer\customerManagement.aspx" />
+    <Content Include="Admin\Customer Management\customerManagement.aspx" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="App_Data\MainDatabase.mdf" />
@@ -82,18 +84,32 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\Customer\customerManagement.aspx.cs">
+    <Compile Include="Admin\Admin Management\addNewAdmin.aspx.cs">
+      <DependentUpon>addNewAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\addNewAdmin.aspx.designer.cs">
+      <DependentUpon>addNewAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Admin Management\adminManagement.aspx.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\adminManagement.aspx.designer.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Customer Management\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Customer\customerManagement.aspx.designer.cs">
+    <Compile Include="Admin\Customer Management\customerManagement.aspx.designer.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Customer\editCustomer.aspx.cs">
+    <Compile Include="Admin\Customer Management\editCustomer.aspx.cs">
       <DependentUpon>editCustomer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Customer\editCustomer.aspx.designer.cs">
+    <Compile Include="Admin\Customer Management\editCustomer.aspx.designer.cs">
       <DependentUpon>editCustomer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.cs">
