@@ -5,12 +5,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <!--First Row-->
-    <div class="flex flex-row justify-between font-medium pt-3 items-center">
+    <div class="flex flex-row justify-between font-medium pt-3 items-center pb-5">
         <div class="flex flex-col">
             <div class="text-2xl font-bold ">
-                <p>
-                    Products
-                </p>
+                <p>Product</p>
             </div>
             <div class="flex flex-row text-sm py-2">
                 <div class="text-blue-600">Dashboard</div>
@@ -18,14 +16,15 @@
                 <div>Products List</div>
             </div>
         </div>
+
         <div class="flex">
             <div class="relative mr-2">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
                 <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
             </div>
-            <div class="relative ml-2">
-                <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
-                <asp:Button ID="btnAddNewCust" runat="server" Text="Add New Customer" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg" />
+            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
+                <i class="text-lg fa-solid fa-plus left-4 top-5 text-white"></i>
+                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/Product Management/addNewProduct.aspx">Add New Product</asp:HyperLink>
             </div>
 
         </div>

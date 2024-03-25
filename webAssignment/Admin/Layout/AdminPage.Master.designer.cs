@@ -51,6 +51,24 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.HyperLink productLk;
 
         /// <summary>
+        /// categoryLk control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink categoryLk;
+
+        /// <summary>
+        /// orderLk control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink orderLk;
+
+        /// <summary>
         /// adminLk control.
         /// </summary>
         /// <remarks>
@@ -69,22 +87,22 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.HyperLink customerLk;
 
         /// <summary>
-        /// searchBox control.
+        /// SearchTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox searchBox;
+        protected global::System.Web.UI.WebControls.TextBox SearchTextBox;
 
         /// <summary>
-        /// searchBtn control.
+        /// SearchButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton searchBtn;
+        protected global::System.Web.UI.WebControls.LinkButton SearchButton;
 
         /// <summary>
         /// userProfilePic control.

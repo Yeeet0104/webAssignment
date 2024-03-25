@@ -3,12 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-    <div class="mb-3">
-        <h3>Dashboard</h3>
-    </div>
     <div class="grid grid-row-3 gap-4 h-full">
-
+                <div class="flex flex-col">
+            <div class="text-2xl font-bold ">
+                <p>Dashboard</p>
+            </div>
+        </div>
         <!--Daily details  Section -->
         <div class="grid grid-cols-3 gap-4">
 
