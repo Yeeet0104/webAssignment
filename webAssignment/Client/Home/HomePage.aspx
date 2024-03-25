@@ -24,7 +24,7 @@
                 <!-- Category Box 1 -->
                 <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="#">
                     <div class="bg-cover bg-center h-[42vh] sm:h-[66vh] flex items-end px-6 py-4 bg-zinc-900 relative">
-                        <img src="Home Images/categories1.png" alt="Computer Accessories" class="absolute inset-0 w-full h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
+                        <img src="Home Images/logitec.png" alt="Computer Accessories" class="absolute inset-0 w-full h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
                             <h2 class="text-2xl font-semibold">Computer Accessories</h2>
                             <p class="text-gray-400 mt-2">Explore a wide range of accessories such as<br/>mouse, keyboard, and headphones etc.</p>
@@ -35,7 +35,7 @@
                 <!-- Category Box 2 -->
                 <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="#">
                     <div class="bg-cover bg-center h-[42vh] sm:h-[66vh] flex items-end px-6 py-4 bg-zinc-900 relative">
-                        <img src="Home Images/categories3.png" alt="Computer Parts" class="absolute inset-0 w-[90%] h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
+                        <img src="Home Images/Pc.png" alt="Computer Parts" class="absolute inset-0 w-[90%] h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
                             <h2 class="text-2xl font-semibold">Computer Parts</h2>
                             <p class="text-gray-400 mt-2">Discover a variety of parts including<br/>CPU, GPU, and Motherboard etc.</p>
