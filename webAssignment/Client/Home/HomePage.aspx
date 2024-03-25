@@ -10,9 +10,9 @@
             <div class="intro">
                 <img class="w-full" src="Home Images/intro_bg.png">
                 <div class="absolute md:top-[22%] md:right-[14%] top-[16%] right-[4%]">
-                    <span class="font-bold md:text-4xl sm:text-2xl text-xl">Discover Most<br/>Affordable<br/>Computer Accessories</span><br/>
+                    <h2 class="font-bold md:text-4xl sm:text-2xl text-xl py-2">Discover Most<br/>Affordable<br/>Computer Accessories</h2>
                     <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's<br/>computer accessories, or even build your<br/>own pc with G-Tech computer parts.</span><br/>      
-                    <button class="mt-2 bg-blue-500 rounded-lg w-[60%] sm:p-2 p-1 sm:text-lg text-xs hover:bg-blue-600 hover:cursor-pointer font-bold">Explore</button>
+                    <button class="mt-3 bg-blue-500 rounded-lg w-[60%] sm:p-2 p-1 sm:text-lg text-xs hover:bg-blue-600 hover:cursor-pointer font-bold">Explore</button>
                 </div>
             </div>
         </div>
