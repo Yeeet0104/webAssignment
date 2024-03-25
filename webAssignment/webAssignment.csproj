@@ -67,6 +67,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
+    <Content Include="Admin\Admin Management\adminManagement.aspx" />
+    <Content Include="Admin\Customer Management\editCustomer.aspx" />
+    <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
+    <Content Include="Admin\Customer Management\customerManagement.aspx" />
     <Content Include="Admin\Category\Category.aspx" />
     <Content Include="Admin\Category\CreateCategory.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
@@ -109,6 +114,7 @@
     <Content Include="Client\Home\Products Images\O11D-mini_black_side %282%29.jpg" />
     <Content Include="Client\Home\HomePage.aspx" />
     <Content Include="Client\Home\HomePage.css" />
+    <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\ClientDashboard.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
@@ -116,6 +122,22 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+
+    <Compile Include="Admin\Admin Management\addNewAdmin.aspx.cs">
+      <DependentUpon>addNewAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\addNewAdmin.aspx.designer.cs">
+      <DependentUpon>addNewAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Admin Management\adminManagement.aspx.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\adminManagement.aspx.designer.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+    </Compile>
+
     <Compile Include="Admin\Category\Category.aspx.cs">
       <DependentUpon>Category.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -130,14 +152,20 @@
     <Compile Include="Admin\Category\CreateCategory.aspx.designer.cs">
       <DependentUpon>CreateCategory.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Customer\customerManagement.aspx.cs">
+    <Compile Include="Admin\Customer Management\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Customer\customerManagement.aspx.designer.cs">
+    <Compile Include="Admin\Customer Management\customerManagement.aspx.designer.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Customer\testCustomer.cs" />
+    <Compile Include="Admin\Customer Management\editCustomer.aspx.cs">
+      <DependentUpon>editCustomer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Customer Management\editCustomer.aspx.designer.cs">
+      <DependentUpon>editCustomer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -209,6 +237,13 @@
     <Compile Include="Client\Home\HomePage.aspx.designer.cs">
       <DependentUpon>HomePage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Client\Product\ProductPage.aspx.cs">
+      <DependentUpon>ProductPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Product\ProductPage.aspx.designer.cs">
+      <DependentUpon>ProductPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\ProfileMaster\ProfileMasterPage.master.cs">
       <DependentUpon>ProfileMasterPage.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -246,6 +281,10 @@
     </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Client\Home\Home Images\" />
+  </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
