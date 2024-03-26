@@ -24,15 +24,6 @@ namespace webAssignment.Client.ProfileMaster
         protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
 
         /// <summary>
-        /// lnkDashBoard control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkDashBoard;
-
-        /// <summary>
         /// lnkAccount control.
         /// </summary>
         /// <remarks>
@@ -49,24 +40,6 @@ namespace webAssignment.Client.ProfileMaster
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkHistory;
-
-        /// <summary>
-        /// lnkCart control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkCart;
-
-        /// <summary>
-        /// lnkWishlist control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkWishlist;
 
         /// <summary>
         /// lnkAddress control.
