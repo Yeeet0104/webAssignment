@@ -82,6 +82,7 @@
     <Content Include="Admin\Product Management\addNewProduct.js" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
+    <Content Include="Admin\Transaction\transaction.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
     <Content Include="App_Data\MainDatabase_log.ldf">
       <DependentUpon>MainDatabase.mdf</DependentUpon>
@@ -210,6 +211,13 @@
     </Compile>
     <Compile Include="Admin\Dashboard\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Transaction\transaction.aspx.cs">
+      <DependentUpon>transaction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Transaction\transaction.aspx.designer.cs">
+      <DependentUpon>transaction.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Cart\CartPage.aspx.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>

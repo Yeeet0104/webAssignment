@@ -1,14 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="Order.aspx.cs" Inherits="webAssignment.Admin.Orders.Order" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script>
-        function showModal() {
-            document.getElementById('myModal').style.display = 'block';
-        }
-        function closeModal() {
-            document.getElementById('myModal').style.display = 'none';
-        }
-    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -42,20 +34,23 @@
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
         <div class="grid grid-cols-5 bg-white gap-3 text-center rounded p-2">
+
+
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                All Status
+                <asp:Button ID="allStatusFilter" runat="server" Text="All Status" />
             </div>
-            <div class="col-span-1 px-3 py-1">
-                Processing
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="processingFilter" runat="server" Text="Processing" />
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Shipped
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="shippedFilter" runat="server" Text="Shipped" />
+
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Delivered
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="deliveredFilter" runat="server" Text="Delivered" />
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Cancelled
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="cancelledFilter" runat="server" Text="Cancelled" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -80,7 +75,7 @@
     <!--End-->
 
     <!--Product List-->
-    <div class="bg-white p-5 text-base rounded-lg">
+    <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
 
 
         <asp:ListView ID="ordersListView" runat="server" OnSelectedIndexChanged="ordersListView_SelectedIndexChanged" OnItemCommand="OrdersListView_ItemCommand">
@@ -232,7 +227,7 @@
 
                 <div style="font-size: 64px">
                     <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
-         
+
                 </div>
                 <p class="bold text-lg break-normal text-center">Are you sure you want to delete the following item?</p>
                 <p class="bold text-lg">
@@ -249,7 +244,6 @@
 
     </asp:Panel>
     <style>
-
         @keyframes rockUpDown {
             0%, 100% {
                 transform: translateY(0);

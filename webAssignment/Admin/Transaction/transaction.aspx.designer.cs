@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment
+namespace webAssignment.Admin.Transaction
 {
 
 
-    public partial class adminProducts
+    public partial class transaction
     {
 
         /// <summary>
@@ -24,58 +24,31 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Button btnExport;
 
         /// <summary>
-        /// HyperLink1 control.
+        /// allFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+        protected global::System.Web.UI.WebControls.Button allFilter;
 
         /// <summary>
-        /// allProductFilter control.
+        /// SuccessFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button allProductFilter;
+        protected global::System.Web.UI.WebControls.Button SuccessFilter;
 
         /// <summary>
-        /// publishFilter control.
+        /// CancelledFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button publishFilter;
-
-        /// <summary>
-        /// stockFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button stockFilter;
-
-        /// <summary>
-        /// draftFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button draftFilter;
-
-        /// <summary>
-        /// noStockFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button noStockFilter;
+        protected global::System.Web.UI.WebControls.Button CancelledFilter;
 
         /// <summary>
         /// filterDateBtn control.

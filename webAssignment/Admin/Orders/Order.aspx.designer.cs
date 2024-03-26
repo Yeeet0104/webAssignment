@@ -24,6 +24,51 @@ namespace webAssignment.Admin.Orders
         protected global::System.Web.UI.WebControls.Button btnExport;
 
         /// <summary>
+        /// allStatusFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button allStatusFilter;
+
+        /// <summary>
+        /// processingFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button processingFilter;
+
+        /// <summary>
+        /// shippedFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button shippedFilter;
+
+        /// <summary>
+        /// deliveredFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button deliveredFilter;
+
+        /// <summary>
+        /// cancelledFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button cancelledFilter;
+
+        /// <summary>
         /// filterDateBtn control.
         /// </summary>
         /// <remarks>
