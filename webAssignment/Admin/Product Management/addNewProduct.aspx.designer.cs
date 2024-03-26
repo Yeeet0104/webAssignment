@@ -69,67 +69,58 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.FileUpload imageInputPd;
 
         /// <summary>
-        /// newProductBasePriceTb control.
+        /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox newProductBasePriceTb;
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// ddlDiscountType control.
+        /// UpdatePanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDiscountType;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
-        /// TextBox1 control.
+        /// createTextRowBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.LinkButton createTextRowBtn;
 
         /// <summary>
-        /// ddlTaxClass control.
+        /// variant1Tb control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTaxClass;
+        protected global::System.Web.UI.WebControls.TextBox variant1Tb;
 
         /// <summary>
-        /// tbVatAmount control.
+        /// priceVar1Tb control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbVatAmount;
+        protected global::System.Web.UI.WebControls.TextBox priceVar1Tb;
 
         /// <summary>
-        /// tbSKU control.
+        /// panelVariantTextBoxes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbSKU;
-
-        /// <summary>
-        /// tbProductBarcode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbProductBarcode;
+        protected global::System.Web.UI.WebControls.Panel panelVariantTextBoxes;
 
         /// <summary>
         /// tbQuantity control.
@@ -148,15 +139,6 @@ namespace webAssignment.Admin.Product_Management
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
-
-        /// <summary>
-        /// DropDownList2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
 
         /// <summary>
         /// lblnewProdStatus control.
