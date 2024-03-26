@@ -22,11 +22,11 @@
                 <div class="flex items-center pt-2 md:hidden ">
                     <i class="fa-solid fa-bars text-2xl "></i>
                 </div>
-                <div class="hidden md:flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-4 text-gray-300">
 
-                    <a href="/Client/Home/HomePage.aspx" class="text-gray-600 font-bold hover:text-gray-300">Home</a>
-                    <a href="/Client/Product/ProductPage.aspx" class="text-gray-600 hover:text-gray-300">Products</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-300">About Us</a>
+                    <a href="/Client/Home/HomePage.aspx" class="text-gray-300 hover:text-gray-300">Home</a>
+                    <a href="/Client/Product/ProductPage.aspx" class="hover:text-gray-300">Products</a>
+                    <a href="#" class="hover:text-gray-300">About Us</a>
                     <!-- Add more links as needed -->
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
