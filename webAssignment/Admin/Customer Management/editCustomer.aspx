@@ -41,7 +41,7 @@
     <div class="flex flex-row pt-3">
         <div>
             <!--Profile Pic container -->
-            <div class="bg-white rounded-lg" style="width: 264px; height: 380px;">
+            <div class="bg-white rounded-xl" style="width: 264px; height: 380px;">
                 <div class="flex flex-col p-6">
                     <span class="pb-2 font-medium">Profile Picture</span>
                     <span class="text-lg font-medium text-gray-400">Photo</span>
@@ -58,14 +58,14 @@
             </div>
 
             <!--Status Section-->
-            <div class="bg-white rounded-lg mt-4 p-4" style="width: 264px; height: 150px;">
+            <div class="bg-white rounded-xl mt-4 p-4" style="width: 264px; height: 150px;">
                 <div class="flex flex-col">
                     <div class="flex flex-row justify-between">
                         <span class="font-medium">Status</span>
-                        <asp:Label ID="lblStatus" runat="server" Text="Active" class="rounded-lg font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100"></asp:Label>
+                        <asp:Label ID="lblStatus" runat="server" Text="Active" class="rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100"></asp:Label>
                     </div>
                     <span class="font-medium text-lg pt-2 pb-1 text-gray-400">Customer Status</span>
-                    <asp:DropDownList ID="ddlStatus" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-lg text-lg border-2 border-gray-300" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged" AutoPostBack="True">
+                    <asp:DropDownList ID="ddlStatus" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-xl" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged" AutoPostBack="True">
                         <asp:ListItem>Active</asp:ListItem>
                         <asp:ListItem>Blocked</asp:ListItem>
                     </asp:DropDownList>
@@ -75,37 +75,37 @@
         <!--End-->
 
         <!--Customer Details-->
-        <div class="bg-white grow ml-8 rounded-lg px-10 pt-6 pb-3">
+        <div class="bg-white w-full h-full ml-8 rounded-xl px-10 py-5">
             <div class="flex flex-col">
                 <span class="text-black pb-2 text-3xl font-medium">General Information</span>
                 <div class="w-full">
                     <div class="flex flex-row pb-4">
                         <div class="w-1/2 pr-8">
                             <span class="text-sm font-medium text-gray-600">Name</span>
-                            <asp:TextBox ID="txtEditName" runat="server" Text="Yap Zi Yan" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-lg text-lg border-2 border-gray-300"></asp:TextBox>
+                            <asp:TextBox ID="txtEditName" runat="server" Text="Yap Zi Yan" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
                         <div class="w-1/2 pl-8">
                             <span class="text-sm font-medium text-gray-600">Email</span>
-                            <asp:TextBox ID="txtEditEmail" runat="server" Text="zyyap69@gmail.com" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-lg text-lg border-2 border-gray-300"></asp:TextBox>
+                            <asp:TextBox ID="txtEditEmail" runat="server" Text="zyyap69@gmail.com" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
                     </div>
                 </div>
                 <div class="w-full">
-                    <div class="pb-10">
+                    <div class="pb-6">
                         <div class="w-1/2 justify-start pr-8">
                             <div class="flex flex-col">
                                 <span class="text-sm font-medium text-gray-600">Phone Number</span>
-                                <asp:TextBox ID="txtEditPhoneNo" runat="server" Text="0123136742" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-lg text-lg border-2 border-gray-300"></asp:TextBox>
+                                <asp:TextBox ID="txtEditPhoneNo" runat="server" Text="0123136742" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!--DOB-->
                 <span class="text-lg">Date Of Birth</span>
-                <div class="w-full flex flex-row">
+                <div class="w-full flex flex-row pb-5">
                     <div class="w-1/3 pr-8">
                         <span class="text-sm font-medium text-gray-600">Day</span>
-                        <asp:DropDownList ID="ddlDay" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-lg text-lg border-2 border-gray-300">
+                        <asp:DropDownList ID="ddlDay" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl">
                             <asp:ListItem>1</asp:ListItem>
                             <asp:ListItem>2</asp:ListItem>
                             <asp:ListItem>3</asp:ListItem>
@@ -116,11 +116,32 @@
                             <asp:ListItem>8</asp:ListItem>
                             <asp:ListItem Value="9"></asp:ListItem>
                             <asp:ListItem>10</asp:ListItem>
+                            <asp:ListItem>11</asp:ListItem>
+                            <asp:ListItem>12</asp:ListItem>
+                            <asp:ListItem>13</asp:ListItem>
+                            <asp:ListItem>14</asp:ListItem>
+                            <asp:ListItem>15</asp:ListItem>
+                            <asp:ListItem>16</asp:ListItem>
+                            <asp:ListItem>17</asp:ListItem>
+                            <asp:ListItem>18</asp:ListItem>
+                            <asp:ListItem>19</asp:ListItem>
+                            <asp:ListItem>20</asp:ListItem>
+                            <asp:ListItem>21</asp:ListItem>
+                            <asp:ListItem>22</asp:ListItem>
+                            <asp:ListItem>23</asp:ListItem>
+                            <asp:ListItem>24</asp:ListItem>
+                            <asp:ListItem>25</asp:ListItem>
+                            <asp:ListItem>26</asp:ListItem>
+                            <asp:ListItem>27</asp:ListItem>
+                            <asp:ListItem>28</asp:ListItem>
+                            <asp:ListItem>29</asp:ListItem>
+                            <asp:ListItem>30</asp:ListItem>
+                            <asp:ListItem>31</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                     <div class="w-1/3 px-8">
                         <span class="text-sm font-medium text-gray-600">Month</span>
-                        <asp:DropDownList ID="ddlMonth" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-lg text-lg border-2 border-gray-300">
+                        <asp:DropDownList ID="ddlMonth" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl">
                             <asp:ListItem>January</asp:ListItem>
                             <asp:ListItem>February</asp:ListItem>
                             <asp:ListItem>March</asp:ListItem>
@@ -137,7 +158,7 @@
                     </div>
                     <div class="w-1/3 pl-8">
                         <span class="text-sm font-medium text-gray-600">Year</span>
-                        <asp:DropDownList ID="ddlYear" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-lg text-lg border-2 border-gray-300">
+                        <asp:DropDownList ID="ddlYear" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl">
                             <asp:ListItem>1996</asp:ListItem>
                             <asp:ListItem>1997</asp:ListItem>
                             <asp:ListItem>1998</asp:ListItem>

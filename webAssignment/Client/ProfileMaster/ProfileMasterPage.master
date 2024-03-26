@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="flex max-w-6xl mx-auto gap-10 my-16">
         <!-- Left Panel : Nav -->
-        <div class="border border-gray-200 flex flex-col p-5 gap-4 shadow-xl rounded-lg w-[25%] text-base font-medium text-gray-500">
+        <div class="border border-gray-200 h-full flex flex-col p-5 gap-4 shadow-xl rounded-lg w-[25%] text-base font-medium text-gray-500">
             <div class="flex items-center gap-7">
                 <span class="w-[10%] text-center">
                     <i class="fa-solid fa-square-poll-horizontal"></i>
