@@ -75,7 +75,6 @@
     <Content Include="Admin\Category\Category.aspx" />
     <Content Include="Admin\Category\CreateCategory.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
-    <Content Include="Admin\Customer\customerManagement.aspx" />
     <Content Include="Admin\Orders\EditOrder.aspx" />
     <Content Include="Admin\Orders\Order.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.aspx" />
@@ -111,7 +110,11 @@
     <Content Include="Client\Home\Products Images\O11D-mini_black_side %282%29.jpg" />
     <Content Include="Client\Home\HomePage.aspx" />
     <Content Include="Client\Home\HomePage.css" />
+    <Content Include="Client\LoginSignUp\bg1.jfif" />
+    <Content Include="Client\LoginSignUp\Login.aspx" />
+    <Content Include="Client\LoginSignUp\SignUp.aspx" />
     <Content Include="Client\Product\ProductPage.aspx" />
+    <Content Include="Client\Profile\AccountDetails.aspx" />
     <Content Include="Client\Profile\ClientDashboard.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
@@ -119,7 +122,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="Admin\Admin Management\addNewAdmin.aspx.cs">
       <DependentUpon>addNewAdmin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -134,7 +136,6 @@
     <Compile Include="Admin\Admin Management\adminManagement.aspx.designer.cs">
       <DependentUpon>adminManagement.aspx</DependentUpon>
     </Compile>
-
     <Compile Include="Admin\Category\Category.aspx.cs">
       <DependentUpon>Category.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -234,6 +235,20 @@
     <Compile Include="Client\Home\HomePage.aspx.designer.cs">
       <DependentUpon>HomePage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Client\LoginSignUp\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\LoginSignUp\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\LoginSignUp\SignUp.aspx.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\LoginSignUp\SignUp.aspx.designer.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\Product\ProductPage.aspx.cs">
       <DependentUpon>ProductPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -247,6 +262,13 @@
     </Compile>
     <Compile Include="Client\ProfileMaster\ProfileMasterPage.master.designer.cs">
       <DependentUpon>ProfileMasterPage.master</DependentUpon>
+    </Compile>
+    <Compile Include="Client\Profile\AccountDetails.aspx.cs">
+      <DependentUpon>AccountDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Profile\AccountDetails.aspx.designer.cs">
+      <DependentUpon>AccountDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Profile\ClientDashboard.aspx.cs">
       <DependentUpon>ClientDashboard.aspx</DependentUpon>
