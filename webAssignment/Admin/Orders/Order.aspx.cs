@@ -42,6 +42,8 @@ namespace webAssignment.Admin.Orders
             dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg", "Product 1", 2, DateTime.Now, "John Doe", 150.00m, DateTime.Now, "Processing");
             dummyData.Rows.Add(10235, "~/Admin/Dashboard/Images/iphone11.jpg", "Product 2", 3, DateTime.Now, "Jane Smith", 200.00m, DateTime.Now, "Shipped");
             dummyData.Rows.Add(10235, "~/Admin/Dashboard/Images/iphone11.jpg", "Product 2", 3, DateTime.Now, "Jane Smith", 200.00m, DateTime.Now, "Shipped");
+            dummyData.Rows.Add(10235, "~/Admin/Dashboard/Images/iphone11.jpg", "Product 2", 3, DateTime.Now, "Jane Smith", 200.00m, DateTime.Now, "Shipped");
+            dummyData.Rows.Add(10235, "~/Admin/Dashboard/Images/iphone11.jpg", "Product 2", 3, DateTime.Now, "Jane Smith", 200.00m, DateTime.Now, "Shipped");
             // Add more rows as needed for testing
 
             return dummyData;
@@ -51,7 +53,6 @@ namespace webAssignment.Admin.Orders
         {
 
         }
-
         protected void OrdersListView_ItemCommand( object sender, ListViewCommandEventArgs e )
         {
             if ( e.CommandName == "EditOrder" )
@@ -59,6 +60,13 @@ namespace webAssignment.Admin.Orders
                 string orderId = e.CommandArgument.ToString();
                 string encryptedStr = EncryptString(orderId);
                 Response.Redirect($"~/Admin/orders/EditOrder.aspx?OrderID={encryptedStr}");
+            } else if ( e.CommandName == "DeleteOrder" )
+            {
+                // Show the popup
+                popUpDelete.Style.Add("display", "flex");
+
+                // Set the Order ID in the label within the popup
+                lblItemInfo.Text = e.CommandArgument.ToString();
             }
         }
         protected string EncryptString( string clearText )
@@ -123,6 +131,13 @@ namespace webAssignment.Admin.Orders
 
             return filteredDataTable;
         }
-
+        protected void closePopUp_Click( object sender, EventArgs e )
+        {
+            popUpDelete.Style.Add("display", "none");
+        }
+        protected void btnCancelDelete_Click( object sender, EventArgs e )
+        {
+            popUpDelete.Style.Add("display", "none");
+        }
     }
 }
