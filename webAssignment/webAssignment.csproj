@@ -67,6 +67,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
+    <Content Include="Admin\Admin Management\adminManagement.aspx" />
+    <Content Include="Admin\Customer Management\editCustomer.aspx" />
+    <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
+    <Content Include="Admin\Customer Management\customerManagement.aspx" />
     <Content Include="Admin\Category\Category.aspx" />
     <Content Include="Admin\Category\CreateCategory.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
@@ -83,6 +88,33 @@
     </Content>
     <Content Include="Admin\Dashboard\Dashboard.aspx" />
     <Content Include="Client\Cart\CartPage.aspx" />
+    <Content Include="Client\Home\Home Images\logitec.png" />
+    <Content Include="Client\Home\Home Images\logitec2.png" />
+    <Content Include="Client\Home\Home Images\Pc.png" />
+    <Content Include="Client\Home\Products Images\CORSAIR ONE i160 Compact Gaming PC.png" />
+    <Content Include="Client\Home\Products Images\EVGA SuperNOVA 1000w T2.png" />
+    <Content Include="Client\Home\Products Images\G502 Hero High Performance Gaming Mouse.png" />
+    <Content Include="Client\Home\Products Images\G560 Lightsync PC Gaming Speakers.png" />
+    <Content Include="Client\Home\Products Images\G933S Wireless 7.1 Surround Lightsync Gaming Headset.png" />
+    <Content Include="Client\Home\Products Images\Gigabyte Z490M Micro-ATX.png" />
+    <Content Include="Client\Home\Products Images\Intel Core i9-11900K.png" />
+    <Content Include="Client\Home\Products Images\Kingston A400 SSD%28480gb%29.png" />
+    <Content Include="Client\Home\Products Images\Kingston HyperX FURY 8GB.png" />
+    <Content Include="Client\Home\Products Images\Kingston HyperX Fury Beast RGB 16GB.png" />
+    <Content Include="Client\Home\Products Images\Kingston HyperX Fury Beast RGB 8GB.png" />
+    <Content Include="Client\Home\Products Images\Lian Li PC-O11 Dynamic.png" />
+    <Content Include="Client\Home\Products Images\Logitech G PRO X Gaming Keyboard.png" />
+    <Content Include="Client\Home\Products Images\MSI MPG Z590 ATX.png" />
+    <Content Include="Client\Home\Products Images\MSI Z490-A PRO.png" />
+    <Content Include="Client\Home\Products Images\NVIDIA GTX 1080 Ti.png" />
+    <Content Include="Client\Home\Products Images\NVIDIA RTX 3080 t.png" />
+    <Content Include="Client\Home\Products Images\NVIDIA RTX 3080.png" />
+    <Content Include="Client\Home\Products Images\NVIDIA_RTX_2080.png" />
+    <Content Include="Client\Home\Products Images\NZXT H710i PC case.png" />
+    <Content Include="Client\Home\Products Images\O11D-mini_black_side %282%29.jpg" />
+    <Content Include="Client\Home\HomePage.aspx" />
+    <Content Include="Client\Home\HomePage.css" />
+    <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\ClientDashboard.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
@@ -90,6 +122,22 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+
+    <Compile Include="Admin\Admin Management\addNewAdmin.aspx.cs">
+      <DependentUpon>addNewAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\addNewAdmin.aspx.designer.cs">
+      <DependentUpon>addNewAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Admin Management\adminManagement.aspx.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\adminManagement.aspx.designer.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+    </Compile>
+
     <Compile Include="Admin\Category\Category.aspx.cs">
       <DependentUpon>Category.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -104,14 +152,20 @@
     <Compile Include="Admin\Category\CreateCategory.aspx.designer.cs">
       <DependentUpon>CreateCategory.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Customer\customerManagement.aspx.cs">
+    <Compile Include="Admin\Customer Management\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Customer\customerManagement.aspx.designer.cs">
+    <Compile Include="Admin\Customer Management\customerManagement.aspx.designer.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Customer\testCustomer.cs" />
+    <Compile Include="Admin\Customer Management\editCustomer.aspx.cs">
+      <DependentUpon>editCustomer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Customer Management\editCustomer.aspx.designer.cs">
+      <DependentUpon>editCustomer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -176,6 +230,20 @@
     <Compile Include="Client\ClientMasterPage\ClientMasterPage.Master.designer.cs">
       <DependentUpon>ClientMasterPage.Master</DependentUpon>
     </Compile>
+    <Compile Include="Client\Home\HomePage.aspx.cs">
+      <DependentUpon>HomePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Home\HomePage.aspx.designer.cs">
+      <DependentUpon>HomePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\Product\ProductPage.aspx.cs">
+      <DependentUpon>ProductPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Product\ProductPage.aspx.designer.cs">
+      <DependentUpon>ProductPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\ProfileMaster\ProfileMasterPage.master.cs">
       <DependentUpon>ProfileMasterPage.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -211,6 +279,11 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Client\Home\Home Images\" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
