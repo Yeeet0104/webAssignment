@@ -52,7 +52,7 @@
                     <h2 class="font-bold text-center text-4xl p-8">Featured Products</h2>
                     <div class="products-overview relative">
                         <div class="flex justify-end">
-                            <a href="../Product/Product.html" class="view-more-btn">
+                            <a href="/Client/Product/ProductPage.aspx" class="view-more-btn">
                                 <span>View More</span>
                                 <i class="fas fa-chevron-circle-right hvr-icon-forward"></i>
                             </a>

@@ -107,6 +107,7 @@
     <Content Include="Client\Home\HomePage.aspx" />
     <Content Include="Client\Home\HomePage.css" />
     <Content Include="Client\Product\ProductPage.aspx" />
+    <Content Include="Client\Product\ProductPage.css" />
     <Content Include="Client\Profile\ClientDashboard.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
