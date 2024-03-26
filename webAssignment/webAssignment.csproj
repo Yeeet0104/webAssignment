@@ -76,6 +76,7 @@
     <Content Include="Admin\Category\CreateCategory.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Orders\EditOrder.aspx" />
+    <Content Include="Admin\Orders\Images\trash.gif" />
     <Content Include="Admin\Orders\Order.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.js" />
@@ -304,9 +305,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Client\Home\Home Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

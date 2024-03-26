@@ -64,6 +64,7 @@ namespace webAssignment
                         pageTitleStr = "Category";
                     }
                     break;
+                case "editorder.aspx":
                 case "order.aspx":
                     orderLk.Attributes["class"] += " activeNavItem";
                     pageTitleStr = "Orders";
