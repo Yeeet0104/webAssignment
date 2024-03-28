@@ -118,6 +118,7 @@
     <Content Include="Client\LoginSignUp\SignUp.aspx" />
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
+    <Content Include="Client\Profile\Address.aspx" />
     <Content Include="Client\Profile\ClientDashboard.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
@@ -273,6 +274,13 @@
     <Compile Include="Client\Profile\AccountDetails.aspx.designer.cs">
       <DependentUpon>AccountDetails.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Client\Profile\Address.aspx.cs">
+      <DependentUpon>Address.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Profile\Address.aspx.designer.cs">
+      <DependentUpon>Address.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\Profile\ClientDashboard.aspx.cs">
       <DependentUpon>ClientDashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -304,9 +312,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Client\Home\Home Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

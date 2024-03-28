@@ -9,22 +9,40 @@
         }
     </style>
 
-    <script type="text/javascript">
-        function togglePasswordVisibility(eyeIconId, passwordFieldId) {
-            var passwordField = document.getElementById(passwordFieldId);
-            var eyeIcon = document.getElementById(eyeIconId);
+   <script>
+       // Function to toggle password visibility
+       function togglePasswordVisibility(eyeIconId, passwordFieldId) {
+           var passwordField = document.getElementById(passwordFieldId);
+           var eyeIcon = document.getElementById(eyeIconId);
 
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add("fa-eye-slash");
-            } else {
-                passwordField.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add("fa-eye");
-            }
-        }
-    </script>
+           if (passwordField.type === 'password') {
+               passwordField.type = 'text';
+               eyeIcon.classList.remove('fa-eye');
+               eyeIcon.classList.add("fa-eye-slash");
+           } else {
+               passwordField.type = 'password';
+               eyeIcon.classList.remove('fa-eye-slash');
+               eyeIcon.classList.add("fa-eye");
+           }
+       }
+
+       document.addEventListener("DOMContentLoaded", function () {
+           // Add click event listener to the eye icons
+           var eyeIcon1 = document.getElementById("eyeIcon");
+           var txtPassClientId = '<%= txtPass.ClientID %>';
+        eyeIcon1.addEventListener("click", function () {
+            togglePasswordVisibility("eyeIcon", txtPassClientId);
+        });
+
+        var eyeIcon2 = document.getElementById("eyeIcon2");
+        var txtConfirmPassClientId = '<%= txtConfirmPass.ClientID %>';
+        eyeIcon2.addEventListener("click", function () {
+            togglePasswordVisibility("eyeIcon2", txtConfirmPassClientId);
+        });
+    });
+   </script>
+
+
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -37,10 +55,10 @@
             <!--Form Container-->
             <div class="w-2/3 px-7 rounded-xl">
                 <div class="flex flex-col">
-                    <div class="mb-2 pt-4 text-5xl font-bold text-center text-black">
+                    <div class="mb-2 pt-4 text-4xl font-bold text-center text-black">
                         <span>G-Tech</span>
                     </div>
-                    <span class="font-medium text-2xl pl-3">Sign Up</span>
+                    <span class="font-medium text-xl pl-3">Sign Up</span>
 
                     <div class="flex flex-col mx-4">
                         <span class="text-xs mt-2">Username</span>
@@ -76,29 +94,39 @@
                         </div>
                     </div>
                     <div class="mx-4 mt-6">
-                        <asp:Button ID="btnLogin" runat="server" Text="Login" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400" />
+                        <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-500 ease-in-out" />
                     </div>
 
-                    <div class="flex items-center space-x-2 mt-5">
+                    <div class="flex items-center space-x-2 py-5">
                         <div class="flex-grow border-t border-gray-300"></div>
-                        <div class="text-sm font-medium text-gray-500">OR</div>
+                        <div class="text-sm font-medium text-gray-500">Or Sign Up With</div>
                         <div class="flex-grow border-t border-gray-300"></div>
                     </div>
 
-                    <div class="flex justify-center">
-                        <div class="p-4 text-base flex flex-row gap-3">
-                            <div class="mr-5 min-w-11 min-h-11 rounded-full flex items-center justify-center text-white bg-blue-700 hover:cursor-pointer">
-                                <i class="fa-brands fa-facebook-f"></i>
+                    <div class="flex w-full justify-between items-center px-40">
+                        <div class="flex flex-col items-center">
+                            <div class="min-w-11 min-h-11 rounded-full flex items-center justify-center text-white bg-blue-700 hover:cursor-pointer">
+                                <i class="fa-brands fa-facebook-f text-2xl"></i>
                             </div>
+                            <span class="">Facebook</span>
+                        </div>
+
+                        <div class="flex flex-col">
                             <div class="mx-5 min-w-11 min-h-11 rounded-full bg-black text-white border flex items-center justify-center hover:cursor-pointer">
                                 <i class="fa-brands fa-x-twitter"></i>
                             </div>
-                            <div id="googleIcon" class="ml-5 min-w-11 min-h-11 text-2xl rounded-full flex items-center justify-center hover:cursor-pointer">
-                                <i class="fa-brands fa-google"></i>
+                            <span class="text-center">X</span>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <div class="min-w-11 pt-2 text-3xl rounded-full flex items-center justify-center hover:cursor-pointer">
+                                <i id="googleIcon" class="fa-brands fa-google"></i>
                             </div>
+                            <span>Google</span>
                         </div>
                     </div>
-                    <div class="flex flex-row justify-center py-3">
+
+                    <div class="flex flex-row justify-center py-5">
                         <span class="font-medium">Already have an account?</span>
                         <asp:HyperLink ID="linkLogin" runat="server" NavigateUrl="~/Client/LoginSignUp/Login.aspx" class="hover:cursor-pointer pl-2 font-medium text-blue-600">Login Now</asp:HyperLink>
                     </div>
