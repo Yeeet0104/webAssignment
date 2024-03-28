@@ -33,7 +33,7 @@ namespace webAssignment.Admin.Transaction
 
             // Add rows with dummy data
             dummyData.Rows.Add(2001,"Dexter", "Product Purchase-Iphone 25 Pro Max,Iphone 25 Pro Max,Iphone 25 Pro Max", 25000.99,"credit",DateTime.Now);
-            dummyData.Rows.Add(2001,"Dexter","Product Purchase-Iphone 25 Pro Max",25000.99,"credit",DateTime.Now);
+            dummyData.Rows.Add(2001,"Dexter","Product Purchase-Iphone 25 Pro Max",25000.99,"debit",DateTime.Now);
             dummyData.Rows.Add(2001,"Dexter","Product Purchase-Iphone 25 Pro Max",25000.99,"credit",DateTime.Now);
             // Add more rows as needed for testing
 
