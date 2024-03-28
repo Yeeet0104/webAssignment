@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="flex max-w-6xl my-16 mx-auto gap-6">
-        <div class="border border-gray-400 rounded-lg w-4/5 flex flex-col gap-3 text-base text-gray-704 p-4">
+        <div class="border border-gray-300 shadow-xl rounded-lg w-4/5 flex flex-col gap-3 text-base text-gray-704 p-4">
             <span class="text-gray-900 font-bold text-xl">Billing Information</span>
             <div class="flex gap-3">
                 <span class="w-1/2 font-semibold">Username</span>
@@ -97,7 +97,7 @@
             <asp:TextBox class="p-2 border border-gray-300 resize-none" TextMode="MultiLine" Rows="4" ID="txtOrderNote" runat="server" placeholder="Notes about your order, e.g. spcial note for delivery"></asp:TextBox>
         </div>
         <div class="w-2/6">
-            <div class="border border-gray-400 rounded-lg p-4 flex flex-col gap-4">
+            <div class="border border-gray-300 shadow-xl rounded-lg p-4 flex flex-col gap-4">
 
                 <asp:ListView ID="lvCheckoutProduct" runat="server">
                     <LayoutTemplate>
