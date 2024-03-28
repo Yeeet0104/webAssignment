@@ -34,20 +34,23 @@
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
         <div class="grid grid-cols-5 bg-white gap-3 text-center rounded p-2">
+
+
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                All Status
+                <asp:Button ID="allStatusFilter" runat="server" Text="All Status" />
             </div>
-            <div class="col-span-1 px-3 py-1">
-                Processing
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="processingFilter" runat="server" Text="Processing" />
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Shipped
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="shippedFilter" runat="server" Text="Shipped" />
+
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Delivered
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="deliveredFilter" runat="server" Text="Delivered" />
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Cancelled
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="cancelledFilter" runat="server" Text="Cancelled" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -72,7 +75,7 @@
     <!--End-->
 
     <!--Product List-->
-    <div class="bg-white p-5 text-base rounded-lg">
+    <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
 
 
         <asp:ListView ID="ordersListView" runat="server" OnSelectedIndexChanged="ordersListView_SelectedIndexChanged" OnItemCommand="OrdersListView_ItemCommand">
@@ -195,8 +198,10 @@
                             <asp:LinkButton ID="editItem" runat="server" CommandName="EditOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
                                 <i class="fa-solid fa-pen"></i>
                             </asp:LinkButton>
-                            <i class="fa-solid fa-eye"></i>
-                            <i class="fa-solid fa-trash"></i>
+                            <asp:LinkButton ID="deleteItem" runat="server" CommandName="DeleteOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
+                                <i class="fa-solid fa-trash"></i>
+                            </asp:LinkButton>
+
                         </div>
                     </td>
                 </tr>
@@ -204,4 +209,70 @@
 
         </asp:ListView>
     </div>
+
+    <asp:Panel ID="popUpDelete" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+        <!-- Modal content -->
+        <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+
+            <div class="w-full h-fit  flex justify-end p-0">
+                <span class=" flex items-center justify-center text-3xl rounded-full">
+
+                    <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click">
+                        <i class=" fa-solid fa-xmark"></i>
+                    </asp:LinkButton>
+                </span>
+
+            </div>
+            <div class="flex flex-col justify-center items-center gap-5">
+
+                <div style="font-size: 64px">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
+
+                </div>
+                <p class="bold text-lg break-normal text-center">Are you sure you want to delete the following item?</p>
+                <p class="bold text-lg">
+                    <asp:Label ID="lblItemInfo" runat="server" Text="[OrderID]"></asp:Label>
+                </p>
+                <asp:TextBox ID="passwordForDelete" runat="server" TextMode="Password" CssClass="p-2 px-4 border rounded-xl" placeholder="Enter password to confirm"></asp:TextBox>
+                <div>
+
+                    <asp:Button ID="btnCancelDelete" runat="server" Text="Cancel" CssClass="bg-gray-300 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />
+                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" />
+                </div>
+            </div>
+        </div>
+
+    </asp:Panel>
+    <style>
+        @keyframes rockUpDown {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            10% {
+                transform: translateY(-10px);
+            }
+
+            20%, 40%, 60%, 80% {
+                transform: translateY(-10px) rotate(-6deg);
+            }
+
+            30%, 50%, 70% {
+                transform: translateY(-10px) rotate(6deg);
+            }
+
+            90% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .fa-trash-can {
+            display: inline-block;
+            transition: transform ease-in-out 0.75s;
+        }
+
+            .fa-trash-can:hover {
+                animation: rockUpDown 1.2s ease-in-out infinite;
+            }
+    </style>
 </asp:Content>

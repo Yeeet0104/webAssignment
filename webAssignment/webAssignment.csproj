@@ -76,11 +76,13 @@
     <Content Include="Admin\Category\CreateCategory.aspx" />
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Orders\EditOrder.aspx" />
+    <Content Include="Admin\Orders\Images\trash.gif" />
     <Content Include="Admin\Orders\Order.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.js" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
+    <Content Include="Admin\Transaction\transaction.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
     <Content Include="App_Data\MainDatabase_log.ldf">
       <DependentUpon>MainDatabase.mdf</DependentUpon>
@@ -119,7 +121,6 @@
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
     <Content Include="Client\Profile\Address.aspx" />
-    <Content Include="Client\Profile\ClientDashboard.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
     <Content Include="testingDb.aspx" />
@@ -211,6 +212,13 @@
     <Compile Include="Admin\Dashboard\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Transaction\transaction.aspx.cs">
+      <DependentUpon>transaction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Transaction\transaction.aspx.designer.cs">
+      <DependentUpon>transaction.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\Cart\CartPage.aspx.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -274,19 +282,13 @@
     <Compile Include="Client\Profile\AccountDetails.aspx.designer.cs">
       <DependentUpon>AccountDetails.aspx</DependentUpon>
     </Compile>
+
     <Compile Include="Client\Profile\Address.aspx.cs">
       <DependentUpon>Address.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Client\Profile\Address.aspx.designer.cs">
       <DependentUpon>Address.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Client\Profile\ClientDashboard.aspx.cs">
-      <DependentUpon>ClientDashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Client\Profile\ClientDashboard.aspx.designer.cs">
-      <DependentUpon>ClientDashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="testingDb.aspx.cs">

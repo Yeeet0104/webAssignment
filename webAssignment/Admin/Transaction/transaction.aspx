@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="adminProducts.aspx.cs" Inherits="webAssignment.adminProducts" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="transaction.aspx.cs" Inherits="webAssignment.Admin.Transaction.transaction" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -8,12 +8,12 @@
     <div class="flex flex-row justify-between font-medium pt-3 items-center pb-5">
         <div class="flex flex-col">
             <div class="text-2xl font-bold ">
-                <p>Product</p>
+                <p>Transaction</p>
             </div>
             <div class="flex flex-row text-sm py-2">
                 <div class="text-blue-600">Dashboard</div>
                 <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                <div>Products List</div>
+                <div>Transaction List</div>
             </div>
         </div>
 
@@ -22,35 +22,27 @@
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
                 <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
             </div>
-            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
+            <%--            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
                 <i class="text-lg fa-solid fa-plus left-4 top-5 text-white"></i>
                 <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/Product Management/addNewProduct.aspx">Add New Product</asp:HyperLink>
-            </div>
-
+            </div>--%>
         </div>
     </div>
     <!--End-->
 
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
-        <div class="grid grid-cols-5 bg-white gap-3 text-center rounded p-2">
+        <div class="grid grid-cols-3 bg-white gap-3 text-center rounded p-2">
 
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                <asp:Button ID="allProductFilter" runat="server" Text="All Product" />
+                <asp:Button ID="allFilter" runat="server" Text="All" />
             </div>
             <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="publishFilter" runat="server" Text="Published" />
+                <asp:Button ID="SuccessFilter" runat="server" Text="Success" />
             </div>
             <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="stockFilter" runat="server" Text="Low Stock" />
+                <asp:Button ID="CancelledFilter" runat="server" Text="Cancelled" />
 
-            </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="draftFilter" runat="server" Text="Draft" />
-                Draft
-            </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="noStockFilter" runat="server" Text="Out Of Stock" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -80,46 +72,38 @@
 
         <asp:ListView ID="productListView" runat="server" OnSelectedIndexChanged="productListView_SelectedIndexChanged">
             <LayoutTemplate>
-                <table class="orders-table w-full">
+                <table class="orders-table w-full ">
                     <!-- Headers here -->
                     <p class="pb-5">
                         Latest Orders
                     </p>
-                    <div class="grid grid-cols-9 gap-6 mb-4">
-
+                    <div class="grid grid-cols-8 gap-10 mb-4">
+                        <div class="col-span-1">
+                            <p>Customer ID</p>
+                        </div>
+                        <div class="col-span-1">
+                            <p>User Name</p>
+                        </div>
                         <div class="col-span-2">
-                            <p>Product</p>
-                        </div>
-                        <div class="col-span-1">
-                            <p>SKU</p>
-                        </div>
-                        <div class="col-span-1">
-                            <p>Category</p>
+                            <p>Description</p>
                         </div>
                         <div class="col-span-1 flex flex-row justify-between">
-                            <p>Stock </p>
-                            <asp:LinkButton ID="filterStockLv" runat="server">
+                            <p>Amount</p>
+                            <asp:LinkButton ID="filterPaidAmount" runat="server">
 
         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
                         </div>
                         <div class="col-span-1 flex flex-row justify-between">
-                            <p>Price </p>
-                            <asp:LinkButton ID="filterPriceLv" runat="server">
+                            <p>Method </p>
+                            <asp:LinkButton ID="filterPaymentMethod" runat="server">
 
         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
                         </div>
                         <div class="col-span-1 flex flex-row justify-between">
-                            <p>Status </p>
-                            <asp:LinkButton ID="filterStatusLtPd" runat="server">
-
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                            </asp:LinkButton>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
-                            <p>Added </p>
-                            <asp:LinkButton ID="filterAddedDate" runat="server">
+                            <p>Date </p>
+                            <asp:LinkButton ID="filterDatePaid" runat="server">
 
         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
@@ -129,8 +113,8 @@
                             <p>Action</p>
                         </div>
 
-                        <tr id="itemPlaceholder" runat="server"></tr>
-                        <hr class="border rounded mb-3" />
+                    <tr id="itemPlaceholder" runat="server"></tr>
+                    <hr class="border rounded mb-3" />
                 </table>
                 <table>
                     <tfoot>
@@ -167,37 +151,16 @@
                 </table>
             </LayoutTemplate>
             <ItemTemplate>
-                <tr class="grid grid-cols-9 gap-6 w-full mb-5" style="color: #8B8E99">
-                    <td class="col-span-2 flex flex-row gap-2 items-center">
-                        <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
-                            ImageUrl='<%# Eval("ProductImageUrl", "{0}") %>' CssClass="rounded border" />
-                        <div class="flex flex-col gap-2">
-                            <span>
-                                <%# Eval("ProductName") %>  
-                            </span>
-                            <span>+ <%# Eval("AdditionalProductsCount") %> Products
-                            </span>
-                        </div>
+                <tr class="grid grid-cols-8 gap-10 w-full mb-5 py-7" style="color: #8B8E99">
+                    <td class="col-span-1 flex flex-row gap-2 items-center"><%# Eval("CustomerID") %></td>
+                    <td class="col-span-1 flex items-center text-black"><%# Eval("UserName") %></td>
+                    <td class="col-span-2 flex items-center text-black break-words"><%# Eval("Description") %></td>
+                    <td class="col-span-1 flex items-center "><%# Eval("Amount") %></td>
+                    <td class="col-span-1 flex items-center "><%# Eval("PaymentMethod") %></td>
+                    <td class="col-span-1 flex items-center "><%# Eval("Date", "{0:dd MMM yyyy}") %></td>
 
-                    </td>
-                    <td class="col-span-1 flex items-center text-black"><%# Eval("OrderId") %></td>
-                    <td class="col-span-1 flex items-center"><%# Eval("Date", "{0:dd MMM yyyy}") %></td>
-                    <td class="col-span-1 flex items-center"><%# Eval("CustomerName") %></td>
-                    <td class="col-span-1 flex items-center"><%# Eval("Total", "{0:C}") %></td>
-                    <td class="col-span-1 flex items-center"><%# Eval("PaymentDate", "{0:dd MMM yyyy}") %></td>
-                    <td class="col-span-1 flex items-center w-full justify-center">
-
-                        <div class="rounded-xl flex bg-red-200 w-4/5 p-3 text-center justify-center">
-
-                            <%# Eval("Status") %>
-                        </div>
-
-
-                    </td>
                     <td class="col-span-1 flex justify-end items-center">
                         <div class="flex flex-row gap-2">
-                            <i class="fa-solid fa-pen"></i>
-                            <i class="fa-solid fa-eye"></i>
                             <i class="fa-solid fa-trash"></i>
                         </div>
                     </td>
@@ -206,6 +169,4 @@
 
         </asp:ListView>
     </div>
-
-    <!--End-->
 </asp:Content>
