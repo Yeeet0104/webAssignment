@@ -7,13 +7,26 @@
     <title></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style type="text/css">
+        .default {
+            padding: 1rem; /* Equivalent to p-4 in Tailwind CSS */
+            color: #e2e8f0; /* Equivalent to text-gray-200 in Tailwind CSS */
+            position: fixed; /* Fixed position */
+            top: 0; /* Positioned at the top */
+            left: 0; /* Positioned at the left */
+            width: 100%; /* Full width */
+            z-index: 10; /* Equivalent to z-10 in Tailwind CSS */
+            background: #131618;
+            box-shadow: 0px 5px 20px gray;
+        }
+    </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body class="m-0 p-0">
     <form id="form1" runat="server">
         <!-- Navigation Bar -->
-        <nav class="p-4  text-gray-200 fixed top-0 left-0 w-full z-10" style="background: #131618;">
+        <nav class="default">
             <div class="flex items-center justify-between max-w-6xl m-auto">
                 <div class="flex items-center">
                     <i class="fa-brands fa-google text-2xl text-white"></i>

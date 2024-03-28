@@ -1,6 +1,21 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Client/ClientMasterPage/ClientMasterPage.Master" AutoEventWireup="true" CodeBehind="HomePage.aspx.cs" Inherits="webAssignment.Client.Home.HomePage" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="HomePage.css">
+    <style type="text/css">
+        .default {
+            padding: 2rem 1rem;
+            color: #e2e8f0;
+            transition: 300ms;
+            box-shadow: none;
+            background: transparent;
+        }
+
+        nav.sticky {
+            padding: 1rem;
+            background: #131618;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="HomePageContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="text-white">
@@ -10,8 +25,12 @@
             <div class="intro">
                 <img class="w-full" src="Home Images/intro_bg.png">
                 <div class="absolute md:top-[22%] md:right-[14%] top-[16%] right-[4%]">
-                    <h2 class="font-bold md:text-4xl sm:text-2xl text-xl py-2">Discover Most<br/>Affordable<br/>Computer Accessories</h2>
-                    <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's<br/>computer accessories, or even build your<br/>own pc with G-Tech computer parts.</span><br/>      
+                    <h2 class="font-bold md:text-4xl sm:text-2xl text-xl py-2">Discover Most<br />
+                        Affordable<br />
+                        Computer Accessories</h2>
+                    <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's<br />
+                        computer accessories, or even build your<br />
+                        own pc with G-Tech computer parts.</span><br />
                     <button class="mt-3 bg-blue-500 rounded-lg w-[60%] sm:p-2 p-1 sm:text-lg text-xs hover:bg-blue-600 hover:cursor-pointer font-bold">Explore</button>
                 </div>
             </div>
@@ -27,7 +46,8 @@
                         <img src="Home Images/logitec.png" alt="Computer Accessories" class="absolute inset-0 w-full h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
                             <h2 class="text-2xl font-semibold">Computer Accessories</h2>
-                            <p class="text-gray-400 mt-2">Explore a wide range of accessories such as<br/>mouse, keyboard, and headphones etc.</p>
+                            <p class="text-gray-400 mt-2">Explore a wide range of accessories such as<br />
+                                mouse, keyboard, and headphones etc.</p>
                         </div>
                     </div>
                 </a>
@@ -38,7 +58,8 @@
                         <img src="Home Images/Pc.png" alt="Computer Parts" class="absolute inset-0 w-[90%] h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
                             <h2 class="text-2xl font-semibold">Computer Parts</h2>
-                            <p class="text-gray-400 mt-2">Discover a variety of parts including<br/>CPU, GPU, and Motherboard etc.</p>
+                            <p class="text-gray-400 mt-2">Discover a variety of parts including<br />
+                                CPU, GPU, and Motherboard etc.</p>
                         </div>
                     </div>
                 </a>
@@ -89,7 +110,7 @@
                 </a>
             </ItemTemplate>
         </asp:ListView>
-        
+
 
         <!-- Video Section -->
         <div class="section relative">
@@ -97,15 +118,16 @@
                 <div id="rtxImg">
                     <img src="Home Images/gtx1080ti.jpg">
                     <div class="videoText">
-                        <span class="videoHeading">NVDIA RTX 1080 TI</span><br/>
-                        <span class="videoDetails">Up to 3X of performance and breakthrough<br/>gaming technologies and VR experiences</span><br/>
+                        <span class="videoHeading">NVDIA RTX 1080 TI</span><br />
+                        <span class="videoDetails">Up to 3X of performance and breakthrough<br />
+                            gaming technologies and VR experiences</span><br />
                         <button class="mt-2 bg-blue-500 rounded-lg w-[60%] sm:p-2 p-1 sm:text-lg text-xs hover:bg-blue-600 hover:cursor-pointer font-bold">View Details</button>
                     </div>
                     <a id="playRtxVideo" class="play-rtx-video-btn" href="javascript:playVideo()" onmouseover="snackBar()">
                         <i class="fa-solid fa-circle-play"></i>
                     </a>
                 </div>
-                <div id="rtxVideoWrapper" class="responsiveVideo rtxVideo" >
+                <div id="rtxVideoWrapper" class="responsiveVideo rtxVideo">
                     <video id="rtxVideo" muted preload onpause="pauseVideo()">
                         <source src="Home Images/ExperienceRtxVideo.mp4" type="video/mp4">
                     </video>
@@ -114,7 +136,7 @@
             <div id="snackbar">Click the play button to experience NVDIA RTX 1080 TI in a gaming environment.</div>
         </div>
 
-         <!-- Sign Up Small Section -->
+        <!-- Sign Up Small Section -->
         <div class="small-section offer">
             <div class="promo-section">
                 <h2>SIGN UP TO GET</h2>
@@ -131,18 +153,20 @@
                 <ul>
                     <li>Exclusive offers from time to time</li>
                     <li>Promotions</li>
-                    <li>G-Tech Lastest News including new arrivals,<br/> upcoming promotions and special events.</li>
+                    <li>G-Tech Lastest News including new arrivals,<br />
+                        upcoming promotions and special events.</li>
                 </ul>
             </div>
             <div class="link-btn">
-                <a class="sign-up-btn bg-blue-600 rounded-lg hover:bg-blue-700 font-bold" href=#">Sign Up</a>
+                <a class="sign-up-btn bg-blue-600 rounded-lg hover:bg-blue-700 font-bold" href="#">Sign Up</a>
             </div>
         </div>
 
         <!-- Build PC Description Section -->
         <div class="section buildOwnPc-bg">
             <div class="build-pc-caption">
-                <h1 class="font-bold text-5xl py-4">BUILD YOUR PC,<br/> BUILD YOUR DREAM.</h1>
+                <h1 class="font-bold text-5xl py-4">BUILD YOUR PC,<br />
+                    BUILD YOUR DREAM.</h1>
                 <span>With G-Tech products, you can build your own pc easily.</span>
             </div>
             <img class="voucher hvr-buzz-out" src="Home Images/voucher.png" onclick="copyVoucherCode()" alt="voucher">
@@ -151,7 +175,7 @@
         <!-- Partnership Section -->
         <div class="partnership-bg">
             <div class="partnership-section">
-                <h2  class="text-gray-900">OUR PARTNERS</h2>
+                <h2 class="text-gray-900">OUR PARTNERS</h2>
                 <div class="partnership-logos">
                     <img src="Logos/appleLogo.png" alt="appleLogo">
                     <img src="Logos/samsungLogo.png" alt="samsungLogo">
@@ -192,7 +216,7 @@
                 + "The Voucher Code: " + voucherCode + " have been copied to your clipboard. "
                 + "Enjoy shopping with G-TECH by using the voucher code!");
         }
-         
+
         // Play Video Function
         var rtxImg = document.getElementById("rtxImg");
         var rtxVideoWrapper = document.getElementById("rtxVideoWrapper");
@@ -219,6 +243,10 @@
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
         }
 
+        window.addEventListener("scroll", function () {
+            var header = this.document.querySelector("nav");
+            header.classList.toggle("sticky", this.window.scrollY > 0);
+        })
     </script>
 
 </asp:Content>
