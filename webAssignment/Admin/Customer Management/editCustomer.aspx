@@ -1,20 +1,26 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="editCustomer.aspx.cs" Inherits="webAssignment.Admin.Customer.editCustomer" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script type="text/javascript">
-        function triggerFileUpload() {
-            var fileUpload = document.getElementById('<%= choosePic.ClientID %>');
-            if (fileUpload) {
-                fileUpload.click();
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var img = document.getElementById('<%= profilePic.ClientID %>');
+                    img.src = e.target.result;
+                }
+
+                reader.readAsDataURL(input.files[0]);
             }
         }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!--First Row-->
-    <div class="flex flex-row justify-between font-medium">
+    <div class="flex flex-row justify-between font-medium mt-1 items-center">
         <div class="flex flex-col">
-            <div class="text-black text-lg">Edit Customer</div>
+            <div class="text-2xl font-bold">Customer Details</div>
             <div class="flex flex-row text-sm p-1">
                 <div class="text-blue-600">Dashboard</div>
                 <i class="fa-solid fa-caret-right px-6 mt-1"></i>
@@ -24,15 +30,14 @@
             </div>
         </div>
         <div class="flex">
-            <div class="relative mr-2 mt-0.5">
-                <i class="fa-solid fa-xmark text-gray-400 absolute text-2xl left-3 top-5 transform -translate-y-1/2"></i>
-                <asp:HyperLink ID="linkBtnCancel" runat="server" NavigateUrl="~/Admin/Customer Management/customerManagement.aspx" class="pl-8 pr-4 py-1.5 text-lg border-2 text-gray-400 border-gray-400 rounded-lg">Cancel</asp:HyperLink>
+            <div class="relative mr-2">
+                <i class="fa-solid fa-xmark absolute text-white text-xl left-5 top-5 pt-1 transform -translate-y-1/2"></i>
+                <asp:Button ID="btnCancel" runat="server" Text="Cancel" class="pl-11 pr-5 py-2.5 text-sm bg-red-500 text-white rounded-lg" />
             </div>
-            <div class="relative ml-2">
-                <i class="fa-solid fa-floppy-disk absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
-                <asp:Button ID="btnSaveCustomer" runat="server" Text="Save Customer" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg" OnClick="btnSaveCustomer_Click" />
+            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center px-4 gap-2 rounded-lg ">
+                <i class="fa-solid fa-plus text-white text-lg left-2 top-5"></i>
+                <asp:HyperLink ID="btnSaveCustomer" runat="server" NavigateUrl="~/Admin/Customer Management/customerManagement.aspx">Save Details</asp:HyperLink>
             </div>
-
         </div>
     </div>
     <!--End-->
@@ -41,24 +46,23 @@
     <div class="flex flex-row pt-3">
         <div>
             <!--Profile Pic container -->
-            <div class="bg-white rounded-xl" style="width: 264px; height: 380px;">
+            <div class="bg-white drop-shadow-lg rounded-xl" style="width: 264px; height: 380px;">
                 <div class="flex flex-col p-6">
                     <span class="pb-2 font-medium">Profile Picture</span>
                     <span class="text-lg font-medium text-gray-400">Photo</span>
 
                     <!--Pic Box-->
                     <div class="py-1">
-                        <asp:FileUpload ID="choosePic" runat="server" Style="display: none;" />
-                        <asp:Image ID="profilePic" runat="server" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Height="216" Width="216" OnClick="triggerFileUpload()" Style="cursor: pointer;" />
+                        <asp:Image ID="profilePic" runat="server" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Height="216" Width="216" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();"/>
                     </div>
                     <div class="flex justify-center pt-3">
-                        <asp:Button ID="btnUploadImg" runat="server" Text="Upload Image" class="bg-blue-100 rounded-lg text-center px-5 py-2 text-sm font-medium text-blue-600" OnClick="btnNewProfileImg_Click" />
+                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;" onchange="previewImage(this);"/>
                     </div>
                 </div>
             </div>
 
             <!--Status Section-->
-            <div class="bg-white rounded-xl mt-4 p-4" style="width: 264px; height: 150px;">
+            <div class="bg-white drop-shadow-lg rounded-xl mt-3 p-4" style="width: 264px; height: 150px;">
                 <div class="flex flex-col">
                     <div class="flex flex-row justify-between">
                         <span class="font-medium">Status</span>
@@ -75,9 +79,9 @@
         <!--End-->
 
         <!--Customer Details-->
-        <div class="bg-white w-full h-full ml-8 rounded-xl px-10 py-5">
+        <div class="bg-white drop-shadow-lg w-full h-full ml-8 rounded-xl px-10 py-5">
             <div class="flex flex-col">
-                <span class="text-black pb-2 text-3xl font-medium">General Information</span>
+                <span class="text-black pb-2 text-2xl font-medium">General Information</span>
                 <div class="w-full">
                     <div class="flex flex-row pb-4">
                         <div class="w-1/2 pr-8">

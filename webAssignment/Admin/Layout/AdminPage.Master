@@ -85,7 +85,8 @@
                             <asp:HyperLink ID="adminLk" runat="server"
                                 class=" 
                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
-                                ">
+                                "
+                                NavigateUrl="~/Admin/Admin Management/adminManagement.aspx">
                                 <i class="fas fa-user-secret mr-4 icon-16x16"></i>Admins
 
 
@@ -95,7 +96,7 @@
                                 class=" 
                                 flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                                 "
-                                NavigateUrl="~/Admin/Customer/customerManagement.aspx">
+                                NavigateUrl="~/Admin/Customer Management/customerManagement.aspx">
                                 <i class="fas fa-user mr-4 icon-16x16"></i>Customers
 
 
