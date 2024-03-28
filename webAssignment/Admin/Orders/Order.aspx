@@ -76,60 +76,61 @@
 
     <!--Product List-->
     <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
-
+        <p class="pb-5">
+            Latest Orders
+        </p>
 
         <asp:ListView ID="ordersListView" runat="server" OnSelectedIndexChanged="ordersListView_SelectedIndexChanged" OnItemCommand="OrdersListView_ItemCommand">
             <LayoutTemplate>
-                <table class="orders-table w-full">
+                <table class="orders-table w-full ">
                     <!-- Headers here -->
-                    <p class="pb-5">
-                        Latest Orders
-                    </p>
-                    <div class="grid grid-cols-9 gap-6 mb-4">
-                        <div class="col-span-1">
+                    <tr class="grid grid-cols-9 gap-6 px-4 py-1 rounded-lg text-white items-center bg-gray-600 text-white">
+                        <td class="col-span-1">
                             <p>Order ID</p>
-                        </div>
-                        <div class="col-span-2">
+                        </td>
+                        <td class="col-span-2">
                             <p>Product</p>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between hover:bg-white hover:text-black rounded p-2">
                             <p>Order Date </p>
                             <asp:LinkButton ID="filterOdDateLv" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
-                        <div class="col-span-1">
+                        </td>
+                        <td class="col-span-1">
                             <p>Customer</p>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between">
                             <p>Total </p>
                             <asp:LinkButton ID="filterTotalPriceLv" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between">
                             <p>Payment Date </p>
                             <asp:LinkButton ID="filterPayDayeLv" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between">
                             <p>Status </p>
                             <asp:LinkButton ID="filterStatusLtPd" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
+                        </td>
 
-                        <div class="col-span-1 flex justify-end">
+                        <td class="col-span-1 flex justify-end">
                             <p>Action</p>
-                        </div>
 
-                        <tr id="itemPlaceholder" runat="server"></tr>
-                        <hr class="border rounded mb-3" />
+                        </td>
+                        
+                    </tr>
+                    <tr id="itemPlaceholder" runat="server"></tr>
+
                 </table>
                 <table>
                     <tfoot>
@@ -166,7 +167,7 @@
                 </table>
             </LayoutTemplate>
             <ItemTemplate>
-                <tr class="grid grid-cols-9 gap-6 w-full mb-5" style="color: #8B8E99">
+                <tr class="grid grid-cols-9 gap-6 w-full mb-5 p-4" style="color: #8B8E99">
                     <td class="col-span-1 flex items-center text-black"><%# Eval("OrderId") %></td>
                     <td class="col-span-2 flex flex-row gap-2 items-center">
                         <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
@@ -184,9 +185,9 @@
                     <td class="col-span-1 flex items-center"><%# Eval("CustomerName") %></td>
                     <td class="col-span-1 flex items-center"><%# Eval("Total", "{0:C}") %></td>
                     <td class="col-span-1 flex items-center"><%# Eval("PaymentDate", "{0:dd MMM yyyy}") %></td>
-                    <td class="col-span-1 flex items-center w-full justify-center">
-
-                        <div class="rounded-xl flex bg-red-200 w-4/5 p-3 text-center justify-center">
+                    <td class="col-span-1 flex items-center w-full justify-center" >
+                        
+                        <div class="<%# Eval("Status").ToString() == "Shipped" ? "bg-green-200" : "bg-red-200" %> rounded-xl flex w-4/5 p-3 text-center justify-center">
 
                             <%# Eval("Status") %>
                         </div>

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.DataVisualization.Charting;
 using System.Web.UI.WebControls;
 
 namespace webAssignment
@@ -14,8 +15,13 @@ namespace webAssignment
         {
             if ( !IsPostBack )
             {
+
                 OrdersListView.DataSource = GetDummyData();
                 OrdersListView.DataBind();
+
+                bestSellingItemLv.DataSource = GetDummyDataBestSeller();
+                bestSellingItemLv.DataBind();
+                //initChart();
             }
         }
         private DataTable GetDummyData( )
@@ -44,6 +50,29 @@ namespace webAssignment
         protected void OrdersListView_SelectedIndexChanged( object sender, EventArgs e )
         {
 
+        }
+
+        private DataTable GetDummyDataBestSeller( )
+        {
+            DataTable dummyData = new DataTable();
+
+            // Add columns to match your GridView's DataFields
+            dummyData.Columns.Add("productName", typeof(string));
+            dummyData.Columns.Add("productVariant", typeof(string));
+            dummyData.Columns.Add("ProductImageUrl", typeof(string));
+            dummyData.Columns.Add("sold", typeof(int));
+            dummyData.Columns.Add("price", typeof(int));
+            dummyData.Columns.Add("profit", typeof(int));
+
+            // Add rows with dummy data
+            dummyData.Rows.Add("Iphone 30 ", " pro max gao", "~/Admin/Layout/image/DexProfilePic.jpeg", 350 , 10 , (350*10));
+            dummyData.Rows.Add("Iphone 30 ", " max", "~/Admin/Layout/image/DexProfilePic.jpeg", 350 , 10 , (350*10));
+            dummyData.Rows.Add("Iphone 30 ", " pro max", "~/Admin/Layout/image/DexProfilePic.jpeg", 350 , 10 , (350*10));
+
+
+            // Add more rows as needed for testing
+
+            return dummyData;
         }
     }
 }
