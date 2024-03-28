@@ -33,22 +33,58 @@ namespace webAssignment.Admin.Admin_Management
         protected global::System.Web.UI.WebControls.HyperLink linkAddNewAdmin;
 
         /// <summary>
-        /// btnSelectDate control.
+        /// allAdmins control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSelectDate;
+        protected global::System.Web.UI.WebControls.Button allAdmins;
 
         /// <summary>
-        /// btnFilters control.
+        /// active control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilters;
+        protected global::System.Web.UI.WebControls.Button active;
+
+        /// <summary>
+        /// blocked control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button blocked;
+
+        /// <summary>
+        /// hidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button hidden;
+
+        /// <summary>
+        /// filterDateBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
+
+        /// <summary>
+        /// filterOptionbtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
 
         /// <summary>
         /// adminListView control.

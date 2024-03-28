@@ -15,31 +15,22 @@ namespace webAssignment.Admin.Admin_Management
     {
 
         /// <summary>
-        /// linkBtnCancel control.
+        /// btnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink linkBtnCancel;
+        protected global::System.Web.UI.WebControls.Button btnCancel;
 
         /// <summary>
-        /// btnAddAdmin control.
+        /// btnSaveAdmin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddAdmin;
-
-        /// <summary>
-        /// choosePic control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload choosePic;
+        protected global::System.Web.UI.WebControls.HyperLink btnSaveAdmin;
 
         /// <summary>
         /// profilePic control.
@@ -51,13 +42,13 @@ namespace webAssignment.Admin.Admin_Management
         protected global::System.Web.UI.WebControls.Image profilePic;
 
         /// <summary>
-        /// btnUploadImg control.
+        /// fileUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUploadImg;
+        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
 
         /// <summary>
         /// lblStatus control.

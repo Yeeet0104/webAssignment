@@ -32,7 +32,13 @@ namespace webAssignment
             switch ( currentPage )
             {
                 case "customermanagement.aspx":
+                case "editcustomer.aspx":
                     customerLk.Attributes["class"] += " activeNavItem";
+
+                    break;
+                case "adminmanagement.aspx":
+                case "addnewadmin.aspx":
+                    adminLk.Attributes["class"] += " activeNavItem";
 
                     break;
                 case "dashboard.aspx":

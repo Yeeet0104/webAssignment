@@ -1,61 +1,72 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="adminManagement.aspx.cs" Inherits="webAssignment.Admin.Admin_Management.adminManagement" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-        <!--First Row-->
-    <div class="flex flex-row justify-between font-medium p-0">
+    <!--First Row-->
+    <div class="flex flex-row justify-between font-medium pt-3 items-center pb-5">
         <div class="flex flex-col">
-            <div class="text-black text-lg">Admin</div>
-            <div class="flex flex-row text-sm p-1">
+            <div class="text-2xl font-bold">Admin</div>
+            <div class="flex flex-row text-sm py-2">
                 <div class="text-blue-600">Dashboard</div>
                 <i class="fa-solid fa-caret-right px-6 mt-1"></i>
                 <div>Admin List</div>
             </div>
         </div>
-        <div class="flex flex-row">
+        <div class="flex">
             <div class="relative mr-2">
-                <i class="fa-solid fa-download text-blue-600 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-white text-blue-600 rounded-lg" />
+                <i class="fa-solid fa-download absolute text-blue-500 text-lg left-4 top-5 transform -translate-y-1/2"></i>
+                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
             </div>
-            <div class="relative ml-2">
-                <i class="fa-solid fa-plus text-white absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:HyperLink ID="linkAddNewAdmin" runat="server" NavigateUrl="~/Admin/Admin Management/addNewAdmin.aspx" class="pl-11 pr-5 py-2.5 text-sm bg-blue-600 text-white rounded-lg hover:cursor-pointer">Add New Admin</asp:HyperLink>
+            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-3 gap-2 rounded-lg ">
+                <i class="fa-solid fa-plus text-white text-lg left-4 top-5"></i>
+                <asp:HyperLink ID="linkAddNewAdmin" runat="server" NavigateUrl="~/Admin/Admin Management/addNewAdmin.aspx">Add New Admin</asp:HyperLink>
             </div>
         </div>
     </div>
     <!--End-->
 
     <!--Second Row-->
-    <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4">
-        <div class="p-1 border border-gray-200 flex flex-row justify-between w-62 h-11 rounded-lg bg-white">
-            <div class="px-3 py-2 text-blue-600 bg-gray-100 rounded-lg">
-                All
+    <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
+        <div class="grid grid-cols-4 bg-white gap-3 text-center rounded p-2">
+
+            <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
+                <asp:Button ID="allAdmins" runat="server" Text="All" />
             </div>
-            <div class="px-3 py-2">
-                Active
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="active" runat="server" Text="Active" />
             </div>
-            <div class="px-3 py-2 ">
-                Blocked
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="blocked" runat="server" Text="Blocked" />
+
             </div>
-            <div class="px-3 py-2 ">
-                Hidden
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="hidden" runat="server" Text="Hidden" />
             </div>
         </div>
-        <div class="flex">
-            <div class="relative mr-2">
-                <i class="fa-solid fa-calendar-days absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnSelectDate" runat="server" Text="Select Date" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white" />
+        <div class="flex items-center gap-3">
+            <div>
+                <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center">
+                 <i class="fa-solid fa-calendar-days"></i>
+                <span>
+                   Select Date
+                </span>
+                </asp:LinkButton>
             </div>
-            <div class="relative ml-2">
-                <i class="fa-solid fa-sliders absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnFilters" runat="server" Text="Filters" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white" />
+            <div class="">
+                <asp:LinkButton ID="filterOptionbtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center">
+            <i class="fa-solid fa-sliders "></i>
+                <span>
+                   Filters
+                </span>
+                </asp:LinkButton>
             </div>
         </div>
     </div>
     <!--End-->
 
     <!--Name List-->
-    <div class="bg-white p-5 text-base rounded-lg">
+    <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
         <asp:ListView ID="adminListView" runat="server" OnSelectedIndexChanged="adminListView_SelectedIndexChanged">
             <LayoutTemplate>
                 <table class="orders-table w-full">
