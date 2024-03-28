@@ -13,7 +13,7 @@
 <body class="m-0 p-0">
     <form id="form1" runat="server">
         <!-- Navigation Bar -->
-        <nav class="bg-gradient-to-br to-gray-800 from-black p-4 shadow-gray-500 shadow-lg text-gray-200">
+        <nav class="p-4  text-gray-200 fixed top-0 left-0 w-full z-10" style="background: #131618;">
             <div class="flex items-center justify-between max-w-6xl m-auto">
                 <div class="flex items-center">
                     <i class="fa-brands fa-google text-2xl text-white"></i>
@@ -30,37 +30,39 @@
                     <!-- Add more links as needed -->
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="#">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fa-regular fa-heart"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fa-regular fa-user" class="h-5"></i>
-                    </a>
+                    <asp:LinkButton ID="lbCart" runat="server" PostBackUrl="~/Client/Cart/CartPage.aspx">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                    </asp:LinkButton>
+                    <asp:LinkButton ID="lbWishlist" runat="server" PostBackUrl="~/Client/Wishlist/WishlistPage.aspx">
+                            <i class="fa-regular fa-heart"></i>
+                    </asp:LinkButton>
+                    <asp:LinkButton ID="lbProfile" runat="server" PostBackUrl="~/Client/Profile/AccountDetails.aspx">
+                            <i class="fa-regular fa-user" class="h-5"></i>
+                    </asp:LinkButton>
+
                     <!-- Add more links as needed -->
                 </div>
             </div>
         </nav>
-
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-        </asp:ContentPlaceHolder>
+        <div class="pt-14">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
 
         <!--Footer-->
         <div class="bg-gradient-to-br from-black to-gray-700 p-16">
-            <div class="flex justify-between w-full max-w-6xl mx-auto">
+            <div class="flex lg:flex-row flex-col justify-between w-full max-w-6xl mx-auto">
 
                 <!--Feedback form-->
-                <div class="flex flex-col text-white bg-gray-800 rounded-2xl px-6 py-8 min-h-[300px] w-2/5">
+                <div class="flex flex-col text-white bg-gray-800 rounded-2xl px-6 py-8 min-h-[300px] w-[100%] lg:w-2/5">
                     <p class="text-xs text-blue-600 font-bold">FEEDBACK</p>
                     <p class="text-3xl font-bold my-4"><span class="text-gray-500">Seeking personalised support?</span> Request a call from our team</p>
 
                     <asp:Label ID="lblFeedbackEmail" runat="server" Text="Email" class="text-gray-400"></asp:Label>
-                    <asp:TextBox ID="txtFeedbackEmail" runat="server" class="my-2 text-black border border-gray-300 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="example@gmail.com"></asp:TextBox>
+                    <asp:TextBox ID="txtFeedbackEmail" runat="server" class="my-2 text-white border border-gray-300 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="example@gmail.com"></asp:TextBox>
 
                     <asp:Label ID="lblFeedbackUsername" runat="server" Text="Username" class="text-gray-400"></asp:Label>
-                    <asp:TextBox ID="txtFeedbackUsername" runat="server" class="my-2 text-black border border-gray-300 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="Dengwait"></asp:TextBox>
+                    <asp:TextBox ID="txtFeedbackUsername" runat="server" class="my-2 text-white border border-gray-300 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="Dengwait"></asp:TextBox>
 
                     <asp:Button ID="btnSendRequest" runat="server" Text="Send Request" class="mt-2 text-white bg-blue-500 rounded-lg w-36 p-2 font-bold" />
 
@@ -70,9 +72,9 @@
                 </div>
 
 
-                <div class="flex ml-10  w-3/5">
-                    <div class="w-full flex justify-between">
-                        <div class="w-full flex flex-col py-6 px-4">
+                <div class="flex mt-10 lg:mt-0 lg:ml-10 w-[100%] lg:w-3/5">
+                    <div class="w-full flex justify-between ">
+                        <div class="w-full flex flex-col py-6 px-4 gap-10">
                             <div class="w-full h-full">
                                 <p class="text-xs text-blue-600 font-bold">INFO</p>
                                 <a class="no-underline text-sm text-white font-bold" href="#">Company</a><br />
