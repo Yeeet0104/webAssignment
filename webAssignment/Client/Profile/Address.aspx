@@ -39,11 +39,11 @@
             contentDiv2.style.maxHeight = "0";
 
             // Add click event listeners for collapsible1 and collapsible2
-            shippingCollapseIcon.addEventListener("click", function () {
+            shippingCollapse.addEventListener("click", function () {
                 toggleContent(collapsible, contentDiv, shippingCollapseIcon);
             });
 
-            billingCollapseIcon.addEventListener("click", function () {
+            billingCollapse.addEventListener("click", function () {
                 toggleContent(collapsible2, contentDiv2, billingCollapseIcon);
             });
 
@@ -69,7 +69,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <div class="w-full h-full">
         <!--Shipping Address-->
-        <div class="w-full bg-black py-4 px-8 relative rounded-xl">
+        <div id="shippingCollapse" class="w-full bg-black py-4 px-8 relative rounded-xl cursor-pointer">
             <asp:Label ID="lblCheckBox" runat="server" Text="SHIPPING ADDRESS" class="text-xl text-white block font-medium w-full"></asp:Label>
             <i id="shippingCollapseIcon" class="fa-solid fa-chevron-down hover:cursor-pointer text-white"></i>
         </div>
@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        <div class="w-full bg-black py-4 px-8 relative rounded-xl mt-10">
+        <div id="billingCollapse" class="w-full bg-black py-4 px-8 relative rounded-xl mt-10 cursor-pointer">
             <asp:Label ID="lblCheckBox2" runat="server" Text="BILLING ADDRESS" class="text-xl text-white block font-medium w-full"></asp:Label>
             <i id="billingCollapseIcon" class="fa-solid fa-chevron-down hover:cursor-pointer text-white"></i>
         </div>
