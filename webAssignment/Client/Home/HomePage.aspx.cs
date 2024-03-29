@@ -13,8 +13,8 @@ namespace webAssignment.Client.Home
         protected void Page_Load(object sender, EventArgs e)
         {
             DataTable dummyData = GetDummyData();
-            ListViewProducts.DataSource = dummyData;
-            ListViewProducts.DataBind();
+            HomeListViewProducts.DataSource = dummyData;
+            HomeListViewProducts.DataBind();
         }
 
         private DataTable GetDummyData()
