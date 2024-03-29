@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -25,19 +28,21 @@ namespace webAssignment
             DataTable dummyData = new DataTable();
 
             // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("OrderId", typeof(int));
+            dummyData.Columns.Add("productID", typeof(int));
             dummyData.Columns.Add("ProductImageUrl", typeof(string));
             dummyData.Columns.Add("ProductName", typeof(string));
-            dummyData.Columns.Add("AdditionalProductsCount", typeof(int));
-            dummyData.Columns.Add("Date", typeof(DateTime));
-            dummyData.Columns.Add("CustomerName", typeof(string));
-            dummyData.Columns.Add("Total", typeof(decimal));
-            dummyData.Columns.Add("PaymentDate", typeof(DateTime));
+            dummyData.Columns.Add("Variant", typeof(string));
+            dummyData.Columns.Add("Date Added", typeof(DateTime));
+            dummyData.Columns.Add("Stock", typeof(int));
+            dummyData.Columns.Add("category", typeof(string));
+            dummyData.Columns.Add("Price", typeof(string));
             dummyData.Columns.Add("Status", typeof(string));
 
             // Add rows with dummy data
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg", "Dexter", 2, DateTime.Now, "John Doe", 150.00m, DateTime.Now, "Processing");
-            dummyData.Rows.Add(10235, "~/Admin/Dashboard/Images/iphone11.jpg", "Dex 2", 3, DateTime.Now, "Jane Smith", 200.00m, DateTime.Now, "Shipped");
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg", "Product 1", "Iphone 30", DateTime.Now, 100, "Phone",3500, "Publish");
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg", "Product 1", "Iphone 30", DateTime.Now, 100, "Phone",3500, "Publish");
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg", "Product 1", "Iphone 30", DateTime.Now, 100, "Phone",3500, "Publish");
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg", "Product 1", "Iphone 30", DateTime.Now, 100, "Phone",3500, "Publish");
             // Add more rows as needed for testing
 
             return dummyData;
@@ -47,7 +52,39 @@ namespace webAssignment
         {
 
         }
-
+        protected void productListView_ItemCommand( object sender, ListViewCommandEventArgs e )
+        {
+            if ( e.CommandName == "EditProduct" )
+            {
+                string productID = e.CommandArgument.ToString();
+                string encryptedStr = EncryptString(productID);
+                Response.Redirect($"~/Admin/Product Management/editProduct.aspx?OrderID={encryptedStr}");
+            }
+            else if ( e.CommandName == "DeleteProduct" )
+            {
+            }
+        }
+        protected string EncryptString( string clearText )
+        {
+            string EncryptionKey = "ABC123"; // Replace with a more complex key and store securely
+            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+            using ( Aes encryptor = Aes.Create() )
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using ( MemoryStream ms = new MemoryStream() )
+                {
+                    using ( CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write) )
+                    {
+                        cs.Write(clearBytes, 0, clearBytes.Length);
+                        cs.Close();
+                    }
+                    clearText = Convert.ToBase64String(ms.ToArray());
+                }
+            }
+            return clearText;
+        }
         public void FilterListView( string searchTerm )
         {
             DataTable dummyData = GetDummyData();

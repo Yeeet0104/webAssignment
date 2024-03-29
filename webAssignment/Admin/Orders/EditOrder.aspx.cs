@@ -74,19 +74,20 @@ namespace webAssignment.Admin.Orders
             dummyData.Columns.Add("OrderId", typeof(int));
             dummyData.Columns.Add("ProductImageUrl", typeof(string));
             dummyData.Columns.Add("ProductName", typeof(string));
-            dummyData.Columns.Add("AdditionalProductsCount", typeof(int));
-            dummyData.Columns.Add("SKU", typeof(int));
+            dummyData.Columns.Add("variant", typeof(string));
+            dummyData.Columns.Add("Category", typeof(string));
             dummyData.Columns.Add("quantity", typeof(int));
             dummyData.Columns.Add("price", typeof(decimal));
             dummyData.Columns.Add("total", typeof(decimal));
             dummyData.Columns.Add("subtotal", typeof(decimal));
            
             // Add rows with dummy data
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22, 6999);
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22, 6999);
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22,6999);
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22,6999);
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22,6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
+
+
             // Add more rows as needed for testing
 
             return dummyData;

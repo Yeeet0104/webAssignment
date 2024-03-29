@@ -181,13 +181,13 @@
                                 </p>
                                 <asp:Label ID="orderAmount" runat="server" Text="+2 Orders" CssClass="p-1 px-2 bg-green-100 rounded-lg"></asp:Label>
                             </div>
-                            <thead class="w-full table-bg">
-                                <tr class="grid grid-cols-6 gap-6 py-4">
+                            <thead class="w-full rounded-lg  items-center bg-gray-100">
+                                <tr class="grid grid-cols-6 gap-6 py-4  rounded-lg">
                                     <th class="col-span-2 text-left pl-4">
                                         <p>Product</p>
                                     </th>
                                     <th class="col-span-1 text-center">
-                                        <p>Sku</p>
+                                        <p>Category</p>
                                     </th>
                                     <th class="col-span-1 text-center">
                                         <p>Quantity</p>
@@ -202,42 +202,42 @@
                             </thead>
 
                             <tr id="itemPlaceholder" runat="server"></tr>
-                            <hr class="border rounded table-border" />
+ 
                             <tfoot>
-                                <tr class="grid grid-cols-6 gap-6 w-full border border-l-0 border-r-0 py-5 table-border">
+                                <tr class="grid grid-cols-6 gap-6 w-full  border-b-2 py-5">
                                     <!-- Span across all columns for subtotal row -->
                                     <td class="col-span-4"></td>
-                                    <td class="col-span-1 text-center">
+                                    <td class="col-span-1 text-center  font-bold ">
                                         <p>Subtotal</p>
                                     </td>
                                     <td class="col-span-1 text-center">
                                         <asp:Label ID="lblSubtotal" runat="server" Text="$711.00"></asp:Label>
                                     </td>
                                 </tr>
-                                <tr class="grid grid-cols-6 gap-6 w-full  border border-t-0 border-l-0 border-r-0 py-5 table-border">
+                                <tr class="grid grid-cols-6 gap-6 w-full   border-b-2 py-5 ">
                                     <!-- Span across all columns for VAT row -->
                                     <td class="col-span-4"></td>
-                                    <td class="col-span-1 text-center">
+                                    <td class="col-span-1 text-center  font-bold ">
                                         <p>SST(0%)</p>
                                     </td>
                                     <td class="col-span-1 text-center">
                                         <asp:Label ID="lblVAT" runat="server" Text="$0.00"></asp:Label>
                                     </td>
                                 </tr>
-                                <tr class="grid grid-cols-6 gap-6 w-ful  border border-t-0 border-l-0 border-r-0 py-5 table-border">
+                                <tr class="grid grid-cols-6 gap-6 w-ful border-b-2 py-5">
                                     <!-- Span across all columns for shipping row -->
                                     <td class="col-span-4"></td>
-                                    <td class="col-span-1 text-center">
+                                    <td class="col-span-1 text-center  font-bold ">
                                         <p>Shipping Rate</p>
                                     </td>
                                     <td class="col-span-1 text-center">
                                         <asp:Label ID="lblShippingRate" runat="server" Text="$20.00"></asp:Label>
                                     </td>
                                 </tr>
-                                <tr class="grid grid-cols-6 gap-6 w-full py-5 ">
+                                <tr class="grid grid-cols-6 gap-6 w-full py-5 pb-6">
                                     <!-- Span across all columns for total row -->
                                     <td class="col-span-4"></td>
-                                    <td class="col-span-1 text-center   ">
+                                    <td class="col-span-1 text-center  font-bold ">
                                         <p>Total</p>
                                     </td>
                                     <td class="col-span-1 text-center">
@@ -248,20 +248,21 @@
                         </table>
                     </LayoutTemplate>
                     <ItemTemplate>
-                        <tr class="grid grid-cols-6 gap-6 w-full py-2 " style="color: #8B8E99">
+                        <tr class="grid grid-cols-6 gap-6 w-full py-2 border-b-2" style="color: #8B8E99">
                             <td class="col-span-2 flex flex-row gap-2 items-center pl-4">
                                 <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
                                     ImageUrl='<%# Eval("ProductImageUrl", "{0}") %>' CssClass="rounded border" />
                                 <div class="flex flex-col gap-2">
-                                    <span>
+                                    <span class="text-black font-semibold">
                                         <%# Eval("ProductName") %>  
                                     </span>
-                                    <span>+ <%# Eval("AdditionalProductsCount") %> Products
+                                    <span class="text-xs">
+                                        <%# Eval("variant") %> Products
                                     </span>
                                 </div>
 
                             </td>
-                            <td class="col-span-1 flex items-center justify-center"><%# Eval("SKU") %></td>
+                            <td class="col-span-1 flex items-center justify-center"><%# Eval("Category") %></td>
                             <td class="col-span-1 flex items-center justify-center"><%# Eval("Quantity","{0}") %></td>
                             <td class="col-span-1 flex items-center justify-center"><%# Eval("Price", "{0:C}") %></td>
                             <td class="col-span-1 flex items-center justify-center"><%# Eval("Total", "{0:C}") %></td>
