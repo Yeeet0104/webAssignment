@@ -90,6 +90,8 @@
     <Content Include="Admin\Product Management\addNewProduct.js" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
+    <Content Include="Admin\Product Management\editProduct.aspx" />
+
     <Content Include="Admin\Transaction\transaction.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
     <Content Include="App_Data\MainDatabase_log.ldf">
@@ -100,35 +102,38 @@
     <Content Include="Client\Home\Home Images\logitec.png" />
     <Content Include="Client\Home\Home Images\logitec2.png" />
     <Content Include="Client\Home\Home Images\Pc.png" />
-    <Content Include="Client\Home\Products Images\CORSAIR ONE i160 Compact Gaming PC.png" />
-    <Content Include="Client\Home\Products Images\EVGA SuperNOVA 1000w T2.png" />
-    <Content Include="Client\Home\Products Images\G502 Hero High Performance Gaming Mouse.png" />
-    <Content Include="Client\Home\Products Images\G560 Lightsync PC Gaming Speakers.png" />
-    <Content Include="Client\Home\Products Images\G933S Wireless 7.1 Surround Lightsync Gaming Headset.png" />
-    <Content Include="Client\Home\Products Images\Gigabyte Z490M Micro-ATX.png" />
-    <Content Include="Client\Home\Products Images\Intel Core i9-11900K.png" />
-    <Content Include="Client\Home\Products Images\Kingston A400 SSD%28480gb%29.png" />
-    <Content Include="Client\Home\Products Images\Kingston HyperX FURY 8GB.png" />
-    <Content Include="Client\Home\Products Images\Kingston HyperX Fury Beast RGB 16GB.png" />
-    <Content Include="Client\Home\Products Images\Kingston HyperX Fury Beast RGB 8GB.png" />
-    <Content Include="Client\Home\Products Images\Lian Li PC-O11 Dynamic.png" />
-    <Content Include="Client\Home\Products Images\Logitech G PRO X Gaming Keyboard.png" />
-    <Content Include="Client\Home\Products Images\MSI MPG Z590 ATX.png" />
-    <Content Include="Client\Home\Products Images\MSI Z490-A PRO.png" />
-    <Content Include="Client\Home\Products Images\NVIDIA GTX 1080 Ti.png" />
-    <Content Include="Client\Home\Products Images\NVIDIA RTX 3080 t.png" />
-    <Content Include="Client\Home\Products Images\NVIDIA RTX 3080.png" />
-    <Content Include="Client\Home\Products Images\NVIDIA_RTX_2080.png" />
-    <Content Include="Client\Home\Products Images\NZXT H710i PC case.png" />
-    <Content Include="Client\Home\Products Images\O11D-mini_black_side %282%29.jpg" />
+    <Content Include="Client\Product\ProductPage.css" />
+    <Content Include="Client\ProductDetails\ProductDetailsPage.aspx" />
+    <Content Include="Client\ProductDetails\ProductDetailsPage.css" />
+    <Content Include="Client\Product\Products Images\CORSAIR ONE i160 Compact Gaming PC.png" />
+    <Content Include="Client\Product\Products Images\EVGA SuperNOVA 1000w T2.png" />
+    <Content Include="Client\Product\Products Images\G502 Hero High Performance Gaming Mouse.png" />
+    <Content Include="Client\Product\Products Images\G560 Lightsync PC Gaming Speakers.png" />
+    <Content Include="Client\Product\Products Images\G933S Wireless 7.1 Surround Lightsync Gaming Headset.png" />
+    <Content Include="Client\Product\Products Images\Gigabyte Z490M Micro-ATX.png" />
+    <Content Include="Client\Product\Products Images\Intel Core i9-11900K.png" />
+    <Content Include="Client\Product\Products Images\Kingston A400 SSD%28480gb%29.png" />
+    <Content Include="Client\Product\Products Images\Kingston HyperX FURY 8GB.png" />
+    <Content Include="Client\Product\Products Images\Kingston HyperX Fury Beast RGB 16GB.png" />
+    <Content Include="Client\Product\Products Images\Kingston HyperX Fury Beast RGB 8GB.png" />
+    <Content Include="Client\Product\Products Images\Lian Li PC-O11 Dynamic.png" />
+    <Content Include="Client\Product\Products Images\Logitech G PRO X Gaming Keyboard.png" />
+    <Content Include="Client\Product\Products Images\MSI MPG Z590 ATX.png" />
+    <Content Include="Client\Product\Products Images\MSI Z490-A PRO.png" />
+    <Content Include="Client\Product\Products Images\NVIDIA GTX 1080 Ti.png" />
+    <Content Include="Client\Product\Products Images\NVIDIA RTX 3080 t.png" />
+    <Content Include="Client\Product\Products Images\NVIDIA RTX 3080.png" />
+    <Content Include="Client\Product\Products Images\NVIDIA_RTX_2080.png" />
+    <Content Include="Client\Product\Products Images\NZXT H710i PC case.png" />
+    <Content Include="Client\Product\Products Images\O11D-mini_black_side %282%29.jpg" />
     <Content Include="Client\Home\HomePage.aspx" />
     <Content Include="Client\Home\HomePage.css" />
     <Content Include="Client\Cart\images\rtx4060ti.png" />
     <Content Include="Client\Cart\images\ssd.jpg" />
     <Content Include="Client\Cart\images\ryzen.jpg" />
     <Content Include="Client\LoginSignUp\AdminLogin.aspx" />
-    <Content Include="Client\LoginSignUp\bg1.jfif" />
     <Content Include="Client\LoginSignUp\bgAdmin.jfif" />
+    <Content Include="Client\LoginSignUp\bg1.jfif" />
     <Content Include="Client\LoginSignUp\Login.aspx" />
     <Content Include="Client\LoginSignUp\SignUp.aspx" />
     <Content Include="Client\Product\ProductPage.aspx" />
@@ -227,6 +232,14 @@
     <Compile Include="Admin\Dashboard\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
+
+    <Compile Include="Admin\Product Management\editProduct.aspx.cs">
+      <DependentUpon>editProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Product Management\editProduct.aspx.designer.cs">
+      <DependentUpon>editProduct.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Transaction\transaction.aspx.cs">
       <DependentUpon>transaction.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -268,6 +281,13 @@
     </Compile>
     <Compile Include="Client\LoginSignUp\AdminLogin.aspx.designer.cs">
       <DependentUpon>AdminLogin.aspx</DependentUpon>
+
+    <Compile Include="Client\ProductDetails\ProductDetailsPage.aspx.cs">
+      <DependentUpon>ProductDetailsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\ProductDetails\ProductDetailsPage.aspx.designer.cs">
+      <DependentUpon>ProductDetailsPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\LoginSignUp\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -384,9 +404,9 @@
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+<Target Name="BeforeBuild">
+</Target>
+<Target Name="AfterBuild">
+</Target>
+-->
 </Project>

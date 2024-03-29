@@ -25,13 +25,9 @@
             <div class="intro">
                 <img class="w-full" src="Home Images/intro_bg.png">
                 <div class="absolute md:top-[22%] md:right-[14%] top-[16%] right-[4%]">
-                    <h2 class="font-bold md:text-4xl sm:text-2xl text-xl py-2">Discover Most<br />
-                        Affordable<br />
-                        Computer Accessories</h2>
-                    <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's<br />
-                        computer accessories, or even build your<br />
-                        own pc with G-Tech computer parts.</span><br />
-                    <button class="mt-3 bg-blue-500 rounded-lg w-[60%] sm:p-2 p-1 sm:text-lg text-xs hover:bg-blue-600 hover:cursor-pointer font-bold">Explore</button>
+                    <h2 class="font-bold md:text-4xl sm:text-2xl text-xl py-2">Discover Most<br/>Affordable<br/>Computer Accessories</h2>
+                    <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's<br/>computer accessories, or even build your<br/>own pc with G-Tech computer parts.</span><br/>      
+                    <button class="primary-button mt-3 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">Explore</button>
                 </div>
             </div>
         </div>
@@ -67,13 +63,13 @@
         </div>
 
         <!-- Featured Products Section -->
-        <asp:ListView ID="ListViewProducts" runat="server" ItemPlaceholderID="productContainer">
+        <asp:ListView ID="HomeListViewProducts" runat="server" ItemPlaceholderID="productContainer">
             <LayoutTemplate>
                 <div class="section px-[6%]">
                     <h2 class="font-bold text-center text-4xl p-8">Featured Products</h2>
                     <div class="products-overview relative">
                         <div class="flex justify-end">
-                            <a href="../Product/Product.html" class="view-more-btn">
+                            <a href="/Client/Product/ProductPage.aspx" class="view-more-btn">
                                 <span>View More</span>
                                 <i class="fas fa-chevron-circle-right hvr-icon-forward"></i>
                             </a>
@@ -94,7 +90,7 @@
                 <a class="product" href='<%# "../ProductDetailPage/" + Eval("link") %>'>
                     <div id="product" class="hover-content">
                         <div class="product-header">
-                            <img src='<%# "Products Images/" + Eval("ProductImageUrl") %>' alt='<%# Eval("ProductName") %>' />
+                            <img src='<%# "/Client/Product/Products Images/" + Eval("ProductImageUrl") %>' alt='<%# Eval("ProductName") %>' />
                         </div>
                         <div class="product-footer">
                             <span class="product-name"><%# Eval("ProductName") %></span>
@@ -118,10 +114,9 @@
                 <div id="rtxImg">
                     <img src="Home Images/gtx1080ti.jpg">
                     <div class="videoText">
-                        <span class="videoHeading">NVDIA RTX 1080 TI</span><br />
-                        <span class="videoDetails">Up to 3X of performance and breakthrough<br />
-                            gaming technologies and VR experiences</span><br />
-                        <button class="mt-2 bg-blue-500 rounded-lg w-[60%] sm:p-2 p-1 sm:text-lg text-xs hover:bg-blue-600 hover:cursor-pointer font-bold">View Details</button>
+                        <span class="videoHeading">NVDIA RTX 1080 TI</span><br/>
+                        <span class="videoDetails">Up to 3X of performance and breakthrough<br/>gaming technologies and VR experiences</span><br/>
+                        <button class="primary-button mt-2 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">View Details</button>
                     </div>
                     <a id="playRtxVideo" class="play-rtx-video-btn" href="javascript:playVideo()" onmouseover="snackBar()">
                         <i class="fa-solid fa-circle-play"></i>
@@ -158,7 +153,9 @@
                 </ul>
             </div>
             <div class="link-btn">
-                <a class="sign-up-btn bg-blue-600 rounded-lg hover:bg-blue-700 font-bold" href="#">Sign Up</a>
+
+                <a class="primary-button sign-up-btn" href=#">Sign Up</a>
+
             </div>
         </div>
 

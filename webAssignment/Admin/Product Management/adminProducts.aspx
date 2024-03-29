@@ -74,8 +74,151 @@
     </div>
     <!--End-->
 
-    <!--Product List-->
     <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
+
+
+        <asp:ListView ID="productListView" runat="server" OnSelectedIndexChanged="productListView_SelectedIndexChanged" OnItemCommand="productListView_ItemCommand">
+            <LayoutTemplate>
+                <div style="overflow-x: auto">
+                    <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
+                        <!-- Headers here -->
+                        <tr class="grid grid-cols-8 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
+                            <td class="col-span-2">
+                                <p>Product</p>
+                            </td>
+                            <td class="col-span-1  text-center">
+                                <p>Category</p>
+                            </td>
+                            <td class="col-span-1 text-center">
+                                <p>Stock</p>
+                            </td>
+
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded">
+                                <asp:LinkButton ID="filterPriceLv" runat="server">
+                                  <div class="flex flex-row justify-between items-center p-2">
+                                                     <p>Price </p>
+                        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+                                    
+                                 </div>
+
+                                </asp:LinkButton>
+                            </td>
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded">
+                                <asp:LinkButton ID="filterStatusLtPd" runat="server">
+                              <div class="flex flex-row justify-between items-center p-2">
+                                    <p>Status </p>
+                                    <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+
+                              </div>
+                                </asp:LinkButton>
+                            </td>
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded">
+                                <asp:LinkButton ID="filterOdDateLv" runat="server">
+                                <div class="flex flex-row justify-between items-center p-2">
+                                    <p>Date Added</p>
+                                    <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+
+                                </div>
+
+                                </asp:LinkButton>
+                            </td>
+
+
+                            <td class="col-span-1 flex justify-end">
+                                <p>Action</p>
+
+                            </td>
+
+                        </tr>
+                        <tr id="itemPlaceholder" runat="server">
+                        </tr>
+                    </table>
+                    <table>
+                        <tfoot>
+
+                            <!-- footer for pagination ( WILL CHANGE TO physical button later) -->
+                            <div class="flex flex-row text-gray-400 justify-between rounded-b-lg bg-white items-center">
+                                <asp:Label ID="pageNumFoot" runat="server" Text="Showing 1-10 from 100" class="text-normal text-base p-5"></asp:Label>
+                                <div class="flex">
+                                    <div class="p-4 text-base flex flex-row gap-3">
+                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+                                            <i class="fa-solid fa-arrow-left-long"></i>
+                                        </div>
+                                        <div class="min-w-11 min-h-11 rounded-full bg-blue-500 text-white border-blue-500 border flex items-center justify-center">
+                                            <i class="fa-solid fa-1"></i>
+                                        </div>
+                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
+                                            <i class="fa-solid fa-2"></i>
+                                        </div>
+                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
+                                            <i class="fa-solid fa-3"></i>
+                                        </div>
+                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
+                                            <i class="fa-solid fa-4"></i>
+                                        </div>
+                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+                                            <i class="fa-solid fa-arrow-right-long"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </tfoot>
+                    </table>
+                </div>
+            </LayoutTemplate>
+            <ItemTemplate>
+                <tr class="grid grid-cols-8 gap-6 w-full mb-5 p-4 border-b-2" style="color: #8B8E99">
+
+                    <td class="col-span-2 flex flex-row gap-2 items-center">
+                        <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
+                            ImageUrl='<%# Eval("ProductImageUrl", "{0}") %>' CssClass="rounded border" />
+                        <div class="flex flex-col gap-2">
+                            <span class="text-black font-bold">
+                                <%# Eval("ProductName") %>  
+                            </span>
+                            <span><%# Eval("variant") %> Products
+                            </span>
+                        </div>
+
+                    </td>
+                    <td class="col-span-1 flex items-center px-2 justify-center"><%# Eval("Category") %></td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("Stock","{0}") %></td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("Price", "{0:C}") %></td>
+                    <td class="col-span-1 flex items-center w-full justify-center">
+
+                        <div class="<%# Eval("Status").ToString() == "Published" ? "bg-green-200" : "bg-red-200" %> rounded-xl flex w-4/5 p-3 text-center justify-center">
+
+                            <%# Eval("Status") %>
+                        </div>
+
+
+                    </td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("Date Added", "{0:dd MMM yyyy}") %></td>
+                    <td class="col-span-1 flex justify-end items-center">
+                        <div class="flex flex-row gap-4 items-center">
+                            <asp:LinkButton ID="editItem" runat="server" CommandName="EditProduct" CommandArgument='<%# Eval("productID") %>'>                            
+                                <i class="fa-solid fa-pen"></i>
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="deleteItem" runat="server" CommandName="DeleteProduct" CommandArgument='<%# Eval("productID") %>'>                            
+                                <i class="fa-solid fa-trash"></i>
+                            </asp:LinkButton>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+            </ItemTemplate>
+
+        </asp:ListView>
+    </div>
+
+
+
+
+    <!--Product List-->
+    <%--<div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
 
 
         <asp:ListView ID="productListView" runat="server" OnSelectedIndexChanged="productListView_SelectedIndexChanged">
@@ -205,7 +348,7 @@
             </ItemTemplate>
 
         </asp:ListView>
-    </div>
+    </div>--%>
 
     <!--End-->
 </asp:Content>
