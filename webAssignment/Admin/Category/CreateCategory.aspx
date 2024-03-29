@@ -53,13 +53,13 @@
                 <div class="flex flex-row justify-center items-center text-sm">
                     <label class="w-full h-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer border-dashed border-2
                         justify-center 
-                        ">
+                        "  style="min-height:200px">
                         <span class="p-2 w-8 h-8 bg-blue-500 text-white rounded-xl flex justify-center items-center">
 
                             <i class="fa-regular fa-image"></i>
                         </span>
                         <span class="mt-2 text-sm leading-normal text-gray-500 ">Select Image From File</span>
-                        <asp:FileUpload ID="imageInputPd" runat="server" accept="image/*" />
+                        <%--<asp:FileUpload ID="imageInputPd" runat="server" accept="image/*" />--%>
 
                     </label>
 

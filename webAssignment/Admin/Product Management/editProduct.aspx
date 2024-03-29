@@ -1,19 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="addNewProduct.aspx.cs" Inherits="webAssignment.Admin.Product_Management.addNewProduct" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="editProduct.aspx.cs" Inherits="webAssignment.Admin.Product_Management.editProduct" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <!--First Row-->
+        <!--First Row-->
     <div class="flex flex-row justify-between font-medium pt-3 items-center pb-5">
         <div class="flex flex-col">
             <div class="text-2xl font-bold ">
-                <p>Product</p>
+                <p>Edit Product</p>
             </div>
             <div class="flex flex-row text-sm py-2">
                 <div class="text-blue-600">Dashboard</div>
                 <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                <div>Products List</div>
+                <div>Products List</div>                
+                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
+                <div>Edit Products</div>
             </div>
         </div>
 
@@ -29,22 +30,7 @@
 
         </div>
     </div>
-    <!--First Row-->
-    <%--    <div class="flex flex-row justify-between font-medium pt-3 items-center">
-        <div class="w-3/5 flex flex-row items-center">
-            <asp:TextBox ID="productSearchBox" runat="server" CssClass="
-                     w-11/12 px-4 py-2 mr-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:outline-none focus:ring h-fit"
-                placeholder="Search...">
 
-
-            </asp:TextBox>
-            <asp:LinkButton ID="searchBtn" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md">
-     <i class="fa-solid fa-magnifying-glass text-xl "></i>
-            </asp:LinkButton>
-        </div>
-    </div>--%>
-
-    <!--End-->
 
     <!--First Row-->
     <div class="grid grid-cols-5 text-base mt-3 gap-6 h-fit">
@@ -54,9 +40,9 @@
             <div class="p-5 flex flex-col bg-white rounded-xl">
                 <span class="mb-3 text-lg">General information</span>
                 <span class="text-gray-500">Product Name</span>
-                <asp:TextBox class="p-3 rounded-xl bg-gray-100 mb-4" ID="newProductName" runat="server" ToolTip="Product Name" placeholder="Type Product Name..."></asp:TextBox>
+                <asp:TextBox class="p-3 rounded-xl bg-gray-100 mb-4" ID="editTbProductName" runat="server" ToolTip="Product Name" placeholder="Type Product Name..."></asp:TextBox>
                 <span class="text-gray-500">Description</span>
-                <asp:TextBox class="p-3 rounded-xl h-60 bg-gray-100" ID="newProductDes" runat="server" ToolTip="Product Name" placeholder="Type Product Description here..." TextMode="MultiLine">
+                <asp:TextBox class="p-3 rounded-xl h-60 bg-gray-100" ID="editTbProductDes" runat="server" ToolTip="Product Name" placeholder="Type Product Description here..." TextMode="MultiLine">
                 </asp:TextBox>
             </div>
             <!-- Media -->
@@ -65,7 +51,7 @@
 
                 <span class="text-gray-500">Photo</span>
                 <div class="flex flex-row justify-center items-center min-h-64">
-                    <label id="image-bg-op" class="w-full h-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer border-dashed border-2
+                    <label class="w-full h-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer border-dashed border-2
                         justify-center 
                         ">
                         <span class="p-2 w-12 h-12 bg-blue-500 text-white rounded-xl flex justify-center items-center">
@@ -74,9 +60,10 @@
                         </span>
                         <span class="mt-2 text-base leading-normal text-gray-500 ">Select Image From File</span>
                         <asp:Panel ID="PanelBackground" runat="server" />
-                        <asp:FileUpload ClientIDMode="Static" ID="imageInputPd" runat="server" accept="image/*" AllowMultiple="True" />
+                        <asp:FileUpload ClientIDMode="Static" ID="imageInputPd" runat="server" accept="image/*" />
 
                     </label>
+
                 </div>
             </div>
             <!-- Variation Pricing -->
@@ -100,8 +87,8 @@
                             </div>
                             <div>
                                 <div class='flex gap-4 items-center flex-wrap justify-evenly mb-4'>
-                                    <asp:TextBox ID="variant1Tb" runat="server" CssClass="newVariation_input" Placeholder="Variant 1"></asp:TextBox>
-                                    <asp:TextBox ID="priceVar1Tb" runat="server" CssClass="newVariation_input" Placeholder="Price for Variant 1"></asp:TextBox>
+    <%--                                <asp:TextBox ID="variant1Tb" runat="server" CssClass="editTbVariation_input" Placeholder="Variant 1"></asp:TextBox>
+                                    <asp:TextBox ID="priceVar1Tb" runat="server" CssClass="editTbVariation_input" Placeholder="Price for Variant 1"></asp:TextBox>--%>
                                 </div>
                                 <asp:Panel ID="panelVariantTextBoxes" runat="server" CssClass="flex flex-col gap-4">
                                 </asp:Panel>
@@ -116,7 +103,7 @@
 
                         <div class="flex flex-col gap-2">
                             <span class="text-gray-500">Quantity</span>
-                            <asp:TextBox class="p-3 rounded-xl bg-gray-100 mb-4" ID="tbQuantity" runat="server" ToolTip="Product Name" placeholder="Type product quantity here..."></asp:TextBox>
+                            <asp:TextBox class="p-3 rounded-xl bg-gray-100 mb-4" ID="editTbQuantity" runat="server" ToolTip="Product Name" placeholder="Type product quantity here..."></asp:TextBox>
 
                         </div>
                     </div>
@@ -134,10 +121,13 @@
 
                 <span class="mb-3">Category</span>
                 <span class="text-gray-500">Product Name</span>
-                <asp:DropDownList CssClass="p-3 bg-gray-100 mb-4 text-gray-500 rounded-xl" ID="DropDownList1" runat="server">
+                <asp:DropDownList CssClass="p-3 bg-gray-100 mb-4 text-gray-500 rounded-xl" ID="editDdlCategory" runat="server">
                     <asp:ListItem Value="-"> Select a category</asp:ListItem>
+                    <asp:ListItem Value="Phone">Phone</asp:ListItem>
+                    <asp:ListItem Value="Pc">Pc</asp:ListItem>
+                    <asp:ListItem Value="Laptop">Laptop</asp:ListItem>
                 </asp:DropDownList>
-                <%--                <span class="text-gray-500">Product Description</span>
+<%--                <span class="text-gray-500">Product Description</span>
                 <asp:DropDownList CssClass="p-3 bg-gray-100 text-gray-500 rounded-xl" ID="DropDownList2" runat="server">
                     <asp:ListItem Value="-">Select Tag</asp:ListItem>
                 </asp:DropDownList>--%>
@@ -146,12 +136,14 @@
                 <div class="flex flex-row justify-between mb-5 items-center">
 
                     <p>Status</p>
-                    <asp:Label CssClass="bg-gray-200 rounded-xl p-2 px-4 text-gray-500" ID="lblnewProdStatus" runat="server" Text="Draft"></asp:Label>
+                    <asp:Label CssClass="bg-gray-200 rounded-xl p-2 px-4 text-gray-500" ID="editLblProdStatus" runat="server" Text="Draft"></asp:Label>
                 </div>
                 <span class="text-gray-500">Product Description</span>
-                <asp:DropDownList CssClass="p-3 bg-gray-100 text-gray-500 rounded-xl" ID="ddlnewProdStatus" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlnewProdStatus_SelectedIndexChanged">
-                    <asp:ListItem Value="draft">Draft</asp:ListItem>
-                    <asp:ListItem Value="publish">Publish</asp:ListItem>
+                <asp:DropDownList CssClass="p-3 bg-gray-100 text-gray-500 rounded-xl" ID="editDdlProdStatus" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlnewProdStatus_SelectedIndexChanged">
+                    <asp:ListItem Value="Draft">Draft</asp:ListItem>
+                    <asp:ListItem Value="Published">Published</asp:ListItem>
+                    <asp:ListItem Value="OutOfStock">Out Of Stock</asp:ListItem>
+                    <asp:ListItem Value="lowStock">Low Stock</asp:ListItem>
                 </asp:DropDownList>
             </div>
         </div>
