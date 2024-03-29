@@ -5,7 +5,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="flex max-w-7xl my-16 mx-auto gap-6">
 
-        <div class="h-full w-4/5 flex flex-col border border-gray-300 rounded-md">
+        <!-- Products  -->
+        <div class="h-full w-[75%] flex flex-col border border-gray-200 shadow-xl rounded-lg">
             <table class="orders-table w-full">
                 <p class="text-xl text-gray-900 font-bold p-4">Shopping Cart</p>
                 <div class="grid grid-cols-5 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center">
@@ -29,9 +30,8 @@
                     </LayoutTemplate>
                     <ItemTemplate>
                         <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
-                            <td class="col-span-2 flex items-center gap-2">
-                                <i class="fa-regular fa-circle-xmark"></i>
-                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageURL", "{0}") %>' class="h-14 w-14" />
+                            <td class="col-span-2 flex items-center gap-5">
+                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageURL", "{0}") %>' class="h-16 w-16 rounded-md" />
                                 <span>
                                     <%# Eval("ProductName") %>
                                 </span>
@@ -39,14 +39,19 @@
                             <td class="col-span-1"><%# Eval("Price", "{0:C}") %></td>
                             <td class="col-span-1 flex items-center gap-4">
                                 <asp:LinkButton ID="btn_reduce_qty" runat="server">                    
-                             <i class="fa-solid fa-minus"></i>
+                             <i class="fa-solid fa-minus cursor-pointer bg-gray-500 hover:bg-blue-500 p-1 rounded-lg text-white transition duration-200"></i>
                                 </asp:LinkButton>
+                                <span>
                                 <%# Eval("Quantity") %>
+                                </span>
                                 <asp:LinkButton ID="btn_increase_qty" runat="server">
-                                <i class="fa-solid fa-plus" style="margin-bottom: 5px;"></i>
+                                <i class="fa-solid fa-plus cursor-pointer bg-gray-500 hover:bg-blue-500 p-1 rounded-lg text-white transition duration-200"></i>
                                 </asp:LinkButton>
                             </td>
-                            <td class="col-span-1"><%# Eval("Subtotal", "{0:C}") %></td>
+                            <td class="col-span-1 flex justify-between items-center">
+                                <%# Eval("Subtotal", "{0:C}") %>
+                                <i class="fa-solid fa-trash-can mr-2 cursor-pointer hover:bg-red-500 p-2 rounded-2xl hover:text-white transition duration-200"></i>
+                            </td>
                         </tr>
 
                     </ItemTemplate>
@@ -89,9 +94,9 @@
             </div>--%>
         </div>
 
-        <div class="flex flex-col h-full w-2/5">
+        <div class="flex flex-col h-full w-[25%] gap-8">
             <!--Cart Total-->
-            <div class="border border-gray-300 w-full p-4 flex flex-col gap-4 font-semibold text-gray-500 rounded-md">
+            <div class="border border-gray-200 shadow-xl w-full p-4 flex flex-col gap-4 font-semibold text-gray-500 rounded-lg">
                 <span class="text-gray-700 font-bold text-lg">Cart Total</span>
                 <div class="flex justify-between">
                     <span>Sub-total</span>
@@ -120,7 +125,7 @@
             </div>
 
             <!-- Coupon Section -->
-            <div class="border border-gray-300 w-full p-4 flex flex-col gap-4 font-semibold text-gray-700 mt-2 rounded-md">
+            <div class="border border-gray-200 shadow-xl w-full p-4 flex flex-col gap-4 font-semibold text-gray-700 rounded-xl">
                 <span class="text-gray-700 font-bold text-lg">Coupon Code</span>
 
                 <asp:TextBox ID="txtCoupon" runat="server" class="text-black border border-gray-400 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="Coupon Code"></asp:TextBox>

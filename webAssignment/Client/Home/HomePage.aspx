@@ -1,6 +1,21 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Client/ClientMasterPage/ClientMasterPage.Master" AutoEventWireup="true" CodeBehind="HomePage.aspx.cs" Inherits="webAssignment.Client.Home.HomePage" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="HomePage.css">
+    <style type="text/css">
+        .default {
+            padding: 2rem 1rem;
+            color: #e2e8f0;
+            transition: 300ms;
+            box-shadow: none;
+            background: transparent;
+        }
+
+        nav.sticky {
+            padding: 1rem;
+            background: #131618;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="HomePageContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="text-white">
@@ -24,10 +39,11 @@
                 <!-- Category Box 1 -->
                 <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="#">
                     <div class="bg-cover bg-center h-[42vh] sm:h-[66vh] flex items-end px-6 py-4 bg-zinc-900 relative">
-                        <img src="Home Images/categories1.png" alt="Computer Accessories" class="absolute inset-0 w-full h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
+                        <img src="Home Images/logitec.png" alt="Computer Accessories" class="absolute inset-0 w-full h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
                             <h2 class="text-2xl font-semibold">Computer Accessories</h2>
-                            <p class="text-gray-400 mt-2">Explore a wide range of accessories such as<br/>mouse, keyboard, and headphones etc.</p>
+                            <p class="text-gray-400 mt-2">Explore a wide range of accessories such as<br />
+                                mouse, keyboard, and headphones etc.</p>
                         </div>
                     </div>
                 </a>
@@ -35,10 +51,11 @@
                 <!-- Category Box 2 -->
                 <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="#">
                     <div class="bg-cover bg-center h-[42vh] sm:h-[66vh] flex items-end px-6 py-4 bg-zinc-900 relative">
-                        <img src="Home Images/categories3.png" alt="Computer Parts" class="absolute inset-0 w-[90%] h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
+                        <img src="Home Images/Pc.png" alt="Computer Parts" class="absolute inset-0 w-[90%] h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
                             <h2 class="text-2xl font-semibold">Computer Parts</h2>
-                            <p class="text-gray-400 mt-2">Discover a variety of parts including<br/>CPU, GPU, and Motherboard etc.</p>
+                            <p class="text-gray-400 mt-2">Discover a variety of parts including<br />
+                                CPU, GPU, and Motherboard etc.</p>
                         </div>
                     </div>
                 </a>
@@ -89,7 +106,7 @@
                 </a>
             </ItemTemplate>
         </asp:ListView>
-        
+
 
         <!-- Video Section -->
         <div class="section relative">
@@ -105,7 +122,7 @@
                         <i class="fa-solid fa-circle-play"></i>
                     </a>
                 </div>
-                <div id="rtxVideoWrapper" class="responsiveVideo rtxVideo" >
+                <div id="rtxVideoWrapper" class="responsiveVideo rtxVideo">
                     <video id="rtxVideo" muted preload onpause="pauseVideo()">
                         <source src="Home Images/ExperienceRtxVideo.mp4" type="video/mp4">
                     </video>
@@ -114,7 +131,7 @@
             <div id="snackbar">Click the play button to experience NVDIA RTX 1080 TI in a gaming environment.</div>
         </div>
 
-         <!-- Sign Up Small Section -->
+        <!-- Sign Up Small Section -->
         <div class="small-section offer">
             <div class="promo-section">
                 <h2>SIGN UP TO GET</h2>
@@ -131,18 +148,22 @@
                 <ul>
                     <li>Exclusive offers from time to time</li>
                     <li>Promotions</li>
-                    <li>G-Tech Lastest News including new arrivals,<br/> upcoming promotions and special events.</li>
+                    <li>G-Tech Lastest News including new arrivals,<br />
+                        upcoming promotions and special events.</li>
                 </ul>
             </div>
             <div class="link-btn">
+
                 <a class="primary-button sign-up-btn" href=#">Sign Up</a>
+
             </div>
         </div>
 
         <!-- Build PC Description Section -->
         <div class="section buildOwnPc-bg">
             <div class="build-pc-caption">
-                <h1 class="font-bold text-5xl py-4">BUILD YOUR PC,<br/> BUILD YOUR DREAM.</h1>
+                <h1 class="font-bold text-5xl py-4">BUILD YOUR PC,<br />
+                    BUILD YOUR DREAM.</h1>
                 <span>With G-Tech products, you can build your own pc easily.</span>
             </div>
             <img class="voucher hvr-buzz-out" src="Home Images/voucher.png" onclick="copyVoucherCode()" alt="voucher">
@@ -151,7 +172,7 @@
         <!-- Partnership Section -->
         <div class="partnership-bg">
             <div class="partnership-section">
-                <h2  class="text-gray-900">OUR PARTNERS</h2>
+                <h2 class="text-gray-900">OUR PARTNERS</h2>
                 <div class="partnership-logos">
                     <img src="Logos/appleLogo.png" alt="appleLogo">
                     <img src="Logos/samsungLogo.png" alt="samsungLogo">
@@ -192,7 +213,7 @@
                 + "The Voucher Code: " + voucherCode + " have been copied to your clipboard. "
                 + "Enjoy shopping with G-TECH by using the voucher code!");
         }
-         
+
         // Play Video Function
         var rtxImg = document.getElementById("rtxImg");
         var rtxVideoWrapper = document.getElementById("rtxVideoWrapper");
@@ -219,6 +240,10 @@
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
         }
 
+        window.addEventListener("scroll", function () {
+            var header = this.document.querySelector("nav");
+            header.classList.toggle("sticky", this.window.scrollY > 0);
+        })
     </script>
 
 </asp:Content>

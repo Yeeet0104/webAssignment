@@ -15,7 +15,7 @@ namespace webAssignment
     }
     public partial class AdminPage : System.Web.UI.MasterPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load( object sender, EventArgs e )
         {
             assignActiveClass();
 
@@ -28,45 +28,41 @@ namespace webAssignment
         private void assignActiveClass( )
         {
             string currentPage = Path.GetFileName(Request.Path).ToLower();
-            string pageTitleStr = "";
             // Append 'active' class based on current page
             switch ( currentPage )
             {
                 case "customermanagement.aspx":
+                case "editcustomer.aspx":
                     customerLk.Attributes["class"] += " activeNavItem";
-                    pageTitleStr = "Customers";
+
+                    break;
+                case "adminmanagement.aspx":
+                case "addnewadmin.aspx":
+                    adminLk.Attributes["class"] += " activeNavItem";
+
                     break;
                 case "dashboard.aspx":
                     dashboardLk.Attributes["class"] += " activeNavItem";
-                    pageTitleStr = "Dashboard";
+
                     break;
                 case "addnewproduct.aspx":
                 case "adminproducts.aspx":
                     productLk.Attributes["class"] += " activeNavItem";
-                    if (currentPage == "addnewproduct.aspx" ) {
-                        pageTitleStr = "Add Product";
-                    }
-                    else
-                    {
-                        pageTitleStr = "Product";
-                    }
+
 
                     break;
                 case "createcategory.aspx":
                 case "category.aspx":
                     categoryLk.Attributes["class"] += " activeNavItem";
-                    if ( currentPage == "createcategory.aspx" )
-                    {
-                        pageTitleStr = "Create Category";
-                    }
-                    else
-                    {
-                        pageTitleStr = "Category";
-                    }
                     break;
+                case "editorder.aspx":
                 case "order.aspx":
                     orderLk.Attributes["class"] += " activeNavItem";
-                    pageTitleStr = "Orders";
+
+                    break;
+                case "transaction.aspx":
+                    transactionLk.Attributes["class"] += " activeNavItem";
+
                     break;
             }
         }

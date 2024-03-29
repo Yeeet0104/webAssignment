@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -17,12 +18,17 @@ namespace webAssignment.Admin.Orders
 
             if ( !IsPostBack )
             {
+                ordersListView.DataSource = GetDummyData();
+
+                ordersListView.DataBind();
                 string orderId = Request.QueryString["OrderID"];
                 if ( !string.IsNullOrEmpty(orderId) )
                 {
                     // Use this order ID to fetch data from the database
-                    string decryptedOrderID = DecryptString(orderId);
-                    LoadOrderData(decryptedOrderID);
+                    //string decryptedOrderID = DecryptString(orderId);
+                   // LoadOrderData(decryptedOrderID);
+
+
                 }
             }
         }
@@ -57,6 +63,33 @@ namespace webAssignment.Admin.Orders
                 }
             }
             return cipherText;
+        }
+
+
+        private DataTable GetDummyData( )
+        {
+            DataTable dummyData = new DataTable();
+
+            // Add columns to match your GridView's DataFields
+            dummyData.Columns.Add("OrderId", typeof(int));
+            dummyData.Columns.Add("ProductImageUrl", typeof(string));
+            dummyData.Columns.Add("ProductName", typeof(string));
+            dummyData.Columns.Add("AdditionalProductsCount", typeof(int));
+            dummyData.Columns.Add("SKU", typeof(int));
+            dummyData.Columns.Add("quantity", typeof(int));
+            dummyData.Columns.Add("price", typeof(decimal));
+            dummyData.Columns.Add("total", typeof(decimal));
+            dummyData.Columns.Add("subtotal", typeof(decimal));
+           
+            // Add rows with dummy data
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22, 6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22, 6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22,6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22,6999);
+            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter",3 , 302011 , 2 , 123.22 , 123.22,6999);
+            // Add more rows as needed for testing
+
+            return dummyData;
         }
     }
 }

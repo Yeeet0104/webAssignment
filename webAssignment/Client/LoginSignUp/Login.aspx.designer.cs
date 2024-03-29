@@ -7,56 +7,65 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment.Admin.Customer
+namespace webAssignment.Client.LoginSignUp
 {
 
 
-    public partial class WebForm1
+    public partial class Login
     {
 
         /// <summary>
-        /// btnExport control.
+        /// bgImg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
+        protected global::System.Web.UI.WebControls.Image bgImg;
 
         /// <summary>
-        /// btnAddNewCust control.
+        /// txtEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddNewCust;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
-        /// btnSelectDate control.
+        /// txtPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSelectDate;
+        protected global::System.Web.UI.WebControls.TextBox txtPass;
 
         /// <summary>
-        /// btnFilters control.
+        /// linkForgotPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilters;
+        protected global::System.Web.UI.WebControls.LinkButton linkForgotPass;
 
         /// <summary>
-        /// rptCustomer control.
+        /// btnLogin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCustomer;
+        protected global::System.Web.UI.WebControls.Button btnLogin;
+
+        /// <summary>
+        /// linkSignUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink linkSignUp;
     }
 }

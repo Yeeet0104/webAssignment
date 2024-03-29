@@ -34,20 +34,23 @@
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
         <div class="grid grid-cols-5 bg-white gap-3 text-center rounded p-2">
+
+
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                All Status
+                <asp:Button ID="allStatusFilter" runat="server" Text="All Status" />
             </div>
-            <div class="col-span-1 px-3 py-1">
-                Processing
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="processingFilter" runat="server" Text="Processing" />
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Shipped
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="shippedFilter" runat="server" Text="Shipped" />
+
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Delivered
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="deliveredFilter" runat="server" Text="Delivered" />
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Cancelled
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="cancelledFilter" runat="server" Text="Cancelled" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -72,61 +75,62 @@
     <!--End-->
 
     <!--Product List-->
-    <div class="bg-white p-5 text-base rounded-lg">
-
+    <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
+        <p class="pb-5">
+            Latest Orders
+        </p>
 
         <asp:ListView ID="ordersListView" runat="server" OnSelectedIndexChanged="ordersListView_SelectedIndexChanged" OnItemCommand="OrdersListView_ItemCommand">
             <LayoutTemplate>
-                <table class="orders-table w-full">
+                <table class="orders-table w-full ">
                     <!-- Headers here -->
-                    <p class="pb-5">
-                        Latest Orders
-                    </p>
-                    <div class="grid grid-cols-9 gap-6 mb-4">
-                        <div class="col-span-1">
+                    <tr class="grid grid-cols-9 gap-6 px-4 py-1 rounded-lg text-white items-center bg-gray-600 text-white">
+                        <td class="col-span-1">
                             <p>Order ID</p>
-                        </div>
-                        <div class="col-span-2">
+                        </td>
+                        <td class="col-span-2">
                             <p>Product</p>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between hover:bg-white hover:text-black rounded p-2">
                             <p>Order Date </p>
                             <asp:LinkButton ID="filterOdDateLv" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
-                        <div class="col-span-1">
+                        </td>
+                        <td class="col-span-1">
                             <p>Customer</p>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between">
                             <p>Total </p>
                             <asp:LinkButton ID="filterTotalPriceLv" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between">
                             <p>Payment Date </p>
                             <asp:LinkButton ID="filterPayDayeLv" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
-                        <div class="col-span-1 flex flex-row justify-between">
+                        </td>
+                        <td class="col-span-1 flex flex-row justify-between">
                             <p>Status </p>
                             <asp:LinkButton ID="filterStatusLtPd" runat="server">
 
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                             </asp:LinkButton>
-                        </div>
+                        </td>
 
-                        <div class="col-span-1 flex justify-end">
+                        <td class="col-span-1 flex justify-end">
                             <p>Action</p>
-                        </div>
 
-                        <tr id="itemPlaceholder" runat="server"></tr>
-                        <hr class="border rounded mb-3" />
+                        </td>
+                        
+                    </tr>
+                    <tr id="itemPlaceholder" runat="server"></tr>
+
                 </table>
                 <table>
                     <tfoot>
@@ -163,7 +167,7 @@
                 </table>
             </LayoutTemplate>
             <ItemTemplate>
-                <tr class="grid grid-cols-9 gap-6 w-full mb-5" style="color: #8B8E99">
+                <tr class="grid grid-cols-9 gap-6 w-full mb-5 p-4" style="color: #8B8E99">
                     <td class="col-span-1 flex items-center text-black"><%# Eval("OrderId") %></td>
                     <td class="col-span-2 flex flex-row gap-2 items-center">
                         <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
@@ -181,9 +185,9 @@
                     <td class="col-span-1 flex items-center"><%# Eval("CustomerName") %></td>
                     <td class="col-span-1 flex items-center"><%# Eval("Total", "{0:C}") %></td>
                     <td class="col-span-1 flex items-center"><%# Eval("PaymentDate", "{0:dd MMM yyyy}") %></td>
-                    <td class="col-span-1 flex items-center w-full justify-center">
-
-                        <div class="rounded-xl flex bg-red-200 w-4/5 p-3 text-center justify-center">
+                    <td class="col-span-1 flex items-center w-full justify-center" >
+                        
+                        <div class="<%# Eval("Status").ToString() == "Shipped" ? "bg-green-200" : "bg-red-200" %> rounded-xl flex w-4/5 p-3 text-center justify-center">
 
                             <%# Eval("Status") %>
                         </div>
@@ -195,8 +199,10 @@
                             <asp:LinkButton ID="editItem" runat="server" CommandName="EditOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
                                 <i class="fa-solid fa-pen"></i>
                             </asp:LinkButton>
-                            <i class="fa-solid fa-eye"></i>
-                            <i class="fa-solid fa-trash"></i>
+                            <asp:LinkButton ID="deleteItem" runat="server" CommandName="DeleteOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
+                                <i class="fa-solid fa-trash"></i>
+                            </asp:LinkButton>
+
                         </div>
                     </td>
                 </tr>
@@ -204,4 +210,70 @@
 
         </asp:ListView>
     </div>
+
+    <asp:Panel ID="popUpDelete" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+        <!-- Modal content -->
+        <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+
+            <div class="w-full h-fit  flex justify-end p-0">
+                <span class=" flex items-center justify-center text-3xl rounded-full">
+
+                    <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click">
+                        <i class=" fa-solid fa-xmark"></i>
+                    </asp:LinkButton>
+                </span>
+
+            </div>
+            <div class="flex flex-col justify-center items-center gap-5">
+
+                <div style="font-size: 64px">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
+
+                </div>
+                <p class="bold text-lg break-normal text-center">Are you sure you want to delete the following item?</p>
+                <p class="bold text-lg">
+                    <asp:Label ID="lblItemInfo" runat="server" Text="[OrderID]"></asp:Label>
+                </p>
+                <asp:TextBox ID="passwordForDelete" runat="server" TextMode="Password" CssClass="p-2 px-4 border rounded-xl" placeholder="Enter password to confirm"></asp:TextBox>
+                <div>
+
+                    <asp:Button ID="btnCancelDelete" runat="server" Text="Cancel" CssClass="bg-gray-300 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />
+                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" />
+                </div>
+            </div>
+        </div>
+
+    </asp:Panel>
+    <style>
+        @keyframes rockUpDown {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            10% {
+                transform: translateY(-10px);
+            }
+
+            20%, 40%, 60%, 80% {
+                transform: translateY(-10px) rotate(-6deg);
+            }
+
+            30%, 50%, 70% {
+                transform: translateY(-10px) rotate(6deg);
+            }
+
+            90% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .fa-trash-can {
+            display: inline-block;
+            transition: transform ease-in-out 0.75s;
+        }
+
+            .fa-trash-can:hover {
+                animation: rockUpDown 1.2s ease-in-out infinite;
+            }
+    </style>
 </asp:Content>

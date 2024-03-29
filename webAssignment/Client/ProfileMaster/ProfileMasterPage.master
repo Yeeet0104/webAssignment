@@ -7,13 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="flex max-w-6xl mx-auto gap-10 my-16">
         <!-- Left Panel : Nav -->
-        <div class="border border-gray-200 flex flex-col p-5 gap-4 shadow-xl rounded-lg w-[25%] text-base font-medium text-gray-500">
-            <div class="flex items-center gap-7">
-                <span class="w-[10%] text-center">
-                    <i class="fa-solid fa-square-poll-horizontal"></i>
-                </span>
-                <asp:LinkButton ID="lnkDashBoard" runat="server">Dashboard</asp:LinkButton>
-            </div>
+        <div class="border border-gray-200 h-full flex flex-col p-5 gap-4 shadow-xl rounded-lg w-[25%] text-base font-medium text-gray-500">
             <div class="flex items-center gap-7">
                 <span class="w-[10%] text-center">
                     <i class="fa-solid fa-user"></i>
@@ -25,18 +19,6 @@
                     <i class="fa-solid fa-clock"></i>
                 </span>
                 <asp:LinkButton ID="lnkHistory" runat="server">Order History</asp:LinkButton>
-            </div>
-            <div class="flex items-center gap-7">
-                <span class="w-[10%] text-center">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </span>
-                <asp:LinkButton ID="lnkCart" runat="server">Shopping Cart</asp:LinkButton>
-            </div>
-            <div class="flex items-center gap-7">
-                <span class="w-[10%] text-center">
-                    <i class="fa-solid fa-heart"></i>
-                </span>
-                <asp:LinkButton ID="lnkWishlist" runat="server">Wishlist</asp:LinkButton>
             </div>
             <div class="flex items-center gap-7">
                 <span class="w-[10%] text-center">
@@ -62,4 +44,5 @@
             </asp:ContentPlaceHolder>
         </div>
     </div>
+
 </asp:Content>

@@ -65,6 +65,13 @@
                                 <i class="fa-solid fa-cart-shopping mr-4 icon-16x16""></i>Orders
 
                         </asp:HyperLink>
+                        <asp:HyperLink ID="transactionLk" runat="server"
+                            class=" 
+                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                                "
+                            NavigateUrl="~/Admin/Transaction/transaction.aspx">
+                                <i class="fa-solid fa-wallet mr-4 icon-16x16""></i>Transaction
+                        </asp:HyperLink>
                     </div>
 
 
@@ -78,7 +85,8 @@
                             <asp:HyperLink ID="adminLk" runat="server"
                                 class=" 
                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
-                                ">
+                                "
+                                NavigateUrl="~/Admin/Admin Management/adminManagement.aspx">
                                 <i class="fas fa-user-secret mr-4 icon-16x16"></i>Admins
 
 
@@ -88,7 +96,7 @@
                                 class=" 
                                 flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                                 "
-                                NavigateUrl="~/Admin/Customer/customerManagement.aspx">
+                                NavigateUrl="~/Admin/Customer Management/customerManagement.aspx">
                                 <i class="fas fa-user mr-4 icon-16x16"></i>Customers
 
 
@@ -107,7 +115,7 @@
             </aside>
             <div class="w-full max-h-screen">
 
-                 <!-- Header -->
+                <!-- Header -->
                 <div class="items-center justify-center w-auto m-4 mt-10 mb-5">
                     <div class="flex flex-row w-full px-6 justify-between items-center">
                         <div class="w-4/5 flex flex-row items-center">
@@ -138,8 +146,8 @@
                     </div>
                 </div>
 
-                <!--First Row V2--> 
-<%--                <div class="flex flex-row justify-between font-medium items-center w-auto pt-10 pl-10 pr-10 pb-5">
+                <!--First Row V2-->
+                <%--                <div class="flex flex-row justify-between font-medium items-center w-auto pt-10 pl-10 pr-10 pb-5">
                     <div class="flex flex-col">
                         <div class="text-2xl font-bold ">
                             <asp:Label ID="pageTitle" runat="server" Text=""></asp:Label>

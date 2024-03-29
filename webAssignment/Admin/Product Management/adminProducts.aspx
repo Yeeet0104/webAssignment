@@ -34,20 +34,23 @@
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
         <div class="grid grid-cols-5 bg-white gap-3 text-center rounded p-2">
+
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                All Products
+                <asp:Button ID="allProductFilter" runat="server" Text="All Product" />
             </div>
-            <div class="col-span-1 px-3 py-1">
-                Published
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="publishFilter" runat="server" Text="Published" />
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Low Stock
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="stockFilter" runat="server" Text="Low Stock" />
+
             </div>
-            <div class="col-span-1 px-3 py-1 ">
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="draftFilter" runat="server" Text="Draft" />
                 Draft
             </div>
-            <div class="col-span-1 px-3 py-1 ">
-                Out Of Stock
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
+                <asp:Button ID="noStockFilter" runat="server" Text="Out Of Stock" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -72,7 +75,7 @@
     <!--End-->
 
     <!--Product List-->
-    <div class="bg-white p-5 text-base rounded-lg">
+    <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
 
 
         <asp:ListView ID="productListView" runat="server" OnSelectedIndexChanged="productListView_SelectedIndexChanged">
