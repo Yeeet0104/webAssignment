@@ -69,7 +69,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <div class="w-full h-full">
         <!--Shipping Address-->
-        <div id="shippingCollapse" class="w-full bg-black py-4 px-8 relative rounded-xl cursor-pointer">
+        <div id="shippingCollapse" class="w-full bg-gray-600 py-4 px-8 relative rounded-lg cursor-pointer">
             <asp:Label ID="lblCheckBox" runat="server" Text="SHIPPING ADDRESS" class="text-xl text-white block font-medium w-full"></asp:Label>
             <i id="shippingCollapseIcon" class="fa-solid fa-chevron-down hover:cursor-pointer text-white"></i>
         </div>
@@ -105,11 +105,12 @@
             </div>
         </div>
 
-        <div id="billingCollapse" class="w-full bg-black py-4 px-8 relative rounded-xl mt-10 cursor-pointer">
+        <!--Billing Address-->
+        <div id="billingCollapse" class="w-full bg-gray-600 py-4 px-8 relative rounded-xl mt-10 cursor-pointer">
             <asp:Label ID="lblCheckBox2" runat="server" Text="BILLING ADDRESS" class="text-xl text-white block font-medium w-full"></asp:Label>
             <i id="billingCollapseIcon" class="fa-solid fa-chevron-down hover:cursor-pointer text-white"></i>
         </div>
-        <!--Billing Address-->
+        
         <asp:CheckBox ID="collapsible2" runat="server" class="hidden" />
         <div id="contentDiv2" class="w-full">
             <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4">

@@ -36,7 +36,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="w-full h-full p-8 bg-gray-200 justify-center flex">
-        <div class="flex flex-row bg-white p-2 rounded-xl w-3/4">
+        <div class="flex flex-row bg-white p-2 rounded-xl w-3/5">
             <!--Img Container-->
             <div class="w-1/3">
                 <asp:Image ID="bgImg" ImageUrl="~/Client/LoginSignUp/bg1.jfif" runat="server" class="w-full h-full object-cover rounded-xl" />
@@ -76,7 +76,7 @@
                         <div class="flex-grow border-t border-gray-300"></div>
                     </div>
 
-                    <div class="flex w-full justify-between items-center px-40">
+                    <div class="flex w-full justify-center items-center gap-8">
                         <div class="flex flex-col items-center">
                             <div class="min-w-11 min-h-11 rounded-full flex items-center justify-center text-white bg-blue-700 hover:cursor-pointer">
                                 <i class="fa-brands fa-facebook-f text-2xl"></i>

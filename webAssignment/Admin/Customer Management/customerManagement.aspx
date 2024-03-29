@@ -24,7 +24,7 @@
 
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
-        <div class="grid grid-cols-4 bg-white gap-3 text-center rounded p-2">
+        <div class="grid grid-cols-3 bg-white gap-3 text-center rounded p-2">
 
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
                 <asp:Button ID="allAdmins" runat="server" Text="All" />
@@ -34,10 +34,6 @@
             </div>
             <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
                 <asp:Button ID="blocked" runat="server" Text="Blocked" />
-
-            </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="hidden" runat="server" Text="Hidden" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -167,7 +163,6 @@
                     <td class="col-span-1 flex justify-end items-center">
                         <div class="flex flex-row gap-2">
                             <asp:HyperLink ID="customerEditLink" runat="server" NavigateUrl='<%# "~/Admin/Customer Management/editCustomer.aspx?name=" + HttpUtility.UrlEncode(Eval("CustomerName").ToString()) + "&email=" + HttpUtility.UrlEncode(Eval("CustomerEmail").ToString()) + "&phone=" + HttpUtility.UrlEncode(Eval("PhoneNo").ToString()) + "&dob=" + Eval("DOB").ToString() + "&imgUrl=" + HttpUtility.UrlEncode(Eval("CustomerImageUrl").ToString()) %>' CssClass="fa-solid fa-pen"></asp:HyperLink>
-                            <i class="fa-solid fa-eye"></i>
                             <i class="fa-solid fa-trash"></i>
                         </div>
                     </td>

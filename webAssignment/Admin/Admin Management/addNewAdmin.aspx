@@ -16,7 +16,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!--First Row-->
-    <div class="flex flex-row justify-between font-medium items-center">
+    <div class="flex flex-row justify-between font-medium items-center pt-3 pb-5">
         <div class="flex flex-col">
             <div class="text-2xl font-bold">Admin Details</div>
             <div class="flex flex-row text-sm p-1">
@@ -41,7 +41,7 @@
     <!--End-->
 
     <!--Second Row-->
-    <div class="flex flex-row pt-3">
+    <div class="flex flex-row my-4">
         <div>
             <!--Profile Pic container -->
             <div class="bg-white drop-shadow-lg rounded-xl" style="width: 264px; height: 380px;">
@@ -60,7 +60,7 @@
             </div>
 
             <!--Status Section-->
-            <div class="bg-white drop-shadow-lg rounded-xl mt-3 p-4" style="width: 264px; height: 150px;">
+            <div class="bg-white drop-shadow-lg rounded-xl mt-6 p-4" style="width: 264px; height: 150px;">
                 <div class="flex flex-col">
                     <div class="flex flex-row justify-between">
                         <span class="font-medium">Status</span>
