@@ -155,7 +155,7 @@
                 <asp:ListView ID="bestSellingItemLv" runat="server">
                     <LayoutTemplate>
                         <table class="w-full text-center py-4">
-                            <tr class="w-full grid grid-cols-5 gap-6 py-4 rounded-lg px-3 mb-5 text-white" style="background-color:#6366F1">
+                            <tr class="w-full grid grid-cols-5 gap-6 py-4 rounded-lg px-3 mb-5 bg-gray-100">
                                 <td class="col-span-2 text-left">Product</td>
                                 <td class="col-span-1">Price</td>
                                 <td class="col-span-1">Sold</td>
