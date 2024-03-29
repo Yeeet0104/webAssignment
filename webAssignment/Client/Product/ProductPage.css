@@ -1,0 +1,454 @@
+﻿@import url('productpage.css');
+body {
+    background-color: #f4f5f6;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.all-products {
+    width: 86vw;
+}
+
+.product-center {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-flow: dense;
+    grid-gap: 30px;
+}
+
+.product-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 46px;
+}
+
+    .product-top h2 {
+        font-weight: bold;
+        letter-spacing: 4px;
+    }
+
+.sort {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: wrap;
+    height: auto;
+    padding: 10px 12px;
+    margin: 20px 0;
+    border-radius: 6px;
+    background: rgba(0,0,0,.03);
+}
+
+    .sort a {
+        text-decoration: none;
+        padding: 8px 4%;
+        margin: 4px;
+        border-radius: 6px;
+        background-color: #fbfbfb;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    }
+
+        .sort a:hover {
+            background-color: white;
+        }
+
+.hvr-float {
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+    .hvr-float:hover, .hvr-float:focus, .hvr-float:active {
+        -webkit-transform: translateY(-6px);
+        transform: translateY(-6px);
+    }
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-search-bar {
+    width: 86%;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0 76px 0 32px;
+    border-radius: 14px;
+    border: none;
+    box-sizing: border-box;
+    height: 46px;
+    background-color: #ffffffb8;
+    font-size: 18px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+    .search-input:focus {
+        outline: none;
+    }
+
+    .search-input::placeholder + button {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .search-button i {
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+
+
+.product-search-bar .reset-button {
+    position: absolute;
+    top: 7px;
+    right: 46px;
+    display: block;
+    width: 25px;
+    height: 25px;
+    font-size: 30px;
+    line-height: 16px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.search-input:not(:placeholder-shown) + .reset-button {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    height: 46px;
+    background-color: #ffffffb8;
+    font-size: 18px;
+    width: 12%;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+    .filter-btn:hover {
+        background-color: white;
+    }
+
+    .filter-btn > span {
+        padding: 0 10px;
+    }
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 120px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* Modal Content */
+    .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 50%;
+    font-size: 16px;
+}
+
+/* The Close Button */
+.closeModal {
+    color: #aaaaaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .closeModal:hover,
+    .closeModal:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.modal-header {
+    padding: 2px 26px;
+    background-color: #f6f6f6;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-body {
+    padding: 6px 36px;
+}
+
+.categories span a {
+    color: #064954;
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 6px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+
+    .categories span a:hover, .categories span a:focus {
+        color: white;
+        border: 1px solid #17A2B8;
+        background-color: #17A2B8;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 4px;
+    }
+
+.price-range .minprice, .price-range .maxprice {
+    width: 80px;
+    height: 36px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #FAFAFA;
+}
+
+.modal-footer {
+    padding: 20px 40px;
+    display: flex;
+}
+
+.apply-price-filter-btn {
+    color: white;
+    text-decoration: none;
+    padding: 6px 16px;
+    margin: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #319ba1 !important;
+    box-shadow: rgb(0 0 0 / 10%) 0px 1px 4px;
+    cursor: pointer;
+}
+
+.product {
+    display: block;
+    height: auto;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms ease-in-out;
+    padding: 22px 0;
+    border-radius: 10px;
+}
+
+    .product:hover {
+        box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.25);
+    }
+
+.product-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 68%;
+}
+
+    .product-header img {
+        height: auto;
+        width: 90%;
+        margin: 2%;
+        transition: all 420ms;
+    }
+
+.product-footer {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+    text-align: left;
+    justify-content: space-around;
+}
+
+.product-name {
+    display: contents;
+    font-weight: bold;
+    padding: 6px 0px;
+}
+
+.price-and-sold {
+    display: flex;
+    flex-direction: column;
+}
+
+.sold-amount {
+    font-weight: bold;
+    font-size: 14px;
+    color: #227677;
+    align-self: flex-end;
+}
+
+.RM {
+    font-size: 12px;
+}
+
+.product-price {
+    font-weight: normal;
+}
+
+/* Image Hover Color Effect */
+.hover-content {
+    position: relative;
+    width: 90%;
+    margin: auto;
+    height: 100%;
+}
+
+.color {
+    text-align: center;
+    transition: all 420ms;
+}
+
+.hover-content:hover .color {
+    transform: scale(1.3);
+}
+
+.hover-content:hover .product-header img {
+    transform: scale(1.1);
+}
+
+.color span i {
+    font-size: 14px;
+    padding: 0px 2px;
+}
+
+/* Pagination */
+.pagination-row {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0px;
+}
+
+.pagination {
+    font-family: 'Lato', sans-serif;
+    display: inline-block;
+    background-color: white;
+    border-radius: 10px;
+}
+
+    .pagination a, .pagination span {
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        font-weight: bold;
+        border: 1px solid #ddd;
+    }
+
+        .pagination a i {
+            color: #3c93a7;
+        }
+
+@media only screen and (max-width: 1050px) {
+    .container {
+        margin-top: 58px;
+    }
+
+    .product-header {
+        height: 62%;
+    }
+
+    .product-footer {
+        height: 46%;
+    }
+
+    .product-search-bar {
+        width: 80%;
+    }
+
+    .filter-btn {
+        width: 18%;
+    }
+}
+
+@media only screen and (max-width: 832px) {
+    .product-header {
+        height: 62%;
+    }
+
+    .product-center {
+        grid-template-columns: auto auto auto;
+        grid-gap: 24px;
+    }
+}
+
+@media only screen and (max-width: 645px) {
+    .all-products {
+        width: 88vw;
+    }
+
+    .product-center {
+        grid-gap: 18px;
+    }
+
+    .product-search-bar {
+        width: 72%;
+    }
+
+    .filter-btn {
+        width: 26%;
+    }
+}
+
+@media only screen and (max-width: 569px) {
+    .product-center {
+        grid-template-columns: auto auto;
+    }
+
+    .product-header {
+        height: 70%;
+    }
+
+    .product-footer {
+        height: 38%;
+    }
+}
+
+@media only screen and (max-width: 469px) {
+
+    .product-search-bar {
+        width: 66%;
+    }
+
+    .filter-btn {
+        width: 32%;
+    }
+}
+
+@media only screen and (max-width: 389px) {
+    .product-header {
+        height: 52%;
+    }
+
+    .product-footer {
+        height: 56%;
+    }
+}

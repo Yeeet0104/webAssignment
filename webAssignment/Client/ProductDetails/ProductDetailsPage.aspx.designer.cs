@@ -7,101 +7,92 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment.Client.Product
+namespace webAssignment.Client.ProductDetails
 {
 
 
-    public partial class WebForm1
+    public partial class ProductDetailsPage
     {
 
         /// <summary>
-        /// productName control.
+        /// imgProduct control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox productName;
+        protected global::System.Web.UI.WebControls.Image imgProduct;
 
         /// <summary>
-        /// resetButton control.
+        /// lblProductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button resetButton;
+        protected global::System.Web.UI.WebControls.Label lblProductName;
 
         /// <summary>
-        /// searchButton control.
+        /// lblProductPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton searchButton;
+        protected global::System.Web.UI.WebControls.Label lblProductPrice;
 
         /// <summary>
-        /// filterBtn control.
+        /// lblShortProductDesc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl filterBtn;
+        protected global::System.Web.UI.WebControls.Label lblShortProductDesc;
 
         /// <summary>
-        /// myModal control.
+        /// stepdown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl myModal;
+        protected global::System.Web.UI.WebControls.Button stepdown;
 
         /// <summary>
-        /// minprice control.
+        /// qtyInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox minprice;
+        protected global::System.Web.UI.WebControls.TextBox qtyInput;
 
         /// <summary>
-        /// maxprice control.
+        /// stepup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox maxprice;
+        protected global::System.Web.UI.WebControls.Button stepup;
 
         /// <summary>
-        /// applyFilterButton control.
+        /// btnAddToCart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button applyFilterButton;
+        protected global::System.Web.UI.WebControls.Button btnAddToCart;
 
         /// <summary>
-        /// ListViewProducts control.
+        /// btnAddToWishlist control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView ListViewProducts;
-
-        /// <summary>
-        /// noProductsFoundMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl noProductsFoundMessage;
+        protected global::System.Web.UI.WebControls.Button btnAddToWishlist;
     }
 }

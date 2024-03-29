@@ -6,6 +6,18 @@
     min-height: 100vh;
 }
 
+.primary-button {
+    background-color: #319ba1;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px solid lightgrey;
+}
+
+    .primary-button:hover {
+        background-color: #119184;
+        cursor: pointer;
+    }
+
 /* Product Overview */
 .view-more-btn {
     text-decoration: none;
@@ -325,7 +337,6 @@
     color: white;
     padding: 10px 20px;
     font-size: 18px;
-    border-radius: 10px;
 }
 
 
