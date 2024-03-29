@@ -103,7 +103,7 @@
                         <div class="flex-grow border-t border-gray-300"></div>
                     </div>
 
-                    <div class="flex w-full justify-between items-center px-40">
+                    <div class="flex w-full justify-center items-center gap-12">
                         <div class="flex flex-col items-center">
                             <div class="min-w-11 min-h-11 rounded-full flex items-center justify-center text-white bg-blue-700 hover:cursor-pointer">
                                 <i class="fa-brands fa-facebook-f text-2xl"></i>
@@ -112,7 +112,7 @@
                         </div>
 
                         <div class="flex flex-col">
-                            <div class="mx-5 min-w-11 min-h-11 rounded-full bg-black text-white border flex items-center justify-center hover:cursor-pointer">
+                            <div class="min-w-11 min-h-11 rounded-full bg-black text-white border flex items-center justify-center hover:cursor-pointer">
                                 <i class="fa-brands fa-x-twitter"></i>
                             </div>
                             <span class="text-center">X</span>

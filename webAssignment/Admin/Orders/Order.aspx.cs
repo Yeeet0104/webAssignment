@@ -102,7 +102,7 @@ namespace webAssignment.Admin.Orders
 
         private DataTable FilterDataTable( DataTable dataTable, string searchTerm )
         {
-            // Escape single quotes in the search term which can break the filter expression.
+            // Escape single quotes in the search term which can break the filter expression    .
             string safeSearchTerm = searchTerm.Replace("'", "''");
 
             // Build a filter expression that checks if any of the columns contain the search term.

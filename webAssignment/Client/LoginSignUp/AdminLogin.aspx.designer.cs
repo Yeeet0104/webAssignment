@@ -7,74 +7,56 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment.Admin.Customer
+namespace webAssignment.Client.LoginSignUp
 {
 
 
-    public partial class customerManagement
+    public partial class AdminLogin
     {
 
         /// <summary>
-        /// btnExport control.
+        /// bgAdminImg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
+        protected global::System.Web.UI.WebControls.Image bgAdminImg;
 
         /// <summary>
-        /// allAdmins control.
+        /// txtEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button allAdmins;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
-        /// active control.
+        /// txtPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button active;
+        protected global::System.Web.UI.WebControls.TextBox txtPass;
 
         /// <summary>
-        /// blocked control.
+        /// linkForgotPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button blocked;
+        protected global::System.Web.UI.WebControls.LinkButton linkForgotPass;
 
         /// <summary>
-        /// filterDateBtn control.
+        /// btnLogin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
-
-        /// <summary>
-        /// filterOptionbtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
-
-        /// <summary>
-        /// customerListView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView customerListView;
+        protected global::System.Web.UI.WebControls.Button btnLogin;
     }
 }
