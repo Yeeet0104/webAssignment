@@ -161,14 +161,81 @@
                     </td>
                     <td class="col-span-1 flex items-center"><%# Eval("Added", "{0:dd MMM yyyy}") %></td>
                     <td class="col-span-1 flex justify-end items-center">
-                        <div class="flex flex-row gap-2">
+                        <div class="flex flex-row gap-4 items-center">
                             <asp:HyperLink ID="customerEditLink" runat="server" NavigateUrl='<%# "~/Admin/Customer Management/editCustomer.aspx?name=" + HttpUtility.UrlEncode(Eval("CustomerName").ToString()) + "&email=" + HttpUtility.UrlEncode(Eval("CustomerEmail").ToString()) + "&phone=" + HttpUtility.UrlEncode(Eval("PhoneNo").ToString()) + "&dob=" + Eval("DOB").ToString() + "&imgUrl=" + HttpUtility.UrlEncode(Eval("CustomerImageUrl").ToString()) %>' CssClass="fa-solid fa-pen"></asp:HyperLink>
-                            <i class="fa-solid fa-trash"></i>
+                            <asp:LinkButton ID="deleteCustomerLink" runat="server" CommandName="DeleteCustomer" OnClick="showPopUp_Click">
+    <i class="fa-solid fa-trash"></i>
+                            </asp:LinkButton>
                         </div>
                     </td>
                 </tr>
             </ItemTemplate>
         </asp:ListView>
     </div>
-    <!--End-->
+
+    <asp:Panel ID="popUpDelete" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+        <!-- Modal content -->
+        <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+
+            <div class="w-full h-fit  flex justify-end p-0">
+                <span class=" flex items-center justify-center text-3xl rounded-full">
+
+                    <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click">
+                    <i class=" fa-solid fa-xmark"></i>
+                    </asp:LinkButton>
+                </span>
+
+            </div>
+            <div class="flex flex-col justify-center items-center gap-5">
+
+                <div style="font-size: 64px">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
+
+                </div>
+                <p class="bold text-lg break-normal text-center">Are you sure you want to delete the following item?</p>
+                <p class="bold text-lg">
+                    <asp:Label ID="lblItemInfo" runat="server" Text="[OrderID]"></asp:Label>
+                </p>
+                <asp:TextBox ID="passwordForDelete" runat="server" TextMode="Password" CssClass="p-2 px-4 border rounded-xl" placeholder="Enter password to confirm"></asp:TextBox>
+                <div>
+
+                    <asp:Button ID="btnCancelDelete" runat="server" Text="Cancel" CssClass="bg-gray-300 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />
+                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" />
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+
+    <style>
+        @keyframes rockUpDown {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            10% {
+                transform: translateY(-10px);
+            }
+
+            20%, 40%, 60%, 80% {
+                transform: translateY(-10px) rotate(-6deg);
+            }
+
+            30%, 50%, 70% {
+                transform: translateY(-10px) rotate(6deg);
+            }
+
+            90% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .fa-trash-can {
+            display: inline-block;
+            transition: transform ease-in-out 0.75s;
+        }
+
+            .fa-trash-can:hover {
+                animation: rockUpDown 1.2s ease-in-out infinite;
+            }
+    </style>
 </asp:Content>

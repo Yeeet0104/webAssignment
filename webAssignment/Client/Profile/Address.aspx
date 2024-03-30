@@ -69,7 +69,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <div class="w-full h-full">
         <!--Shipping Address-->
-        <div id="shippingCollapse" class="w-full bg-gray-600 py-4 px-8 relative rounded-lg cursor-pointer">
+        <div id="shippingCollapse" class="w-full bg-gray-800 py-4 px-8 relative rounded-lg cursor-pointer">
             <asp:Label ID="lblCheckBox" runat="server" Text="SHIPPING ADDRESS" class="text-xl text-white block font-medium w-full"></asp:Label>
             <i id="shippingCollapseIcon" class="fa-solid fa-chevron-down hover:cursor-pointer text-white"></i>
         </div>
@@ -79,10 +79,11 @@
             <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4">
                 <div class="grid grid-cols-2 gap-6">
                     <!-- Add New Address-->
-                    <div class="p-4 border border-gray-400 hover:border-black relative">
+                    <asp:HyperLink ID="addShipAddressLnk" runat="server" NavigateUrl="~/Client/Profile/AddAddress.aspx" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
                         <span class="text-gray-600">New Address</span>
-                        <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
-                    </div>
+<i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
+                    </asp:HyperLink>
+
 
                     <!-- Default Address-->
                     <div class="p-4 border border-black">
@@ -101,25 +102,43 @@
                             <span class="font-bold">Default</span>
                         </div>
                     </div>
+
+                    <div class="p-4 border border-gray-400 hover:border-black">
+                        <div class="text-lg">
+                            <span class="font-bold pb-4">Ryder Ming</span><br />
+                            <span class="">B-12 Jalan Murni<br />
+                                Taman Midah<br />
+                                52100, Kuala Lumpur, Malaysia<br />
+                                0129237451</span>
+                        </div>
+                        <div class="flex justify-between pt-2">
+                            <div>
+                                <span class="pr-2 underline hover:cursor-pointer">Edit</span>
+                                <span class="pl-2 underline hover:cursor-pointer">Remove</span>
+                            </div>
+                            <span class="font-bold">Select</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
         <!--Billing Address-->
-        <div id="billingCollapse" class="w-full bg-gray-600 py-4 px-8 relative rounded-xl mt-10 cursor-pointer">
+        <div id="billingCollapse" class="w-full bg-gray-800 py-4 px-8 relative rounded-xl mt-10 cursor-pointer">
             <asp:Label ID="lblCheckBox2" runat="server" Text="BILLING ADDRESS" class="text-xl text-white block font-medium w-full"></asp:Label>
             <i id="billingCollapseIcon" class="fa-solid fa-chevron-down hover:cursor-pointer text-white"></i>
         </div>
-        
+
         <asp:CheckBox ID="collapsible2" runat="server" class="hidden" />
         <div id="contentDiv2" class="w-full">
             <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4">
                 <div class="grid grid-cols-2 gap-6">
                     <!-- Add New Address-->
-                    <div class="p-4 border border-gray-400 hover:border-black relative">
+                    <asp:HyperLink ID="addBillAddressLnk" runat="server" NavigateUrl="~/Client/Profile/AddAddress.aspx" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
                         <span class="text-gray-600">New Address</span>
-                        <i id="plusIcon2" class="fa-solid fa-plus text-3xl font-normal"></i>
-                    </div>
+<i id="plusIcon2" class="fa-solid fa-plus text-3xl font-normal"></i>
+                    </asp:HyperLink>
 
                     <!-- Default Address-->
                     <div class="p-4 border border-black">

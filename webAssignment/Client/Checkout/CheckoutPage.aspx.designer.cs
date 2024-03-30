@@ -33,22 +33,22 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.TextBox txtLastName;
 
         /// <summary>
-        /// txtCompanyName control.
+        /// txtAddressLine1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCompanyName;
+        protected global::System.Web.UI.WebControls.TextBox txtAddressLine1;
 
         /// <summary>
-        /// txtAddress control.
+        /// txtAddressLine2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddress;
+        protected global::System.Web.UI.WebControls.TextBox txtAddressLine2;
 
         /// <summary>
         /// ddlCountry control.
@@ -123,13 +123,22 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl shippingAddressDetails;
 
         /// <summary>
-        /// txtShippingAddress control.
+        /// txtShippingAddressLine1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtShippingAddress;
+        protected global::System.Web.UI.WebControls.TextBox txtShippingAddressLine1;
+
+        /// <summary>
+        /// txtShippingAddressLine2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtShippingAddressLine2;
 
         /// <summary>
         /// ddlShippingCountry control.
