@@ -171,7 +171,9 @@
                                 <asp:HyperLink ID="LogoutAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer">Log out</asp:HyperLink>
                             </div>
                         </div>
-                        <%--                        <div class="w-1/10 mr-6">
+                        <%--<div class="w-1/10 mr-6">
+                        <i class="fa-solid fa-bell text-xl mr-5 cursor-pointer"></i>
+                        <div class="w-1/10 mr-6">
                             <div class="flex flex-row items-center justify-end">
                                 <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" Height="50px" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Width="50px"
                                     CssClass="rounded-full" />

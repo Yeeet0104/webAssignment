@@ -8,7 +8,7 @@
         <div class="px-4">
             <!-- Header -->
             <div class="flex justify-between items-center mb-10">
-                <span class="text-3xl text-gray-900 font-black p-4">Wishlist</span>
+                <span class="text-3xl text-gray-900 font-black font-bold p-4">Wishlist</span>
                 <asp:Button ID="btnMoveAllToCart" runat="server" Text="Move All To Cart" class="mt-2 text-white bg-blue-600 hover:bg-blue-800 rounded-lg w-40 h-10 p-2 font-semibold text-sm cursor-pointer text-center transition duration-200 shadow-md" />
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
