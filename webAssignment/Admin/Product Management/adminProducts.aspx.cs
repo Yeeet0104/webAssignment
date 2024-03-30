@@ -125,6 +125,13 @@ namespace webAssignment
 
             return filteredDataTable;
         }
-
+        protected void closePopUp_Click( object sender, EventArgs e )
+        {
+            popUpDelete.Style.Add("display", "none");
+        }
+        protected void btnCancelDelete_Click( object sender, EventArgs e )
+        {
+            popUpDelete.Style.Add("display", "none");
+        }
     }
 }

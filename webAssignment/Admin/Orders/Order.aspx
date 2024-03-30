@@ -92,7 +92,7 @@
                             <td class="col-span-2">
                                 <p>Product</p>
                             </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded">
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterOdDateLv" runat="server">
                             <div class="flex flex-row justify-between items-center p-2">
                                 <p>Order Date </p>
@@ -105,7 +105,7 @@
                             <td class="col-span-1 text-center">
                                 <p>Customer</p>
                             </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded">
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterTotalPriceLv" runat="server">
                                   <div class="flex flex-row justify-between items-center p-2">
                                                      <p>Total </p>
@@ -115,7 +115,7 @@
 
                                 </asp:LinkButton>
                             </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded">
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
 
                                 <asp:LinkButton ID="filterPayDayeLv" runat="server">
                                                                   <div class="flex flex-row justify-between items-center p-2">
@@ -126,7 +126,7 @@
 
                                 </asp:LinkButton>
                             </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded">
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterStatusLtPd" runat="server">
                               <div class="flex flex-row justify-between items-center p-2">
                                     <p>Status </p>
@@ -231,12 +231,17 @@
         <!-- Modal content -->
         <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
 
-            <div class="w-full h-fit  flex justify-end p-0">
-                <span class=" flex items-center justify-center text-3xl rounded-full">
+            <div class="grid grid-cols-3 w-full h-fit justify-center flex p-0">
+                <div>
+                </div>
+                <p class="text-2xl text-red-600 font-bold text-center">WARNING</p>
+                <span class="w-auto flex items-center justify-end text-3xl rounded-full">
+
 
                     <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click">
-                        <i class=" fa-solid fa-xmark"></i>
+                     <i class=" fa-solid fa-xmark"></i>
                     </asp:LinkButton>
+
                 </span>
 
             </div>

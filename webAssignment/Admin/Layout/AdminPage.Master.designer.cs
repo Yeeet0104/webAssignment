@@ -96,6 +96,24 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.HyperLink customerLk;
 
         /// <summary>
+        /// profileLk control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink profileLk;
+
+        /// <summary>
+        /// logout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink logout;
+
+        /// <summary>
         /// SearchTextBox control.
         /// </summary>
         /// <remarks>
@@ -121,6 +139,24 @@ namespace webAssignment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image userProfilePic;
+
+        /// <summary>
+        /// profilePageAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink profilePageAdmin;
+
+        /// <summary>
+        /// LogoutAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink LogoutAdmin;
 
         /// <summary>
         /// ContentPlaceHolder1 control.

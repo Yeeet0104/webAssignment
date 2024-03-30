@@ -70,6 +70,7 @@
   <ItemGroup>
     <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
     <Content Include="Admin\Admin Management\adminManagement.aspx" />
+    <Content Include="Admin\Category\editCategory.aspx" />
     <Content Include="Admin\Customer Management\editCustomer.aspx" />
     <Content Include="Admin\Dashboard\ChartImage\DummyChart.jpeg" />
     <Content Include="Admin\Dashboard\Images\bag.gif" />
@@ -175,6 +176,13 @@
     </Compile>
     <Compile Include="Admin\Category\CreateCategory.aspx.designer.cs">
       <DependentUpon>CreateCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Category\editCategory.aspx.cs">
+      <DependentUpon>editCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Category\editCategory.aspx.designer.cs">
+      <DependentUpon>editCategory.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Customer Management\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>

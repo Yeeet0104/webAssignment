@@ -14,9 +14,9 @@ namespace webAssignment.Admin.Transaction
         {
             if ( !IsPostBack )
             {
-                productListView.DataSource = GetDummyData();
+                transactionListView.DataSource = GetDummyData();
 
-                productListView.DataBind();
+                transactionListView.DataBind();
             }
         }
         private DataTable GetDummyData( )
@@ -24,34 +24,66 @@ namespace webAssignment.Admin.Transaction
             DataTable dummyData = new DataTable();
 
             // Add columns to match your GridView's DataFields
+            dummyData.Columns.Add("transactionID", typeof(int));
             dummyData.Columns.Add("CustomerID", typeof(int));
             dummyData.Columns.Add("UserName", typeof(string));
-            dummyData.Columns.Add("Description", typeof(string));
             dummyData.Columns.Add("Amount", typeof(decimal));
             dummyData.Columns.Add("paymentMethod", typeof(string));
             dummyData.Columns.Add("Date", typeof(DateTime));
+            dummyData.Columns.Add("ProductName", typeof(string[]));
+            dummyData.Columns.Add("Variant", typeof(string[]));
+            dummyData.Columns.Add("Price", typeof(int[]));
+
+            string[] productNames = { "Iphone 11" ,"Msi laptop" , "Dell desktop" };
+            string[] variants = { "256GB", "512GB", "1TB" };
+            int[] prices = { 999, 1199, 1399 };
+            double total = 0;
+            for (int i = 0;i<prices.Length ; i++ )
+            {
+                total  += prices[i];    
+            }
 
             // Add rows with dummy data
-            dummyData.Rows.Add(2001,"Dexter", "Product Purchase-Iphone 25 Pro Max,Iphone 25 Pro Max,Iphone 25 Pro Max", 25000.99,"credit",DateTime.Now);
-            dummyData.Rows.Add(2001,"Dexter","Product Purchase-Iphone 25 Pro Max",25000.99,"debit",DateTime.Now);
-            dummyData.Rows.Add(2001,"Dexter","Product Purchase-Iphone 25 Pro Max",25000.99,"credit",DateTime.Now);
-            // Add more rows as needed for testing
+            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
+            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
+            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
+            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
+
+
 
             return dummyData;
         }
 
-        protected void productListView_SelectedIndexChanged( object sender, EventArgs e )
+        protected void transactionListView_SelectedIndexChanged( object sender, EventArgs e )
         {
 
         }
+        protected void transactionListView_ItemCommand( object sender, ListViewCommandEventArgs e )
+        {
+            if ( e.CommandName == "deleteTransaction" )
+            {
+                // Show the popup
+                popUpDelete.Style.Add("display", "flex");
 
+                string commandArgument = e.CommandArgument.ToString();
+                string[] arguments = commandArgument.Split(',');
+                if ( arguments.Length == 2 )
+                {
+                    lbltransIDInfo.Text = arguments[0];
+                    lblcusIDInfo.Text = arguments[1];
+                    // Now, you can use transactionID and userName as needed
+                }
+
+                // Set the Order ID in the label within the popup
+            }
+        }
         public void FilterListView( string searchTerm )
         {
             DataTable dummyData = GetDummyData();
             DataTable filteredData = FilterDataTable(dummyData, searchTerm);
 
-            productListView.DataSource = filteredData;
-            productListView.DataBind();
+            transactionListView.DataSource = filteredData;
+            transactionListView.DataBind();
         }
 
         private DataTable FilterDataTable( DataTable dataTable, string searchTerm )
@@ -82,6 +114,14 @@ namespace webAssignment.Admin.Transaction
             }
 
             return filteredDataTable;
+        }
+        protected void closePopUp_Click( object sender, EventArgs e )
+        {
+            popUpDelete.Style.Add("display", "none");
+        }
+        protected void btnCancelDelete_Click( object sender, EventArgs e )
+        {
+            popUpDelete.Style.Add("display", "none");
         }
     }
 }

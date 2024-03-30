@@ -54,6 +54,7 @@ namespace webAssignment
                     break;
                 case "createcategory.aspx":
                 case "category.aspx":
+                case "editcategory.aspx":
                     categoryLk.Attributes["class"] += " activeNavItem";
                     break;
                 case "editorder.aspx":
