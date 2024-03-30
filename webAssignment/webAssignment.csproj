@@ -84,6 +84,7 @@
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Dashboard\Images\revenue.gif" />
     <Content Include="Admin\Dashboard\Images\sold-out.gif" />
+    <Content Include="Admin\Layout\image\voucher.png" />
     <Content Include="Admin\Orders\EditOrder.aspx" />
     <Content Include="Admin\Orders\Images\trash.gif" />
     <Content Include="Admin\Orders\Order.aspx" />
@@ -93,6 +94,8 @@
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="Admin\Product Management\editProduct.aspx" />
     <Content Include="Admin\Transaction\transaction.aspx" />
+    <Content Include="Admin\Voucher\editVoucher.aspx" />
+    <Content Include="Admin\Voucher\voucher.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
     <Content Include="App_Data\MainDatabase_log.ldf">
       <DependentUpon>MainDatabase.mdf</DependentUpon>
@@ -252,6 +255,20 @@
     </Compile>
     <Compile Include="Admin\Transaction\transaction.aspx.designer.cs">
       <DependentUpon>transaction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Voucher\editVoucher.aspx.cs">
+      <DependentUpon>editVoucher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Voucher\editVoucher.aspx.designer.cs">
+      <DependentUpon>editVoucher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Voucher\voucher.aspx.cs">
+      <DependentUpon>voucher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Voucher\voucher.aspx.designer.cs">
+      <DependentUpon>voucher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Cart\CartPage.aspx.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>

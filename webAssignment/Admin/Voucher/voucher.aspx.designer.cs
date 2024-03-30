@@ -7,173 +7,146 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment
+namespace webAssignment.Admin.Voucher
 {
 
 
-    public partial class AdminPage
+    public partial class voucher
     {
 
         /// <summary>
-        /// head control.
+        /// btnExport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Button btnExport;
 
         /// <summary>
-        /// form1 control.
+        /// HyperLink1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
 
         /// <summary>
-        /// dashboardLk control.
+        /// allProductFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink dashboardLk;
+        protected global::System.Web.UI.WebControls.Button allProductFilter;
 
         /// <summary>
-        /// productLk control.
+        /// activeFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink productLk;
+        protected global::System.Web.UI.WebControls.Button activeFilter;
 
         /// <summary>
-        /// categoryLk control.
+        /// expiredFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink categoryLk;
+        protected global::System.Web.UI.WebControls.Button expiredFilter;
 
         /// <summary>
-        /// orderLk control.
+        /// filterDateBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink orderLk;
+        protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
 
         /// <summary>
-        /// transactionLk control.
+        /// filterOptionbtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink transactionLk;
+        protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
 
         /// <summary>
-        /// voucherLk control.
+        /// productListView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink voucherLk;
+        protected global::System.Web.UI.WebControls.ListView productListView;
 
         /// <summary>
-        /// adminLk control.
+        /// popUpDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink adminLk;
+        protected global::System.Web.UI.WebControls.Panel popUpDelete;
 
         /// <summary>
-        /// customerLk control.
+        /// closePopUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink customerLk;
+        protected global::System.Web.UI.WebControls.LinkButton closePopUp;
 
         /// <summary>
-        /// profileLk control.
+        /// Image1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink profileLk;
+        protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
-        /// logout control.
+        /// lblItemInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink logout;
+        protected global::System.Web.UI.WebControls.Label lblItemInfo;
 
         /// <summary>
-        /// SearchTextBox control.
+        /// passwordForDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SearchTextBox;
+        protected global::System.Web.UI.WebControls.TextBox passwordForDelete;
 
         /// <summary>
-        /// SearchButton control.
+        /// btnCancelDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton SearchButton;
+        protected global::System.Web.UI.WebControls.Button btnCancelDelete;
 
         /// <summary>
-        /// userProfilePic control.
+        /// btnConfirmDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image userProfilePic;
-
-        /// <summary>
-        /// profilePageAdmin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink profilePageAdmin;
-
-        /// <summary>
-        /// LogoutAdmin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink LogoutAdmin;
-
-        /// <summary>
-        /// ContentPlaceHolder1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Button btnConfirmDelete;
     }
 }
