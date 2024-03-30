@@ -70,6 +70,11 @@ namespace webAssignment
                 case "editvoucher.aspx":
                     voucherLk.Attributes["class"] += " activeNavItem";
 
+                    break;                
+                case "adminprofile.aspx":
+                case "editprofile.aspx":
+                    profileLk.Attributes["class"] += " activeNavItem";
+
                     break;
             }
         }

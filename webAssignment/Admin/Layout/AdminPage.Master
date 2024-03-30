@@ -125,7 +125,7 @@
                                 class=" 
                              flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                               "
-                                NavigateUrl="#">
+                                NavigateUrl="~/Admin/Profile/AdminProfile.aspx">
                               <i class="fa-regular fa-address-card mr-4 icon-16x16"></i>Profile 
 
 
@@ -135,7 +135,7 @@
                                 class=" 
                               flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                               "
-                                NavigateUrl="#">
+                                NavigateUrl="/path-that-does-not-exist">
                               <i class="fa-solid fa-person-walking-arrow-right mr-4 icon-16x16"></i>Logout
 
 
@@ -175,7 +175,7 @@
                                     <i class="fa-solid fa-chevron-down cursor-pointer"></i>
                                 </button>
                             </div>
-                            <div id="dropdown" class=" flex-col absolute right-[0px] w-48 py-2 mt-2 bg-white rounded-md shadow-xl opacity-0 scale-95  transition-all duration-300 text-base transform" style="z-index: 50;">
+                            <div id="dropdown" class=" flex-col absolute right-[0px] w-48 py-2 mt-2 bg-white rounded-md shadow-xl opacity-0 scale-95  transition-all duration-300 text-base transform z-[-1]">
                                 <asp:HyperLink ID="profilePageAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer">Profile</asp:HyperLink>
                                 <asp:HyperLink ID="LogoutAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer">Log out</asp:HyperLink>
                             </div>
@@ -246,10 +246,12 @@
     function toggleDropdown() {
         var dropdown = document.getElementById("dropdown");
         if (dropdown.classList.contains("opacity-0")) {
-            dropdown.classList.remove("opacity-0", "scale-95", "invisible");
+            dropdown.classList.remove("opacity-0", "scale-95", "invisible", "z-[-1]");
             dropdown.classList.add("opacity-100", "scale-100", "visible");
+            dropdown.classList.add("z-[3]");
         } else {
-            dropdown.classList.remove("opacity-100", "scale-100", "visible");
+            dropdown.classList.remove("opacity-100", "scale-100", "visible", "z-[3]");
+            dropdown.classList.add("z-[-1]");
             dropdown.classList.add("opacity-0", "scale-95", "invisible");
         }
     }
