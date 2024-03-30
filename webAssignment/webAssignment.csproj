@@ -84,6 +84,8 @@
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Dashboard\Images\revenue.gif" />
     <Content Include="Admin\Dashboard\Images\sold-out.gif" />
+    <Content Include="Admin\ErrorPages\404.aspx" />
+    <Content Include="Admin\ErrorPages\images\warning.gif" />
     <Content Include="Admin\Layout\image\voucher.png" />
     <Content Include="Admin\Orders\EditOrder.aspx" />
     <Content Include="Admin\Orders\Images\trash.gif" />
@@ -94,6 +96,8 @@
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="Admin\Product Management\editProduct.aspx" />
     <Content Include="Admin\Profile\AdminProfile.aspx" />
+    <Content Include="Admin\Profile\editProfile.aspx" />
+    <Content Include="Admin\Profile\image\userProfile.gif" />
     <Content Include="Admin\Transaction\transaction.aspx" />
     <Content Include="Admin\Voucher\editVoucher.aspx" />
     <Content Include="Admin\Voucher\voucher.aspx" />
@@ -201,6 +205,13 @@
     <Compile Include="Admin\Customer Management\editCustomer.aspx.designer.cs">
       <DependentUpon>editCustomer.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ErrorPages\404.aspx.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ErrorPages\404.aspx.designer.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -257,6 +268,13 @@
     </Compile>
     <Compile Include="Admin\Profile\AdminProfile.aspx.designer.cs">
       <DependentUpon>AdminProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Profile\editProfile.aspx.cs">
+      <DependentUpon>editProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Profile\editProfile.aspx.designer.cs">
+      <DependentUpon>editProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Transaction\transaction.aspx.cs">
       <DependentUpon>transaction.aspx</DependentUpon>
