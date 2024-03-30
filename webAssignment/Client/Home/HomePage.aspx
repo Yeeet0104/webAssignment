@@ -2,20 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="HomePage.css">
-    <style type="text/css">
-        .default {
-            padding: 2rem 1rem;
-            color: #e2e8f0;
-            transition: 300ms;
-            box-shadow: none;
-            background: transparent;
-        }
-
-        nav.sticky {
-            padding: 1rem;
-            background: #131618;
-        }
-    </style>
 </asp:Content>
 <asp:Content ID="HomePageContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="text-white">

@@ -2,6 +2,19 @@
     background-color: black;
 }
 
+.default {
+    padding: 2rem 1rem;
+    color: #e2e8f0;
+    transition: 300ms;
+    box-shadow: none;
+    background: #000506;
+}
+
+nav.sticky {
+    padding: 1rem;
+    background: #131618;
+}
+
 .section {
     min-height: 100vh;
 }
@@ -10,7 +23,7 @@
     background-color: #319ba1;
     border-radius: 10px;
     font-weight: bold;
-    border: 1px solid lightgrey;
+    border: 1px solid #63a2a5;
 }
 
     .primary-button:hover {

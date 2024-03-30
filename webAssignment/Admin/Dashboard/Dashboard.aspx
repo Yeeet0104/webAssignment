@@ -26,7 +26,7 @@
 
         <!-- some stat -->
         <div class="grid grid-cols-4 gap-7 text-lg text-gray-600">
-            <div class="flex justify-between col-span-1 bg-white p-7  rounded-lg drop-shadow items-center gap-5">
+            <div class="flex justify-between col-span-1 bg-white px-6 py-4 rounded-lg drop-shadow items-center gap-5">
                 <div class="flex flex-col gap-3">
 
                     <p>Total Sales</p>
@@ -43,12 +43,12 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="soldIcon" runat="server" ImageUrl="~/Admin/Dashboard/Images/sold-out.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="soldIcon" runat="server" ImageUrl="~/Admin/Dashboard/Images/sold-out.gif" CssClass="w-24" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between col-span-1 bg-white p-7  rounded-lg drop-shadow items-center gap-5">
+            <div class="flex justify-between col-span-1 bg-white px-6 py-4 rounded-lg drop-shadow items-center gap-5">
                 <div class="flex flex-col gap-3">
 
                     <p>Total Orders</p>
@@ -65,12 +65,12 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Dashboard/Images/bag.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Dashboard/Images/bag.gif" CssClass="w-24" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between col-span-1 bg-white p-7  rounded-lg drop-shadow items-center gap-5">
+            <div class="flex justify-between col-span-1 bg-white px-6 py-4 rounded-lg drop-shadow items-center gap-5">
                 <div class="flex flex-col gap-3">
 
                     <p>Total User Visited</p>
@@ -87,21 +87,21 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="Image2" runat="server" ImageUrl="~/Admin/Dashboard/Images/customer.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="Image2" runat="server" ImageUrl="~/Admin/Dashboard/Images/customer.gif" CssClass="w-24" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between col-span-1 bg-white p-7  rounded-lg drop-shadow items-center gap-5">
+            <div class="flex justify-between col-span-1 bg-white px-6 py-4 rounded-lg drop-shadow items-center gap-5">
                 <div class="flex flex-col gap-3">
 
-                    <p>Total Whishlist</p>
+                    <p>Total Wishlist</p>
                     <div>
 
                         <asp:Label ID="Label5" runat="server" Text="1233 items" CssClass="font-bold text-black text-2xl"></asp:Label>
                     </div>
                     <div class="text-sm">
-                        <asp:Label ID="Label6" runat="server" Text="Total of user whishlist item on that time frame"></asp:Label>
+                        <asp:Label ID="Label6" runat="server" Text="Total of user wishlist item on that time frame"></asp:Label>
                     </div>
 
                 </div>
@@ -109,7 +109,7 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="Image3" runat="server" ImageUrl="~/Admin/Dashboard/Images/revenue.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="Image3" runat="server" ImageUrl="~/Admin/Dashboard/Images/revenue.gif" CssClass="w-24" />
                         </div>
                     </div>
                 </div>
@@ -135,15 +135,15 @@
                         <asp:Label ID="chartSales" runat="server" Text="RM 12000" CssClass="font-bold text-2xl"></asp:Label>
 
                     </div>
-                    <div class="w-full flex justify-center pt-3" style="height: 300px">
+                    <div class="w-full flex justify-center pt-3">
                         <asp:Image ID="Image4" runat="server" ImageUrl="~/Admin/Dashboard/Images/dummyChartV2.jpeg" />
                     </div>
                 </div>
             </div>
 
             <!-- best selling item -->
-            <div class="col-span-2 p-7 bg-white rounded-lg  drop-shadow">
-                <div class="text-xl font-bold flex flex-row gap-2 items-center justify-between mb-5">
+            <div class="col-span-2 px-7 py-4 bg-white rounded-lg  drop-shadow">
+                <div class="text-xl font-bold flex flex-row gap-2 items-center justify-between mb-2">
                     <p>Best Sellers</p>
                     <div>
 

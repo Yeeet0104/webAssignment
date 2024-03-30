@@ -129,7 +129,7 @@
 
 
                         </div>
-                        <i class="fa-solid fa-bell text-xl ml-5 cursor-pointer"></i>
+                        <i class="fa-solid fa-bell text-xl mr-5 cursor-pointer"></i>
                         <div class="w-1/10 mr-6">
                             <div class="flex flex-row items-center justify-end">
                                 <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" Height="50px" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Width="50px"
