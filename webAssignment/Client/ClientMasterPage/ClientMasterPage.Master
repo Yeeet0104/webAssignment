@@ -20,6 +20,15 @@
             background: #131618;
             box-shadow: 0px 5px 20px gray;
         }
+
+        .active {
+            font-weight: bold;
+        }
+
+        body {
+            background-color: #f4f5f6;
+        }
+
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -38,9 +47,9 @@
                 </div>
                 <div class="hidden md:flex items-center space-x-4 text-gray-300">
 
-                    <a href="/Client/Home/HomePage.aspx" class="text-gray-300 hover:text-gray-300">Home</a>
-                    <a href="/Client/Product/ProductPage.aspx" class="hover:text-gray-300">Products</a>
-                    <a href="#" class="hover:text-gray-300">About Us</a>
+                    <a href="/Client/Home/HomePage.aspx" class="nav-link text-gray-300 hover:text-gray-300">Home</a>
+                    <a href="/Client/Product/ProductPage.aspx" class="nav-link hover:text-gray-300">Products</a>
+                    <a href="#" class="nav-link hover:text-gray-300">About Us</a>
                     <!-- Add more links as needed -->
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
@@ -143,5 +152,18 @@
         </div>
 
     </form>
+
+    <script>
+        window.onload = function () {
+            var links = document.querySelectorAll(".nav-link");
+            var currentUrl = window.location.href;
+
+            links.forEach(function (link) {
+                if (link.href === currentUrl) {
+                    link.classList.add("active");
+                }
+            });
+        };
+    </script>
 </body>
 </html>
