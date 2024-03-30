@@ -3,6 +3,8 @@
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="text-base flex flex-col gap-7 mt-4">
@@ -43,7 +45,7 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="soldIcon" runat="server" ImageUrl="~/Admin/Dashboard/Images/sold-out.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="soldIcon" runat="server" ImageUrl="~/Admin/Dashboard/Images/sold-out.gif" CssClass="w-20 h-18" />
                         </div>
                     </div>
                 </div>
@@ -65,7 +67,7 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Dashboard/Images/bag.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Dashboard/Images/bag.gif" CssClass="w-20 h-18" />
                         </div>
                     </div>
                 </div>
@@ -87,7 +89,7 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="Image2" runat="server" ImageUrl="~/Admin/Dashboard/Images/customer.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="Image2" runat="server" ImageUrl="~/Admin/Dashboard/Images/customer.gif" CssClass="w-20 h-18" />
                         </div>
                     </div>
                 </div>
@@ -109,7 +111,7 @@
                     <div class="flex flex-col justify-center items-end">
                         <div>
 
-                            <asp:Image ID="Image3" runat="server" ImageUrl="~/Admin/Dashboard/Images/revenue.gif" CssClass="w-24 h-24" />
+                            <asp:Image ID="Image3" runat="server" ImageUrl="~/Admin/Dashboard/Images/revenue.gif" CssClass="w-20 h-18" />
                         </div>
                     </div>
                 </div>
@@ -135,8 +137,10 @@
                         <asp:Label ID="chartSales" runat="server" Text="RM 12000" CssClass="font-bold text-2xl"></asp:Label>
 
                     </div>
-                    <div class="w-full flex justify-center pt-3" style="height: 300px">
-                        <asp:Image ID="Image4" runat="server" ImageUrl="~/Admin/Dashboard/Images/dummyChartV2.jpeg" />
+                    <div class="w-full flex justify-center pt-10" style="height: 400px; width: 100%">
+                        <canvas id="myChart"></canvas>
+
+                        <%--<asp:Image ID="Image4" runat="server" ImageUrl="~/Admin/Dashboard/Images/dummyChartV2.jpeg" />--%>
                     </div>
                 </div>
             </div>
@@ -195,64 +199,113 @@
             </div>
         </div>
         <!--Lastest Order Section -->
-        <div class="bg-white p-5">
+        <div class="bg-white p-8 rounded-lg drop-shadow-lg mb-2">
+            <p class="pb-5 text-black font-bold">
+                Latest Orders
+            </p>
 
-
-            <asp:ListView ID="OrdersListView" runat="server" OnSelectedIndexChanged="OrdersListView_SelectedIndexChanged">
+            <asp:ListView ID="ordersListView" runat="server" OnSelectedIndexChanged="ordersListView_SelectedIndexChanged" OnItemCommand="OrdersListView_ItemCommand">
                 <LayoutTemplate>
-                    <table class="orders-table w-full">
-                        <!-- Headers here -->
-                        <p class="pb-5">
-                            Latest Orders
-                        </p>
-                        <div class="grid grid-cols-9 gap-6 mb-4">
-                            <div class="col-span-1">
-                                <p>Order ID</p>
-                            </div>
-                            <div class="col-span-2">
-                                <p>Product</p>
-                            </div>
-                            <div class="col-span-1 flex flex-row justify-between">
-                                <p>Date </p>
-                                <asp:LinkButton ID="filterDateLtPd" runat="server">
+                    <div style="overflow-x: auto">
+                        <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
+                            <!-- Headers here -->
+                            <tr class="grid grid-cols-9 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
+                                <td class="col-span-1">
+                                    <p>Order ID</p>
+                                </td>
+                                <td class="col-span-2">
+                                    <p>Product</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterOdDateLv" runat="server">
+                            <div class="flex flex-row justify-between items-center p-2">
+                                <p>Order Date </p>
+                            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
 
-            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-span-1">
-                                <p>Customer</p>
-                            </div>
-                            <div class="col-span-1 flex flex-row justify-between">
-                                <p>Total </p>
-                                <asp:LinkButton ID="filterTotalLtPd" runat="server">
-
-            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-span-1 flex flex-row justify-between">
-                                <p>Payment </p>
-                                <asp:LinkButton ID="filterPaymentLtPd" runat="server">
-
-            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-span-1 flex flex-row justify-between">
-                                <p>Status </p>
-                                <asp:LinkButton ID="filterStatusLtPd" runat="server">
-
-            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-span-1 flex justify-end">
-                                <p>Action</p>
                             </div>
 
-                            <tr id="itemPlaceholder" runat="server"></tr>
-                            <hr class="border rounded mb-3" />
-                    </table>
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 text-center">
+                                    <p>Customer</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterTotalPriceLv" runat="server">
+                                  <div class="flex flex-row justify-between items-center p-2">
+                                                     <p>Total </p>
+                        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+                                    
+                                 </div>
+
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+
+                                    <asp:LinkButton ID="filterPayDayeLv" runat="server">
+                                                                  <div class="flex flex-row justify-between items-center p-2">
+                            <p>Payment Date </p>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+                                    
+                                 </div>
+
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterStatusLtPd" runat="server">
+                              <div class="flex flex-row justify-between items-center p-2">
+                                    <p>Status </p>
+                                    <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+
+                              </div>
+                                    </asp:LinkButton>
+                                </td>
+
+                                <td class="col-span-1 flex justify-end">
+                                    <p>Action</p>
+
+                                </td>
+
+                            </tr>
+                            <tr id="itemPlaceholder" runat="server">
+                            </tr>
+                        </table>
+                        <table>
+                            <tfoot>
+
+                                <!-- footer for pagination ( WILL CHANGE TO physical button later) -->
+                                <div class="flex flex-row text-gray-400 justify-between rounded-b-lg bg-white items-center">
+                                    <asp:Label ID="pageNumFoot" runat="server" Text="Showing 1-10 from 100" class="text-normal text-base p-5"></asp:Label>
+                                    <div class="flex">
+                                        <div class="p-4 text-base flex flex-row gap-3">
+                                            <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+                                                <i class="fa-solid fa-arrow-left-long"></i>
+                                            </div>
+                                            <div class="min-w-11 min-h-11 rounded-full bg-blue-500 text-white border-blue-500 border flex items-center justify-center">
+                                                <i class="fa-solid fa-1"></i>
+                                            </div>
+                                            <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
+                                                <i class="fa-solid fa-2"></i>
+                                            </div>
+                                            <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
+                                                <i class="fa-solid fa-3"></i>
+                                            </div>
+                                            <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
+                                                <i class="fa-solid fa-4"></i>
+                                            </div>
+                                            <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+                                                <i class="fa-solid fa-arrow-right-long"></i>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </tfoot>
+                        </table>
+                    </div>
                 </LayoutTemplate>
                 <ItemTemplate>
-                    <tr class="grid grid-cols-9 gap-6 w-full mb-5" style="color: #8B8E99">
+                    <tr class="grid grid-cols-9 gap-6 w-full mb-5 p-4 border-b-2" style="color: #8B8E99">
+
                         <td class="col-span-1 flex items-center text-black"><%# Eval("OrderId") %></td>
                         <td class="col-span-2 flex flex-row gap-2 items-center">
                             <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
@@ -266,13 +319,13 @@
                             </div>
 
                         </td>
-                        <td class="col-span-1 flex items-center"><%# Eval("Date", "{0:dd MMM yyyy}") %></td>
-                        <td class="col-span-1 flex items-center"><%# Eval("CustomerName") %></td>
-                        <td class="col-span-1 flex items-center"><%# Eval("Total", "{0:C}") %></td>
-                        <td class="col-span-1 flex items-center"><%# Eval("PaymentDate", "{0:dd MMM yyyy}") %></td>
+                        <td class="col-span-1 flex items-center px-2 justify-center"><%# Eval("Order Date", "{0:dd MMM yyyy}") %></td>
+                        <td class="col-span-1 flex items-center justify-center"><%# Eval("CustomerName") %></td>
+                        <td class="col-span-1 flex items-center justify-center"><%# Eval("Total", "{0:C}") %></td>
+                        <td class="col-span-1 flex items-center justify-center"><%# Eval("PaymentDate", "{0:dd MMM yyyy}") %></td>
                         <td class="col-span-1 flex items-center w-full justify-center">
 
-                            <div class="rounded-xl flex bg-red-200 w-4/5 p-3 text-center justify-center">
+                            <div class="<%# Eval("Status").ToString() == "Shipped" ? "bg-green-200" : "bg-red-200" %> rounded-xl flex w-4/5 p-3 text-center justify-center">
 
                                 <%# Eval("Status") %>
                             </div>
@@ -280,15 +333,24 @@
 
                         </td>
                         <td class="col-span-1 flex justify-end items-center">
-                            <div class="flex flex-row gap-2">
+                            <div class="flex flex-row gap-4 items-center">
+                                <asp:LinkButton ID="editItem" runat="server" CommandName="EditOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
                                 <i class="fa-solid fa-pen"></i>
-                                <i class="fa-solid fa-eye"></i>
+                                </asp:LinkButton>
+                                <asp:LinkButton ID="deleteItem" runat="server" CommandName="DeleteOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
                                 <i class="fa-solid fa-trash"></i>
+                                </asp:LinkButton>
+
                             </div>
                         </td>
+
                     </tr>
+
                 </ItemTemplate>
+
             </asp:ListView>
+
+
         </div>
     </div>
     <style>
@@ -334,4 +396,53 @@
                 z-index: 1;
             }
     </style>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                datasets: [{
+                    label: 'Monthly Sales',
+                    data: [100000, 90000, 80000, 85000, 60000, 50000, 75000, 80000, 85000], // replace these values with your actual data
+                    backgroundColor: [
+                        '#6366F1',
+                    ],
+                    borderColor: [
+                        '#6366F1',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Sales Amount (RM)', // Y-axis label
+                            font: {
+                                size: 14 // Customize the font size as needed
+
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month', // X-axis label
+                            font: {
+                                size: 14 // Customize the font size as needed
+                            },
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+            }
+        });
+    </script>
 </asp:Content>

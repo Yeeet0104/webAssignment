@@ -110,6 +110,28 @@
                             OTHERS
                         </div>
                         <!-- ... other links ... -->
+                        <div>
+
+                            <asp:HyperLink ID="profileLk" runat="server"
+                                class=" 
+                             flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                              "
+                                NavigateUrl="#">
+                              <i class="fa-regular fa-address-card mr-4 icon-16x16"></i>Profile 
+
+
+                            </asp:HyperLink>
+
+                            <asp:HyperLink ID="logout" runat="server"
+                                class=" 
+                              flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                              "
+                                NavigateUrl="#">
+                              <i class="fa-solid fa-person-walking-arrow-right mr-4 icon-16x16"></i>Logout
+
+
+                            </asp:HyperLink>
+                        </div>
                     </div>
                 </nav>
             </aside>
@@ -129,8 +151,27 @@
 
 
                         </div>
-                        <i class="fa-solid fa-bell text-xl ml-5 cursor-pointer"></i>
-                        <div class="w-1/10 mr-6">
+                        <%--<i class="fa-solid fa-bell text-xl ml-5 cursor-pointer"></i>--%>
+                        <div class="w-1/10 bg-white rounded-lg p-1 relative">
+
+                            <div class="">
+
+                                <!-- Dropdown toggle -->
+                                <button id="dropdownButton" class="focus:outline-none flex justify-end items-center space-x-4" onclick="toggleDropdown(); return false;">
+                                    <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" CssClass="h-12 w-12 rounded-full" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" />
+                                    <div>
+                                        <p id="UserName" class="text-gray-900 font-bold">Ryan Lee</p>
+                                        <p id="Role" class="text-gray-500 text-sm">Admin</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down cursor-pointer"></i>
+                                </button>
+                            </div>
+                            <div id="dropdown" class=" flex-col absolute right-[0px] w-48 py-2 mt-2 bg-white rounded-md shadow-xl opacity-0 scale-95  transition-all duration-300 text-base transform" style="z-index: 50;">
+                                <asp:HyperLink ID="profilePageAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer">Profile</asp:HyperLink>
+                                <asp:HyperLink ID="LogoutAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer">Log out</asp:HyperLink>
+                            </div>
+                        </div>
+                        <%--                        <div class="w-1/10 mr-6">
                             <div class="flex flex-row items-center justify-end">
                                 <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" Height="50px" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Width="50px"
                                     CssClass="rounded-full" />
@@ -142,7 +183,7 @@
                                 </div>
                                 <i class="fa-solid fa-chevron-down cursor-pointer"></i>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
 
@@ -189,6 +230,33 @@
     </form>
 </body>
 </html>
+<script>
+    // Toggle the dropdown menu visibility
+    function toggleDropdown() {
+        var dropdown = document.getElementById("dropdown");
+        if (dropdown.classList.contains("opacity-0")) {
+            dropdown.classList.remove("opacity-0", "scale-95", "invisible");
+            dropdown.classList.add("opacity-100", "scale-100", "visible");
+        } else {
+            dropdown.classList.remove("opacity-100", "scale-100", "visible");
+            dropdown.classList.add("opacity-0", "scale-95", "invisible");
+        }
+    }
+
+    // Log out function
+    function logOut() {
+        // You could also make an AJAX request here to log out the user server-side
+        window.location.href = 'LogoutHandler.ashx'; // Replace with your server-side logout handler
+    }
+
+    //window.addEventListener('click', function (e) {
+    //    var dropdown = document.getElementById("dropdown");
+    //    if (!dropdown.contains(e.target) && !e.target.matches('[data-dropdown-button]')) {
+    //        dropdown.classList.add("opacity-0", "scale-95", "invisible");
+    //        dropdown.classList.remove("opacity-100", "scale-100", "visible");
+    //    }
+    //});
+</script>
 <style>
     .icon-16x16 {
         font-size: 16px;

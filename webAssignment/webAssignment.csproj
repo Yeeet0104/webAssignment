@@ -70,6 +70,7 @@
   <ItemGroup>
     <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
     <Content Include="Admin\Admin Management\adminManagement.aspx" />
+    <Content Include="Admin\Category\editCategory.aspx" />
     <Content Include="Admin\Customer Management\editCustomer.aspx" />
     <Content Include="Admin\Dashboard\ChartImage\DummyChart.jpeg" />
     <Content Include="Admin\Dashboard\Images\bag.gif" />
@@ -91,7 +92,6 @@
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="Admin\Product Management\editProduct.aspx" />
-
     <Content Include="Admin\Transaction\transaction.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
     <Content Include="App_Data\MainDatabase_log.ldf">
@@ -175,6 +175,13 @@
     <Compile Include="Admin\Category\CreateCategory.aspx.designer.cs">
       <DependentUpon>CreateCategory.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Category\editCategory.aspx.cs">
+      <DependentUpon>editCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Category\editCategory.aspx.designer.cs">
+      <DependentUpon>editCategory.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Customer Management\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -232,7 +239,6 @@
     <Compile Include="Admin\Dashboard\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
-
     <Compile Include="Admin\Product Management\editProduct.aspx.cs">
       <DependentUpon>editProduct.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
