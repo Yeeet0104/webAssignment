@@ -35,14 +35,10 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="w-full h-screen bg-gray-200 justify-center items-center flex">
-    <div class="flex bg-white p-2 rounded-xl w-1/2 h-3/4">
-        <!--Img Container-->
-        <div class="w-1/3">
-            <asp:Image ID="bgAdminImg" ImageUrl="~/Client/LoginSignUp/bgAdmin.jfif" runat="server" class="w-full h-full object-cover rounded-xl" />
-        </div>
+    <div class="w-full bg-gray-200 justify-center flex">
+    <div class="w-1/4 bg-white p-2 drop-shadow-lg rounded-xl my-32">
         <!--Form Container-->
-        <div class="w-2/3 h-full px-3 rounded-xl pt-12">
+        <div class="h-full px-3 py-4 rounded-xl">
             <div class="flex flex-col">
                 <div class="mb-2 text-4xl font-bold text-center text-black">
                     <span>G-Tech</span>
@@ -69,6 +65,8 @@
                 <div class="mx-4 mt-10">
                     <asp:Button ID="btnLogin" runat="server" Text="Login" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-500 ease-in-out" />
                 </div>
+
+                <span class="font-medium text-gray-400 text-center pt-8">Terms of use. Privacy poliy</span>
             </div>
         </div>
     </div>

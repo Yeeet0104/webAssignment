@@ -42,12 +42,10 @@
     });
    </script>
 
-
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="w-full h-full p-8 bg-gray-200 justify-center flex">
-        <div class="flex flex-row bg-white p-2 rounded-xl w-3/4">
+        <div class="flex flex-row bg-white p-2 rounded-xl w-3/5">
             <!--Img Container-->
             <div class="w-1/3">
                 <asp:Image ID="bgImg" ImageUrl="~/Client/LoginSignUp/bg1.jfif" runat="server" class="w-full h-full object-cover rounded-xl" />
