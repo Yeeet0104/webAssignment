@@ -76,7 +76,7 @@
 
         <asp:CheckBox ID="collapsible" runat="server" class="hidden" />
         <div id="contentDiv" class="w-full">
-            <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4">
+            <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4  bg-white">
                 <div class="grid grid-cols-2 gap-6">
                     <!-- Add New Address-->
                     <asp:HyperLink ID="addShipAddressLnk" runat="server" NavigateUrl="~/Client/Profile/AddAddress.aspx" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
@@ -132,7 +132,7 @@
 
         <asp:CheckBox ID="collapsible2" runat="server" class="hidden" />
         <div id="contentDiv2" class="w-full">
-            <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4">
+            <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4  bg-white">
                 <div class="grid grid-cols-2 gap-6">
                     <!-- Add New Address-->
                     <asp:HyperLink ID="addBillAddressLnk" runat="server" NavigateUrl="~/Client/Profile/AddAddress.aspx" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">

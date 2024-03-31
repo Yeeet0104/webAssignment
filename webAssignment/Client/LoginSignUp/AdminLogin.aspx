@@ -63,7 +63,7 @@
 
                 <asp:LinkButton ID="linkForgotPass" runat="server" class="text-sm ml-5 mt-2 underline">Forgot Password?</asp:LinkButton>
                 <div class="mx-4 mt-10">
-                    <asp:Button ID="btnLogin" runat="server" Text="Login" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-500 ease-in-out" />
+                    <asp:Button ID="btnLogin" runat="server" Text="Login" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-500 ease-in-out" OnClick="btnLogin_Click" />
                 </div>
 
                 <span class="font-medium text-gray-400 text-center pt-8">Terms of use. Privacy poliy</span>
