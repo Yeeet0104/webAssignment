@@ -29,6 +29,26 @@
             background-color: #f4f5f6;
         }
 
+        /* width */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #131618;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #319ba1;
+            border-radius: 12px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #119184;
+        }
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>

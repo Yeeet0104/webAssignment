@@ -49,7 +49,7 @@
                         <td class="col-span-1"><%# ((DateTime)Eval("Date")).ToShortDateString() %></td>
                         <td class="col-span-1"><%# Eval("Total", "{0:C}") %></td>
                         <td class="col-span-1">
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Client/Checkout/CheckoutwPage.aspx" class="text-blue-500 hover:text-blue-800">
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Client/Profile/OrderHistoryDetailsPage.aspx" class="text-blue-500 hover:text-blue-800">
                                 <span>View Details</span>
                                  <i class="fa-solid fa-circle-chevron-right ml-1"></i>
                             </asp:HyperLink>

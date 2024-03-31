@@ -20,7 +20,7 @@ namespace webAssignment.Client.Cart
             {
                 if (isCartEmpty())
                 {
-                    cartEmptyMsg.Attributes["class"] = "block flex justify-center items-center h-20 text-gray-700 text-xl font-semibold ";
+                    cartEmptyMsg.Attributes["class"] = "block";
                 }
                 updateCartDetails();
             }

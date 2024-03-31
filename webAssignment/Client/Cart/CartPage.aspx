@@ -58,7 +58,12 @@
                 </asp:ListView>
                 <!--Display when the cart is empty-->
                 <tr class="">
-                    <div id="cartEmptyMsg" runat="server" class="hidden">Your cart is empty</div>
+                    <td id="cartEmptyMsg" runat="server" class="hidden">
+                        <div class="flex flex-col justify-center items-center p-10 gap-6 text-gray-700 text-xl font-semibold">
+                            <asp:Image ID="imgCryingKermit" runat="server" ImageUrl="~/Client/Cart/images/cryingKermit.png" class="max-h-20 w-auto" />
+                            <span>Oh noooo, your cart is empty :(</span>
+                        </div>
+                    </td>
                 </tr>
             </table>
 
@@ -95,6 +100,15 @@
         </div>
 
         <div class="flex flex-col h-full w-[25%] gap-8">
+            
+            <!-- Coupon Section -->
+            <div class="border border-gray-200 shadow-md w-full p-4 flex flex-col gap-4 font-semibold text-gray-700 rounded-xl">
+                <span class="text-gray-700 font-bold text-lg">Coupon Code</span>
+
+                <asp:TextBox ID="txtCoupon" runat="server" class="text-black border border-gray-400 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="Coupon Code"></asp:TextBox>
+
+                <asp:Button ID="btnApplyCoupon" runat="server" Text="APPLY COUPON" class="border border-blue-700 rounded-lg w-36 text-sm text-blue-700 font-bold p-2 cursor-pointer" OnClick="btnApplyCoupon_Click" />
+            </div>
             <!--Cart Total-->
             <div class="border border-gray-200 shadow-xl w-full p-4 flex flex-col gap-4 font-semibold text-gray-500 rounded-lg">
                 <span class="text-gray-700 font-bold text-lg">Cart Total</span>
@@ -124,14 +138,6 @@
                 <asp:Label ID="lblMessage" runat="server" Text="" class="font-normal text-sm"></asp:Label>
             </div>
 
-            <!-- Coupon Section -->
-            <div class="border border-gray-200 shadow-xl w-full p-4 flex flex-col gap-4 font-semibold text-gray-700 rounded-xl">
-                <span class="text-gray-700 font-bold text-lg">Coupon Code</span>
-
-                <asp:TextBox ID="txtCoupon" runat="server" class="text-black border border-gray-400 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="Coupon Code"></asp:TextBox>
-
-                <asp:Button ID="btnApplyCoupon" runat="server" Text="APPLY COUPON" class="border border-blue-700 rounded-lg w-36 text-sm text-blue-700 font-bold p-2 cursor-pointer" OnClick="btnApplyCoupon_Click" />
-            </div>
         </div>
     </div>
 </asp:Content>
