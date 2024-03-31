@@ -383,6 +383,7 @@
     </Compile>
     <Compile Include="Client\Profile\OrderHistoryDetailsPage.aspx.designer.cs">
       <DependentUpon>OrderHistoryDetailsPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\Profile\AddAddress.aspx.cs">
       <DependentUpon>AddAddress.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
