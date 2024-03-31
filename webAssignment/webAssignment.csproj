@@ -99,6 +99,7 @@
     </Content>
     <Content Include="Admin\Dashboard\Dashboard.aspx" />
     <Content Include="Client\Cart\CartPage.aspx" />
+    <Content Include="Client\Cart\images\cryingKermit.png" />
     <Content Include="Client\Home\Home Images\logitec.png" />
     <Content Include="Client\Home\Home Images\logitec2.png" />
     <Content Include="Client\Home\Home Images\Pc.png" />
@@ -138,6 +139,7 @@
     <Content Include="Client\LoginSignUp\SignUp.aspx" />
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
+    <Content Include="Client\Profile\OrderHistoryDetailsPage.aspx" />
     <Content Include="Client\Profile\OrderHistoryPage.aspx" />
     <Content Include="Client\Profile\Address.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
@@ -329,6 +331,13 @@
     </Compile>
     <Compile Include="Client\Profile\AccountDetails.aspx.designer.cs">
       <DependentUpon>AccountDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\Profile\OrderHistoryDetailsPage.aspx.cs">
+      <DependentUpon>OrderHistoryDetailsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Profile\OrderHistoryDetailsPage.aspx.designer.cs">
+      <DependentUpon>OrderHistoryDetailsPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Profile\OrderHistoryPage.aspx.cs">
       <DependentUpon>OrderHistoryPage.aspx</DependentUpon>
