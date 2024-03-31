@@ -21,14 +21,14 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <div>
         <!--Acc Settings-->
-        <div class="shadow-lg border border-gray-200 p-4 rounded-lg">
+        <div class="shadow-lg border border-gray-200 p-4 rounded-lg  bg-white">
             <span class="font-medium pl-2">ACCOUNT SETTINGS</span>
             <div class="border-b border-gray-200 p-1.5 mb-2"></div>
             <div class="flex py-2 ">
                 <!--image col-->
                 <div class="pl-2 pr-6 w-1/3 pt-2">
-                    <div>
-                        <asp:Image ID="profilePic" ImageUrl="~\Admin\Layout\image\DexProfilePic.jpeg" CssClass="rounded-full w-full" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();"/>
+                    <div class="flex justify-center items-center">
+                        <asp:Image ID="profilePic" ImageUrl="~\Admin\Layout\image\DexProfilePic.jpeg" CssClass="rounded-full w-[230px] drop-shadow-lg" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();"/>
                     </div>
 
                     <div class="flex justify-center pt-6">
@@ -211,7 +211,7 @@
         </div>
 
         <!--Change Password-->
-        <div class="shadow-lg border border-gray-200 p-4 rounded-lg mt-5">
+        <div class="shadow-lg border border-gray-200 p-4 rounded-lg mt-5  bg-white">
             <span class="font-medium pl-2">CHANGE PASSWORD</span>
             <div class="border-b border-gray-200 p-1.5 mb-3"></div>
 

@@ -148,6 +148,9 @@
     <Content Include="Client\LoginSignUp\SignUp.aspx" />
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
+    <Content Include="Client\Profile\images\agreement.gif" />
+    <Content Include="Client\Profile\images\package.gif" />
+    <Content Include="Client\Profile\images\truck.gif" />
     <Content Include="Client\Profile\OrderHistoryDetailsPage.aspx" />
     <Content Include="Client\Profile\AddAddress.aspx" />
     <Content Include="Client\Profile\OrderHistoryPage.aspx" />
