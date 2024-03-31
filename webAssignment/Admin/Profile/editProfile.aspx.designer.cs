@@ -7,12 +7,39 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment.Client.Checkout
+namespace webAssignment.Admin.Profile
 {
 
 
-    public partial class CheckoutPage
+    public partial class editProfile
     {
+
+        /// <summary>
+        /// saveChangesBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton saveChangesBtn;
+
+        /// <summary>
+        /// profilePic control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image profilePic;
+
+        /// <summary>
+        /// fileUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
 
         /// <summary>
         /// txtFirstName control.
@@ -24,58 +51,31 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.TextBox txtFirstName;
 
         /// <summary>
-        /// txtLastName control.
+        /// txtUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLastName;
+        protected global::System.Web.UI.WebControls.TextBox txtUsername;
 
         /// <summary>
-        /// txtAddressLine1 control.
+        /// txtPhoneNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddressLine1;
+        protected global::System.Web.UI.WebControls.TextBox txtPhoneNo;
 
         /// <summary>
-        /// txtAddressLine2 control.
+        /// DropDownList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddressLine2;
-
-        /// <summary>
-        /// ddlCountry control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCountry;
-
-        /// <summary>
-        /// ddlState control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlState;
-
-        /// <summary>
-        /// ddlCity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCity;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
 
         /// <summary>
         /// txtZipCode control.
@@ -87,6 +87,15 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.TextBox txtZipCode;
 
         /// <summary>
+        /// txtLastName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLastName;
+
+        /// <summary>
         /// txtEmail control.
         /// </summary>
         /// <remarks>
@@ -96,183 +105,147 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
-        /// txtPhoneNumber control.
+        /// ddlCountry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPhoneNumber;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCountry;
 
         /// <summary>
-        /// cbxShip control.
+        /// ddlCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbxShip;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCity;
 
         /// <summary>
-        /// shippingAddressDetails control.
+        /// ddlDay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl shippingAddressDetails;
+        protected global::System.Web.UI.WebControls.DropDownList ddlDay;
 
         /// <summary>
-        /// txtShippingAddressLine1 control.
+        /// ddlMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtShippingAddressLine1;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMonth;
 
         /// <summary>
-        /// txtShippingAddressLine2 control.
+        /// ddlYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtShippingAddressLine2;
+        protected global::System.Web.UI.WebControls.DropDownList ddlYear;
 
         /// <summary>
-        /// ddlShippingCountry control.
+        /// txtCurrentPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlShippingCountry;
+        protected global::System.Web.UI.WebControls.TextBox txtCurrentPass;
 
         /// <summary>
-        /// ddlShippingState control.
+        /// txtNewPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlShippingState;
+        protected global::System.Web.UI.WebControls.TextBox txtNewPass;
 
         /// <summary>
-        /// ddlShippingCity control.
+        /// txtConfirmPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlShippingCity;
+        protected global::System.Web.UI.WebControls.TextBox txtConfirmPass;
 
         /// <summary>
-        /// txtShippingZipCode control.
+        /// btnChangePass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtShippingZipCode;
+        protected global::System.Web.UI.WebControls.Button btnChangePass;
 
         /// <summary>
-        /// rdbCOD control.
+        /// popUpConfirmation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdbCOD;
+        protected global::System.Web.UI.WebControls.Panel popUpConfirmation;
 
         /// <summary>
-        /// rbdCard control.
+        /// closePopUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbdCard;
+        protected global::System.Web.UI.WebControls.LinkButton closePopUp;
 
         /// <summary>
-        /// rbdWallet control.
+        /// Image1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbdWallet;
+        protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
-        /// txtOrderNote control.
+        /// lblItemInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOrderNote;
+        protected global::System.Web.UI.WebControls.Label lblItemInfo;
 
         /// <summary>
-        /// lvCheckoutProduct control.
+        /// passwordForEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvCheckoutProduct;
+        protected global::System.Web.UI.WebControls.TextBox passwordForEdit;
 
         /// <summary>
-        /// lblCartSubtotal control.
+        /// btnCancelEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCartSubtotal;
+        protected global::System.Web.UI.WebControls.Button btnCancelEdit;
 
         /// <summary>
-        /// lblCartShipping control.
+        /// btnConfirmEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCartShipping;
-
-        /// <summary>
-        /// lblCartDiscount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCartDiscount;
-
-        /// <summary>
-        /// lblCartTax control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCartTax;
-
-        /// <summary>
-        /// lblCartTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCartTotal;
-
-        /// <summary>
-        /// btnPlaceOrder control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPlaceOrder;
+        protected global::System.Web.UI.WebControls.Button btnConfirmEdit;
     }
 }

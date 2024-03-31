@@ -7,65 +7,83 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webAssignment.Client.Profile
+namespace webAssignment.Admin.Voucher
 {
 
 
-    public partial class Address
+    public partial class editVoucher
     {
 
         /// <summary>
-        /// lblCheckBox control.
+        /// saveChanges control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCheckBox;
+        protected global::System.Web.UI.WebControls.Button saveChanges;
 
         /// <summary>
-        /// collapsible control.
+        /// lblVoucherCodeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox collapsible;
+        protected global::System.Web.UI.WebControls.Label lblVoucherCodeID;
 
         /// <summary>
-        /// addShipAddressLnk control.
+        /// editVoucherCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink addShipAddressLnk;
+        protected global::System.Web.UI.WebControls.TextBox editVoucherCode;
 
         /// <summary>
-        /// lblCheckBox2 control.
+        /// TextBox1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCheckBox2;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
 
         /// <summary>
-        /// collapsible2 control.
+        /// maxTb control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox collapsible2;
+        protected global::System.Web.UI.WebControls.TextBox maxTb;
 
         /// <summary>
-        /// addBillAddressLnk control.
+        /// minTb control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink addBillAddressLnk;
+        protected global::System.Web.UI.WebControls.TextBox minTb;
+
+        /// <summary>
+        /// startDateTb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox startDateTb;
+
+        /// <summary>
+        /// expireDateTb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox expireDateTb;
     }
 }

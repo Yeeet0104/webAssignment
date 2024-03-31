@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace webAssignment.Admin.Admin_Management
 {
-    public partial class adminManagement : System.Web.UI.Page
+    public partial class adminManagement : System.Web.UI.Page, IFilterable
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -95,6 +95,20 @@ namespace webAssignment.Admin.Admin_Management
             }
 
             return filteredDataTable;
+        }
+
+        protected void showPopUp_Click(object sender, EventArgs e)
+        {
+            popUpDelete.Style.Add("display", "flex");
+        }
+
+        protected void closePopUp_Click(object sender, EventArgs e)
+        {
+            popUpDelete.Style.Add("display", "none");
+        }
+        protected void btnCancelDelete_Click(object sender, EventArgs e)
+        {
+            popUpDelete.Style.Add("display", "none");
         }
     }
 }

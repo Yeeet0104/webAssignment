@@ -84,6 +84,9 @@
     <Content Include="Admin\Dashboard\Images\iphone11.jpg" />
     <Content Include="Admin\Dashboard\Images\revenue.gif" />
     <Content Include="Admin\Dashboard\Images\sold-out.gif" />
+    <Content Include="Admin\ErrorPages\404.aspx" />
+    <Content Include="Admin\ErrorPages\images\warning.gif" />
+    <Content Include="Admin\Layout\image\voucher.png" />
     <Content Include="Admin\Orders\EditOrder.aspx" />
     <Content Include="Admin\Orders\Images\trash.gif" />
     <Content Include="Admin\Orders\Order.aspx" />
@@ -92,7 +95,12 @@
     <Content Include="Admin\Product Management\adminProducts.aspx" />
     <Content Include="Admin\Layout\image\DexProfilePic.jpeg" />
     <Content Include="Admin\Product Management\editProduct.aspx" />
+    <Content Include="Admin\Profile\AdminProfile.aspx" />
+    <Content Include="Admin\Profile\editProfile.aspx" />
+    <Content Include="Admin\Profile\image\userProfile.gif" />
     <Content Include="Admin\Transaction\transaction.aspx" />
+    <Content Include="Admin\Voucher\editVoucher.aspx" />
+    <Content Include="Admin\Voucher\voucher.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
     <Content Include="App_Data\MainDatabase_log.ldf">
       <DependentUpon>MainDatabase.mdf</DependentUpon>
@@ -140,6 +148,7 @@
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
     <Content Include="Client\Profile\OrderHistoryDetailsPage.aspx" />
+    <Content Include="Client\Profile\AddAddress.aspx" />
     <Content Include="Client\Profile\OrderHistoryPage.aspx" />
     <Content Include="Client\Profile\Address.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
@@ -198,6 +207,13 @@
     <Compile Include="Admin\Customer Management\editCustomer.aspx.designer.cs">
       <DependentUpon>editCustomer.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ErrorPages\404.aspx.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ErrorPages\404.aspx.designer.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Layout\AdminPage.Master.cs">
       <DependentUpon>AdminPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -248,12 +264,40 @@
     <Compile Include="Admin\Product Management\editProduct.aspx.designer.cs">
       <DependentUpon>editProduct.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Profile\AdminProfile.aspx.cs">
+      <DependentUpon>AdminProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Profile\AdminProfile.aspx.designer.cs">
+      <DependentUpon>AdminProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Profile\editProfile.aspx.cs">
+      <DependentUpon>editProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Profile\editProfile.aspx.designer.cs">
+      <DependentUpon>editProfile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Transaction\transaction.aspx.cs">
       <DependentUpon>transaction.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\Transaction\transaction.aspx.designer.cs">
       <DependentUpon>transaction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Voucher\editVoucher.aspx.cs">
+      <DependentUpon>editVoucher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Voucher\editVoucher.aspx.designer.cs">
+      <DependentUpon>editVoucher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Voucher\voucher.aspx.cs">
+      <DependentUpon>voucher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Voucher\voucher.aspx.designer.cs">
+      <DependentUpon>voucher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Cart\CartPage.aspx.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>
@@ -338,6 +382,12 @@
     </Compile>
     <Compile Include="Client\Profile\OrderHistoryDetailsPage.aspx.designer.cs">
       <DependentUpon>OrderHistoryDetailsPage.aspx</DependentUpon>
+    <Compile Include="Client\Profile\AddAddress.aspx.cs">
+      <DependentUpon>AddAddress.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Profile\AddAddress.aspx.designer.cs">
+      <DependentUpon>AddAddress.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Profile\OrderHistoryPage.aspx.cs">
       <DependentUpon>OrderHistoryPage.aspx</DependentUpon>
