@@ -173,5 +173,69 @@
     font-size: 14px;
 }
 
+.tab button {
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: 0.3s;
+    width: 49%;
+}
+
+    .tab button:hover {
+        background-color: #f1f1f1;
+    }
+
+    .tab button.active {
+        border-bottom: 1px solid #ccc
+    }
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+}
+
+
+/* Customer Review Tab */
+.review-container {
+    display: flex;
+    width: 100%;
+    margin: 14px auto;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.profile-width, .rating {
+    padding: 12px;
+}
+
+.profile-pic {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+    .profile-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+/* review box css */
+.profile-name p {
+    color: #343434;
+}
+
+.profile-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comments-container .comment-text {
+    font-size: 15px;
+}
+
 
 

@@ -35,18 +35,101 @@
             </div>
         </div>
     </div>
+
     <div class="content">
         <div class="desc-box">
-            <h2>Product Description</h2>
-            <%--<span class="my-2.5"><asp:Label ID="lblLongDesc" runat="server" CssClass="long-desc" Text="Long desc" /></span>--%>
-            <div class="desc-box-content">
-                <span class="box-header">TUNED FOR LOW NOISE OPERATION</span><br />
-                <span class="box-content">A specially set fan curve ensures that, even at full load, fan noise is kept to a minimum.</span><br /><br />
-                <span class="box-header">ZERO RPM FAN MODE</span><br />
-                <span class="box-content">At low and medium loads the cooling fan switches off entirely for near-silent operation.</span><br /><br />
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'productDescription')">Product Description</button>
+                <button class="tablinks active" onclick="openTab(event, 'customerReview')">Customer Review</button>
             </div>
-
+            <div id="productDescription" class="tabcontent" style="display: block;">
+                <h2>Product Description</h2>
+                <div class="desc-box-content">
+                    <span class="box-header">TUNED FOR LOW NOISE OPERATION</span><br />
+                    <span class="box-content">A specially set fan curve ensures that, even at full load, fan noise is kept to a minimum.</span><br /><br />
+                    <span class="box-header">ZERO RPM FAN MODE</span><br />
+                    <span class="box-content">At low and medium loads the cooling fan switches off entirely for near-silent operation.</span><br /><br />
+                </div>
+            </div>
+            <div id="customerReview" class="tabcontent">
+                <div class="desc-box-content">
+                    <div class="customer-review-box">
+                            <div class="review-container">
+                                <div class="profile-width">
+                                    <div class="profile-pic">
+                                        <img src="user.png">
+                                    </div>
+                                </div>
+                                <div class="rating">
+                                    <div class="profile-name">
+                                        <p class="review-username">Dexter</p>
+                                        <p class="review-time">2021-6-21 09:12pm</p>
+                                    </div>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="comments-container my-2">
+                                        <p class="comment-text">
+                                            As someone who loves to build pc, this power supply is the best psu I've ever owned.
+                                            It can easily supply power for any powerful pc and component.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="customer-review-box">
+                        <div class="review-container">
+                            <div class="profile-width">
+                                <div class="profile-pic">
+                                    <img src="user.png">
+                                </div>
+                            </div>
+                            <div class="rating">
+                                <div class="profile-name">
+                                    <p class="review-username">Deng Wait</p>
+                                    <p class="review-time">2021-6-21 09:12pm</p>
+                                </div>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="comments-container my-2">
+                                    <p class="comment-text">
+                                        I love the power supply. It's a perfect fit for my pc theme and  it's a great price too. I really don't have any complaints about it and would recommend it to anyone looking for a new power supply.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <script>
+        function openTab(evt, tabName) {
+            evt.preventDefault(); // Prevent default form submission behavior
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+
+    </script>
+
 
 </asp:Content>
