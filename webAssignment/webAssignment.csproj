@@ -108,6 +108,7 @@
     <Content Include="Admin\Dashboard\Dashboard.aspx" />
     <Content Include="Client\Cart\CartPage.aspx" />
     <Content Include="Client\Cart\images\cryingKermit.png" />
+    <Content Include="Client\Checkout\Testing.aspx" />
     <Content Include="Client\Home\Home Images\logitec.png" />
     <Content Include="Client\Home\Home Images\logitec2.png" />
     <Content Include="Client\Home\Home Images\Pc.png" />
@@ -148,6 +149,7 @@
     <Content Include="Client\LoginSignUp\SignUp.aspx" />
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
+    <Content Include="Client\Profile\CreateReviewPage.aspx" />
     <Content Include="Client\Profile\images\agreement.gif" />
     <Content Include="Client\Profile\images\package.gif" />
     <Content Include="Client\Profile\images\truck.gif" />
@@ -317,6 +319,13 @@
     <Compile Include="Client\Checkout\CheckoutPage.aspx.designer.cs">
       <DependentUpon>CheckoutPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Client\Checkout\Testing.aspx.cs">
+      <DependentUpon>Testing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Checkout\Testing.aspx.designer.cs">
+      <DependentUpon>Testing.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\ClientMasterPage\ClientMasterPage.Master.cs">
       <DependentUpon>ClientMasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -379,6 +388,13 @@
     </Compile>
     <Compile Include="Client\Profile\AccountDetails.aspx.designer.cs">
       <DependentUpon>AccountDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\Profile\CreateReviewPage.aspx.cs">
+      <DependentUpon>CreateReviewPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Profile\CreateReviewPage.aspx.designer.cs">
+      <DependentUpon>CreateReviewPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Profile\OrderHistoryDetailsPage.aspx.cs">
       <DependentUpon>OrderHistoryDetailsPage.aspx</DependentUpon>

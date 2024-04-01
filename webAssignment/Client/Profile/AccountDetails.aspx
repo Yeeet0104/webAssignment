@@ -22,7 +22,7 @@
     <div>
         <!--Acc Settings-->
         <div class="shadow-lg border border-gray-200 p-4 rounded-lg  bg-white">
-            <span class="font-medium pl-2">ACCOUNT SETTINGS</span>
+            <span class="font-bold pl-2">ACCOUNT SETTINGS</span>
             <div class="border-b border-gray-200 p-1.5 mb-2"></div>
             <div class="flex py-2 ">
                 <!--image col-->
@@ -212,7 +212,7 @@
 
         <!--Change Password-->
         <div class="shadow-lg border border-gray-200 p-4 rounded-lg mt-5  bg-white">
-            <span class="font-medium pl-2">CHANGE PASSWORD</span>
+            <span class="font-bold pl-2">CHANGE PASSWORD</span>
             <div class="border-b border-gray-200 p-1.5 mb-3"></div>
 
             <div class="flex flex-col">

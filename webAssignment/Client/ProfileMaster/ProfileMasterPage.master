@@ -28,12 +28,6 @@
             </div>
             <div class="flex items-center gap-7">
                 <span class="w-[10%] text-center">
-                    <i class="fa-solid fa-wallet"></i>
-                </span>
-                <asp:LinkButton ID="lnkWallet" runat="server">Wallet</asp:LinkButton>
-            </div>
-            <div class="flex items-center gap-7">
-                <span class="w-[10%] text-center">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </span>
                 <asp:LinkButton ID="lnkLogout" runat="server">Log Out</asp:LinkButton>

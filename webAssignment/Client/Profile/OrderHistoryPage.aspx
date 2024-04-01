@@ -3,8 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-    <div class="rounded-lg shadow-xl border border-gray-300  bg-white">
-        <table class="orders-table w-full ">
+    <div class="rounded-lg shadow-xl border border-gray-300  bg-white pb-4">
+        <table class="orders-table w-full">
             <p class="text-xl text-gray-900 font-bold p-4">Order History</p>
             <div class="grid grid-cols-5 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center">
                 <div class="col-span-1">
@@ -25,7 +25,7 @@
             </div>
             <asp:ListView ID="lvOrder" runat="server">
                 <LayoutTemplate>
-                    <tr id="itemPlaceholder" runat="server"></tr>
+                        <tr id="itemPlaceholder" runat="server"></tr>
                 </LayoutTemplate>
                 <ItemTemplate>
                     <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
@@ -43,7 +43,7 @@
                                     document.write('<span class="text-red-500">' + status + '</span>');
                                 } else if (status == "Shipped") {
                                     document.write('<span class="text-green-500">' + status + '</span>');
-                                } 
+                                }
                             </script>
                         </td>
                         <td class="col-span-1"><%# ((DateTime)Eval("Date")).ToShortDateString() %></td>

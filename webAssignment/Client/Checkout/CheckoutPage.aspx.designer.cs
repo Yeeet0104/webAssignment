@@ -177,33 +177,6 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.TextBox txtShippingZipCode;
 
         /// <summary>
-        /// rdbCOD control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdbCOD;
-
-        /// <summary>
-        /// rbdCard control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbdCard;
-
-        /// <summary>
-        /// rbdWallet control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbdWallet;
-
-        /// <summary>
         /// txtOrderNote control.
         /// </summary>
         /// <remarks>

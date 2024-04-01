@@ -99,5 +99,6 @@ namespace webAssignment.Client.Checkout
                 shippingAddressDetails.Attributes["class"] = "hidden";
             }
         }
+        
     }
 }

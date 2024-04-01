@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="flex max-w-6xl my-16 mx-auto gap-6">
-        <div class="border border-gray-300 shadow-xl rounded-lg w-4/5 flex flex-col gap-3 text-base text-gray-704 p-4">
+        <div class="border border-gray-300 shadow-xl rounded-lg w-4/5 flex flex-col gap-3 text-base p-4">
             <span class="text-gray-900 font-bold text-xl">Billing Information</span>
             <div class="flex gap-3">
                 <span class="w-1/2 font-semibold">Username</span>
@@ -67,7 +67,7 @@
                 <asp:TextBox class="w-1/2 border border-gray-300 p-2" ID="txtPhoneNumber" runat="server"></asp:TextBox>
             </div>
             <div class="flex gap-3">
-                <asp:CheckBox ID="cbxShip" runat="server" OnCheckedChanged="cbxShip_CheckedChanged" AutoPostBack="true" />
+                <asp:CheckBox ID="cbxShip" runat="server" OnCheckedChanged="cbxShip_CheckedChanged" AutoPostBack="true" CssClass="border-radius: 0.25rem;" />
                 <span class="font-semibold">Ship into different address</span>
             </div>
 
@@ -124,31 +124,16 @@
                 </div>
             </div>
 
-            <div class="flex flex-col my-8 p-4 gap-6 border border-gray-300">
-                <span class="font-bold">Payment Option</span>
-                <hr />
-                <div class="flex">
-                    <div class="flex flex-col w-1/3 items-center gap-2">
-                        <i class="fa-solid fa-money-bill-wave"></i>
-                        <span class="font-semibold">Cash On Delivery</span>
-                        <asp:RadioButton ID="rdbCOD" runat="server" GroupName="PaymentOption" />
-                    </div>
-                    <div class="flex flex-col w-1/3 items-center gap-2">
-                        <i class="fa-solid fa-credit-card"></i>
-                        <span class="font-semibold">Card</span>
-                        <asp:RadioButton ID="rbdCard" runat="server" GroupName="PaymentOption" />
-                    </div>
-                    <div class="flex flex-col w-1/3 items-center gap-2">
-                        <i class="fa-solid fa-wallet"></i>
-                        <span class="font-semibold">E-wallet</span>
-                        <asp:RadioButton ID="rbdWallet" runat="server" GroupName="PaymentOption" />
-                    </div>
-                </div>
-            </div>
+
+            <!-- Additional Information -->
             <span class="font-bold">Additional Information</span>
             <span class="font-semibold">Order Notes<span class="text-gray-400"> (Optional)</span></span>
             <asp:TextBox class="p-2 border border-gray-300 resize-none" TextMode="MultiLine" Rows="4" ID="txtOrderNote" runat="server" placeholder="Notes about your order, e.g. spcial note for delivery"></asp:TextBox>
         </div>
+
+
+
+        <!-- Right Hand Side Product List -->
         <div class="w-2/6">
             <div class="border border-gray-300 shadow-xl rounded-lg p-4 flex flex-col gap-4">
 
@@ -196,7 +181,7 @@
                         <span>Total</span>
                         <asp:Label ID="lblCartTotal" runat="server" Text="RM 0.00"></asp:Label>
                     </div>
-                    <asp:Button ID="btnPlaceOrder" runat="server" Text="Place Order" class="bg-blue-700 text-white font-semibold text-sm h-10 rounded-lg mt-4" />
+                    <asp:Button ID="btnPlaceOrder" runat="server" Text="Proceed To Payment" class="cursor-pointer bg-blue-700 text-white font-semibold text-sm h-10 rounded-lg mt-4" PostBackUrl="~/Client/Checkout/Testing.aspx" />
                 </div>
             </div>
         </div>
