@@ -1,20 +1,35 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="editProduct.aspx.cs" Inherits="webAssignment.Admin.Product_Management.editProduct" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+        <script>
+            function previewImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var img = document.getElementById('<%= profilePic.ClientID %>');
+                        img.src = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-        <!--First Row-->
+    <!--First Row-->
     <div class="flex flex-row justify-between font-medium pt-3 items-center pb-5">
         <div class="flex flex-col">
             <div class="text-2xl font-bold ">
                 <p>Edit Product</p>
             </div>
             <div class="flex flex-row text-sm py-2">
-                <div class="text-blue-600">Dashboard</div>
-                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                <div>Products List</div>                
-                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                <div>Edit Products</div>
+                <asp:SiteMapPath
+                    ID="SiteMapPath1"
+                    runat="server"
+                    RenderCurrentNodeAsLink="false"
+                    PathSeparator=">"
+                    CssClass="siteMap font-bold flex gap-2 text-sm pt-2">
+                </asp:SiteMapPath>
             </div>
         </div>
 
@@ -46,23 +61,27 @@
                 </asp:TextBox>
             </div>
             <!-- Media -->
-            <div class="flex flex-col bg-white p-5 rounded-xl ">
-                <p class="text-lg">Media</p>
+            <div class="flex flex-row justify-center items-center min-h-64">
+                <div id="image-bg-op" class="w-full h-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer border-dashed border-2
+        justify-center gap-5
+        ">
+                    <!--Pic Box-->
+                    <div class="py-1">
+                        <asp:Image CssClass="rounded-lg" ID="profilePic" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
+                    </div>
+                    <div id="removeImage" class="hidden w-full flex flex-col items-center  justify-center">
 
-                <span class="text-gray-500">Photo</span>
-                <div class="flex flex-row justify-center items-center min-h-64">
-                    <label class="w-full h-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer border-dashed border-2
-                        justify-center 
-                        ">
                         <span class="p-2 w-12 h-12 bg-blue-500 text-white rounded-xl flex justify-center items-center">
 
                             <i class=" text-2xl fa-regular fa-image"></i>
                         </span>
                         <span class="mt-2 text-base leading-normal text-gray-500 ">Select Image From File</span>
-                        <asp:Panel ID="PanelBackground" runat="server" />
-                        <asp:FileUpload ClientIDMode="Static" ID="imageInputPd" runat="server" accept="image/*" />
-
-                    </label>
+                    </div>
+                    <asp:Panel ID="PanelBackground" runat="server" />
+                    <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
+                    <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-[20%] py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                        Choose File
+                    </button>
 
                 </div>
             </div>
@@ -87,7 +106,7 @@
                             </div>
                             <div>
                                 <div class='flex gap-4 items-center flex-wrap justify-evenly mb-4'>
-    <%--                                <asp:TextBox ID="variant1Tb" runat="server" CssClass="editTbVariation_input" Placeholder="Variant 1"></asp:TextBox>
+                                    <%--                                <asp:TextBox ID="variant1Tb" runat="server" CssClass="editTbVariation_input" Placeholder="Variant 1"></asp:TextBox>
                                     <asp:TextBox ID="priceVar1Tb" runat="server" CssClass="editTbVariation_input" Placeholder="Price for Variant 1"></asp:TextBox>--%>
                                 </div>
                                 <asp:Panel ID="panelVariantTextBoxes" runat="server" CssClass="flex flex-col gap-4">
@@ -127,7 +146,7 @@
                     <asp:ListItem Value="Pc">Pc</asp:ListItem>
                     <asp:ListItem Value="Laptop">Laptop</asp:ListItem>
                 </asp:DropDownList>
-<%--                <span class="text-gray-500">Product Description</span>
+                <%--                <span class="text-gray-500">Product Description</span>
                 <asp:DropDownList CssClass="p-3 bg-gray-100 text-gray-500 rounded-xl" ID="DropDownList2" runat="server">
                     <asp:ListItem Value="-">Select Tag</asp:ListItem>
                 </asp:DropDownList>--%>

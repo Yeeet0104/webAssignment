@@ -15,6 +15,15 @@ namespace webAssignment.Admin.Product_Management
     {
 
         /// <summary>
+        /// SiteMapPath1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
+
+        /// <summary>
         /// btnExport control.
         /// </summary>
         /// <remarks>
@@ -51,6 +60,15 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.TextBox newProductDes;
 
         /// <summary>
+        /// profilePic control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image profilePic;
+
+        /// <summary>
         /// PanelBackground control.
         /// </summary>
         /// <remarks>
@@ -60,13 +78,13 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.Panel PanelBackground;
 
         /// <summary>
-        /// imageInputPd control.
+        /// fileUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload imageInputPd;
+        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
 
         /// <summary>
         /// ScriptManager1 control.

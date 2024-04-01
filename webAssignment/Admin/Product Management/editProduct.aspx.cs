@@ -164,7 +164,7 @@ namespace webAssignment.Admin.Product_Management
                     editLblProdStatus.Text = row["status"].ToString();
                     editDdlCategory.SelectedValue = row["category"].ToString();
                     editTbQuantity.Text = row["Stock"].ToString();
-
+                    profilePic.ImageUrl = row["ProductImageUrl"].ToString();
 
                     string[] variants = row["Variant"] as string[];
                     int[] prices = row["Price"] as int[];

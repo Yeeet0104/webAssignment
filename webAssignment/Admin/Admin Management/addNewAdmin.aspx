@@ -12,6 +12,10 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+        function triggerFileUpload() {
+            document.getElementById('<%= fileUpload.ClientID %>').click();
+            return false; // Prevent postback on LinkButton click
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -19,12 +23,14 @@
     <div class="flex flex-row justify-between font-medium items-center pt-3 pb-5">
         <div class="flex flex-col">
             <div class="text-2xl font-bold">Admin Details</div>
-            <div class="flex flex-row text-sm p-1">
-                <div class="text-blue-600">Dashboard</div>
-                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                <div class="text-blue-600">Admin List</div>
-                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                <div>Add New Admin</div>
+            <div class="flex flex-row text-sm py-2">
+                <asp:SiteMapPath
+                    ID="SiteMapPath1"
+                    runat="server"
+                    RenderCurrentNodeAsLink="false"
+                    PathSeparator=">"
+                    CssClass="siteMap font-bold flex gap-2 text-sm pt-2">
+                </asp:SiteMapPath>
             </div>
         </div>
         <div class="flex">
@@ -51,10 +57,13 @@
 
                     <!--Pic Box-->
                     <div class="py-1">
-                        <asp:Image ID="profilePic" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();"/>
+                        <asp:Image CssClass="rounded-lg" ID="profilePic" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
                     </div>
                     <div class="flex justify-center pt-3">
-                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;" onchange="previewImage(this);"/>
+                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;display:none" onchange="previewImage(this);" />
+                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                            Choose File
+                        </button>
                     </div>
                 </div>
             </div>

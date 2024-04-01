@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Grantha&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="~/Admin/SiteMapCss/siteMapAdmin.css">
     <title>G-Tech</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -176,8 +177,8 @@
                                 </button>
                             </div>
                             <div id="dropdown" class=" flex-col absolute right-[0px] w-48 py-2 mt-2 bg-white rounded-md shadow-xl opacity-0 scale-95  transition-all duration-300 text-base transform z-[-1]">
-                                <asp:HyperLink ID="profilePageAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer">Profile</asp:HyperLink>
-                                <asp:HyperLink ID="LogoutAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer">Log out</asp:HyperLink>
+                                <asp:HyperLink ID="profilePageAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer" NavigateUrl="~/Admin/Profile/AdminProfile.aspx">Profile</asp:HyperLink>
+                                <asp:HyperLink ID="LogoutAdmin" runat="server" CssClass="w-full justify-center items-center flex px-4 py-2  text-gray-700 hover:bg-gray-300 cursor-pointer" NavigateUrl="~/Client/LoginSignUp/AdminLogin.aspx">Log out</asp:HyperLink>
                             </div>
                         </div>
                         <%--<div class="w-1/10 mr-6">
