@@ -98,6 +98,7 @@
     <Content Include="Admin\Profile\AdminProfile.aspx" />
     <Content Include="Admin\Profile\editProfile.aspx" />
     <Content Include="Admin\Profile\image\userProfile.gif" />
+    <Content Include="Admin\SiteMapCss\siteMapAdmin.css" />
     <Content Include="Admin\Transaction\transaction.aspx" />
     <Content Include="Admin\Voucher\editVoucher.aspx" />
     <Content Include="Admin\Voucher\voucher.aspx" />

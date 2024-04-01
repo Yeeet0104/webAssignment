@@ -1,6 +1,21 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="addNewProduct.aspx.cs" Inherits="webAssignment.Admin.Product_Management.addNewProduct" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var removeOriStatement = document.getElementById('removeImage');
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.getElementById('<%= profilePic.ClientID %>');
+                    img.classList.remove("hidden");
+                    removeOriStatement.classList.add("hidden");
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -11,9 +26,13 @@
                 <p>Product</p>
             </div>
             <div class="flex flex-row text-sm py-2">
-                <div class="text-blue-600">Dashboard</div>
-                <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                <div>Products List</div>
+                <asp:SiteMapPath
+                    ID="SiteMapPath1"
+                    runat="server"
+                    RenderCurrentNodeAsLink="false"
+                    PathSeparator=">"
+                    CssClass="siteMap font-bold flex gap-2 text-sm pt-2">
+                </asp:SiteMapPath>
             </div>
         </div>
 
@@ -65,18 +84,28 @@
 
                 <span class="text-gray-500">Photo</span>
                 <div class="flex flex-row justify-center items-center min-h-64">
-                    <label id="image-bg-op" class="w-full h-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer border-dashed border-2
-                        justify-center 
+                    <div id="image-bg-op" class="w-full h-full flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer border-dashed border-2
+                        justify-center gap-5
                         ">
-                        <span class="p-2 w-12 h-12 bg-blue-500 text-white rounded-xl flex justify-center items-center">
+                        <!--Pic Box-->
+                        <div class="py-1">
+                            <asp:Image ID="profilePic" CssClass="hidden" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
+                        </div>
+                        <div id="removeImage" class="w-full flex flex-col items-center  justify-center">
 
-                            <i class=" text-2xl fa-regular fa-image"></i>
-                        </span>
-                        <span class="mt-2 text-base leading-normal text-gray-500 ">Select Image From File</span>
+                            <span class="p-2 w-12 h-12 bg-blue-500 text-white rounded-xl flex justify-center items-center">
+
+                                <i class=" text-2xl fa-regular fa-image"></i>
+                            </span>
+                            <span class="mt-2 text-base leading-normal text-gray-500 ">Select Image From File</span>
+                        </div>
                         <asp:Panel ID="PanelBackground" runat="server" />
-                        <asp:FileUpload ClientIDMode="Static" ID="imageInputPd" runat="server" accept="image/*" AllowMultiple="True" />
+                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
+                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-[20%] py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                            Choose File
+                        </button>
 
-                    </label>
+                    </div>
                 </div>
             </div>
             <!-- Variation Pricing -->

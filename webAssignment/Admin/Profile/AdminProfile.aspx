@@ -24,11 +24,15 @@
                 <div class="text-2xl font-bold ">
                     <p>Profile Page</p>
                 </div>
-                <div class="flex flex-row text-sm py-2">
-                    <div class="text-blue-600">Dashboard</div>
-                    <i class="fa-solid fa-caret-right px-6 mt-1"></i>
-                    <div>Profile</div>
-                </div>
+            <div class="flex flex-row text-sm py-2">
+                <asp:SiteMapPath
+                    ID="SiteMapPath1"
+                    runat="server"
+                    RenderCurrentNodeAsLink="false"
+                    PathSeparator=">"
+                    CssClass="siteMap font-bold flex gap-2 text-sm pt-2">
+                </asp:SiteMapPath>
+            </div>
             </div>
 
             <div class="flex">
