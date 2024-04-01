@@ -5,14 +5,16 @@
         function previewImage(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     var img = document.getElementById('<%= profilePic.ClientID %>');
                     img.src = e.target.result;
                 }
-
                 reader.readAsDataURL(input.files[0]);
             }
+        }
+        function triggerFileUpload() {
+            document.getElementById('<%= fileUpload.ClientID %>').click();
+            return false; // Prevent postback on LinkButton click
         }
     </script>
 </asp:Content>
@@ -55,10 +57,13 @@
 
                     <!--Pic Box-->
                     <div class="py-1">
-                        <asp:Image ID="profilePic" runat="server" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Height="216" Width="216" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();"/>
+                        <asp:Image ID="profilePic" runat="server" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Height="216" Width="216" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
                     </div>
                     <div class="flex justify-center pt-3">
-                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;" onchange="previewImage(this);"/>
+                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
+                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                            Choose File
+                        </button>
                     </div>
                 </div>
             </div>
