@@ -51,15 +51,6 @@ namespace webAssignment.Client.ProfileMaster
         protected global::System.Web.UI.WebControls.LinkButton lnkHistory;
 
         /// <summary>
-        /// lnkWallet control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkWallet;
-
-        /// <summary>
         /// lnkLogout control.
         /// </summary>
         /// <remarks>

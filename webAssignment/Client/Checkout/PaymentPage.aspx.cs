@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace webAssignment.Client.Checkout
 {
-    public partial class CheckoutPage : System.Web.UI.Page
+    public partial class PaymentPage : System.Web.UI.Page
     {
         decimal discountRate = 0.5m;
         decimal taxRate = 0.06m;
@@ -88,17 +88,29 @@ namespace webAssignment.Client.Checkout
             return 0;
         }
 
-        protected void cbxShip_CheckedChanged(object sender, EventArgs e)
+        protected void btnCard_Click(object sender, EventArgs e)
         {
-            if (cbxShip.Checked)
-            {
-                shippingAddressDetails.Attributes["class"] = "block";
-            }
-            else
-            {
-                shippingAddressDetails.Attributes["class"] = "hidden";
-            }
+            Panel1.Visible = true;
+            Panel2.Visible = false;
+            Panel3.Visible = false;
         }
+
+        protected void btnBank_Click(object sender, EventArgs e)
+        {
+            Panel1.Visible = false;
+            Panel2.Visible = true;
+            Panel3.Visible = false;
+
+        }
+
+        protected void btnCOD_Click(object sender, EventArgs e)
+        {
+            Panel1.Visible = false;
+            Panel2.Visible = false;
+            Panel3.Visible = true;
+
+        }
+
 
     }
 }
