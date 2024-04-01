@@ -142,7 +142,6 @@
     <Content Include="Client\Cart\images\ssd.jpg" />
     <Content Include="Client\Cart\images\ryzen.jpg" />
     <Content Include="Client\LoginSignUp\AdminLogin.aspx" />
-    <Content Include="Client\LoginSignUp\bgAdmin.jfif" />
     <Content Include="Client\LoginSignUp\bg1.jfif" />
     <Content Include="Client\LoginSignUp\Login.aspx" />
     <Content Include="Client\LoginSignUp\SignUp.aspx" />
