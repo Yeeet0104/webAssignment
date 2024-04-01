@@ -109,6 +109,8 @@
     <Content Include="Admin\Dashboard\Dashboard.aspx" />
     <Content Include="Client\Cart\CartPage.aspx" />
     <Content Include="Client\Cart\images\cryingKermit.png" />
+    <Content Include="Client\Checkout\image\img_placeholder.jpg" />
+    <Content Include="Client\Checkout\PaymentPage.aspx" />
     <Content Include="Client\Home\Home Images\logitec.png" />
     <Content Include="Client\Home\Home Images\logitec2.png" />
     <Content Include="Client\Home\Home Images\Pc.png" />
@@ -158,6 +160,7 @@
     <Content Include="Client\Profile\Address.aspx" />
     <Content Include="Client\Cart\images\i7.png" />
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
+    <Content Include="Client\Profile\ReviewPage.aspx" />
     <Content Include="Client\Wishlist\WishlistPage.aspx" />
     <Content Include="testingDb.aspx" />
     <Content Include="Web.config" />
@@ -318,6 +321,13 @@
     <Compile Include="Client\Checkout\CheckoutPage.aspx.designer.cs">
       <DependentUpon>CheckoutPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Client\Checkout\PaymentPage.aspx.cs">
+      <DependentUpon>PaymentPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Checkout\PaymentPage.aspx.designer.cs">
+      <DependentUpon>PaymentPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Client\ClientMasterPage\ClientMasterPage.Master.cs">
       <DependentUpon>ClientMasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -401,6 +411,13 @@
     </Compile>
     <Compile Include="Client\Profile\OrderHistoryPage.aspx.designer.cs">
       <DependentUpon>OrderHistoryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\Profile\ReviewPage.aspx.cs">
+      <DependentUpon>ReviewPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\Profile\ReviewPage.aspx.designer.cs">
+      <DependentUpon>ReviewPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Wishlist\WishlistPage.aspx.cs">
       <DependentUpon>WishlistPage.aspx</DependentUpon>

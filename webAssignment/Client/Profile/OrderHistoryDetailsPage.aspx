@@ -3,14 +3,22 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-    <div class="min-h-[80vh] p-2 flex flex-col gap-3">
-        <div class="text-xl text-gray-900 font-bold p-2">Order Details</div>
-        <div>
-            <div class="container mx-auto p-4 bg-white rounded-lg drop-shadow h-[175px]">
-                <div>
-                    <p class="font-bold px-2">Order Status</p>
+     <div class="min-h-[80vh] p-2 flex flex-col gap-3">
+        <div class=" p-2 flex justify-between items-center">
+            <div class="flex gap-4 items-center text-lg text-gray-500 font-bold">
+                <span class="">Order History</span>
+                <i class="fa-solid fa-caret-right pt-1 pl-1"></i>
+                <span class="text-xl text-gray-900 font-bold">Order Details</span>
+
+            </div>
+            <asp:LinkButton ID="lbReview" runat="server" CssClass="font-semibold text-base bg-blue-700 text-white py-1 px-4 rounded-lg flex items-center gap-2" PostBackUrl="~/Client/Profile/ReviewPage.aspx"><i class="fa-regular fa-pen-to-square text-xs"></i><span>Rate</span></asp:LinkButton>
+        </div>
+        <div class="mb-4 shadow shadow-lg rounded-xl border border-gray-300">
+            <div class="container mx-auto p-4 bg-white rounded-xl h-[200px]">
+                <div class="pb-4">
+                    <p class="font-bold text-lg">Order Status</p>
                 </div>
-                <div class="flex flex-col items-center justify-center ">
+                <div class="flex flex-col items-center justify-center">
                     <div class="flex flex items-center text-blue-500 relative">
                         <div class="relative flex flex-col justify-center items-center">
 
@@ -202,7 +210,7 @@
                             <span>Status</span>
                         </div>
                         <div class="col-span-3 text-right">
-                            <span>Pending</span>
+                            <span>Packaging</span>
                         </div>
                     </div>
 
@@ -293,4 +301,5 @@
             </div>
         </div>
     </div>
+
 </asp:Content>
