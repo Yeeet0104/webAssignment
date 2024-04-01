@@ -3,18 +3,20 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <script>
-    function previewImage(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                var img = document.getElementById('<%= profilePic.ClientID %>');
-                img.src = e.target.result;
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.getElementById('<%= profilePic.ClientID %>');
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-
-            reader.readAsDataURL(input.files[0]);
         }
-    }
+        function triggerFileUpload() {
+            document.getElementById('<%= fileUpload.ClientID %>').click();
+            return false; // Prevent postback on LinkButton click
+        }
     </script>
 
 </asp:Content>
@@ -28,11 +30,14 @@
                 <!--image col-->
                 <div class="pl-2 pr-6 w-1/3 pt-2">
                     <div class="flex justify-center items-center">
-                        <asp:Image ID="profilePic" ImageUrl="~\Admin\Layout\image\DexProfilePic.jpeg" CssClass="rounded-full w-[230px] drop-shadow-lg" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();"/>
+                        <asp:Image ID="profilePic" ImageUrl="~\Admin\Layout\image\DexProfilePic.jpeg" CssClass="rounded-full w-[230px] drop-shadow-lg" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
                     </div>
 
                     <div class="flex justify-center pt-6">
-                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;" onchange="previewImage(this);" />
+                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
+                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                            Choose File
+                        </button>
                     </div>
                 </div>
                 <!--general details-->
