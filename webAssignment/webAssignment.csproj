@@ -107,6 +107,11 @@
       <DependentUpon>MainDatabase.mdf</DependentUpon>
     </Content>
     <Content Include="Admin\Dashboard\Dashboard.aspx" />
+    <Content Include="Client\AboutUs\AboutUsPage.aspx" />
+    <Content Include="Client\AboutUs\image\about-us.jpg" />
+    <Content Include="Client\AboutUs\image\comp.jpeg" />
+    <Content Include="Client\AboutUs\image\group.jpg" />
+    <Content Include="Client\AboutUs\image\prod.jpeg" />
     <Content Include="Client\Cart\CartPage.aspx" />
     <Content Include="Client\Cart\images\cryingKermit.png" />
     <Content Include="Client\Checkout\image\img_placeholder.jpg" />
@@ -305,6 +310,13 @@
     </Compile>
     <Compile Include="Admin\Voucher\voucher.aspx.designer.cs">
       <DependentUpon>voucher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\AboutUs\AboutUsPage.aspx.cs">
+      <DependentUpon>AboutUsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\AboutUs\AboutUsPage.aspx.designer.cs">
+      <DependentUpon>AboutUsPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Cart\CartPage.aspx.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>
