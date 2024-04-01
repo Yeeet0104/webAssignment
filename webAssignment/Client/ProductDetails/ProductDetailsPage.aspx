@@ -10,7 +10,7 @@
             <h2>Product Details</h2>
         </div>--%>
         <div class="product-details ">
-            <div class="product-small-image">
+            <div class="product-small-image gap-4">
                 <img src="/Client/Product/Products Images/Corsair RMx Series RM850x.png" alt="Corsair RMx Series RM850x" />
                 <img src="/Client/Product/Products Images/Corsair RMx Series RM850x(2).jpg" alt="Corsair RMx Series RM850x" />
                 <img src="/Client/Product/Products Images/Corsair RMx Series RM850x(3).jpg" alt="Corsair RMx Series RM850x" />
@@ -84,11 +84,11 @@
                         </div>
 
                     </div>
-                    <div class="col-span-4 p-4 py-5 rounded-lg">
+                    <div class="col-span-4 p-4 py-5 rounded-lg flex flex-col gap-5">
                         <div class="flex flex-col gap-5 mb-1">
 
-                            <div class="flex gap-3 items-center">
-                                <div>
+                            <div class="flex grid grid-cols-9 items-center">
+                                <div class="col-span-2 flex justify-center">
 
                                     <span class="text-yellow-400 text-lg ml-2 flex gap-2">
                                         <i class="fa-solid fa-star"></i>
@@ -99,23 +99,21 @@
                                         <!-- Duplicate the above SVG for as many stars you need -->
                                     </span>
                                 </div>
-                                <div class="bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-orange-400 h-2 rounded-lg" style="width: 63%;"></div>
+                                <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
+                                    <div class="bg-[#319ba1] h-2 rounded-lg" style="width: 63%;"></div>
                                 </div>
-                                <div class="flex gap-2">
+                                <div  class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="fivestarPercent" runat="server" Text="63%"></asp:Label>
                                     <div>
                                         (<asp:Label ID="fivestarAmount" runat="server" Text="65002"></asp:Label>)
                                     </div>
                                 </div>
                             </div>
-                            <div class="space-y-1 text-xs">
-                            </div>
                         </div>
                         <div class="flex flex-col gap-5 mb-1">
 
-                            <div class="flex gap-3 items-center">
-                                <div>
+                            <div class="flex grid grid-cols-9 items-center">
+                                <div class="col-span-2 flex justify-center">
 
                                     <span class="text-yellow-400 text-lg ml-2 flex gap-2">
                                         <i class="fa-solid fa-star"></i>
@@ -126,23 +124,21 @@
                                         <!-- Duplicate the above SVG for as many stars you need -->
                                     </span>
                                 </div>
-                                <div class="bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-orange-400 h-2 rounded-lg" style="width: 50%;"></div>
+                                <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
+                                    <div class="bg-[#319ba1] h-2 rounded-lg" style="width: 50%;"></div>
                                 </div>
-                                <div class="flex gap-2">
+                                <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label1" runat="server" Text="50%"></asp:Label>
                                     <div>
                                         (<asp:Label ID="Label2" runat="server" Text="50000"></asp:Label>)
                                     </div>
                                 </div>
                             </div>
-                            <div class="space-y-1 text-xs">
-                            </div>
                         </div>
                         <div class="flex flex-col gap-5 mb-1">
 
-                            <div class="flex gap-3 items-center">
-                                <div>
+                            <div class="flex grid grid-cols-9 items-center">
+                                <div class="col-span-2 flex justify-center">
 
                                     <span class="text-yellow-400 text-lg ml-2 flex gap-2">
                                         <i class="fa-solid fa-star"></i>
@@ -153,23 +149,22 @@
                                         <!-- Duplicate the above SVG for as many stars you need -->
                                     </span>
                                 </div>
-                                <div class="bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-orange-400 h-2 rounded-lg" style="width: 30%;"></div>
+                                <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
+                                    <div class="bg-[#319ba1] h-2 rounded-lg" style="width: 30%;"></div>
                                 </div>
-                                <div class="flex gap-2">
+                                <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label3" runat="server" Text="30%"></asp:Label>
                                     <div>
                                         (<asp:Label ID="Label4" runat="server" Text="2300"></asp:Label>)
                                     </div>
                                 </div>
                             </div>
-                            <div class="space-y-1 text-xs">
-                            </div>
+
                         </div>
                         <div class="flex flex-col gap-5 mb-1">
 
-                            <div class="flex gap-3 items-center">
-                                <div>
+                            <div class="flex grid grid-cols-9 items-center">
+                                <div class="col-span-2 flex justify-center">
 
                                     <span class="text-yellow-400 text-lg ml-2 flex gap-2">
                                         <i class="fa-solid fa-star"></i>
@@ -180,25 +175,24 @@
                                         <!-- Duplicate the above SVG for as many stars you need -->
                                     </span>
                                 </div>
-                                <div class="bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-orange-400 h-2 rounded-lg" style="width: 25%;"></div>
+                                <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
+                                    <div class="bg-[#319ba1] h-2 rounded-lg" style="width: 25%;"></div>
                                 </div>
-                                <div class="flex gap-2">
+                                <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label5" runat="server" Text="25%"></asp:Label>
                                     <div>
                                         (<asp:Label ID="Label6" runat="server" Text="65002"></asp:Label>)
                                     </div>
                                 </div>
                             </div>
-                            <div class="space-y-1 text-xs">
-                            </div>
+ 
                         </div>
                         <div class="flex flex-col gap-5 mb-1">
 
-                            <div class="flex gap-3 items-center">
-                                <div>
+                            <div class="flex grid grid-cols-9 items-center">
+                                <div class="col-span-2 flex justify-center">
 
-                                    <span class="text-yellow-400 text-lg ml-2 flex gap-2">
+                                    <span class=" text-yellow-400 text-lg ml-2 flex gap-2">
                                         <i class="fa-solid fa-star"></i>
                                         <i class="fa-regular fa-star"></i>
                                         <i class="fa-regular fa-star"></i>
@@ -207,17 +201,15 @@
                                         <!-- Duplicate the above SVG for as many stars you need -->
                                     </span>
                                 </div>
-                                <div class="bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-orange-400 h-2 rounded-lg" style="width: 10%;"></div>
+                                <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
+                                    <div class="bg-[#319ba1] h-2 rounded-lg" style="width: 10%;"></div>
                                 </div>
-                                <div class="flex gap-2">
+                                <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label7" runat="server" Text="10%"></asp:Label>
                                     <div>
                                         (<asp:Label ID="Label8" runat="server" Text="2"></asp:Label>)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="space-y-1 text-xs">
                             </div>
                         </div>
 
