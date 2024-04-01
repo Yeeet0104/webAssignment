@@ -15,6 +15,7 @@
                 <canvas id="myChart" ></canvas>
             </div>
         </div>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
     </form>
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');
