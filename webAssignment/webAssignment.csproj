@@ -468,7 +468,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ProductImage\*.*" />
+    <Content Include="CategoryBannerImg\DexProfilePic.jpeg" />
+    <Content Include="CategoryBannerImg\dextershower.png" />
+    <Content Include="CategoryBannerImg\forgetPass1.jpg" />
+    <Content Include="CategoryBannerImg\image %285%29.png" />
+    <Content Include="CategoryBannerImg\images %281%29.jpg" />
+    <Content Include="CategoryBannerImg\images__1_-removebg-preview.png" />
+    <Content Include="CategoryBannerImg\kermit.jpg" />
+    <Content Include="CategoryBannerImg\sad-mouse.gif" />
+    <Content Include="CategoryBannerImg\WhatsApp Image 2024-03-28 at 7.23.30 PM.jpeg" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />

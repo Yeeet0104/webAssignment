@@ -18,6 +18,41 @@
                 reader.readAsDataURL(file);
             }
         }
+
+
+        function showPasswordError() {
+            var passwordInput = document.getElementById('<%= passwordForConfirm.ClientID %>');
+            var displayErrorPasswordMsg = document.getElementById("disPassError");
+            if (passwordInput) {
+                passwordInput.style.borderColor = 'red'; // Set border color to red
+                passwordInput.title = 'Incorrect password'; // Set tooltip text
+                displayErrorPasswordMsg.style.display = "block";
+            }
+        }
+        function showInputPasswordError() {
+            var passwordInput = document.getElementById('<%= passwordForConfirm.ClientID %>');
+            var displayErrorPasswordMsg = document.getElementById("disInputPass");
+            if (passwordInput) {
+                passwordInput.style.borderColor = 'red'; // Set border color to red
+                passwordInput.title = 'Incorrect password'; // Set tooltip text
+                displayErrorPasswordMsg.style.display = "block";
+            }
+        }
+        function showInputNameError() {
+            var nameInput = document.getElementById('<%= newCategoryName.ClientID %>');
+            var displayErrorPasswordMsg = document.getElementById("errorCateName");
+            if (nameInput) {
+                nameInput.classList.add("border");
+                nameInput.classList.add("border-red-600");
+                nameInput.title = 'Please Type Name'; // Set tooltip text
+                displayErrorPasswordMsg.style.display = "block";
+            } else {
+                nameInput.classList.remove("border");
+                nameInput.classList.remove("border-red");
+                nameInput.title = 'Category Name'; 
+                displayErrorPasswordMsg.style.display = "none";
+            }
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -40,10 +75,10 @@
             </div>
         </div>
         <div class="flex w-full justify-end mb-3">
-            <div class="relative mr-2">
+            <%--            <div class="relative mr-2">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
                 <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
-            </div>
+            </div>--%>
             <div class="relative ml-2">
                 <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
                 <asp:Button ID="btnAddNewCust" runat="server" Text="Add Category" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg" OnClick="btnAddNewCust_Click" />
@@ -59,10 +94,10 @@
             <div class="p-5 flex flex-col bg-white rounded-xl">
                 <span class="mb-3 text-lg">General information</span>
                 <span class="text-gray-500">Category Name</span>
+                <div id="errorCateName" class="hidden text-red-500 font-bold">Please Write Fill The Name</div>
+                <asp:TextBox CssClass="p-3 rounded-xl bg-gray-100 mb-4" ID="newCategoryName" runat="server"  ToolTip="Category Name" placeholder="Type Category Name..."></asp:TextBox>
+                <span class="text-gray-500">Description (Optional)</span>
 
-                <asp:TextBox class="p-3 rounded-xl bg-gray-100 mb-4" ID="newCategoryName" runat="server" ToolTip="Category Name" placeholder="Type Category Name..."></asp:TextBox>
-                <span class="text-gray-500">Description</span>
-        
 
                 <asp:TextBox class="p-3 rounded-xl h-60 bg-gray-100" ID="newCategoryDes" runat="server" ToolTip="Category Description" placeholder="Type Category Description here..." TextMode="MultiLine">
                 </asp:TextBox>
@@ -131,10 +166,16 @@
                             <span>CategoryID:</span><asp:Label ID="categoryID" runat="server" Text="[CategoryID]"></asp:Label>
                         </div>
                         <div>
+
                             <span>CategoryName</span><asp:Label ID="categoryName" runat="server" Text="[categoryName]"></asp:Label>
                         </div>
                     </div>
-                    <asp:TextBox ID="TextBox1" runat="server" TextMode="Password" CssClass="p-2 px-4 border rounded-xl" placeholder="Enter password to confirm"></asp:TextBox>
+                    <div class="flex flex-col items-center">
+
+                        <div id="disPassError" class="hidden text-red-500 font-bold">Invalid Password!</div>
+                        <div id="disInputPass" class="hidden text-red-500 font-bold">Type Password!</div>
+                        <asp:TextBox ID="passwordForConfirm" runat="server" TextMode="Password" CssClass="p-2 px-4 border rounded-xl" placeholder="Enter password to confirm"></asp:TextBox>
+                    </div>
                     <div>
 
                         <asp:Button ID="cancelBtn" runat="server" Text="Cancel" CssClass="bg-gray-300 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />

@@ -19,51 +19,57 @@ namespace webAssignment.Admin.Category
 
         protected void Page_Load( object sender, EventArgs e )
         {
-
         }
 
 
         protected void addNewCategory( )
         {
-            String newCateName = newCategoryName.Text.ToString();   
+            String newCateName = newCategoryName.Text.ToString();
             String newCateDes = newCategoryDes.Text.ToString();
             String fileSavePath = "";
             string fileName = "";
-
-            if ( fileImages.HasFiles )
+            if ( newCateName != "" && fileImages.HasFiles )
             {
-                foreach ( HttpPostedFile postedFile in fileImages.PostedFiles )
+
+                if ( fileImages.HasFiles )
                 {
-                     fileName = Path.GetFileName(postedFile.FileName);
-                    fileSavePath = Server.MapPath("~/ProductImage/") + fileName;
-                    try
+                    foreach ( HttpPostedFile postedFile in fileImages.PostedFiles )
                     {
-                        // Save the file.
-                        postedFile.SaveAs(fileSavePath);
-                        Debug.WriteLine("Saving file to: " + fileSavePath);
-                        // You can add logic here to add the file details to your database if needed.
+                        fileName = Path.GetFileName(postedFile.FileName);
+                        fileSavePath = Server.MapPath("~/CategoryBannerImg/") + fileName;
+                        try
+                        {
+                            // Save the file.
+                            postedFile.SaveAs(fileSavePath);
+                            Debug.WriteLine("Saving file to: " + fileSavePath);
+                            // You can add logic here to add the file details to your database if needed.
+                        }
+                        catch ( Exception ex )
+                        {
+                            Debug.WriteLine("Error: " + ex.Message);
+                            // Handle the error
+                        }
                     }
-                    catch ( Exception ex )
-                    {
-                        Debug.WriteLine("Error: " + ex.Message);
-                        // Handle the error
-                    }
+                    // After handling all files, you can redirect or update the page as needed.
                 }
-                // After handling all files, you can redirect or update the page as needed.
+
+                String newCategoryID = GenerateNextCategoryId();
+                ViewState["NewCateName"] = newCateName;
+                ViewState["newCategoryID"] = newCategoryID;
+                ViewState["FileSavePath"] = ( "~/ProductImage/" + fileName );
+
+                // Show the popup for confirmation
+                popUpPanel.Style.Add("display", "flex");
+
+                // Set the text of the labels in the popup
+                categoryID.Text = newCategoryID;
+                categoryName.Text = newCateName;
+                bannerImage.ImageUrl = ( "~/ProductImage/" + fileName );
             }
-
-            String newCategoryID = GenerateNextCategoryId();
-            ViewState["NewCateName"] = newCateName;
-            ViewState["newCategoryID"] = newCategoryID;
-            ViewState["FileSavePath"] = ( "~/ProductImage/" + fileName );
-
-            // Show the popup for confirmation
-            popUpPanel.Style.Add("display", "flex");
-
-            // Set the text of the labels in the popup
-            categoryID.Text = newCategoryID;
-            categoryName.Text = newCateName;
-            bannerImage.ImageUrl = ( "~/ProductImage/" + fileName );
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "notypeName", "showInputNameError();", true);
+            }
 
         }
         private string GenerateNextCategoryId( )
@@ -142,36 +148,56 @@ namespace webAssignment.Admin.Category
         protected void closePopUp_Click( object sender, EventArgs e )
         {
             popUpPanel.Style.Add("display", "none");
+
+            ViewState.Remove("NewCateName");
+            ViewState.Remove("NewCateDes");
+            ViewState.Remove("FileSavePath");
         }
 
         protected void btnConfirmAdd_Click( object sender, EventArgs e )
         {
-            if ( Page.IsValid )
-            { 
-                // Retrieve the stored values
-                string newCateName = ViewState["NewCateName"]?.ToString();
-            string newCategoryID = ViewState["newCategoryID"]?.ToString();
-            string fileSavePath = ViewState["FileSavePath"]?.ToString();
 
-            // Perform the insertion using these values
-            InsertCategoryIntoDatabase(newCategoryID,newCateName, fileSavePath);
+            if ( passwordForConfirm.Text.ToString() != "" )
+            {
+                if ( Page.IsValid && passwordForConfirm.Text.ToString() == "12345" )
+                {
+                    // Retrieve the stored values
+                    string newCateName = ViewState["NewCateName"]?.ToString();
+                    string newCategoryID = ViewState["newCategoryID"]?.ToString();
+                    string fileSavePath = ViewState["FileSavePath"]?.ToString();
 
-            // Optionally, close the popup
-            // popUpPanel.Style.Add("display", "none");
+                    // Perform the insertion using these values
+                    InsertCategoryIntoDatabase(newCategoryID, newCateName, fileSavePath);
 
-            popUpPanel.Style.Add("display", "none");
+                    // Optionally, close the popup
+                    // popUpPanel.Style.Add("display", "none");
 
-            // Clear the ViewState
-            ViewState.Remove("NewCateName");
-            ViewState.Remove("NewCateDes");
-            ViewState.Remove("FileSavePath");
+                    popUpPanel.Style.Add("display", "none");
+
+                    // Clear the ViewState
+                    ViewState.Remove("NewCateName");
+                    ViewState.Remove("NewCateDes");
+                    ViewState.Remove("FileSavePath");
+                }
+                else
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "passwordError", "showPasswordError();", true);
+                }
+
             }
-
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "noinputpassword", "showInputPasswordError();", true);
+            }
         }
 
         protected void btnCancelDelete_Click( object sender, EventArgs e )
         {
             popUpPanel.Style.Add("display", "none");
+
+            ViewState.Remove("NewCateName");
+            ViewState.Remove("NewCateDes");
+            ViewState.Remove("FileSavePath");
         }
     }
 }
