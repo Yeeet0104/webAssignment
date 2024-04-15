@@ -30,7 +30,7 @@
                 <span class="w-[10%] text-center">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </span>
-                <asp:LinkButton ID="lnkLogout" runat="server">Log Out</asp:LinkButton>
+                <asp:LinkButton ID="lnkLogout" runat="server" OnClick="lnkLogout_Click">Log Out</asp:LinkButton>
             </div>
         </div>
         <div class="w-[80%]">

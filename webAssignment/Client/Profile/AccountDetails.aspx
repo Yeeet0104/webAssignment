@@ -30,7 +30,7 @@
                 <!--image col-->
                 <div class="pl-2 pr-6 w-1/3 pt-2">
                     <div class="flex justify-center items-center">
-                        <asp:Image ID="profilePic" ImageUrl="~\Admin\Layout\image\DexProfilePic.jpeg" CssClass="rounded-full w-[230px] drop-shadow-lg" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
+                        <asp:Image ID="profilePic" ImageUrl="" CssClass="rounded-full w-[230px] drop-shadow-lg border border-gray-200" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
                     </div>
 
                     <div class="flex justify-center pt-6">
@@ -47,13 +47,13 @@
                         <div>
                             <div class="flex flex-col">
                                 <span class="pb-1.5">First Name</span>
-                                <asp:TextBox ID="txtFirstName" runat="server" Text="Feyz" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                <asp:TextBox ID="txtFirstName" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
                         <div>
                             <div class="flex flex-col">
                                 <span class="pb-1.5">Last Name</span>
-                                <asp:TextBox ID="txtLastName" runat="server" Text="Ibrahim" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                <asp:TextBox ID="txtLastName" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
 
@@ -61,13 +61,13 @@
                         <div>
                             <div class="flex flex-col">
                                 <span class="pb-1.5">Username</span>
-                                <asp:TextBox ID="txtUsername" runat="server" Text="feyzibrahim" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                <asp:TextBox ID="txtUsername" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
                         <div>
                             <div class="flex flex-col">
                                 <span class="pb-1.5">Email</span>
-                                <asp:TextBox ID="txtEmail" runat="server" Text="feyzibrahim@gmail.com" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
 
@@ -75,7 +75,7 @@
                         <div>
                             <div class="flex flex-col">
                                 <span class="pb-1.5">Phone Number</span>
-                                <asp:TextBox ID="txtPhoneNo" Text="0123136742" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                <asp:TextBox ID="txtPhoneNo" TextMode="Phone" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
 
@@ -83,15 +83,60 @@
                             <div class="flex flex-col">
                                 <span class="pb-1.5">Country</span>
                                 <asp:DropDownList ID="ddlCountry" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5">
-                                    <asp:ListItem>Australia</asp:ListItem>
-                                    <asp:ListItem>Canada</asp:ListItem>
-                                    <asp:ListItem>China</asp:ListItem>
-                                    <asp:ListItem>India</asp:ListItem>
                                     <asp:ListItem>Malaysia</asp:ListItem>
+                                    <asp:ListItem>Argentina</asp:ListItem>
+                                    <asp:ListItem>Australia</asp:ListItem>
+                                    <asp:ListItem>Austria</asp:ListItem>
+                                    <asp:ListItem>Belgium</asp:ListItem>
+                                    <asp:ListItem>Bulgaria</asp:ListItem>
+                                    <asp:ListItem>Canada</asp:ListItem>
+                                    <asp:ListItem>Chile</asp:ListItem>
+                                    <asp:ListItem>China</asp:ListItem>
+                                    <asp:ListItem>Croatia</asp:ListItem>
+                                    <asp:ListItem>Czech Republic</asp:ListItem>
+                                    <asp:ListItem>Denmark</asp:ListItem>
+                                    <asp:ListItem>Egypt</asp:ListItem>
+                                    <asp:ListItem>Finland</asp:ListItem>
+                                    <asp:ListItem>France</asp:ListItem>
+                                    <asp:ListItem>Germany</asp:ListItem>
+                                    <asp:ListItem>Greece</asp:ListItem>
+                                    <asp:ListItem>Hungary</asp:ListItem>
+                                    <asp:ListItem>India</asp:ListItem>
+                                    <asp:ListItem>Indonesia</asp:ListItem>
+                                    <asp:ListItem>Ireland</asp:ListItem>
+                                    <asp:ListItem>Italy</asp:ListItem>
+                                    <asp:ListItem>Japan</asp:ListItem>
+                                    <asp:ListItem>Korea Republic</asp:ListItem>
+                                    <asp:ListItem>Latin America</asp:ListItem>
+                                    <asp:ListItem>Luxembourg</asp:ListItem>
+                                    <asp:ListItem>Macau</asp:ListItem>
+                                    <asp:ListItem>Mexico</asp:ListItem>
+                                    <asp:ListItem>Morocco</asp:ListItem>
+                                    <asp:ListItem>Netherlands</asp:ListItem>
+                                    <asp:ListItem>New Zealand</asp:ListItem>
+                                    <asp:ListItem>Norway</asp:ListItem>
+                                    <asp:ListItem>Philippines</asp:ListItem>
+                                    <asp:ListItem>Poland</asp:ListItem>
+                                    <asp:ListItem>Portugal</asp:ListItem>
+                                    <asp:ListItem>Puerto Rico</asp:ListItem>
+                                    <asp:ListItem>Romania</asp:ListItem>
+                                    <asp:ListItem>Russian Federation</asp:ListItem>
+                                    <asp:ListItem>Saudi Arabia</asp:ListItem>
                                     <asp:ListItem>Singapore</asp:ListItem>
-                                    <asp:ListItem>Taiwan</asp:ListItem>
+                                    <asp:ListItem>Slovakia (Slovak Republic)</asp:ListItem>
+                                    <asp:ListItem>Slovenia</asp:ListItem>
+                                    <asp:ListItem>South Africa</asp:ListItem>
+                                    <asp:ListItem>Spain</asp:ListItem>
+                                    <asp:ListItem>Sweden</asp:ListItem>
+                                    <asp:ListItem>Switzerland</asp:ListItem>
+                                    <asp:ListItem>Thailand</asp:ListItem>
+                                    <asp:ListItem>Turkey</asp:ListItem>
+                                    <asp:ListItem>United Arab Emirates</asp:ListItem>
                                     <asp:ListItem>United Kingdom</asp:ListItem>
-                                    <asp:ListItem>United State of America</asp:ListItem>
+                                    <asp:ListItem>United States</asp:ListItem>
+                                    <asp:ListItem>Venezuela</asp:ListItem>
+                                    <asp:ListItem>Vietnam</asp:ListItem>
+
                                 </asp:DropDownList>
                             </div>
                         </div>
@@ -100,34 +145,14 @@
                         <div>
                             <div class="flex flex-col">
                                 <span class="pb-1.5">State</span>
-                                <asp:DropDownList ID="ddlState" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5">
-                                    <asp:ListItem>Kedah</asp:ListItem>
-                                    <asp:ListItem>Wilayah Persekutuan</asp:ListItem>
-                                    <asp:ListItem>Terengganu</asp:ListItem>
-                                    <asp:ListItem>Penang</asp:ListItem>
-                                    <asp:ListItem>Melaka</asp:ListItem>
-                                    <asp:ListItem>Johor</asp:ListItem>
-                                    <asp:ListItem>Perak</asp:ListItem>
-                                    <asp:ListItem>Sabah</asp:ListItem>
-                                    <asp:ListItem>Sarawak</asp:ListItem>
-                                    <asp:ListItem>Perlis</asp:ListItem>
-                                    <asp:ListItem>Pahang</asp:ListItem>
-                                    <asp:ListItem>Negeri Sembilan</asp:ListItem>
-                                    <asp:ListItem>Selangor</asp:ListItem>
-                                </asp:DropDownList>
+                                <asp:TextBox ID="txtState" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
 
                         <div>
                             <div class="flex flex-col">
                                 <span class="pb-1.5">City</span>
-                                <asp:DropDownList ID="ddlCity" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5">
-                                    <asp:ListItem>Kuala Lumpur</asp:ListItem>
-                                    <asp:ListItem>Petaling Jaya</asp:ListItem>
-                                    <asp:ListItem>Gombak</asp:ListItem>
-                                    <asp:ListItem>Kepong</asp:ListItem>
-                                    <asp:ListItem>Subang</asp:ListItem>
-                                </asp:DropDownList>
+                                <asp:TextBox ID="txtCity" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
 
@@ -194,6 +219,52 @@
                         </asp:DropDownList>
 
                         <asp:DropDownList ID="ddlYear" runat="server" class="w-full border-2 border-gray-200 font-medium p-3 rounded-sm">
+                            <asp:ListItem>1950</asp:ListItem>
+                            <asp:ListItem>1951</asp:ListItem>
+                            <asp:ListItem>1952</asp:ListItem>
+                            <asp:ListItem>1953</asp:ListItem>
+                            <asp:ListItem>1954</asp:ListItem>
+                            <asp:ListItem>1955</asp:ListItem>
+                            <asp:ListItem>1956</asp:ListItem>
+                            <asp:ListItem>1957</asp:ListItem>
+                            <asp:ListItem>1958</asp:ListItem>
+                            <asp:ListItem>1959</asp:ListItem>
+                            <asp:ListItem>1960</asp:ListItem>
+                            <asp:ListItem>1961</asp:ListItem>
+                            <asp:ListItem>1962</asp:ListItem>
+                            <asp:ListItem>1963</asp:ListItem>
+                            <asp:ListItem>1964</asp:ListItem>
+                            <asp:ListItem>1965</asp:ListItem>
+                            <asp:ListItem>1966</asp:ListItem>
+                            <asp:ListItem>1967</asp:ListItem>
+                            <asp:ListItem>1968</asp:ListItem>
+                            <asp:ListItem>1969</asp:ListItem>
+                            <asp:ListItem>1970</asp:ListItem>
+                            <asp:ListItem>1971</asp:ListItem>
+                            <asp:ListItem>1972</asp:ListItem>
+                            <asp:ListItem>1973</asp:ListItem>
+                            <asp:ListItem>1974</asp:ListItem>
+                            <asp:ListItem>1975</asp:ListItem>
+                            <asp:ListItem>1976</asp:ListItem>
+                            <asp:ListItem>1977</asp:ListItem>
+                            <asp:ListItem>1978</asp:ListItem>
+                            <asp:ListItem>1979</asp:ListItem>
+                            <asp:ListItem>1980</asp:ListItem>
+                            <asp:ListItem>1981</asp:ListItem>
+                            <asp:ListItem>1982</asp:ListItem>
+                            <asp:ListItem>1983</asp:ListItem>
+                            <asp:ListItem>1984</asp:ListItem>
+                            <asp:ListItem>1985</asp:ListItem>
+                            <asp:ListItem>1986</asp:ListItem>
+                            <asp:ListItem>1987</asp:ListItem>
+                            <asp:ListItem>1988</asp:ListItem>
+                            <asp:ListItem>1989</asp:ListItem>
+                            <asp:ListItem>1990</asp:ListItem>
+                            <asp:ListItem>1991</asp:ListItem>
+                            <asp:ListItem>1992</asp:ListItem>
+                            <asp:ListItem>1993</asp:ListItem>
+                            <asp:ListItem>1994</asp:ListItem>
+                            <asp:ListItem>1995</asp:ListItem>
                             <asp:ListItem>1996</asp:ListItem>
                             <asp:ListItem>1997</asp:ListItem>
                             <asp:ListItem>1998</asp:ListItem>
@@ -206,11 +277,16 @@
                             <asp:ListItem>2005</asp:ListItem>
                             <asp:ListItem>2006</asp:ListItem>
                             <asp:ListItem>2007</asp:ListItem>
+                            <asp:ListItem>2008</asp:ListItem>
+                            <asp:ListItem>2009</asp:ListItem>
+                            <asp:ListItem>2010</asp:ListItem>
+
                         </asp:DropDownList>
                     </div>
                     <div class="w-auto pt-7">
-                        <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" class="bg-blue-600 text-white rounded-lg px-8 py-3" />
+                        <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" class="bg-blue-500 text-white rounded-lg px-8 py-3 mb-4 cursor-pointer hover:bg-blue-600" OnClick="btnSaveChanges_Click" />
                     </div>
+                    <asp:Label ID="lblUpdateDetailsMessage" runat="server" Text=""></asp:Label>
                 </div>
             </div>
         </div>
