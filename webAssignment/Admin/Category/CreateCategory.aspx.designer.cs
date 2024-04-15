@@ -24,15 +24,6 @@ namespace webAssignment.Admin.Category
         protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
 
         /// <summary>
-        /// btnExport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
-
-        /// <summary>
         /// btnAddNewCust control.
         /// </summary>
         /// <remarks>
@@ -141,13 +132,13 @@ namespace webAssignment.Admin.Category
         protected global::System.Web.UI.WebControls.Label categoryName;
 
         /// <summary>
-        /// TextBox1 control.
+        /// passwordForConfirm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox passwordForConfirm;
 
         /// <summary>
         /// cancelBtn control.
