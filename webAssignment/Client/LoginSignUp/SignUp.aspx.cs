@@ -36,7 +36,7 @@ namespace webAssignment.Client.LoginSignUp
                 passwordLabel.Text = "";
                 if (ValidateTextBox(txtUsername) && ValidateTextBox(txtEmail) && ValidateTextBox(txtPass) && ValidateTextBox(txtConfirmPass))
                 {
-                    string strCon = ConfigurationManager.ConnectionStrings["MainDatabaseConnection"].ConnectionString;
+                    string strCon = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
                     using (SqlConnection conn = new SqlConnection(strCon))
 
                     {

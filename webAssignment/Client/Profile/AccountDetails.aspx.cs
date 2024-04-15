@@ -48,7 +48,7 @@ namespace webAssignment.Client.Profile
         {
             // Query the database to retrieve the user's current account details based on the user ID
             string query = "SELECT * FROM [User] WHERE user_id = @UserId";
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MainDatabaseConnection"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {

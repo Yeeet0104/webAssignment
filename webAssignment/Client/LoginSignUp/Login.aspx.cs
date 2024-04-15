@@ -26,7 +26,7 @@ namespace webAssignment.Client.LoginSignUp
                 // Query the database to retrieve the user record based on the provided email
                 string query = "SELECT * FROM [User] WHERE email = @Email";
 
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MainDatabaseConnection"].ConnectionString))
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
