@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -51,10 +52,6 @@ namespace webAssignment.Admin.Product_Management
             lblnewProdStatus.Text = ddlnewProdStatus.SelectedValue;
         }
 
-        protected void UploadButton_Click( object sender, EventArgs e )
-        {
-
-        }
         protected void createTextRowBtn_Click( object sender, EventArgs e )
         {
             int Variantcount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 1;
@@ -90,6 +87,104 @@ namespace webAssignment.Admin.Product_Management
             // For debugging (visible in output window during debugging)
             System.Diagnostics.Debug.WriteLine("Variant TextBox created with ID: " + newVariant.ID);
             System.Diagnostics.Debug.WriteLine("Price TextBox created with ID: " + newPrice.ID);
+        }
+
+        protected void UploadButton_Click( object sender, EventArgs e )
+        {
+
+            String prodName = newProductName.Text.ToString();
+            String prodDec = newProductDes.Text.ToString();
+            String category = ddlCategory.SelectedValue.ToString();
+            String status = ddlnewProdStatus.SelectedValue.ToString();
+            int initStock = int.Parse(tbQuantity.Text.ToString());
+
+            int variantCount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 0;
+            for ( int i = 1 ; i <= variantCount ; i++ )
+            {
+                TextBox textBoxVariant = (TextBox)panelVariantTextBoxes.FindControl("variant" + i + "Tb");
+                TextBox textBoxPrice = (TextBox)panelVariantTextBoxes.FindControl("priceVar" + i + "Tb");
+
+                if ( textBoxVariant != null && !string.IsNullOrWhiteSpace(textBoxVariant.Text) &&
+                    textBoxPrice != null && !string.IsNullOrWhiteSpace(textBoxPrice.Text) )
+                {
+                    // Logic to process the values
+                    string variant = textBoxVariant.Text;
+                    string price = textBoxPrice.Text;
+
+                    // Now you can use variant and price variables as needed
+                }
+            }
+
+            if ( fileImages.HasFiles )
+            {
+                foreach ( HttpPostedFile postedFile in fileImages.PostedFiles )
+                {
+                    string fileName = Path.GetFileName(postedFile.FileName);
+                    string fileSavePath = Server.MapPath("~/ProductImage/") + fileName;
+                    try
+                    {
+                        // Save the file.
+                        postedFile.SaveAs(fileSavePath);
+                        Debug.WriteLine("Saving file to: " + fileSavePath);
+                        // You can add logic here to add the file details to your database if needed.
+                    }
+                    catch ( Exception ex )
+                    {
+                        Debug.WriteLine("Error: " + ex.Message);
+                        // Handle the error
+                    }
+                }
+                // After handling all files, you can redirect or update the page as needed.
+            }
+        }
+
+        public List<string> GetImagePaths( )
+        {
+            // List to hold the image paths
+            List<string> imagePaths = new List<string>();
+
+            // The path to the ProductImage directory
+            string folderPath = HttpContext.Current.Server.MapPath("~/ProductImage/");
+
+            // Get all files in the directory
+            string[] files = Directory.GetFiles(folderPath);
+
+            // Add paths to the list, converting them to a relative path to be used on the client side
+            foreach ( string file in files )
+            {
+                if ( IsImage(file) )
+                {
+                    string relativePath = "ProductImage/" + Path.GetFileName(file);
+                    imagePaths.Add(relativePath);
+                }
+            }
+
+            return imagePaths;
+        }
+
+        // Helper method to check if a file is an image by extension
+        private bool IsImage( string file )
+        {
+            string extension = Path.GetExtension(file).ToLowerInvariant();
+            return extension == ".jpg" || extension == ".png" || extension == ".jpeg" || extension == ".gif";
+        }
+
+        protected void btnExport_Click( object sender, EventArgs e )
+        {
+            List<String> files = GetImagePaths();
+
+            foreach( String file in files) { 
+               Console.WriteLine(file + "\n");
+            
+            }
+
+
+        }
+
+        private void initCategory( )
+        {
+
+
         }
     }
 }

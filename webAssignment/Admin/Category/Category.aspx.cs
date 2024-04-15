@@ -101,5 +101,10 @@ namespace webAssignment.Admin.Category
         {
             popUpDelete.Style.Add("display", "none");
         }
+
+
+        protected void getCategoryInfo( ) { 
+           
+        }
     }
 }

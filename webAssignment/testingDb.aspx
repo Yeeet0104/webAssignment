@@ -16,6 +16,7 @@
             </div>
         </div>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT * FROM [Address]"></asp:SqlDataSource>
     </form>
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');

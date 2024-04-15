@@ -13,7 +13,7 @@
             }
         }
         function triggerFileUpload() {
-            document.getElementById('<%= fileUpload.ClientID %>').click();
+            document.getElementById('<%= fileImages.ClientID %>').click();
             return false; // Prevent postback on LinkButton click
         }
     </script>
@@ -60,10 +60,11 @@
                         <asp:Image CssClass="rounded-lg" ID="profilePic" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
                     </div>
                     <div class="flex justify-center pt-3">
-                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;display:none" onchange="previewImage(this);" />
-                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                        <asp:FileUpload ID="fileImages" runat="server" Style="cursor: pointer;display:none" onchange="previewImage(this);" />
+                        <button type="button" onclick="document.getElementById('<%= fileImages.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600" >
                             Choose File
                         </button>
+                        
                     </div>
                 </div>
             </div>

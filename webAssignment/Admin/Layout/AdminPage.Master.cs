@@ -19,10 +19,6 @@ namespace webAssignment
         {
             assignActiveClass();
 
-
-
-
-
         }
 
         private void assignActiveClass( )

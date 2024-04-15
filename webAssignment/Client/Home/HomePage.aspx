@@ -10,10 +10,10 @@
         <div class="relative">
             <div class="intro">
                 <img class="w-full" src="Home Images/intro_bg.png">
-                <div class="absolute md:top-[22%] md:right-[14%] top-[16%] right-[4%]">
-                    <h2 class="font-bold md:text-4xl sm:text-2xl text-xl py-2">Discover Most<br/>Affordable<br/>Computer Accessories</h2>
-                    <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's<br/>computer accessories, or even build your<br/>own pc with G-Tech computer parts.</span><br/>      
-                    <button class="primary-button mt-3 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">Explore</button>
+                <div class="absolute md:top-[22%] md:right-[14%] top-[16%] right-[4%] flex flex-col gap-2">
+                    <h2 class="font-bold md:text-5xl sm:text-2xl text-xl py-2">Discover Most Affordable<br/>Computer Accessories</h2>
+                    <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's computer accessories,<br /> or even build your own pc with G-Tech computer parts.</span><br/>      
+                    <button class="primary-button bg-blue-700 hover:bg-blue-900 border-0 mt-3 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">Explore</button>
                 </div>
             </div>
         </div>
@@ -99,10 +99,10 @@
             <div class="videoSection">
                 <div id="rtxImg">
                     <img src="Home Images/gtx1080ti.jpg">
-                    <div class="videoText">
-                        <span class="videoHeading">NVDIA RTX 1080 TI</span><br/>
+                    <div class="videoText flex flex-col">
+                        <span class="videoHeading text-4xl">NVDIA RTX 1080 TI</span><br/>
                         <span class="videoDetails">Up to 3X of performance and breakthrough<br/>gaming technologies and VR experiences</span><br/>
-                        <button class="primary-button mt-2 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">View Details</button>
+                        <button class="primary-button bg-blue-700 hover:bg-blue-900 border-0  mt-2 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">View Details</button>
                     </div>
                     <a id="playRtxVideo" class="play-rtx-video-btn" href="javascript:playVideo()" onmouseover="snackBar()">
                         <i class="fa-solid fa-circle-play"></i>
@@ -140,7 +140,7 @@
             </div>
             <div class="link-btn">
 
-                <a class="primary-button sign-up-btn" href=#">Sign Up</a>
+                <a class="primary-button bg-blue-700 hover:bg-blue-900 border-0  sign-up-btn" href="/Client/LoginSignUp/SignUp.aspx">Sign Up</a>
 
             </div>
         </div>
