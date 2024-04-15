@@ -34,7 +34,7 @@
                         <asp:Button ID="stepup" runat="server" CssClass="qty-button" Text="+" OnClick="StepUp_Click" />
                     </div>
                 </div>
-                <asp:Button ID="btnAddToCart" runat="server" Text="Add to Cart" CssClass="add-to-cart-btn" OnClick="btnAddToCart_Click" />
+                <asp:Button ID="btnAddToCart" runat="server" Text="Add to Cart" CssClass="add-to-cart-btn bg-blue-700 hover:bg-blue-900" OnClick="btnAddToCart_Click" />
                 <asp:Button ID="btnAddToWishlist" runat="server" Text="Add to Wishlist" CssClass="add-to-wishlist-btn" OnClick="btnAddToWishlist_Click" />
             </div>
         </div>

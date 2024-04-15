@@ -12,6 +12,11 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        function triggerFileUpload() {
+            document.getElementById('<%= fileUpload.ClientID %>').click();
+            return false; // Prevent postback on LinkButton click
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
@@ -34,7 +39,11 @@
                         <asp:Image ID="imgReview" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" ImageUrl="~/Client/Checkout/image/img_placeholder.jpg" class="border border-gray-300 rounded-2xl shadow shadow-xl" Style="height: 120px; width: 120px;" />
                     </div>
                     <div class="flex justify-center pt-6">
-                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;" onchange="previewImage(this);" />
+                        <asp:FileUpload ID="fileUpload" runat="server" Style="display: none;cursor: pointer;" onchange="previewImage(this);" />
+                        
+                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                            Choose File
+                        </button>
                     </div>
                 </div>
             </div>

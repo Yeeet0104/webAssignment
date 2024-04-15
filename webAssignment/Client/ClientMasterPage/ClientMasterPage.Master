@@ -41,13 +41,13 @@
 
         /* Handle */
         ::-webkit-scrollbar-thumb {
-            background: #319ba1;
+            background: #1d4ed8;
             border-radius: 12px;
         }
 
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
-            background: #119184;
+            background: #0e3a8c;
         }
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">

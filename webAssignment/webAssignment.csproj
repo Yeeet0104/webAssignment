@@ -90,6 +90,7 @@
     <Content Include="Admin\Orders\EditOrder.aspx" />
     <Content Include="Admin\Orders\Images\trash.gif" />
     <Content Include="Admin\Orders\Order.aspx" />
+    <Content Include="Admin\PopUpImages\add.gif" />
     <Content Include="Admin\Product Management\addNewProduct.aspx" />
     <Content Include="Admin\Product Management\addNewProduct.js" />
     <Content Include="Admin\Product Management\adminProducts.aspx" />
@@ -466,7 +467,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ProductImage\*.*" />
+  </ItemGroup>
   <ItemGroup />
   <ItemGroup />
   <ItemGroup />

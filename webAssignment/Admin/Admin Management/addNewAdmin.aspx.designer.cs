@@ -51,13 +51,13 @@ namespace webAssignment.Admin.Admin_Management
         protected global::System.Web.UI.WebControls.Image profilePic;
 
         /// <summary>
-        /// fileUpload control.
+        /// fileImages control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
+        protected global::System.Web.UI.WebControls.FileUpload fileImages;
 
         /// <summary>
         /// lblStatus control.
