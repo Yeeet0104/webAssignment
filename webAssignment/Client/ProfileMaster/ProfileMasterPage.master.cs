@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,6 +13,20 @@ namespace webAssignment.Client.ProfileMaster
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+
+        protected void lnkLogout_Click(object sender, EventArgs e)
+        {
+            // Clear the "userInfo" cookie
+            if (Request.Cookies["userInfo"] != null)
+            {
+                HttpCookie userInfoCookie = new HttpCookie("userInfo");
+                userInfoCookie.Expires = DateTime.Now.AddDays(-1); // Expire the cookie by setting expiration date in the past
+                Response.Cookies.Add(userInfoCookie);
+            }
+
+            // Redirect the user to the login page
+            Response.Redirect("~/Client/LoginSignUp/Login.aspx");
         }
     }
 }

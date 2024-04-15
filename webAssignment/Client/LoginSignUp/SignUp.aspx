@@ -7,6 +7,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        
     </style>
 
    <script>
@@ -62,7 +63,7 @@
                         <span class="text-xs mt-2">Username</span>
                         <div class="relative">
                             <i class="fa-regular fa-user absolute text-2xl pt-1 left-3 top-6 transform -translate-y-1/2 text-gray-400"></i>
-                            <asp:TextBox ID="txtUsername" runat="server" placeholder="John Abraham" class="ring-1 ring-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
+                            <asp:TextBox ID="txtUsername" runat="server" placeholder="John Abraham" CssClass="border border-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
                         </div>
                     </div>
 
@@ -70,7 +71,7 @@
                         <span class="text-xs mt-2">Email</span>
                         <div class="relative">
                             <i class="fa-regular fa-envelope absolute text-2xl pt-1 left-3 top-6 transform -translate-y-1/2 text-gray-400"></i>
-                            <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" placeholder="Example@gmail.com" class="ring-1 ring-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
+                            <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" placeholder="Example@gmail.com" class="border border-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
                         </div>
                     </div>
 
@@ -78,7 +79,7 @@
                         <span class="text-xs mt-4">Password</span>
                         <div class="relative">
                             <i class="fa-solid fa-lock absolute text-xl pl-1 pt-1 left-3 top-6 transform -translate-y-1/2 text-gray-400"></i>
-                            <asp:TextBox ID="txtPass" runat="server" TextMode="Password" placeholder="Enter your password" class="ring-1 ring-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
+                            <asp:TextBox ID="txtPass" runat="server" TextMode="Password" placeholder="Enter your password" class="border border-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
                             <i id="eyeIcon" class="fa-regular fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer" onclick="togglePasswordVisibility('eyeIcon', 'txtPass')"></i>
                         </div>
                     </div>
@@ -87,12 +88,15 @@
                         <span class="text-xs mt-4">Confirm Password</span>
                         <div class="relative">
                             <i class="fa-solid fa-lock absolute text-xl pl-1 pt-1 left-3 top-6 transform -translate-y-1/2 text-gray-400"></i>
-                            <asp:TextBox ID="txtConfirmPass" runat="server" TextMode="Password" placeholder="Enter your password" class="ring-1 ring-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
+                            <asp:TextBox ID="txtConfirmPass" runat="server" TextMode="Password" placeholder="Enter your password" class="border border-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
                             <i id="eyeIcon2" class="fa-regular fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer" onclick="togglePasswordVisibility()"></i>
                         </div>
                     </div>
+
+                    <asp:Label ID="passwordLabel" runat="server" class="mx-4"  Text=""></asp:Label>
+
                     <div class="mx-4 mt-6">
-                        <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-500 ease-in-out" />
+                        <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-200 ease-in-out" OnClick="btnSignUp_Click" />
                     </div>
 
                     <div class="flex items-center space-x-2 py-5">

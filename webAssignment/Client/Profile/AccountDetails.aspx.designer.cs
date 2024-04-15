@@ -87,22 +87,22 @@ namespace webAssignment.Client.Profile
         protected global::System.Web.UI.WebControls.DropDownList ddlCountry;
 
         /// <summary>
-        /// ddlState control.
+        /// txtState control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlState;
+        protected global::System.Web.UI.WebControls.TextBox txtState;
 
         /// <summary>
-        /// ddlCity control.
+        /// txtCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCity;
+        protected global::System.Web.UI.WebControls.TextBox txtCity;
 
         /// <summary>
         /// txtZipCode control.
@@ -148,6 +148,15 @@ namespace webAssignment.Client.Profile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSaveChanges;
+
+        /// <summary>
+        /// lblUpdateDetailsMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUpdateDetailsMessage;
 
         /// <summary>
         /// txtCurrentPass control.
