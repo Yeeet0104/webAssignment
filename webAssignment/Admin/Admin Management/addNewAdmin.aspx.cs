@@ -40,5 +40,6 @@ namespace webAssignment.Admin.Admin_Management
         {
             lblStatus.Text = ddlStatus.SelectedItem.Text.ToString();
         }
+
     }
 }

@@ -2,17 +2,22 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                var removeOriStatement = document.getElementById('removeImage');
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var img = document.getElementById('<%= profilePic.ClientID %>');
-                    img.classList.remove("hidden");
-                    removeOriStatement.classList.add("hidden");
-                    img.src = e.target.result;
+        function previewImages(input) {
+            var imageContainer = document.getElementById('removeImage');
+            imageContainer.innerHTML = ''; // Clear the container
+            if (input.files) {
+                for (var i = 0; i < input.files.length; i++) {
+                    (function (file) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = document.createElement('img');
+                            img.classList.add('preview-image');
+                            img.src = e.target.result;
+                            imageContainer.appendChild(img);
+                        }
+                        reader.readAsDataURL(file);
+                    })(input.files[i]);
                 }
-                reader.readAsDataURL(input.files[0]);
             }
         }
     </script>
@@ -39,11 +44,11 @@
         <div class="flex justify-between">
             <div class="relative mr-2">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg  cursor-pointer" />
+                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg  cursor-pointer" OnClick="btnExport_Click" />
             </div>
             <div class="relative ml-2">
                 <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
-                <asp:Button ID="btnAddNewCust" runat="server" Text="Add Product" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" />
+                <asp:Button ID="btnAddNewCust" runat="server" Text="Add Product" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" Onclick="UploadButton_Click"/>
             </div>
 
         </div>
@@ -91,17 +96,20 @@
                         <div class="py-1">
                             <asp:Image ID="profilePic" CssClass="hidden" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
                         </div>
-                        <div id="removeImage" class="w-full flex flex-col items-center  justify-center">
+                        <div id="removeImage" class="w-full flex flex-row gap-10 items-center  justify-center">
 
-                            <span class="p-2 w-12 h-12 bg-blue-500 text-white rounded-xl flex justify-center items-center">
+                            <div class="w-full flex flex-col items-center  justify-center">
 
-                                <i class=" text-2xl fa-regular fa-image"></i>
-                            </span>
-                            <span class="mt-2 text-base leading-normal text-gray-500 ">Select Image From File</span>
+                                <span class="p-2 w-12 h-12 bg-blue-500 text-white rounded-xl flex justify-center items-center">
+
+                                    <i class=" text-2xl fa-regular fa-image"></i>
+                                </span>
+                                <span class="mt-2 text-base leading-normal text-gray-500 ">Select Image From File</span>
+                            </div>
                         </div>
                         <asp:Panel ID="PanelBackground" runat="server" />
-                        <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
-                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-[20%] py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                        <asp:FileUpload ID="fileImages" runat="server" Style="cursor: pointer; display: none" multiple="multiple" onchange="previewImages(this);" />
+                        <button type="button" onclick="document.getElementById('<%= fileImages.ClientID %>').click();" class="bg-blue-500 text-white w-[20%] py-1 rounded-lg cursor-pointer hover:bg-blue-600">
                             Choose File
                         </button>
 
@@ -163,7 +171,7 @@
 
                 <span class="mb-3">Category</span>
                 <span class="text-gray-500">Product Name</span>
-                <asp:DropDownList CssClass="p-3 bg-gray-100 mb-4 text-gray-500 rounded-xl" ID="DropDownList1" runat="server">
+                <asp:DropDownList CssClass="p-3 bg-gray-100 mb-4 text-gray-500 rounded-xl" ID="ddlCategory" runat="server">
                     <asp:ListItem Value="-"> Select a category</asp:ListItem>
                 </asp:DropDownList>
                 <%--                <span class="text-gray-500">Product Description</span>
@@ -195,6 +203,15 @@
             background-color: #F3F4F6;
             color: #9CA3AF;
             border-radius: 0.5rem;
+        }
+
+        .preview-image {
+            border-width: 1px;
+            border-radius: 0.25rem;
+            max-width: 150px;
+            height: 150px;
+            object-fit:contain;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
     </style>
 </asp:Content>
