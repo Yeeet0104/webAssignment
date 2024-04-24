@@ -210,6 +210,12 @@ PublishScripts/
 csx/
 *.build.csdef
 
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+
 # Microsoft Azure Emulator
 ecf/
 rcf/
