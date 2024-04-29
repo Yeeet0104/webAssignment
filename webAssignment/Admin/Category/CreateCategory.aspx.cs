@@ -19,6 +19,7 @@ namespace webAssignment.Admin.Category
 
         protected void Page_Load( object sender, EventArgs e )
         {
+
         }
 
 
@@ -56,7 +57,7 @@ namespace webAssignment.Admin.Category
                 String newCategoryID = GenerateNextCategoryId();
                 ViewState["NewCateName"] = newCateName;
                 ViewState["newCategoryID"] = newCategoryID;
-                ViewState["FileSavePath"] = ( "~/ProductImage/" + fileName );
+                ViewState["FileSavePath"] = ( "~/CategoryBannerImg/" + fileName );
 
                 // Show the popup for confirmation
                 popUpPanel.Style.Add("display", "flex");
@@ -64,7 +65,7 @@ namespace webAssignment.Admin.Category
                 // Set the text of the labels in the popup
                 categoryID.Text = newCategoryID;
                 categoryName.Text = newCateName;
-                bannerImage.ImageUrl = ( "~/ProductImage/" + fileName );
+                bannerImage.ImageUrl = ( "~/CategoryBannerImg/" + fileName );
             }
             else
             {
@@ -102,7 +103,6 @@ namespace webAssignment.Admin.Category
 
             return newCategoryId;
         }
-
 
         private void InsertCategoryIntoDatabase( string categoryId, string categoryName, string imagePath )
         {
