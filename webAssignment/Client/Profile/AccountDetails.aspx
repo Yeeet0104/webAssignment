@@ -78,91 +78,6 @@
                                 <asp:TextBox ID="txtPhoneNo" TextMode="Phone" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
                             </div>
                         </div>
-
-                        <div>
-                            <div class="flex flex-col">
-                                <span class="pb-1.5">Country</span>
-                                <asp:DropDownList ID="ddlCountry" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5">
-                                    <asp:ListItem>Malaysia</asp:ListItem>
-                                    <asp:ListItem>Argentina</asp:ListItem>
-                                    <asp:ListItem>Australia</asp:ListItem>
-                                    <asp:ListItem>Austria</asp:ListItem>
-                                    <asp:ListItem>Belgium</asp:ListItem>
-                                    <asp:ListItem>Bulgaria</asp:ListItem>
-                                    <asp:ListItem>Canada</asp:ListItem>
-                                    <asp:ListItem>Chile</asp:ListItem>
-                                    <asp:ListItem>China</asp:ListItem>
-                                    <asp:ListItem>Croatia</asp:ListItem>
-                                    <asp:ListItem>Czech Republic</asp:ListItem>
-                                    <asp:ListItem>Denmark</asp:ListItem>
-                                    <asp:ListItem>Egypt</asp:ListItem>
-                                    <asp:ListItem>Finland</asp:ListItem>
-                                    <asp:ListItem>France</asp:ListItem>
-                                    <asp:ListItem>Germany</asp:ListItem>
-                                    <asp:ListItem>Greece</asp:ListItem>
-                                    <asp:ListItem>Hungary</asp:ListItem>
-                                    <asp:ListItem>India</asp:ListItem>
-                                    <asp:ListItem>Indonesia</asp:ListItem>
-                                    <asp:ListItem>Ireland</asp:ListItem>
-                                    <asp:ListItem>Italy</asp:ListItem>
-                                    <asp:ListItem>Japan</asp:ListItem>
-                                    <asp:ListItem>Korea Republic</asp:ListItem>
-                                    <asp:ListItem>Latin America</asp:ListItem>
-                                    <asp:ListItem>Luxembourg</asp:ListItem>
-                                    <asp:ListItem>Macau</asp:ListItem>
-                                    <asp:ListItem>Mexico</asp:ListItem>
-                                    <asp:ListItem>Morocco</asp:ListItem>
-                                    <asp:ListItem>Netherlands</asp:ListItem>
-                                    <asp:ListItem>New Zealand</asp:ListItem>
-                                    <asp:ListItem>Norway</asp:ListItem>
-                                    <asp:ListItem>Philippines</asp:ListItem>
-                                    <asp:ListItem>Poland</asp:ListItem>
-                                    <asp:ListItem>Portugal</asp:ListItem>
-                                    <asp:ListItem>Puerto Rico</asp:ListItem>
-                                    <asp:ListItem>Romania</asp:ListItem>
-                                    <asp:ListItem>Russian Federation</asp:ListItem>
-                                    <asp:ListItem>Saudi Arabia</asp:ListItem>
-                                    <asp:ListItem>Singapore</asp:ListItem>
-                                    <asp:ListItem>Slovakia (Slovak Republic)</asp:ListItem>
-                                    <asp:ListItem>Slovenia</asp:ListItem>
-                                    <asp:ListItem>South Africa</asp:ListItem>
-                                    <asp:ListItem>Spain</asp:ListItem>
-                                    <asp:ListItem>Sweden</asp:ListItem>
-                                    <asp:ListItem>Switzerland</asp:ListItem>
-                                    <asp:ListItem>Thailand</asp:ListItem>
-                                    <asp:ListItem>Turkey</asp:ListItem>
-                                    <asp:ListItem>United Arab Emirates</asp:ListItem>
-                                    <asp:ListItem>United Kingdom</asp:ListItem>
-                                    <asp:ListItem>United States</asp:ListItem>
-                                    <asp:ListItem>Venezuela</asp:ListItem>
-                                    <asp:ListItem>Vietnam</asp:ListItem>
-
-                                </asp:DropDownList>
-                            </div>
-                        </div>
-
-                        <!--fourth row-->
-                        <div>
-                            <div class="flex flex-col">
-                                <span class="pb-1.5">State</span>
-                                <asp:TextBox ID="txtState" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex flex-col">
-                                <span class="pb-1.5">City</span>
-                                <asp:TextBox ID="txtCity" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
-                            </div>
-                        </div>
-
-                        <!--fifth row-->
-                        <div>
-                            <div class="flex flex-col">
-                                <span class="pb-1.5">Zip Code</span>
-                                <asp:TextBox ID="txtZipCode" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
-                            </div>
-                        </div>
                     </div>
 
                     <!--DOB-->
@@ -280,7 +195,20 @@
                             <asp:ListItem>2008</asp:ListItem>
                             <asp:ListItem>2009</asp:ListItem>
                             <asp:ListItem>2010</asp:ListItem>
-
+                            <asp:ListItem>2011</asp:ListItem>
+                            <asp:ListItem>2012</asp:ListItem>
+                            <asp:ListItem>2013</asp:ListItem>
+                            <asp:ListItem>2014</asp:ListItem>
+                            <asp:ListItem>2015</asp:ListItem>
+                            <asp:ListItem>2016</asp:ListItem>
+                            <asp:ListItem>2017</asp:ListItem>
+                            <asp:ListItem>2018</asp:ListItem>
+                            <asp:ListItem>2019</asp:ListItem>
+                            <asp:ListItem>2020</asp:ListItem>
+                            <asp:ListItem>2021</asp:ListItem>
+                            <asp:ListItem>2022</asp:ListItem>
+                            <asp:ListItem>2023</asp:ListItem>
+                            <asp:ListItem>2024</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                     <div class="w-auto pt-7">

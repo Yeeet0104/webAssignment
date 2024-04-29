@@ -76,51 +76,35 @@
 
         <asp:CheckBox ID="collapsible" runat="server" class="hidden" />
         <div id="contentDiv" class="w-full">
-            <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4  bg-white">
-                <div class="grid grid-cols-2 gap-6">
-                    <!-- Add New Address-->
-                    <asp:HyperLink ID="addShipAddressLnk" runat="server" NavigateUrl="~/Client/Profile/AddAddress.aspx" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
-                        <span class="text-gray-600">New Address</span>
-<i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
-                    </asp:HyperLink>
-
-
-                    <!-- Default Address-->
-                    <div class="p-4 border border-black">
-                        <div class="text-lg">
-                            <span class="font-bold pb-4">Dexter Goh</span><br />
-                            <span class="">K16 Jalan Ketapang<br />
-                                Taman Setapak<br />
-                                53000, Kuala Lumpur, Malaysia<br />
-                                0123136742</span>
+            <div class="w-full border border-gray-400 rounded-lg flex flex-col p-4 bg-white">
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [address_id], [address_line2], [address_line1], [first_name], [last_name], [zip_code], [city], [state], [countryCode], [phone_number] FROM [Address] WHERE [address_type] = 'shipping'"></asp:SqlDataSource>
+                <asp:ListView ID="shippingAddressList" runat="server" DataSourceID="SqlDataSource1">
+                    <LayoutTemplate>
+                        <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
+                            <asp:LinkButton runat="server" id="addNewShippingAddress" OnClick="addNewShippingAddress_Click" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
+                                <span class="text-gray-600">New Address</span>
+                                <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
+                            </asp:LinkButton>
+                            <span runat="server" id="itemPlaceholder" />
                         </div>
-                        <div class="flex justify-between pt-2">
-                            <div>
-                                <span class="pr-2 underline hover:cursor-pointer">Edit</span>
-                                <span class="pl-2 underline hover:cursor-pointer">Remove</span>
+                    </LayoutTemplate>
+                    <ItemTemplate>
+                        <div class="flex flex-col">
+                            <div class="border border-gray-400 p-4">
+                                <h4 class="font-bold pb-1 text-lg"><%# Eval("first_name") %> <%# Eval("last_name") %></h4>
+                                <p class="text-lg"><%# Eval("address_line1") %></p>
+                                <p class="text-lg"><%# Eval("address_line2") %></p>
+                                <p class="text-lg"><%# Eval("zip_code") %>, <%# Eval("city") %>, <%# Eval("state") %>, <%# Eval("countryCode") %></p>
+                                <p class="text-lg"><%# Eval("phone_number") %></p>
+
+                                <div class="pt-2">
+                                    <asp:LinkButton ID="editButton" CommandArgument='<%# Eval("address_id") %>' OnClick="editButton_Click" runat="server" class="pr-2 underline hover:cursor-pointer" Text="Edit" />
+                                    <asp:LinkButton ID="removeButton" runat="server" CommandArgument='<%# Eval("address_id") %>' OnClick="removeButton_Click" class="pr-2 underline hover:cursor-pointer" Text="Remove" />
+                                </div>
                             </div>
-                            <span class="font-bold">Default</span>
                         </div>
-                    </div>
-
-                    <div class="p-4 border border-gray-400 hover:border-black">
-                        <div class="text-lg">
-                            <span class="font-bold pb-4">Ryder Ming</span><br />
-                            <span class="">B-12 Jalan Murni<br />
-                                Taman Midah<br />
-                                52100, Kuala Lumpur, Malaysia<br />
-                                0129237451</span>
-                        </div>
-                        <div class="flex justify-between pt-2">
-                            <div>
-                                <span class="pr-2 underline hover:cursor-pointer">Edit</span>
-                                <span class="pl-2 underline hover:cursor-pointer">Remove</span>
-                            </div>
-                            <span class="font-bold">Select</span>
-                        </div>
-                    </div>
-
-                </div>
+                    </ItemTemplate>
+                </asp:ListView>
             </div>
         </div>
 
@@ -132,35 +116,38 @@
 
         <asp:CheckBox ID="collapsible2" runat="server" class="hidden" />
         <div id="contentDiv2" class="w-full">
-            <div class="w-full border border-gray-400 rounded-lg flex flex-col gap-3 tex gap-6 text-gray-704 p-4  bg-white">
-                <div class="grid grid-cols-2 gap-6">
-                    <!-- Add New Address-->
-                    <asp:HyperLink ID="addBillAddressLnk" runat="server" NavigateUrl="~/Client/Profile/AddAddress.aspx" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
-                        <span class="text-gray-600">New Address</span>
-<i id="plusIcon2" class="fa-solid fa-plus text-3xl font-normal"></i>
-                    </asp:HyperLink>
+            <div class="w-full border border-gray-400 rounded-lg flex flex-col p-4 bg-white">
+            <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [address_id], [address_line2], [address_line1], [first_name], [last_name], [zip_code], [city], [state], [countryCode], [phone_number] FROM [Address] WHERE [address_type] = 'billing'"></asp:SqlDataSource>
+            <asp:ListView ID="billingAddressList" runat="server" DataSourceID="SqlDataSource2">
+                <LayoutTemplate>
+                    <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
+                        <asp:LinkButton runat="server" id="addNewBillingAddress" OnClick="addNewBillingAddress_Click" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
+    <span class="text-gray-600">New Address</span>
+    <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
+</asp:LinkButton>
+                        <span runat="server" id="itemPlaceholder" />
+                    </div>
+                </LayoutTemplate>
+                <ItemTemplate>
+                    <div class="flex flex-col">
+                        <div class="border border-gray-400 p-4">
+                            <h4 class="font-bold pb-1 text-lg"><%# Eval("first_name") %> <%# Eval("last_name") %></h4>
+                            <p class="text-lg"><%# Eval("address_line1") %></p>
+                            <p class="text-lg"><%# Eval("address_line2") %></p>
+                            <p class="text-lg"><%# Eval("zip_code") %>, <%# Eval("city") %>, <%# Eval("state") %>, <%# Eval("countryCode") %></p>
+                            <p class="text-lg"><%# Eval("phone_number") %></p>
 
-                    <!-- Default Address-->
-                    <div class="p-4 border border-black">
-                        <div class="text-lg">
-                            <span class="font-bold pb-4">Dexter Goh</span><br />
-                            <span class="">K16 Jalan Ketapang<br />
-                                Taman Setapak<br />
-                                53000, Kuala Lumpur, Malaysia<br />
-                                0123136742</span>
-                        </div>
-                        <div class="flex justify-between pt-2">
-                            <div>
-                                <span class="pr-2 underline hover:cursor-pointer">Edit</span>
-                                <span class="pl-2 underline hover:cursor-pointer">Remove</span>
+                            <div class="pt-2">
+                                <asp:LinkButton ID="editButton" CommandArgument='<%# Eval("address_id") %>' OnClick="editButton_Click" runat="server" class="pr-2 underline hover:cursor-pointer" Text="Edit" />
+                                <asp:LinkButton ID="removeButton" runat="server" CommandArgument='<%# Eval("address_id") %>' OnClick="removeButton_Click" class="pr-2 underline hover:cursor-pointer" Text="Remove" />
                             </div>
-                            <span class="font-bold">Default</span>
                         </div>
                     </div>
-                </div>
-            </div>
+                </ItemTemplate>
+                
+            </asp:ListView>
         </div>
-
+            </div>
     </div>
     <!--End of Shipping Content-->
 </asp:Content>

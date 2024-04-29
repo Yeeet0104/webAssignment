@@ -33,13 +33,22 @@ namespace webAssignment.Client.Profile
         protected global::System.Web.UI.WebControls.CheckBox collapsible;
 
         /// <summary>
-        /// addShipAddressLnk control.
+        /// SqlDataSource1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink addShipAddressLnk;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
+
+        /// <summary>
+        /// shippingAddressList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView shippingAddressList;
 
         /// <summary>
         /// lblCheckBox2 control.
@@ -60,12 +69,21 @@ namespace webAssignment.Client.Profile
         protected global::System.Web.UI.WebControls.CheckBox collapsible2;
 
         /// <summary>
-        /// addBillAddressLnk control.
+        /// SqlDataSource2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink addBillAddressLnk;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource2;
+
+        /// <summary>
+        /// billingAddressList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView billingAddressList;
     }
 }

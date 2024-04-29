@@ -12,6 +12,7 @@ namespace webAssignment.Client.Profile
 {
     public partial class AccountDetails : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -48,7 +49,7 @@ namespace webAssignment.Client.Profile
         {
             // Query the database to retrieve the user's current account details based on the user ID
             string query = "SELECT * FROM [User] WHERE user_id = @UserId";
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -123,7 +124,7 @@ namespace webAssignment.Client.Profile
             // Update the corresponding record in the database with the new details
             string query = "UPDATE [User] SET first_name = @FirstName, last_name = @LastName, username = @UserName, email = @Email, phone_number = @PhoneNumber, birth_date = @BirthDate WHERE user_id = @UserId";
 
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MainDatabaseConnection"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -137,6 +138,7 @@ namespace webAssignment.Client.Profile
                     cmd.Parameters.AddWithValue("@UserId", userId);
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
                     if (rowsAffected > 0)
                     {
                         // Account details updated successfully
