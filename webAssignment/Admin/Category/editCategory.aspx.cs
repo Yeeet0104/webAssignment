@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -13,6 +15,7 @@ namespace webAssignment.Admin.Category
 {
     public partial class editCategory : System.Web.UI.Page
     {
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load( object sender, EventArgs e )
         {
             if (!IsPostBack)
@@ -69,22 +72,53 @@ namespace webAssignment.Admin.Category
         private void init( )
         {
             string encCateID = Request.QueryString["CategoryID"];
-            int categoryID = int.Parse(DecryptString(encCateID));
-            DataTable dummyData = GetDummyData();
+            string categoryID = DecryptString(encCateID);
+            DataTable categoryData = getspecificCategoryData(categoryID);
 
-            for ( int i = 0 ; i < dummyData.Rows.Count ; i++ )
+            if ( categoryData.Rows.Count > 0 )
             {
-                DataRow row = dummyData.Rows[i];
-                if ( int.Parse(row["CategoryID"].ToString()) == categoryID )
-                {
-                    editCategoryName.Text = row["CategoryName"].ToString();
-                    editCategoryDes.Text = row["CategoryDec"].ToString();
-
-
-
-                }
-
+                DataRow row = categoryData.Rows[0]; // Assuming categoryID is unique and only one row is returned
+                editCategoryName.Text = row["CategoryName"].ToString();
+                // Make sure "CategoryDec" is the correct column name
+                tumbnail.ImageUrl = row["CategoryBanner"].ToString();
+                editCategoryDes.Text = row["CategoryBanner"].ToString();
             }
+        }
+        private DataTable getspecificCategoryData(string categoryID)
+        {
+
+            DataTable categoryData = new DataTable();
+
+            // Define the connection using the connection string
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                // Open the connection
+                conn.Open();
+
+                // SQL query to select data from the Category table
+                string sql = "SELECT category_id, category_name, tumbnail_img_path FROM Category WHERE category_id = @categoryID";
+
+                // Create a SqlCommand object
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    // Define the parameter and its value
+                    cmd.Parameters.AddWithValue("@categoryID", categoryID);
+
+                    // Execute the query and obtain a SqlDataReader
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        // Load data directly from the SqlDataReader to the DataTable
+                        categoryData.Load(reader);
+                    }
+                }
+            }
+
+            // Rename the columns to match the GridView's DataFields
+            categoryData.Columns["category_id"].ColumnName = "CategoryID";
+            categoryData.Columns["category_name"].ColumnName = "CategoryName";
+            categoryData.Columns["tumbnail_img_path"].ColumnName = "CategoryBanner";
+
+            return categoryData;
         }
     }
 }

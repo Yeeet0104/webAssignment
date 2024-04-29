@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -13,15 +16,63 @@ namespace webAssignment.Admin.Category
 {
     public partial class Category : System.Web.UI.Page
     {
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
         protected void Page_Load( object sender, EventArgs e )
         {
 
             if ( !IsPostBack )
             {
-                categoryListView.DataSource = GetDummyData();
-
+                categoryListView.DataSource = getCategoryData();
                 categoryListView.DataBind();
             }
+        }
+        private DataTable getCategoryData() {
+
+            DataTable categoryData = new DataTable();
+
+            // Define the connection using the connection string
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                // Open the connection
+                conn.Open();
+
+                // SQL query to select data from the Category table
+                string sql = "SELECT category_id, category_name, tumbnail_img_path FROM Category";
+
+                // Create a SqlCommand object
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    // Execute the query and obtain a SqlDataReader
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        // Load data directly from the SqlDataReader to the DataTable
+                        categoryData.Load(reader);
+                    }
+                }
+            }
+
+            // Rename the columns to match the GridView's DataFields
+            categoryData.Columns["category_id"].ColumnName = "CategoryID";
+            categoryData.Columns["category_name"].ColumnName = "CategoryName";
+            categoryData.Columns["tumbnail_img_path"].ColumnName = "CategoryBanner";
+
+            // Optionally, you can add more columns if needed, or handle them differently based on your application needs
+            categoryData.Columns.Add("numberOfProd", typeof(int)); // Example of how you might add additional columns
+            categoryData.Columns.Add("PaymentDate", typeof(DateTime));
+            categoryData.Columns.Add("Sold", typeof(int));
+            categoryData.Columns.Add("Stock", typeof(int));
+
+            // Populate these new columns with dummy or calculated data if necessary
+            foreach ( DataRow row in categoryData.Rows )
+            {
+                row["numberOfProd"] = 2; // Dummy data for demonstration
+                row["PaymentDate"] = DateTime.Now;
+                row["Sold"] = 10;
+                row["Stock"] = 10;
+            }
+
+            return categoryData;
         }
         private DataTable GetDummyData( )
         {
@@ -54,6 +105,7 @@ namespace webAssignment.Admin.Category
             if ( e.CommandName == "EditCategory" )
             {
                 string categoryID = e.CommandArgument.ToString();
+                Debug.Write(categoryID);
                 string encryptedStr = EncryptString(categoryID);
                 Response.Redirect($"~/Admin/Category/editCategory.aspx?CategoryID={encryptedStr}");
             }
