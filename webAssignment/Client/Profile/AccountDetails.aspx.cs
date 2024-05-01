@@ -76,6 +76,12 @@ namespace webAssignment.Client.Profile
                             ddlMonth.SelectedValue = birthdate.ToString("MMMM");
                             ddlYear.SelectedValue = birthdate.Year.ToString();
                         }
+
+                        if (reader["profile_pic_path"] != DBNull.Value)
+                        {
+                            string profilePicPath = reader["profile_pic_path"].ToString();
+                            profilePic.ImageUrl = profilePicPath;
+                        }
                     }
                 }
             }
@@ -102,27 +108,42 @@ namespace webAssignment.Client.Profile
             // Create a DateTime object from the selected values
             DateTime birthDate = new DateTime(year, month, day);
 
-            // Retrieve the file path of the selected profile picture
-       //    string profilePicPath = "";
-        //    if (fileUpload.HasFile)
-        //    {
-         //       string fileName = Path.GetFileName(fileUpload.FileName);
-        //        string uploadDirectory = Server.MapPath("~/ProfilePictures/");
-        //        if (!Directory.Exists(uploadDirectory))
-         //       {
-          //          Directory.CreateDirectory(uploadDirectory);
-           //     }
-         //       string uploadPath = Path.Combine(uploadDirectory, userId + "_" + fileName);
-          //      fileUpload.SaveAs(uploadPath);
+            // Get the uploaded file
+            HttpPostedFile postedFile = fileUpload.PostedFile;
+            string profile_pic_path = "";
 
-                // Instead of saving the local file path, generate a URL for accessing the profile picture
-           //     string profilePicUrl = "/ProfilePictureHandler.ashx?userId=" + userId + "&fileName=" + fileName;
-          //      profilePicPath = profilePicUrl;
-         //   }
+            // Check if a file was uploaded
+            if (postedFile != null && postedFile.ContentLength > 0)
+            {
+                // Get the file extension
+                string fileExtension = Path.GetExtension(postedFile.FileName);
 
+                // Generate a unique file name
+                string fileName = Guid.NewGuid().ToString() + fileExtension;
+
+                string profileImgFolderPath = Server.MapPath("~/ProfilePic/");
+                if (!Directory.Exists(profileImgFolderPath))
+                {
+                    Directory.CreateDirectory(profileImgFolderPath);
+                }
+
+                // Define the path to save the file
+                string filePath = Server.MapPath("~/ProfilePic/") + fileName;
+
+                // Save the file to the specified path
+                postedFile.SaveAs(filePath);
+
+                // Save the file path to the database
+                profile_pic_path = "~/ProfilePic/" + fileName;
+            }
+            else
+            {
+                // No file was uploaded, leave the existing profile picture
+                profile_pic_path = null;
+            }
 
             // Update the corresponding record in the database with the new details
-            string query = "UPDATE [User] SET first_name = @FirstName, last_name = @LastName, username = @UserName, email = @Email, phone_number = @PhoneNumber, birth_date = @BirthDate WHERE user_id = @UserId";
+            string query = "UPDATE [User] SET first_name = @FirstName, last_name = @LastName, username = @UserName, email = @Email, phone_number = @PhoneNumber, birth_date = @BirthDate, profile_pic_path = @ProfilePicPath WHERE user_id = @UserId";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -134,7 +155,7 @@ namespace webAssignment.Client.Profile
                     cmd.Parameters.AddWithValue("@Email", email);
                     cmd.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
                     cmd.Parameters.AddWithValue("@BirthDate", birthDate);
-               //     cmd.Parameters.AddWithValue("@ProfilePicPath", profilePicPath);
+                    cmd.Parameters.AddWithValue("@ProfilePicPath", profile_pic_path);
                     cmd.Parameters.AddWithValue("@UserId", userId);
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -158,6 +179,40 @@ namespace webAssignment.Client.Profile
             // Handle the exception and provide feedback to the user
             lblUpdateDetailsMessage.Text = "An error occurred while updating account details: " + ex.Message;
         }
+               
+        protected void btnChangePass_Click(object sender, EventArgs e)
+        {
+            string userId = Request.Cookies["userInfo"]["userID"];
+            string query = "SELECT password FROM [User] WHERE user_id = @UserId";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
 
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        if (txtCurrentPass.Text == reader["password"].ToString())
+                        {
+                            if (txtNewPass.Text == txtConfirmPass.Text)
+                            {
+                                reader.Close();
+                                string updateQuery = "UPDATE [User] SET password = @Password WHERE user_id = @UserId";
+
+                                using (SqlCommand updateCmd = new SqlCommand(updateQuery, conn))
+                                {
+                                    updateCmd.Parameters.AddWithValue("@Password", txtNewPass.Text);
+                                    updateCmd.Parameters.AddWithValue("@UserId", userId);
+                                    int rowsAffected = updateCmd.ExecuteNonQuery();
+                                    conn.Close();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

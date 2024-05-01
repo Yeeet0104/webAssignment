@@ -14,6 +14,7 @@ namespace webAssignment.Client.LoginSignUp
 {
     public partial class SignUp : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
         }
@@ -77,9 +78,8 @@ namespace webAssignment.Client.LoginSignUp
         private string GenerateUserId()
         {
             string userId = "";
-            string strCon = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
-            using (SqlConnection conn = new SqlConnection(strCon))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
@@ -102,20 +102,19 @@ namespace webAssignment.Client.LoginSignUp
 
         private bool InsertUser(string userId)
         {
-            string strCon = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(strCon))
+            string defaultProfilePic = "~/ProfilePic/defaultPic.jpg";
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                string insertQuery = "INSERT INTO [User] (user_id, username, email, password, date_created) VALUES (@user_id, @username, @email, @password, @date_created)";
+                string insertQuery = "INSERT INTO [User] (user_id, username, email, password, profile_pic_path, date_created) VALUES (@user_id, @username, @email, @password, @profile_pic_path, @date_created)";
                 SqlCommand cmd = new SqlCommand(insertQuery, conn);
                 cmd.Parameters.AddWithValue("@user_id", userId);
                 cmd.Parameters.AddWithValue("@username", txtUsername.Text);
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@password", txtPass.Text);
                 cmd.Parameters.AddWithValue("@date_created", DateTime.Now.Date.ToString("MM/dd/yyyy"));
-
+                cmd.Parameters.AddWithValue("@profile_pic_path", defaultProfilePic);
                 int rowsAffected = cmd.ExecuteNonQuery();
                 conn.Close();
 

@@ -17,6 +17,35 @@
             document.getElementById('<%= fileUpload.ClientID %>').click();
             return false; // Prevent postback on LinkButton click
         }
+
+        function togglePasswordVisibility(eyeIconId, passwordFieldId) {
+            var passwordField = document.getElementById(passwordFieldId);
+            var eyeIcon = document.getElementById(eyeIconId);
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("eyeIcon1").addEventListener("click", function () {
+                togglePasswordVisibility("eyeIcon1", '<%= txtCurrentPass.ClientID %>');
+            });
+
+            document.getElementById("eyeIcon2").addEventListener("click", function () {
+                togglePasswordVisibility("eyeIcon2", '<%= txtNewPass.ClientID %>');
+            });
+            document.getElementById("eyeIcon3").addEventListener("click", function () {
+                togglePasswordVisibility("eyeIcon3", '<%= txtConfirmPass.ClientID %>');
+    });
+        });
+
     </script>
 
 </asp:Content>
@@ -30,7 +59,7 @@
                 <!--image col-->
                 <div class="pl-2 pr-6 w-1/3 pt-2">
                     <div class="flex justify-center items-center">
-                        <asp:Image ID="profilePic" ImageUrl="" CssClass="rounded-full w-[230px] drop-shadow-lg border border-gray-200" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
+                        <asp:Image ID="profilePic" CssClass="rounded-full w-[230px] drop-shadow-lg border border-gray-200" Height="230" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" ImageUrl='<%# Bind("profile_pic_path", "{0}") %>' />
                     </div>
 
                     <div class="flex justify-center pt-6">
@@ -229,7 +258,7 @@
                     <div class="flex flex-col relative">
                         <span>Current Password</span>
                         <asp:TextBox ID="txtCurrentPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5"></asp:TextBox>
-                        <i class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                        <i id="eyeIcon1" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
                     </div>
                 </div>
 
@@ -239,7 +268,7 @@
                         <div class="flex flex-col relative">
                             <span>New Password</span>
                             <asp:TextBox ID="txtNewPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5"></asp:TextBox>
-                            <i class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                            <i id="eyeIcon2" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
                         </div>
                     </div>
                 </div>
@@ -249,12 +278,12 @@
                         <div class="flex flex-col relative">
                             <span>Confirm Password</span>
                             <asp:TextBox ID="txtConfirmPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5"></asp:TextBox>
-                            <i class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                            <i id="eyeIcon3" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
                         </div>
                     </div>
                 </div>
                 <div class="w-auto py-3">
-                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3" />
+                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3" OnClick="btnChangePass_Click" />
                 </div>
             </div>
         </div>

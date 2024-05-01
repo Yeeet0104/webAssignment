@@ -22,7 +22,7 @@
 		<siteMapNode url="~/Admin/Customer Management/customerManagement.aspx" title="Customer List"  description="">
 			<siteMapNode url="~/Admin/Customer Management/editCustomer.aspx" title="Edit Customer Profile"  description="" />
 		</siteMapNode>
-		<siteMapNode url="~/Admin/Admin Management/adminManagement.aspx" title="Customer List"  description="">
+		<siteMapNode url="~/Admin/Admin Management/adminManagement.aspx" title="Admin List"  description="">
 			<siteMapNode url="~/Admin/Admin Management/addNewAdmin.aspx" title="Add Admin"  description="" />
 		</siteMapNode>
 	</siteMapNode>
