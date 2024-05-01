@@ -150,13 +150,13 @@ namespace webAssignment.Admin.Product_Management
         private void init( )
         {
             string encProdcutID = Request.QueryString["OrderID"];
-            int productID = int.Parse(DecryptString(encProdcutID));
+            string productID = DecryptString(encProdcutID);
             DataTable dummyData = GetDummyData();
 
             for ( int i = 0 ; i < dummyData.Rows.Count ; i++ )
             {
                 DataRow row = dummyData.Rows[i];
-                if ( int.Parse(row["productID"].ToString()) == productID )
+                if ( row["productID"].ToString() == productID )
                 {
                     editTbProductName.Text = row["productName"].ToString();
                     editTbProductDes.Text = row["ProductDec"].ToString();

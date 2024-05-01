@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
@@ -106,7 +107,7 @@ namespace webAssignment.Admin.Category
 
         private void InsertCategoryIntoDatabase( string categoryId, string categoryName, string imagePath )
         {
-            string query = "INSERT INTO Category (category_id, category_name, tumbnail_img_path) VALUES (@CategoryId, @CategoryName, @ImagePath)";
+            string query = "INSERT INTO Category (category_id, category_name, tumbnail_img_path, date_added) VALUES (@CategoryId, @CategoryName, @ImagePath , @DateAdded)";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -115,6 +116,7 @@ namespace webAssignment.Admin.Category
                     cmd.Parameters.AddWithValue("@CategoryId", categoryId);
                     cmd.Parameters.AddWithValue("@CategoryName", categoryName);
                     cmd.Parameters.AddWithValue("@ImagePath", imagePath);
+                    cmd.Parameters.Add("@DateAdded", SqlDbType.DateTime).Value = DateTime.UtcNow;
 
                     try
                     {
@@ -178,6 +180,8 @@ namespace webAssignment.Admin.Category
                     ViewState.Remove("NewCateName");
                     ViewState.Remove("NewCateDes");
                     ViewState.Remove("FileSavePath");
+
+                    ShowNotification("Succesfully Added New Category", "success");
                 }
                 else
                 {
@@ -198,6 +202,13 @@ namespace webAssignment.Admin.Category
             ViewState.Remove("NewCateName");
             ViewState.Remove("NewCateDes");
             ViewState.Remove("FileSavePath");
+        }
+
+
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
     }
 }
