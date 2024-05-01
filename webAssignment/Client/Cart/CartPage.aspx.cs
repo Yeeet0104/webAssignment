@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
@@ -13,127 +15,350 @@ namespace webAssignment.Client.Cart
     public partial class CartPage : System.Web.UI.Page
     {
         private decimal taxRate = 0.06m;
-        private decimal discountRate = 0.00m;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                if (isCartEmpty())
+                Session["UserId"] = "U1001";
+                Session["taxRate"] = taxRate;
+                Session["Voucher"] = "";
+
+                getData();
+                updateCartTotal();
+            }
+        }
+
+
+
+        private void getData()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            string updateCartQuery =
+                "SELECT pv.product_variant_id AS variantID, p.product_name AS productName, pv.variant_name AS variantName, cd.quantity, pv.variant_price AS price, (Select TOP 1 path FROM Image_Path imgp WHERE imgp.product_id = p.product_id ORDER BY imgp.image_path_id ASC) AS imagePath FROM Cart_Details cd INNER JOIN Cart c ON cd.cart_id = c.cart_id INNER JOIN Product_Variant pv ON cd.product_variant_id = pv.product_variant_id INNER JOIN Product p ON pv.product_id = p.product_id WHERE c.user_id = @userId;";
+
+
+            String userId = GetCurrentUserId(); // Replace with your logic to get the current user ID
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
                 {
-                    cartEmptyMsg.Attributes["class"] = "block";
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(updateCartQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@userId", userId);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                // Bind data to your GridView, Repeater, or other control
+                                // (Replace with your specific control binding logic)
+                                lvCartProduct.DataSource = reader;
+                                lvCartProduct.DataBind();
+
+                                cartEmptyMsg.Attributes["class"] = "hidden"; // Hide empty cart message
+                                txtCoupon.ReadOnly = false;
+                                btnProceedCheckout.Enabled = true;
+                            }
+                            else
+                            {
+                                cartEmptyMsg.Attributes["class"] = "block"; // Show empty cart message
+                                txtCoupon.ReadOnly = true;
+                                btnProceedCheckout.Enabled = false;
+                                return;
+                            }
+                        }
+
+                    }
+
                 }
-                updateCartDetails();
-            }
-        }
-
-        private void updateCartDetails()
-        {
-            lvCartProduct.DataSource = GetDummyData();
-            lvCartProduct.DataBind();
-
-            decimal cartSubtotal = calculateCartSubtotal(GetDummyData());
-            lblCartSubtotal.Text = cartSubtotal.ToString("C");
-            decimal tax = calculateTax(cartSubtotal);
-            lblCartTax.Text = tax.ToString("C");
-            decimal discount = calculateDiscount(cartSubtotal);
-            lblCartDiscount.Text = "(-" + (int)(discountRate * 100) + "%) " + discount.ToString("C");
-            lblCartTotal.Text = (cartSubtotal + tax - discount).ToString("C");
-        }
-
-        private DataTable GetDummyData()
-        {
-            DataTable dummyData = new DataTable();
-
-            // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("ProductImageUrl", typeof(string));
-            dummyData.Columns.Add("ProductName", typeof(string));
-            dummyData.Columns.Add("Price", typeof(decimal));
-            dummyData.Columns.Add("Quantity", typeof(int));
-            dummyData.Columns.Add("Subtotal", typeof(decimal));
-
-            // Add rows with dummy data
-            dummyData.Rows.Add("~/Client/Cart/images/i7.png", "Iphone 11", 1500.00m, 2, 3000.00m);
-            dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "DTX 4090", 10.00m, 1, 10.00m);
-            // Add more rows as needed for testing
-
-            return dummyData;
-        }
-
-        private bool isCartEmpty()
-        {
-            return GetDummyData().Rows.Count == 0;
-        }
-
-        private decimal calculateTax(decimal cartSubtotal)
-        {
-            return cartSubtotal * taxRate;
-        }
-
-        private decimal calculateDiscount(decimal cartSubtotal)
-        {
-            return cartSubtotal * discountRate;
-        }
-
-        private decimal calculateCartSubtotal(DataTable dum)
-        {
-            if (dum != null)
-            {
-                decimal cartTotal = 0.0m;
-
-                foreach (DataRow row in dum.Rows)
+                catch (SqlException ex)
                 {
-                    // Retrieve the subtotal for the current row
-                    decimal subtotal = Convert.ToDecimal(row["Subtotal"]);
-                    // Add the subtotal to the cart total
-                    cartTotal += subtotal;
+                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                    LogError(ex.Message);
+                    Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
                 }
-                return cartTotal;
             }
-            return 0;
         }
 
-        protected string CalculateSubtotal(object price, object quantity)
+        private String GetCurrentUserId()
         {
-            if (price != null && quantity != null)
+            if (Session["UserId"] != null)
             {
-                int qty = Convert.ToInt32(quantity);
-                decimal priceValue = Convert.ToDecimal(price);
-                decimal subtotal = qty * priceValue;
-                return subtotal.ToString("C");
-            }
-            return "N/A";
-        }
-
-        protected void btnApplyCoupon_Click(object sender, EventArgs e)
-        {
-            if (txtCoupon.Text == "1234")
-            {
-                discountRate = 0.5m;
-                updateCartDetails();
-                txtCoupon.Text = "";
-                txtCoupon.Attributes["placeholder"] = "Coupon Applied";
+                return Convert.ToString(Session["UserId"]);
             }
             else
             {
-                discountRate = 0.0m;
-                updateCartDetails();
-                txtCoupon.Text = "";
-                txtCoupon.Attributes["placeholder"] = "Invalid Code";
+                return "";
             }
+        }
 
+        private void LogError(string message)
+        {
+            Console.WriteLine("Error: " + message);
+        }
+
+        private void updateCartTotal()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            string getCartTotalQuery =
+                "SELECT cd.quantity, pv.variant_price AS price FROM Cart c INNER JOIN Cart_Details cd ON c.cart_id = cd.cart_id INNER JOIN Product_Variant pv ON cd.product_variant_id = pv.product_variant_id WHERE c.user_id = @userId;";
+
+            String userId = GetCurrentUserId(); // Replace with your logic to get the current user ID
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(getCartTotalQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@userId", userId);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                decimal subtotal = 0.0m;
+                                while (reader.Read())
+                                {
+
+                                    int qty = Convert.ToInt32(reader[0]);
+                                    decimal price = Convert.ToDecimal(reader[1]);
+                                    subtotal += qty * price;
+                                }
+                                decimal shipping = (subtotal > 100.0m) ? 0.0m : 15.0m;
+                                decimal discountRate = checkDiscountRate(txtCoupon.Text, command, connection);
+                                decimal discount = subtotal * discountRate;
+                                decimal tax = (subtotal - discount) * taxRate;
+                                decimal total = subtotal - discount + tax + shipping;
+
+                                lblCartSubtotal.Text = "RM " + $"{subtotal:F2}";
+                                if (shipping == 0.0m)
+                                    lblCartShipping.Text = "Free";
+                                else
+                                    lblCartShipping.Text = "RM " + $"{shipping:F2}";
+                                lblCartDiscount.Text = "[-" + $"{discountRate * 100:F0}" + "%] RM " + $"{discount:F2}";
+                                lblCartTax.Text = "[" + $"{taxRate * 100:F0}" + "%] RM " + $"{tax:F2}";
+                                lblCartTotal.Text = "RM " + $"{total:F2}";
+
+                                //updateCartTotal(Convert.ToDecimal(reader[0]), command, connection);
+                            }
+                        }
+                    }
+
+                }
+                catch (SqlException ex)
+                {
+                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                    LogError(ex.Message);
+                    Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
+                }
+            }
+        }
+
+        private decimal checkDiscountRate(string voucher, SqlCommand command, SqlConnection connection)
+        {
+            string getDiscountRate = "SELECT discount_rate FROM Voucher WHERE voucher_id = @id;";
+            using (command = new SqlCommand(getDiscountRate, connection))
+            {
+                command.Parameters.AddWithValue("@id", voucher);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        Session["Voucher"] = voucher;
+                        return Convert.ToDecimal(reader[0]);
+                    }
+                }
+            }
+            Session["Voucher"] = "";
+            return 0.0m;
+        }
+
+
+        protected void btnApplyCoupon_Click(object sender, EventArgs e)
+        {
+            updateCartTotal();
         }
 
         protected void btnProceedCheckout_Click(object sender, EventArgs e)
         {
-            if (isCartEmpty())
+            Response.Redirect("~/Client/Checkout/CheckoutPage.aspx");
+        }
+
+        protected void cartListView_ItemCommand(object sender, ListViewCommandEventArgs e)
+        {
+            // Check if the user click the reduce btn or the increase btn
+            if (e.CommandName == "reduceQty")
             {
-                lblMessage.Text = "Please add items before proceeding to checkout.";
+                // Get the variant ID
+                String productVariantID = e.CommandArgument.ToString();
+                String userID = GetCurrentUserId();
+
+                // Connect database
+                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+                string reduceQtyQuery =
+                    "SELECT cd.quantity, pv.stock FROM Product_Variant pv INNER JOIN Cart_Details cd ON cd.product_variant_id = pv.product_variant_id INNER JOIN Cart c ON c.cart_id = cd.cart_id WHERE pv.product_variant_id = @pvID AND c.user_id = @userId;";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlCommand command = new SqlCommand(reduceQtyQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@pvID", productVariantID);
+                            command.Parameters.AddWithValue("@userId", userID);
+
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {
+                                    reader.Read();
+                                    // Get the stock and check if the cart qty > than the stock
+                                    if (Convert.ToInt32(reader[0]) > 1)
+                                    {
+                                        updateCartQuantity(userID, productVariantID, Convert.ToInt32(reader[0]) - 1);
+                                        getData();
+                                        updateCartTotal();
+                                    }
+
+
+                                }
+                            }
+                        }
+
+                    }
+                    catch (SqlException ex)
+                    {
+                        // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                        LogError(ex.Message);
+                        Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
+                    }
+                }
+
             }
-            else
+            else if (e.CommandName == "increaseQty")
             {
-                Response.Redirect("~/Client/Checkout/CheckoutPage.aspx");
+                // Get the variant ID
+                String productVariantID = e.CommandArgument.ToString();
+                String userID = GetCurrentUserId();
+
+                // Connect database
+                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+                string increaseQtyQuery =
+                    "SELECT cd.quantity, pv.stock FROM Product_Variant pv INNER JOIN Cart_Details cd ON cd.product_variant_id = pv.product_variant_id INNER JOIN Cart c ON c.cart_id = cd.cart_id WHERE pv.product_variant_id = @pvID AND c.user_id = @userId;";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlCommand command = new SqlCommand(increaseQtyQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@pvID", productVariantID);
+                            command.Parameters.AddWithValue("@userId", userID);
+
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {
+                                    reader.Read();
+                                    // Get the stock and check if the cart qty > than the stock
+                                    if (Convert.ToInt32(reader[0]) < Convert.ToInt32(reader[1]))
+                                    {
+                                        updateCartQuantity(userID, productVariantID, Convert.ToInt32(reader[0]) + 1);
+                                        getData();
+                                        updateCartTotal();
+                                    }
+
+
+                                }
+                            }
+                        }
+
+                    }
+                    catch (SqlException ex)
+                    {
+                        // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                        LogError(ex.Message);
+                        Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
+                    }
+                }
+            }
+            else if (e.CommandName == "deleteItem")
+            {
+                // Get the variant ID
+                String productVariantID = e.CommandArgument.ToString();
+                String userID = GetCurrentUserId();
+
+                // Connect database
+                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+                string deleteItemQuery =
+                    "DELETE FROM Cart_Details  WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM cart WHERE user_id = @userId);";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlCommand command = new SqlCommand(deleteItemQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@pvID", productVariantID);
+                            command.Parameters.AddWithValue("@userId", userID);
+
+                            command.ExecuteNonQuery();
+
+                            getData();
+                            updateCartTotal();
+                        }
+
+                    }
+                    catch (SqlException ex)
+                    {
+                        // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                        LogError(ex.Message);
+                        Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
+                    }
+                }
             }
         }
 
+        private void updateCartQuantity(String userID, String pvID, int newQty)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string updateQuery = "UPDATE Cart_Details SET quantity = @newQty WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM Cart WHERE user_id = @userID);";
+
+                using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                {
+
+                    command.Parameters.AddWithValue("@newQty", newQty);
+                    command.Parameters.AddWithValue("@pvID", pvID);
+                    command.Parameters.AddWithValue("userID", userID);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
