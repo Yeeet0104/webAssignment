@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -18,33 +19,10 @@ namespace webAssignment.Admin.Category
         private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load( object sender, EventArgs e )
         {
-            if (!IsPostBack)
+            if ( !IsPostBack )
             {
                 init();
             }
-        }
-
-        private DataTable GetDummyData( )
-        {
-            DataTable dummyData = new DataTable();
-
-            // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("CategoryID", typeof(int));
-            dummyData.Columns.Add("CategoryBanner", typeof(string));
-            dummyData.Columns.Add("CategoryDec", typeof(string));
-            dummyData.Columns.Add("CategoryName", typeof(string));
-            dummyData.Columns.Add("numberOfProd", typeof(int));
-            dummyData.Columns.Add("PaymentDate", typeof(DateTime));
-            dummyData.Columns.Add("Sold", typeof(int));
-            dummyData.Columns.Add("Stock", typeof(int));
-
-            // Add rows with dummy data
-            dummyData.Rows.Add(10001, "~/Admin/Layout/image/DexProfilePic.jpeg","Is a iphone", "Phone ", 2, DateTime.Now, 10, 10);
-            dummyData.Rows.Add(10002, "~/Admin/Layout/image/DexProfilePic.jpeg", "Is a PC", "Pc", 2, DateTime.Now, 10, 10);
-            dummyData.Rows.Add(10003, "~/Admin/Layout/image/DexProfilePic.jpeg", "Is a Laptop", "Laptop", 2, DateTime.Now, 10, 10);
-            // Add more rows as needed for testing
-
-            return dummyData;
         }
 
         protected string DecryptString( string cipherText )
@@ -80,11 +58,12 @@ namespace webAssignment.Admin.Category
                 DataRow row = categoryData.Rows[0]; // Assuming categoryID is unique and only one row is returned
                 editCategoryName.Text = row["CategoryName"].ToString();
                 // Make sure "CategoryDec" is the correct column name
-                tumbnail.ImageUrl = row["CategoryBanner"].ToString();
-                editCategoryDes.Text = row["CategoryBanner"].ToString();
+                tumbnail.ImageUrl = row["tumbnail_img_path"].ToString();
+                editCategoryDes.Text = row["descriptions"].ToString();
             }
         }
-        private DataTable getspecificCategoryData(string categoryID)
+
+        private DataTable getspecificCategoryData( string categoryID )
         {
 
             DataTable categoryData = new DataTable();
@@ -96,7 +75,7 @@ namespace webAssignment.Admin.Category
                 conn.Open();
 
                 // SQL query to select data from the Category table
-                string sql = "SELECT category_id, category_name, tumbnail_img_path FROM Category WHERE category_id = @categoryID";
+                string sql = "SELECT category_id, category_name, tumbnail_img_path , descriptions FROM Category WHERE category_id = @categoryID";
 
                 // Create a SqlCommand object
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
@@ -113,12 +92,117 @@ namespace webAssignment.Admin.Category
                 }
             }
 
-            // Rename the columns to match the GridView's DataFields
+
             categoryData.Columns["category_id"].ColumnName = "CategoryID";
             categoryData.Columns["category_name"].ColumnName = "CategoryName";
-            categoryData.Columns["tumbnail_img_path"].ColumnName = "CategoryBanner";
+            categoryData.Columns["tumbnail_img_path"].ColumnName = "tumbnail_img_path";
+            categoryData.Columns["descriptions"].ColumnName = "descriptions";
 
             return categoryData;
         }
+
+        protected void saveChanges_Click( object sender, EventArgs e )
+        {
+            string encCateID = Request.QueryString["CategoryID"];
+            string categoryID = DecryptString(encCateID);
+            DataTable categoryData = getspecificCategoryData(categoryID);
+
+            if ( categoryData.Rows.Count > 0 )
+            {
+                DataRow row = categoryData.Rows[0];
+                bool changesDetected = false;
+
+                // Check for changes in each field
+                if ( editCategoryName.Text != row["CategoryName"].ToString() )
+                {
+                    changesDetected = true;
+                    row["CategoryName"] = editCategoryName.Text;
+                }
+                if ( editCategoryDes.Text != row["descriptions"].ToString() )
+                {
+                    changesDetected = true;
+                    row["descriptions"] = editCategoryDes.Text;
+                }
+
+                if ( getFileSavePath(false) != row["tumbnail_img_path"].ToString() )
+                {
+                    changesDetected = true;
+                    row["tumbnail_img_path"] = getFileSavePath(true);
+                }
+
+                // Only update if changes were detected
+                if ( changesDetected )
+                {
+                    UpdateCategoryData(row);
+                    init();
+                }
+            }
+        }
+        
+        private string getFileSavePath( bool saveToLocal ) {
+
+            string fileName = "";
+
+            if ( fileImages.HasFiles )
+            {
+                foreach ( HttpPostedFile postedFile in fileImages.PostedFiles )
+                {
+                    fileName = Path.GetFileName(postedFile.FileName);
+                    string fileSavePath = Server.MapPath("~/CategoryBannerImg/") + fileName;
+                    try
+                    {
+                        if ( saveToLocal ) { 
+                            // Save the file.
+                            postedFile.SaveAs(fileSavePath);
+                            Debug.WriteLine("Saving file to: " + fileSavePath);
+                        }
+                    }
+                    catch ( Exception ex )
+                    {
+                        Debug.WriteLine("Error: " + ex.Message);
+                    }
+
+                }
+            }
+
+            return "~/CategoryBannerImg/" + fileName;
+        }
+        private void UpdateCategoryData( DataRow row )
+        {
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                string sql = @"
+                            UPDATE Category SET 
+                            category_name = @CategoryName,
+                            descriptions = @Descriptions,
+                            tumbnail_img_path = @tumbnail_img_path
+                            WHERE category_id = @categoryID";
+
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@categoryID", row["CategoryID"]);
+                    cmd.Parameters.AddWithValue("@CategoryName", row["CategoryName"]);
+                    cmd.Parameters.AddWithValue("@tumbnail_img_path", row["tumbnail_img_path"]);
+                    cmd.Parameters.AddWithValue("@Descriptions", row["descriptions"]);
+                    int result = cmd.ExecuteNonQuery();
+                    if ( result > 0 )
+                    {
+                        ShowNotification("Succesfully Update Category", "success");
+                    }
+                    else
+                    {
+                        ShowNotification("Something when wrong ", "warning");
+
+                    }
+                }
+            }
+        }
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ScriptManager.RegisterStartupScript(this, GetType(), "showSnackbar", $"showSnackbar('{message}', '{type}');", true);
+        }
     }
+
 }

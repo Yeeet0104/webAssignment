@@ -38,7 +38,7 @@
         <div class="flex w-full justify-end mb-3">
             <div class="relative">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="saveChanges" runat="server" Text="Save Changes" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
+                <asp:Button ID="saveChanges" runat="server" Text="Save Changes" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" OnClick="saveChanges_Click" />
             </div>
         </div>
     </div>
