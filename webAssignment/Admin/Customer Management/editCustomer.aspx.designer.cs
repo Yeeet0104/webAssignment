@@ -24,22 +24,22 @@ namespace webAssignment.Admin.Customer
         protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
 
         /// <summary>
-        /// btnCancel control.
+        /// cancelBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancel;
+        protected global::System.Web.UI.WebControls.HyperLink cancelBtn;
 
         /// <summary>
-        /// btnSaveCustomer control.
+        /// btnSaveDetails control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink btnSaveCustomer;
+        protected global::System.Web.UI.WebControls.Button btnSaveDetails;
 
         /// <summary>
         /// profilePic control.
@@ -78,13 +78,31 @@ namespace webAssignment.Admin.Customer
         protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
 
         /// <summary>
-        /// txtEditName control.
+        /// txtEditFirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEditName;
+        protected global::System.Web.UI.WebControls.TextBox txtEditFirstName;
+
+        /// <summary>
+        /// txtEditLastName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditLastName;
+
+        /// <summary>
+        /// txtEditUsername control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditUsername;
 
         /// <summary>
         /// txtEditEmail control.

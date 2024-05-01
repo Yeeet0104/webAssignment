@@ -168,6 +168,7 @@
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
     <Content Include="Client\Profile\ReviewPage.aspx" />
     <Content Include="Client\Wishlist\WishlistPage.aspx" />
+    <Content Include="ProfilePic\defaultPic.jpg" />
     <Content Include="testingDb.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>

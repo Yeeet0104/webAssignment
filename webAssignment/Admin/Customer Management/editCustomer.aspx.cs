@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -11,66 +14,172 @@ namespace webAssignment.Admin.Customer
 {
     public partial class editCustomer : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                string name = Request.QueryString["name"];
-                string email = Request.QueryString["email"];
-                string phone = Request.QueryString["phone"];
-                string dob = Request.QueryString["dob"];
-                string imgUrl = Request.QueryString["imgUrl"];
-
-                if (!string.IsNullOrEmpty(name))
+                // Retrieve the user ID from the query string
+                string userId = Request.QueryString["userId"];
+                if (userId != null)
                 {
-                    txtEditName.Text = HttpUtility.UrlDecode(name);
-                }
-
-                if (!string.IsNullOrEmpty(email))
-                {
-                    txtEditEmail.Text = HttpUtility.UrlDecode(email);
-                }
-
-                if (!string.IsNullOrEmpty(phone))
-                {
-                    txtEditPhoneNo.Text = HttpUtility.UrlDecode(phone);
-                }
-
-                if (!string.IsNullOrEmpty(imgUrl))
-                {
-                    profilePic.ImageUrl = HttpUtility.UrlDecode(imgUrl);
+                    // Load the address details corresponding to the address ID
+                    LoadUserForEdit(userId);
                 }
             }
         }
 
-
-        private DataRow GetUpdatedCustomerData()
+        private void LoadUserForEdit(string userId)
         {
-            // Retrieve the updated customer data from the form fields
-            string name = txtEditName.Text;
-            string email = txtEditEmail.Text;
-            string phone = txtEditPhoneNo.Text;
-            string imageUrl = profilePic.ImageUrl;
 
-            // Create a DataTable with the required columns
-            DataTable dt = new DataTable();
-            dt.Columns.Add("CustomerName", typeof(string));
-            dt.Columns.Add("CustomerEmail", typeof(string));
-            dt.Columns.Add("PhoneNo", typeof(string));
-            dt.Columns.Add("CustomerImageUrl", typeof(string));
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Handle the case where the addressId is not provided
+                return;
+            }
 
-            // Create a new DataRow and populate it with the updated data
-            DataRow updatedRow = dt.NewRow();
-            updatedRow["CustomerName"] = name;
-            updatedRow["CustomerEmail"] = email;
-            updatedRow["PhoneNo"] = phone;
-            updatedRow["CustomerImageUrl"] = imageUrl;
+            string query = "SELECT * FROM [User] WHERE user_id = @UserId";
 
-            return updatedRow;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {                        
+                        txtEditFirstName.Text = reader["first_name"].ToString();
+                        txtEditLastName.Text = reader["last_name"].ToString() ;
+                        txtEditUsername.Text = reader["username"].ToString();
+                        txtEditEmail.Text = reader["email"].ToString();
+                        txtEditPhoneNo.Text = reader["phone_number"].ToString();
+                        ddlStatus.Items.Add(reader["status"].ToString());
+
+                        // Check if the birthdate field is null
+                        if (reader["birth_date"] != DBNull.Value)
+                        {
+                            // Retrieve the birthdate from the database
+                            DateTime birthdate = Convert.ToDateTime(reader["birth_date"]);
+
+                            // Select the corresponding items in the dropdown lists
+                            ddlDay.SelectedValue = birthdate.Day.ToString();
+                            ddlMonth.SelectedValue = birthdate.ToString("MMMM");
+                            ddlYear.SelectedValue = birthdate.Year.ToString();
+                        }
+
+                        if (reader["profile_pic_path"] != DBNull.Value)
+                        {
+                            string profilePicPath = reader["profile_pic_path"].ToString();
+                            profilePic.ImageUrl = profilePicPath;
+                        }
+
+                    }
+                    reader.Close();
+                }
+            }
         }
+
         protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-                lblStatus.Text = ddlStatus.SelectedItem.Text.ToString();
+            lblStatus.Text = ddlStatus.SelectedItem.Text;
+            if (ddlStatus.SelectedItem.Text == "Blocked")
+            {
+                // Add CSS class to change color to red
+                lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-red-700 bg-red-100";
+            }
+            else
+            {
+                // Reset CSS class for other statuses
+                lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100";
+            }
+        }
+
+
+        protected void btnSaveDetails_Click(object sender, EventArgs e)
+        {
+            string userId = Request.QueryString["userId"];
+            UpdateUserDetails(userId);
+            Response.Redirect("~/Admin/Customer Management/customerManagement.aspx");
+        }
+
+        private void UpdateUserDetails(string userId)
+        {
+            string first_name = txtEditFirstName.Text;
+            string last_name = txtEditLastName.Text;
+            string username = txtEditUsername.Text;
+            string email = txtEditEmail.Text;
+            string phone_no = txtEditPhoneNo.Text;
+            string status = ddlStatus.SelectedValue.ToString();
+
+            // Retrieve birthdate values from the dropdown lists
+            int year = int.Parse(ddlYear.SelectedValue);
+            string monthName = ddlMonth.SelectedValue;
+            int day = int.Parse(ddlDay.SelectedValue);
+
+            // Parse the month name and create a DateTime object
+            DateTime tempDate = DateTime.ParseExact(monthName + " 1, " + year, "MMMM d, yyyy", null);
+            int month = tempDate.Month;
+
+            // Create a DateTime object from the selected values
+            DateTime birthDate = new DateTime(year, month, day);                      
+
+            // Get the uploaded file
+            HttpPostedFile postedFile = fileUpload.PostedFile;
+            string profile_pic_path = "";
+
+            // Check if a file was uploaded
+            if (postedFile != null && postedFile.ContentLength > 0)
+            {
+                // Get the file extension
+                string fileExtension = Path.GetExtension(postedFile.FileName);
+
+                // Generate a unique file name
+                string fileName = Guid.NewGuid().ToString() + fileExtension;
+
+                string profileImgFolderPath = Server.MapPath("~/ProfilePic/");
+                if (!Directory.Exists(profileImgFolderPath))
+                {
+                    Directory.CreateDirectory(profileImgFolderPath);
+                }
+
+                // Define the path to save the file
+                string filePath = Server.MapPath("~/ProfilePic/") + fileName;
+
+                // Save the file to the specified path
+                postedFile.SaveAs(filePath);
+
+                // Save the file path to the database
+                profile_pic_path = "~/ProfilePic/" + fileName;
+            }
+            else
+            {
+                // No file was uploaded, leave the existing profile picture
+                profile_pic_path = null;
+            }
+
+            // Update the corresponding record in the database with the new details
+            string query = "UPDATE [User] SET first_name = @FirstName, last_name = @LastName, username = @UserName, email = @Email, phone_number = @PhoneNumber, birth_date = @BirthDate, profile_pic_path = @ProfilePicPath, status = @Status WHERE user_id = @UserId";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using(SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@FirstName", first_name);
+                    cmd.Parameters.AddWithValue("@LastName", last_name);
+                    cmd.Parameters.AddWithValue("@UserName", username);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", phone_no);
+                    cmd.Parameters.AddWithValue("@BirthDate", birthDate);
+                    cmd.Parameters.AddWithValue("@ProfilePicPath", profile_pic_path);
+                    cmd.Parameters.AddWithValue("@Status", status);
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
         }
     }
 }

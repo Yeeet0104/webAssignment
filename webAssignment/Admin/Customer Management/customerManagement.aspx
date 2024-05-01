@@ -63,29 +63,38 @@
 
     <!--Name List-->
     <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
-        <asp:ListView ID="customerListView" runat="server" OnSelectedIndexChanged="customerListView_SelectedIndexChanged">
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [User] WHERE user_id LIKE 'CS%'"></asp:SqlDataSource>
+        <asp:ListView ID="customerListView" runat="server" DataSourceID="SqlDataSource1">
             <LayoutTemplate>
                 <div style="overflow-x: auto">
                     <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
                         <!-- Headers here -->
-                        <tr class="grid grid-cols-9 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
+                        <tr class="grid grid-cols-11 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
                             <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterName" runat="server">
-                  <div class="flex flex-row justify-between items-center p-2">
-                                     <p>Name </p>
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                    
-                 </div>
+                      <div class="flex flex-row justify-between items-center p-2">
+                                         <p>Name </p>
+            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>                    
+                     </div>
+                                </asp:LinkButton>
+                            </td>
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                <asp:LinkButton ID="filterUsername" runat="server">
+          <div class="flex flex-row justify-between items-center p-2">
+                             <p>Username</p>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+        
+         </div>
 
                                 </asp:LinkButton>
                             </td>
                             <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterEmail" runat="server">
-                  <div class="flex flex-row justify-between items-center p-2">
-                                     <p>Email </p>
-        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+                      <div class="flex flex-row justify-between items-center p-2">
+                                         <p>Email </p>
+            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                     
-                 </div>
+                     </div>
 
                                 </asp:LinkButton>
                             </td>
@@ -95,11 +104,11 @@
                             </td>
                             <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterDOB" runat="server">
-               <div class="flex flex-row justify-between items-center p-2">
-                                  <p>DOB </p>
-     <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+                   <div class="flex flex-row justify-between items-center p-2">
+                                      <p>DOB </p>
+         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                  
-              </div>
+                  </div>
 
                                 </asp:LinkButton>
                             </td>
@@ -109,14 +118,16 @@
                                 <p>Status</p>
                             </td>
                             <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterAdded" runat="server">
-               <div class="flex flex-row justify-between items-center p-2">
-                                  <p>Added </p>
-     <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+                                <asp:LinkButton ID="filterJoined" runat="server">
+                   <div class="flex flex-row justify-between items-center p-2">
+                                      <p>Joined</p>
+         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                  
-              </div>
-
+                  </div>
                                 </asp:LinkButton>
+                            </td>
+                            <td class="col-span-1 text-center">
+                                <p>Last Login</p>
                             </td>
                             <td class="col-span-1 flex justify-end">
                                 <p>Action</p>
@@ -158,29 +169,33 @@
                     </table>
                 </div>
             </LayoutTemplate>
+
             <ItemTemplate>
-                <tr class="grid grid-cols-9 gap-6 w-full mb-5 p-4 border-b-2" style="color: #8B8E99">
+                <!-- Customer Details -->
+                <tr class="grid grid-cols-11 gap-6 w-full mb-5 p-4 border-b-2" style="color: #8B8E99">
                     <td class="col-span-2 flex flex-row gap-2 items-center">
                         <asp:Image ID="Image1" runat="server" AlternateText="Customer Image" Height="64" Width="64"
-                            ImageUrl='<%# Eval("CustomerImageUrl", "{0}") %>' CssClass="rounded border" />
+                            ImageUrl='<%# Eval("profile_pic_path", "{0}") %>' CssClass="rounded border" />
                         <span class="text-black">
-                            <%# Eval("CustomerName") %>  
+                            <%# Eval("first_name") %>  <%# Eval("last_name") %>
                         </span>
                     </td>
-                    <td class="col-span-2 flex items-center justify-center"><%# Eval("CustomerEmail") %></td>
-                    <td class="col-span-1 flex items-center justify-center"><%# Eval("PhoneNo") %></td>
-                    <td class="col-span-1 flex items-center justify-center"><%# Eval("DOB", "{0:dd MMM yyyy}") %></td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("username") %></td>
+                    <td class="col-span-2 flex items-center justify-center"><%# Eval("email") %></td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("phone_number") %></td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("birth_date", "{0:dd MMM yyyy}") %></td>
                     <td class="col-span-1 flex items-center w-full justify-center">
-                        <div class="text-green-600 bg-green-200 text-center p-1 rounded-lg w-4/5">
-                            <%# Eval("Status") %>
+                        <div class="text-center p-1 rounded-lg w-4/5 <%# Eval("status").ToString().ToLower() == "active" ? "text-green-600 bg-green-200" : "text-red-600 bg-red-200" %>">
+                            <%# Eval("status") %>
                         </div>
                     </td>
-                    <td class="col-span-1 flex items-center justify-center"><%# Eval("Added", "{0:dd MMM yyyy}") %></td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("date_created", "{0:dd MMM yyyy}") %></td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("last_login") %></td>
                     <td class="col-span-1 flex justify-end items-center">
                         <div class="flex flex-row gap-4 items-center">
-                            <asp:HyperLink ID="customerEditLink" runat="server" NavigateUrl='<%# "~/Admin/Customer Management/editCustomer.aspx?name=" + HttpUtility.UrlEncode(Eval("CustomerName").ToString()) + "&email=" + HttpUtility.UrlEncode(Eval("CustomerEmail").ToString()) + "&phone=" + HttpUtility.UrlEncode(Eval("PhoneNo").ToString()) + "&dob=" + Eval("DOB").ToString() + "&imgUrl=" + HttpUtility.UrlEncode(Eval("CustomerImageUrl").ToString()) %>' CssClass="fa-solid fa-pen"></asp:HyperLink>
+                            <asp:LinkButton ID="customerEditBtn" runat="server" CommandArgument='<%# Eval("user_id") %>' OnClick="customerEditBtn_Click" CssClass="fa-solid fa-pen"></asp:LinkButton>
                             <asp:LinkButton ID="deleteCustomerLink" runat="server" CommandName="DeleteCustomer" OnClick="showPopUp_Click">
-    <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-trash"></i>
                             </asp:LinkButton>
                         </div>
                     </td>

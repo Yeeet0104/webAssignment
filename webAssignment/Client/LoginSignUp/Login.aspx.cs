@@ -11,6 +11,7 @@ namespace webAssignment.Client.LoginSignUp
 {
     public partial class Login : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
         }
@@ -73,7 +74,7 @@ namespace webAssignment.Client.LoginSignUp
             // Returns the user ID if successful, otherwise returns null.
             string query = "SELECT user_id FROM [User] WHERE email = @Email AND password = @Password";
 
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -98,16 +99,16 @@ namespace webAssignment.Client.LoginSignUp
         {// Updates the last login time for the user in the database.
             string updateQuery = "UPDATE [User] SET last_login = @LastLogin WHERE email = @Email";
 
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand(updateQuery, conn))
             {
-                using (SqlCommand cmd = new SqlCommand(updateQuery, conn))
-                {
-                    cmd.Parameters.AddWithValue("@LastLogin", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
+                cmd.Parameters.AddWithValue("@LastLogin", DateTime.Now);
+                cmd.Parameters.AddWithValue("@Email", email);
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
+        }
         }
 
         private void SetUserInfoCookie(string userId)

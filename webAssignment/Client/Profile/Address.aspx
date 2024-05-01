@@ -81,7 +81,7 @@
                 <asp:ListView ID="shippingAddressList" runat="server" DataSourceID="SqlDataSource1">
                     <LayoutTemplate>
                         <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
-                            <asp:LinkButton runat="server" id="addNewShippingAddress" OnClick="addNewShippingAddress_Click" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
+                            <asp:LinkButton runat="server" ID="addNewShippingAddress" OnClick="addNewShippingAddress_Click" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
                                 <span class="text-gray-600">New Address</span>
                                 <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
                             </asp:LinkButton>
@@ -104,6 +104,14 @@
                             </div>
                         </div>
                     </ItemTemplate>
+                    <EmptyDataTemplate>
+                        <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
+                            <asp:LinkButton runat="server" ID="addNewShippingAddress" OnClick="addNewShippingAddress_Click" class="px-4 pt-4 pb-36 border border-gray-400 hover:border-black hover:cursor-pointer relative">
+                            <span class="text-gray-600">New Address</span>
+                            <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
+                            </asp:LinkButton>
+                        </div>
+                    </EmptyDataTemplate>
                 </asp:ListView>
             </div>
         </div>
@@ -117,37 +125,44 @@
         <asp:CheckBox ID="collapsible2" runat="server" class="hidden" />
         <div id="contentDiv2" class="w-full">
             <div class="w-full border border-gray-400 rounded-lg flex flex-col p-4 bg-white">
-            <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [address_id], [address_line2], [address_line1], [first_name], [last_name], [zip_code], [city], [state], [countryCode], [phone_number] FROM [Address] WHERE [address_type] = 'billing'"></asp:SqlDataSource>
-            <asp:ListView ID="billingAddressList" runat="server" DataSourceID="SqlDataSource2">
-                <LayoutTemplate>
-                    <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
-                        <asp:LinkButton runat="server" id="addNewBillingAddress" OnClick="addNewBillingAddress_Click" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
-    <span class="text-gray-600">New Address</span>
-    <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
-</asp:LinkButton>
-                        <span runat="server" id="itemPlaceholder" />
-                    </div>
-                </LayoutTemplate>
-                <ItemTemplate>
-                    <div class="flex flex-col">
-                        <div class="border border-gray-400 p-4">
-                            <h4 class="font-bold pb-1 text-lg"><%# Eval("first_name") %> <%# Eval("last_name") %></h4>
-                            <p class="text-lg"><%# Eval("address_line1") %></p>
-                            <p class="text-lg"><%# Eval("address_line2") %></p>
-                            <p class="text-lg"><%# Eval("zip_code") %>, <%# Eval("city") %>, <%# Eval("state") %>, <%# Eval("countryCode") %></p>
-                            <p class="text-lg"><%# Eval("phone_number") %></p>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [address_id], [address_line2], [address_line1], [first_name], [last_name], [zip_code], [city], [state], [countryCode], [phone_number] FROM [Address] WHERE [address_type] = 'billing'"></asp:SqlDataSource>
+                <asp:ListView ID="billingAddressList" runat="server" DataSourceID="SqlDataSource2">
+                    <LayoutTemplate>
+                        <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
+                            <asp:LinkButton runat="server" ID="addNewBillingAddress" OnClick="addNewBillingAddress_Click" class="p-4 border border-gray-400 hover:border-black hover:cursor-pointer relative">
+                            <span class="text-gray-600">New Address</span>
+                            <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
+                            </asp:LinkButton>
+                            <span runat="server" id="itemPlaceholder" />
+                        </div>
+                    </LayoutTemplate>
+                    <ItemTemplate>
+                        <div class="flex flex-col">
+                            <div class="border border-gray-400 p-4">
+                                <h4 class="font-bold pb-1 text-lg"><%# Eval("first_name") %> <%# Eval("last_name") %></h4>
+                                <p class="text-lg"><%# Eval("address_line1") %></p>
+                                <p class="text-lg"><%# Eval("address_line2") %></p>
+                                <p class="text-lg"><%# Eval("zip_code") %>, <%# Eval("city") %>, <%# Eval("state") %>, <%# Eval("countryCode") %></p>
+                                <p class="text-lg"><%# Eval("phone_number") %></p>
 
-                            <div class="pt-2">
-                                <asp:LinkButton ID="editButton" CommandArgument='<%# Eval("address_id") %>' OnClick="editButton_Click" runat="server" class="pr-2 underline hover:cursor-pointer" Text="Edit" />
-                                <asp:LinkButton ID="removeButton" runat="server" CommandArgument='<%# Eval("address_id") %>' OnClick="removeButton_Click" class="pr-2 underline hover:cursor-pointer" Text="Remove" />
+                                <div class="pt-2">
+                                    <asp:LinkButton ID="editButton" CommandArgument='<%# Eval("address_id") %>' OnClick="editButton_Click" runat="server" class="pr-2 underline hover:cursor-pointer" Text="Edit" />
+                                    <asp:LinkButton ID="removeButton" runat="server" CommandArgument='<%# Eval("address_id") %>' OnClick="removeButton_Click" class="pr-2 underline hover:cursor-pointer" Text="Remove" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </ItemTemplate>
-                
-            </asp:ListView>
+                    </ItemTemplate>
+                    <EmptyDataTemplate>
+        <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
+            <asp:LinkButton runat="server" ID="addNewBillingAddress" OnClick="addNewBillingAddress_Click" class="px-4 pt-4 pb-36 border border-gray-400 hover:border-black hover:cursor-pointer relative">
+                <span class="text-gray-600">New Address</span>
+                <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
+            </asp:LinkButton>
         </div>
+    </EmptyDataTemplate>
+                </asp:ListView>
             </div>
+        </div>
     </div>
     <!--End of Shipping Content-->
 </asp:Content>
