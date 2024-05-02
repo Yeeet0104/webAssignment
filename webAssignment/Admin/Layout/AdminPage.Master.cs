@@ -44,6 +44,7 @@ namespace webAssignment
                 case "addnewproduct.aspx":
                 case "adminproducts.aspx":
                 case "editproduct.aspx":
+                case "productvariant.aspx":
                     productLk.Attributes["class"] += " activeNavItem";
 
 

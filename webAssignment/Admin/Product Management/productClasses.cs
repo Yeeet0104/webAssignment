@@ -11,11 +11,11 @@ namespace webAssignment.Admin.Product_Management
         public string ProductID { get; set; }
         public string ProductName { get; set; }
         public string ProductImageUrl { get; set; }
-        public DateTime DateAdded { get; set; }
+        public DateTime date_added { get; set; }
         public string ProductVariantID { get; set; }
         public decimal VariantPrice { get; set; }
         public string variantCount { get; set; }
-        public int Stock { get; set; }
+        public int total_stock { get; set; }
         public string ProductStatus { get; set; }
     }
 

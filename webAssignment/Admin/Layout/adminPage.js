@@ -29,7 +29,7 @@ window.showSnackbar = function (message, type) {
     setTimeout(function () {
         snackbar.classList.remove('flex');
         snackbar.classList.add('hidden');
-    }, 150000);
+    }, 5000);
 }
 
 // Function to hide the snackbar
