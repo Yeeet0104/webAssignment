@@ -178,6 +178,7 @@
     <Content Include="Admin\Product Management\productImages\DexProfilePic.jpeg" />
     <Content Include="Admin\Product Management\productImages\dextershower.png" />
     <Content Include="Admin\Product Management\productImages\forgetPass1.jpg" />
+    <Content Include="Admin\Product Management\productVariant.aspx" />
     <Content Include="Admin\Profile\AdminProfile.aspx" />
     <Content Include="Admin\Profile\editProfile.aspx" />
     <Content Include="Admin\Profile\image\userProfile.gif" />
@@ -365,6 +366,13 @@
       <DependentUpon>editProduct.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Product Management\productClasses.cs" />
+    <Compile Include="Admin\Product Management\productVariant.aspx.cs">
+      <DependentUpon>productVariant.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Product Management\productVariant.aspx.designer.cs">
+      <DependentUpon>productVariant.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Profile\AdminProfile.aspx.cs">
       <DependentUpon>AdminProfile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

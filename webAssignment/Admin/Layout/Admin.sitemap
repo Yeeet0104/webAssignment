@@ -4,6 +4,7 @@
 		<siteMapNode url="~/Admin/Product Management/adminProducts.aspx" title="Product List"  description="for admin to manage product">
 			<siteMapNode url="~/Admin/Product Management/addNewProduct.aspx" title="Add Product"  description="" />
 			<siteMapNode url="~/Admin/Product Management/editProduct.aspx" title="Edit Product"  description="" />
+			<siteMapNode url="~/Admin/Product Management/productVariant.aspx" title="Product variant"  description="" />
 		</siteMapNode>
 		<siteMapNode url="~/Admin/Category/Category.aspx" title="Category list"  description="for admin to manage category">
 			<siteMapNode url="~/Admin/Category/CreateCategory.aspx" title="Create Category"  description="" />
