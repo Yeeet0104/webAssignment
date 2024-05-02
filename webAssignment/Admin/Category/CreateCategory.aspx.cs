@@ -76,7 +76,7 @@ namespace webAssignment.Admin.Category
         }
         private string GenerateNextCategoryId( )
         {
-            string newCategoryId = "C0001"; // default if no entries are present
+            string newCategoryId = "CAT1001"; // default if no entries are present
             string query = "SELECT MAX(category_id) as MaxCategoryId FROM Category";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
@@ -90,9 +90,9 @@ namespace webAssignment.Admin.Category
 
                     if ( result != DBNull.Value && result != null )
                     {
-                        int maxId = int.Parse(result.ToString().Substring(1)); // Assuming IDs are like 'C0001'
+                        int maxId = int.Parse(result.ToString().Substring(3)); 
                         maxId++; // Increment the numerical part
-                        newCategoryId = "C" + maxId.ToString("D4"); // Format as C + four digit number
+                        newCategoryId = "CAT" + maxId.ToString("D3"); // Format as CAT + three digit number
                     }
                 }
                 catch ( Exception ex )

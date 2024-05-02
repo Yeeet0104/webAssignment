@@ -1,6 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="adminProducts.aspx.cs" Inherits="webAssignment.adminProducts" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+        function showPopup() {
+            document.getElementById('<%= pnlDateFilter.ClientID %>').style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.getElementById('<%= pnlDateFilter.ClientID %>').style.display = 'none';
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -39,33 +48,25 @@
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
         <div class="grid grid-cols-4 bg-white gap-3 text-center rounded p-2">
 
-            <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                <asp:Button ID="allProductFilter" runat="server" Text="All Product" />
+            <div class="col-span-1">
+                <asp:Button ID="allProductFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 text-blue-600 bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="All Product" OnClick="allProductFilter_click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="publishFilter" runat="server" Text="Publish" OnClick="publishFilter_click" />
+            <div class="col-span-1">
+                <asp:Button ID="publishFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Publish" OnClick="publishFilter_click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="draftFilter" runat="server" Text="Draft" />
+            <div class="col-span-1">
+                <asp:Button ID="draftFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Draft" OnClick="draftFilter_click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="discountinueFilter" runat="server" Text="Discontinued" />
+            <div class="col-span-1">
+                <asp:Button ID="discontinuedFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Discontinued" OnClick="discontinuedFilter_click" />
             </div>
         </div>
         <div class="flex items-center gap-3">
             <div class="">
-                <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center">
+                <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center" OnClick="filterDateBtn_click">
                      <i class="fa-solid fa-calendar-days"></i>
                     <span>
                        Select Date
-                    </span>
-                </asp:LinkButton>
-            </div>
-            <div class="">
-                <asp:LinkButton ID="filterOptionbtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center">
-                <i class="fa-solid fa-sliders "></i>
-                    <span>
-                       Filters
                     </span>
                 </asp:LinkButton>
             </div>
@@ -100,7 +101,7 @@
                                     </asp:LinkButton>
                                 </td>
 
-                                   <td class="col-span-1  text-center">
+                                <td class="col-span-1  text-center">
                                     <p>Status</p>
                                 </td>
                                 <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
@@ -125,7 +126,6 @@
                             </tr>
                         </tbody>
                         <tfoot>
-                            <!-- footer for pagination ( WILL CHANGE TO physical button later) -->
                             <tr class="">
                                 <td class="flex flex-row text-gray-400 justify-between rounded-b-lg bg-white items-center">
 
@@ -171,7 +171,7 @@
 
 
                         <div class="<%# Eval("ProductStatus").ToString() == "Publish" ? "bg-green-200" : (Eval("ProductStatus").ToString() == "Draft" ? "bg-gray-200" : (Eval("ProductStatus").ToString() == "Discontinued" ? "bg-red-200" : ""))  %> rounded-xl flex w-4/5 p-3 text-center justify-center">
-                            <%# String.IsNullOrEmpty(Eval("ProductStatus").ToString()) ? "-" : Eval("ProductStatus") %> 
+                            <%# String.IsNullOrEmpty(Eval("ProductStatus").ToString()) ? "-" : Eval("ProductStatus") %>
                         </div>
 
 
@@ -197,6 +197,7 @@
 
         </asp:ListView>
     </div>
+    <!-- popUpDelete panel -->
     <asp:Panel ID="popUpDelete" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
         <!-- Modal content -->
         <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
@@ -234,6 +235,29 @@
             </div>
         </div>
 
+    </asp:Panel>
+
+    <!-- date pop up panel -->
+    <asp:Panel ID="pnlDateFilter" runat="server" CssClass="modal fixed w-full h-full top-0 left-0 flex items-center justify-center" Style="display: none; background-color: rgba(0, 0, 0, 0.5);">
+        <div class="modal-content w-1/4 bg-white p-6 rounded-lg shadow-lg text-center flex flex-col gap-10">
+            <h2 class="text-xl  font-bold">Select Date Range</h2>
+            <div class="flex flex-col gap-2 ">
+                <div class="grid grid-cols-3 ">
+                    <p class="flex justify-center items-center">Start Date :</p>
+                    <asp:TextBox ID="txtStartDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
+                </div>
+                <div class="grid grid-cols-3">
+                    <p class="flex justify-center items-center">End Date :</p>
+                    <asp:TextBox ID="txtEndDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2"  />
+
+                </div>
+
+            </div>
+            <div class="flex justify-center gap-10">
+                <asp:Button ID="cancelDate" runat="server" Text="Cancel" OnClick="cancelDate_click" CssClass="bg-gray-200 hover:bg-blue-700 hover:text-white text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+                <asp:Button ID="btnApplyDateFilter" runat="server" Text="Apply Filter" OnClick="btnApplyDateFilter_Click" CssClass="apply-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+            </div>
+        </div>
     </asp:Panel>
     <!--End-->
 </asp:Content>

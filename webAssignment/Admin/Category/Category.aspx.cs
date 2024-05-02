@@ -48,7 +48,6 @@ namespace webAssignment.Admin.Category
             if ( pageNumFoot != null )
             {
                 int totalItems = GetTotalCategoriesCount();
-                int pageSize = 5;
                 int currentPageIndex = ( (int)ViewState["PageIndex"] );
                 int startRecord = ( currentPageIndex * pageSize ) + 1;
                 int endRecord = ( currentPageIndex + 1 ) * pageSize;

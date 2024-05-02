@@ -1,18 +1,26 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="editProduct.aspx.cs" Inherits="webAssignment.Admin.Product_Management.editProduct" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-        <script>
-            function previewImage(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var img = document.getElementById('<%= profilePic.ClientID %>');
-                        img.src = e.target.result;
-                    }
-                    reader.readAsDataURL(input.files[0]);
+    <script>
+        function previewImages(input) {
+            var imageContainer = document.getElementById('removeImage');
+            imageContainer.innerHTML = ''; // Clear the container
+            if (input.files) {
+                for (var i = 0; i < input.files.length; i++) {
+                    (function (file) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = document.createElement('img');
+                            img.classList.add('preview-image');
+                            img.src = e.target.result;
+                            imageContainer.appendChild(img);
+                        }
+                        reader.readAsDataURL(file);
+                    })(input.files[i]);
                 }
             }
-        </script>
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -67,27 +75,17 @@
         ">
                     <!--Pic Box-->
                     <div class="py-1">
-                        <asp:Image CssClass="rounded-lg" ID="profilePic" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
+                        <asp:Image ID="profilePic" CssClass="hidden" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
                     </div>
-                    <div id="removeImage" class="hidden w-full flex flex-col items-center  justify-center">
-
-                        <span class="p-2 w-12 h-12 bg-blue-500 text-white rounded-xl flex justify-center items-center">
-
-                            <i class=" text-2xl fa-regular fa-image"></i>
-                        </span>
-                        <span class="mt-2 text-base leading-normal text-gray-500 ">Select Image From File</span>
-                    </div>
-                    <asp:Panel ID="PanelBackground" runat="server" />
-                    <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
-                    <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-[20%] py-1 rounded-lg cursor-pointer hover:bg-blue-600">
-                        Choose File
-                    </button>
+                    <asp:Panel ID="imageContainer" CssClass="w-full flex flex-row gap-10 items-center  justify-center" runat="server"></asp:Panel>
+                    <asp:FileUpload ID="fileUpload" runat="server" AllowMultiple="true" />
+                    <asp:Button ID="btnUpload" runat="server" Text="Upload New Image(s)" OnClick="UploadImages" />
 
                 </div>
             </div>
             <!-- Variation Pricing -->
             <div class="grid grid-cols-2 gap-6">
-                <div class="p-5 col-span-1  bg-white rounded-xl">
+                <div class="p-5 col-span-2  bg-white rounded-xl">
                     <asp:ScriptManager ID="ScriptManager1" runat="server" />
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
@@ -115,19 +113,7 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
-                <div class="col-span-1">
-                    <div class="p-5 flex flex-col bg-white rounded-xl ">
 
-                        <p class="mb-5 text-lg">Stock</p>
-
-                        <div class="flex flex-col gap-2">
-                            <span class="text-gray-500">Quantity</span>
-                            <asp:TextBox class="p-3 rounded-xl bg-gray-100 mb-4" ID="editTbQuantity" runat="server" ToolTip="Product Name" placeholder="Type product quantity here..."></asp:TextBox>
-
-                        </div>
-                    </div>
-
-                </div>
             </div>
             <!-- General Description -->
 
@@ -158,11 +144,10 @@
                     <asp:Label CssClass="bg-gray-200 rounded-xl p-2 px-4 text-gray-500" ID="editLblProdStatus" runat="server" Text="Draft"></asp:Label>
                 </div>
                 <span class="text-gray-500">Product Description</span>
-                <asp:DropDownList CssClass="p-3 bg-gray-100 text-gray-500 rounded-xl" ID="editDdlProdStatus" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlnewProdStatus_SelectedIndexChanged">
+                <asp:DropDownList CssClass="p-3 bg-gray-100 text-gray-500 rounded-xl" ID="ddlnewProdStatus" runat="server" onchange="updateStatusLabel()">
                     <asp:ListItem Value="Draft">Draft</asp:ListItem>
-                    <asp:ListItem Value="Published">Published</asp:ListItem>
-                    <asp:ListItem Value="OutOfStock">Out Of Stock</asp:ListItem>
-                    <asp:ListItem Value="lowStock">Low Stock</asp:ListItem>
+                    <asp:ListItem Value="Publish">Publish</asp:ListItem>
+                    <asp:ListItem Value="Discontinued">Discontinued</asp:ListItem>
                 </asp:DropDownList>
             </div>
         </div>

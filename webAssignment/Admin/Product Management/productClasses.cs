@@ -32,5 +32,9 @@ namespace webAssignment.Admin.Product_Management
         public string VariantName { get; set; }
         // Add other properties as needed, such as price, stock, etc.
     }
-
+    public partial class Category
+    {
+        public string CategoryID { get; set; }
+        public string CategoryName { get; set; }
+    }
 }

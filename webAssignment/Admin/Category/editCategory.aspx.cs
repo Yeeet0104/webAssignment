@@ -124,7 +124,7 @@ namespace webAssignment.Admin.Category
                     row["descriptions"] = editCategoryDes.Text;
                 }
 
-                if ( getFileSavePath(false) != row["tumbnail_img_path"].ToString() )
+                if ( getFileSavePath(false) != "No File" )
                 {
                     changesDetected = true;
                     row["tumbnail_img_path"] = getFileSavePath(true);
@@ -133,6 +133,7 @@ namespace webAssignment.Admin.Category
                 // Only update if changes were detected
                 if ( changesDetected )
                 {
+                    Debug.Write("babi" + row["tumbnail_img_path"]);
                     UpdateCategoryData(row);
                     init();
                 }
@@ -163,6 +164,10 @@ namespace webAssignment.Admin.Category
                     }
 
                 }
+            }
+            else
+            {
+                return "No File";
             }
 
             return "~/CategoryBannerImg/" + fileName;
