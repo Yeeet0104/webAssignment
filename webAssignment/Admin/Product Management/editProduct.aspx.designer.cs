@@ -69,13 +69,13 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.Image profilePic;
 
         /// <summary>
-        /// PanelBackground control.
+        /// imageContainer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelBackground;
+        protected global::System.Web.UI.WebControls.Panel imageContainer;
 
         /// <summary>
         /// fileUpload control.
@@ -85,6 +85,15 @@ namespace webAssignment.Admin.Product_Management
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileUpload;
+
+        /// <summary>
+        /// btnUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpload;
 
         /// <summary>
         /// ScriptManager1 control.
@@ -123,15 +132,6 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.Panel panelVariantTextBoxes;
 
         /// <summary>
-        /// editTbQuantity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox editTbQuantity;
-
-        /// <summary>
         /// editDdlCategory control.
         /// </summary>
         /// <remarks>
@@ -150,12 +150,12 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.Label editLblProdStatus;
 
         /// <summary>
-        /// editDdlProdStatus control.
+        /// ddlnewProdStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList editDdlProdStatus;
+        protected global::System.Web.UI.WebControls.DropDownList ddlnewProdStatus;
     }
 }

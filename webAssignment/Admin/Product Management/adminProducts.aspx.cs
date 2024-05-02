@@ -30,15 +30,16 @@ namespace webAssignment
             if ( !IsPostBack )
             {
                 ViewState["PageIndex"] = 0;
-                BindListView(0, pageSize,"");
-
+                BindListView(0, pageSize, "");
             }
         }
-        private void BindListView( int pageIndex, int pageSize , string status )
+        private void BindListView( int pageIndex, int pageSize, string status )
         {
             productListView.DataSource = getProductData(pageIndex, pageSize, status);
             productListView.DataBind();
         }
+
+        // product list view functions
         // when on bound handle events
         protected void productListView_DataBound( object sender, EventArgs e )
         {
@@ -47,8 +48,7 @@ namespace webAssignment
 
             if ( pageNumFoot != null )
             {
-                int totalItems = 100;
-                int pageSize = 5;
+                int totalItems = GetTotalProductsCount();
                 int currentPageIndex = ( (int)ViewState["PageIndex"] );
                 int startRecord = ( currentPageIndex * pageSize ) + 1;
                 int endRecord = ( currentPageIndex + 1 ) * pageSize;
@@ -59,6 +59,30 @@ namespace webAssignment
             }
 
         }
+        protected void productListView_SelectedIndexChanged( object sender, EventArgs e )
+        {
+
+        }
+        protected void productListView_ItemCommand( object sender, ListViewCommandEventArgs e )
+        {
+            if ( e.CommandName == "EditProduct" )
+            {
+                string productID = e.CommandArgument.ToString();
+                string encryptedStr = EncryptString(productID);
+                Response.Redirect($"~/Admin/Product Management/editProduct.aspx?OrderID={encryptedStr}");
+            }
+            else if ( e.CommandName == "DeleteProduct" )
+            {
+            }
+            else if ( e.CommandName == "viewItems" )
+            {
+                string productID = e.CommandArgument.ToString();
+                string encryptedStr = EncryptString(productID);
+                Response.Redirect($"~/Admin/Product Management/productVariant.aspx?productID={encryptedStr}");
+            }
+        }
+
+        // all the init for the nessary product datas
         private List<productsList> getProductData( int pageIndex, int pageSize, string status )
         {
             var productsList = new List<productsList>();
@@ -130,7 +154,7 @@ namespace webAssignment
                 {
                     cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
-                    if (status != "")
+                    if ( status != "" )
                     {
                         cmd.Parameters.AddWithValue("@product_status", status);
 
@@ -242,27 +266,75 @@ namespace webAssignment
             }
             return totalCount;
         }
-        protected void productListView_SelectedIndexChanged( object sender, EventArgs e )
-        {
 
-        }
-        protected void productListView_ItemCommand( object sender, ListViewCommandEventArgs e )
+        private List<productsList> getProductDataByDate( int pageIndex, int pageSize, DateTime startDate, DateTime endDate )
         {
-            if ( e.CommandName == "EditProduct" )
+            var productsList = new List<productsList>();
+            string filter = ViewState["Filter"] as string;
+            string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
+            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+            string sql = $@"SELECT 
+                            c.category_name,
+                            p.product_id, 
+                            p.product_name, 
+                            p.date_added,
+                            p.product_status,
+	                        sum(pv.stock) as total_stock,
+                            count(pv.product_variant_id) as total_variants, -- total count of variants for each product
+                            (select top 1 ip.path from image_path ip where ip.product_id = p.product_id) as first_image_path
+                        from 
+                            category c 
+                        inner join 
+                            product p on c.category_id = p.category_id 
+                        left join 
+                            product_variant pv on p.product_id = pv.product_id
+                        WHERE
+                            p.date_added >= @startDate AND p.date_added <= @endDate
+                        group by 
+                            c.category_name,
+                            p.product_id, 
+                            p.product_name, 
+                            p.date_added,
+                            p.product_status
+                        ORDER BY {sortExpression} {sortDirection}
+                        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+
+
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
-                string productID = e.CommandArgument.ToString();
-                string encryptedStr = EncryptString(productID);
-                Response.Redirect($"~/Admin/Product Management/editProduct.aspx?OrderID={encryptedStr}");
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    cmd.Parameters.AddWithValue("@startDate", startDate);
+                    cmd.Parameters.AddWithValue("@endDate", endDate);
+
+
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+
+                        while ( reader.Read() )
+                        {
+                            productsList.Add(new productsList
+                            {
+                                CategoryName = reader.GetString(0),
+                                ProductID = reader.GetString(1),
+                                ProductName = reader.GetString(2),
+                                date_added = reader.GetDateTime(3),
+                                ProductVariantID = "",
+                                VariantPrice = 0,
+                                variantCount = reader.GetInt32(6).ToString(),
+                                total_stock = reader.GetInt32(5),
+                                ProductStatus = reader.GetString(4),
+                                ProductImageUrl = reader.GetString(7)
+                            });
+                        }
+                    }
+                }
             }
-            else if ( e.CommandName == "DeleteProduct" )
-            {
-            }
-            else if ( e.CommandName == "viewItems" )
-            {
-                string productID = e.CommandArgument.ToString();
-                string encryptedStr = EncryptString(productID);
-                Response.Redirect($"~/Admin/Product Management/productVariant.aspx?productID={encryptedStr}");
-            }
+            return productsList;
         }
 
         // for paginations
@@ -273,13 +345,13 @@ namespace webAssignment
             if ( pageIndex > 0 )
             {
                 ViewState["PageIndex"] = pageIndex - 1;
-                BindListView((int)ViewState["PageIndex"], pageSize,"");
+                BindListView((int)ViewState["PageIndex"], pageSize, "");
             }
         }
         protected void nextPage_Click( object sender, EventArgs e )
         {
             int pageIndex = (int)ViewState["PageIndex"];
-            int totalCategories = 100;
+            int totalCategories = GetTotalProductsCount();
 
             if ( ( pageIndex + 1 ) * pageSize < totalCategories )
             {
@@ -288,6 +360,7 @@ namespace webAssignment
                 BindListView((int)ViewState["PageIndex"], pageSize, "");
             }
         }
+
         //sorting by clicking the table label functions
         protected void productListView_Sorting( object sender, ListViewSortEventArgs e )
         {
@@ -337,6 +410,7 @@ namespace webAssignment
             return sortDirection;
         }
 
+        // encrpyting to send the product id in the query
         protected string EncryptString( string clearText )
         {
             string EncryptionKey = "ABC123"; // Replace with a more complex key and store securely
@@ -409,6 +483,8 @@ namespace webAssignment
 
             return filteredDataTable;
         }
+
+        // filter tab functions
         protected void closePopUp_Click( object sender, EventArgs e )
         {
             popUpDelete.Style.Add("display", "none");
@@ -420,6 +496,134 @@ namespace webAssignment
         protected void publishFilter_click( object sender, EventArgs e )
         {
             BindListView(0, pageSize, "Publish");
+            changeSelectedtabCss("Publish");
+
         }
+        protected void draftFilter_click( object sender, EventArgs e )
+        {
+            BindListView(0, pageSize, "Draft");
+            changeSelectedtabCss("Draft");
+        }
+        protected void discontinuedFilter_click( object sender, EventArgs e )
+        {
+            BindListView(0, pageSize, "discontinued");
+            changeSelectedtabCss("discontinued");
+        }
+        protected void allProductFilter_click( object sender, EventArgs e )
+        {
+            BindListView(0, pageSize, "");
+            changeSelectedtabCss("");
+        }
+
+        private void changeSelectedtabCss( string tabName )
+        {
+            resetfilterTabSttyle();
+            switch ( tabName )
+            {
+                case "Publish":
+                    publishFilter.CssClass += " text-blue-600 bg-gray-100";
+                    break;
+                case "Draft":
+                    draftFilter.CssClass += " text-blue-600 bg-gray-100";
+                    break;
+                case "discontinued":
+                    discontinuedFilter.CssClass += " text-blue-600 bg-gray-100";
+                    break;
+                default:
+                    allProductFilter.CssClass += " text-blue-600 bg-gray-100";
+                    break;
+
+            }
+
+
+
+        }
+
+        private void resetfilterTabSttyle( )
+        {
+            RemoveCssClass(publishFilter, "text-blue-600");
+            RemoveCssClass(publishFilter, "bg-gray-100");
+            RemoveCssClass(draftFilter, "text-blue-600");
+            RemoveCssClass(draftFilter, "bg-gray-100");
+            RemoveCssClass(discontinuedFilter, "text-blue-600");
+            RemoveCssClass(discontinuedFilter, "bg-gray-100");
+            RemoveCssClass(allProductFilter, "text-blue-600");
+            RemoveCssClass(allProductFilter, "bg-gray-100");
+        }
+        private void RemoveCssClass( WebControl control, string classToRemove )
+        {
+            List<string> classes = control.CssClass.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            // Remove the specific class
+            classes.Remove(classToRemove);
+
+            control.CssClass = String.Join(" ", classes);
+        }
+
+        //date filter funtions
+        protected void filterDateBtn_click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "flex");
+        }
+
+        protected void btnApplyDateFilter_Click( object sender, EventArgs e )
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            if ( !DateTime.TryParse(txtStartDate.Text, out startDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtStartDate.CssClass += " border-red-800 border-2";
+                return; 
+            }
+
+            // Check if the end date is a valid date
+            if ( !DateTime.TryParse(txtEndDate.Text, out endDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtEndDate.CssClass += " border-red-800 border-2";
+                return; 
+            }
+
+            // Optional: Check if the start date is before the end date
+            if ( startDate > endDate )
+            {
+
+                return; 
+            }
+            if ( startDate != null && endDate != null )
+            {
+
+                // Now call your method to fetch the data based on these dates
+                BindListViewWithDateFilter(startDate, endDate);
+
+            }
+            else
+            {
+                txtEndDate.CssClass += "border-red-800";
+            }
+        }
+        protected void cancelDate_click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "none");
+        }
+        private void BindListViewWithDateFilter( DateTime startDate, DateTime endDate )
+        {
+            var filteredProducts = getProductDataByDate(0, pageSize, startDate, endDate);
+            productListView.DataSource = filteredProducts;
+            productListView.DataBind();
+            pnlDateFilter.Style.Add("display", "none");
+        }
+
+
+        //snackbar
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
+
+
     }
 }
