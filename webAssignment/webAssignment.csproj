@@ -203,6 +203,7 @@
     <Content Include="Client\Cart\images\cryingKermit.png" />
     <Content Include="Client\Checkout\image\img_placeholder.jpg" />
     <Content Include="Client\Checkout\PaymentPage.aspx" />
+    <Content Include="Client\ClientMasterPage\ClientPage.js" />
     <Content Include="Client\Home\Home Images\logitec.png" />
     <Content Include="Client\Home\Home Images\logitec2.png" />
     <Content Include="Client\Home\Home Images\Pc.png" />
@@ -427,6 +428,7 @@
     <Compile Include="Client\Cart\CartPage.aspx.designer.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Client\Checkout\Address.cs" />
     <Compile Include="Client\Checkout\CheckoutPage.aspx.cs">
       <DependentUpon>CheckoutPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

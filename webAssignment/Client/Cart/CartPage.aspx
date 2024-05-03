@@ -131,7 +131,7 @@
                         <asp:Label ID="lblCartTotal" runat="server" Text="RM 0.00"></asp:Label>
                     </div>
 
-                    <asp:Button ID="btnProceedCheckout" runat="server" Text="PROCEED TO CHECKOUT" CssClass="mt-2 text-white bg-blue-700 rounded-lg w-full p-2 font-semibold text-sm cursor-pointer text-center" OnClick="btnProceedCheckout_Click" />
+                    <asp:Button ID="btnProceedCheckout" runat="server" Text="Proceed To Checkout" CssClass="mt-2 text-white bg-blue-700 rounded-lg w-full p-2 font-semibold text-sm cursor-pointer text-center" OnClick="btnProceedCheckout_Click" />
                 </div>
 
             </div>

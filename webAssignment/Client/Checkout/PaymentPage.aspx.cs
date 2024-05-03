@@ -25,6 +25,8 @@ namespace webAssignment.Client.Checkout
                 decimal discount = calculateDiscount(cartSubtotal);
                 lblCartDiscount.Text = "(-" + (int)(discountRate * 100) + "%) " + discount.ToString("C");
                 lblCartTotal.Text = (cartSubtotal + tax - discount).ToString("C");
+
+                Address add = (Address)Session["shippingAddress"];
             }
         }
 
@@ -90,24 +92,24 @@ namespace webAssignment.Client.Checkout
 
         protected void btnCard_Click(object sender, EventArgs e)
         {
-            Panel1.Visible = true;
-            Panel2.Visible = false;
-            Panel3.Visible = false;
+            pnlCard.Visible = true;
+            pnlBank.Visible = false;
+            pnlCOD.Visible = false;
         }
 
         protected void btnBank_Click(object sender, EventArgs e)
         {
-            Panel1.Visible = false;
-            Panel2.Visible = true;
-            Panel3.Visible = false;
+            pnlCard.Visible = false;
+            pnlBank.Visible = true;
+            pnlCOD.Visible = false;
 
         }
 
         protected void btnCOD_Click(object sender, EventArgs e)
         {
-            Panel1.Visible = false;
-            Panel2.Visible = false;
-            Panel3.Visible = true;
+            pnlCard.Visible = false;
+            pnlBank.Visible = false;
+            pnlCOD.Visible = true;
 
         }
 
