@@ -251,6 +251,11 @@
                         </asp:DropDownList>
                     </div>
                 </div>
+                <div class="flex flex-row">
+                    <span class="text-lg">Add As Admin Manager</span>
+                    <asp:CheckBox ID="adminManagerChk" runat="server" class="pl-3 pt-1"/>
+                </div>                
+                <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600 pt-3" runat="server" Text=""></asp:Label>
                 <div>
                 </div>
             </div>

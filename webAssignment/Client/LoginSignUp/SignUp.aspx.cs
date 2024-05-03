@@ -9,6 +9,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using System.Collections;
+using System.Web.Security;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace webAssignment.Client.LoginSignUp
 {
@@ -17,64 +20,77 @@ namespace webAssignment.Client.LoginSignUp
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
+            
         }
 
         protected void btnSignUp_Click(object sender, EventArgs e)
         {
             if (ValidateForm())
             {
-                string userId = GenerateUserId();
-                if (!string.IsNullOrEmpty(userId))
-                {
-                    if (InsertUser(userId))
+                if(!CheckEmail(txtEmail.Text))
+                {                    
+                    if (ValidatePasswordMatch())
                     {
-                        Response.Write("<script>alert('User registered successfully!')</script>");
+                        if (IsStrongPassword(txtConfirmPass.Text))
+                        {
+                            string userId = GenerateUserId();
+                            if (!string.IsNullOrEmpty(userId))
+                            {
+                                if (InsertUser(userId))
+                                {                             
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "showPopup", "showPopUp();", true);
+                                }
+                                else
+                                {
+                                    Response.Write("<script>alert('Error occurred while registering user.')</script>");
+                                }
+                            }
+                            else
+                            {
+                                Response.Write("<script>alert('Error generating user ID.')</script>");
+                            }
+                        }
+                        else
+                        {
+                            passwordLabel.Text = "Please choose a stronger password! Your password should be at least 8 characters long and include a combination of uppercase and lowercase letters, digits, and special characters.";
+                        }
                     }
                     else
                     {
-                        Response.Write("<script>alert('Error occurred while registering user.')</script>");
+                        passwordLabel.Text = "Password does not match!";
                     }
                 }
                 else
-                {
-                    Response.Write("<script>alert('Error generating user ID.')</script>");
-                }
+                {                    
+                    passwordLabel.Text = "Email already exists! Please try again.";
+                }                
+            }
+            else
+            {
+                passwordLabel.Text = "Input fields cannot be empty!";
             }
         }
 
         private bool ValidateForm()
         {
-            return ValidateTextBox(txtUsername) && ValidateTextBox(txtEmail) && ValidateTextBox(txtPass) && ValidateTextBox(txtConfirmPass) && ValidatePasswordMatch();
-        }
+            bool isUsernameValid = !string.IsNullOrEmpty(txtUsername.Text);
+            bool isEmailValid = !string.IsNullOrEmpty(txtEmail.Text);
+            bool isPassValid = !string.IsNullOrEmpty(txtPass.Text);
+            bool isConfirmPassValid = !string.IsNullOrEmpty(txtConfirmPass.Text);
 
-        private bool ValidateTextBox(TextBox textBox)
-        {
-            if (string.IsNullOrEmpty(textBox.Text))
-            {
-                textBox.Style["border-color"] = "#EF4444";
-                return false;
-            }
-            else
-            {
-                textBox.Style.Remove("border-color");
-                return true;
-            }
-        }
+            txtUsername.Style["border-color"] = isUsernameValid ? string.Empty : "#EF4444";
+            txtEmail.Style["border-color"] = isEmailValid ? string.Empty : "#EF4444";
+            txtPass.Style["border-color"] = isPassValid ? string.Empty : "#EF4444";
+            txtConfirmPass.Style["border-color"] = isConfirmPassValid ? string.Empty : "#EF4444";
 
+            return isUsernameValid && isEmailValid && isPassValid && isConfirmPassValid;
+        }
+               
         private bool ValidatePasswordMatch()
         {
-            if (txtPass.Text != txtConfirmPass.Text)
-            {
-                passwordLabel.Text = "Passwords do not match. Please try again!";
-                return false;
-            }
-            else
-            {
-                passwordLabel.Text = "";
-                return true;
-            }
+            return txtPass.Text == txtConfirmPass.Text;
         }
-
+         
         private string GenerateUserId()
         {
             string userId = "";
@@ -100,6 +116,23 @@ namespace webAssignment.Client.LoginSignUp
             return userId;
         }
 
+        private bool CheckEmail(string email)
+        {
+            string query = "SELECT COUNT(*) FROM [User] WHERE email = @Email";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    conn.Close();
+                    return count > 0;
+                }
+            }
+        }
+
         private bool InsertUser(string userId)
         {
             string defaultProfilePic = "~/ProfilePic/defaultPic.jpg";
@@ -107,19 +140,92 @@ namespace webAssignment.Client.LoginSignUp
             {
                 conn.Open();
 
-                string insertQuery = "INSERT INTO [User] (user_id, username, email, password, profile_pic_path, date_created) VALUES (@user_id, @username, @email, @password, @profile_pic_path, @date_created)";
+                string password = EncryptPassword(txtPass.Text); // Encrypt the password
+
+                string insertQuery = "INSERT INTO [User] (user_id, username, email, password, profile_pic_path, date_created, status, role) VALUES (@user_id, @username, @email, @password, @profile_pic_path, @date_created, @status, @role)";
                 SqlCommand cmd = new SqlCommand(insertQuery, conn);
                 cmd.Parameters.AddWithValue("@user_id", userId);
                 cmd.Parameters.AddWithValue("@username", txtUsername.Text);
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@password", txtPass.Text);
+                cmd.Parameters.AddWithValue("@password", password);
                 cmd.Parameters.AddWithValue("@date_created", DateTime.Now.Date.ToString("MM/dd/yyyy"));
                 cmd.Parameters.AddWithValue("@profile_pic_path", defaultProfilePic);
+                cmd.Parameters.AddWithValue("@status", "Active");
+                cmd.Parameters.AddWithValue("@role", "User");
                 int rowsAffected = cmd.ExecuteNonQuery();
                 conn.Close();
-
+                               
                 return rowsAffected > 0;
             }
         }
+
+        private string EncryptPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Convert byte array to a string
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        private bool IsStrongPassword(string password)
+        {
+            // Check minimum length
+            if (password.Length < 8)
+            {
+                return false;
+            }
+
+            // Check for presence of uppercase letters
+            if (!password.Any(char.IsUpper))
+            {
+                return false;
+            }
+
+            // Check for presence of lowercase letters
+            if (!password.Any(char.IsLower))
+            {
+                return false;
+            }
+
+            // Check for presence of digits
+            if (!password.Any(char.IsDigit))
+            {
+                return false;
+            }
+
+            // Check for presence of special characters
+            if (!password.Any(ch => !char.IsLetterOrDigit(ch)))
+            {
+                return false;
+            }
+                        
+            // If all checks pass, return true
+            return true;
+        }
+
+        protected void showPopUp_Click(object sender, EventArgs e)
+        {
+            popUpText.Style.Add("display", "flex");
+        }
+
+        protected void closePopUp_Click(object sender, EventArgs e)
+        {
+            popUpText.Style.Add("display", "none");
+        }
+
+        protected void btnContinue_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Client/LoginSignUp/Login.aspx");
+        }
+               
     }
 }

@@ -136,7 +136,7 @@
                                 class=" 
                               flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                               "
-                                NavigateUrl="/path-that-does-not-exist">
+                                NavigateUrl="~/Client/LoginSignUp/AdminLogin.aspx">
                               <i class="fa-solid fa-person-walking-arrow-right mr-4 icon-16x16"></i>Logout
 
 
@@ -168,10 +168,11 @@
 
                                 <!-- Dropdown toggle -->
                                 <button id="dropdownButton" class="focus:outline-none flex justify-end items-center space-x-4" onclick="toggleDropdown(); return false;">
-                                    <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" CssClass="h-12 w-12 rounded-full" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" />
+                                    <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" CssClass="h-12 w-12 rounded-full" />
                                     <div>
-                                        <p id="UserName" class="text-gray-900 font-bold">Ryan Lee</p>
-                                        <p id="Role" class="text-gray-500 text-sm">Admin</p>
+                                        <asp:Label ID="userName" runat="server" class="text-gray-900 text-lg font-bold" Text=""></asp:Label>
+                                        </br>
+                                        <asp:Label ID="role" runat="server" class="text-gray-500 text-lg" Text=""></asp:Label>
                                     </div>
                                     <i class="fa-solid fa-chevron-down cursor-pointer"></i>
                                 </button>

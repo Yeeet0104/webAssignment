@@ -120,6 +120,7 @@
     <Content Include="Client\Home\Home Images\logitec.png" />
     <Content Include="Client\Home\Home Images\logitec2.png" />
     <Content Include="Client\Home\Home Images\Pc.png" />
+    <Content Include="Client\LoginSignUp\welcomeDog.gif" />
     <Content Include="Client\ProductDetails\user.png" />
     <Content Include="Client\Product\ProductPage.css" />
     <Content Include="Client\ProductDetails\ProductDetailsPage.aspx" />
@@ -159,6 +160,7 @@
     <Content Include="Client\Profile\images\agreement.gif" />
     <Content Include="Client\Profile\images\defaultPic.jpg" />
     <Content Include="Client\Profile\images\package.gif" />
+    <Content Include="Client\Profile\images\successCat.gif" />
     <Content Include="Client\Profile\images\truck.gif" />
     <Content Include="Client\Profile\OrderHistoryDetailsPage.aspx" />
     <Content Include="Client\Profile\AddAddress.aspx" />

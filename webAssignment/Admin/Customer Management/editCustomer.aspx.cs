@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -96,15 +97,42 @@ namespace webAssignment.Admin.Customer
             }
         }
 
-
         protected void btnSaveDetails_Click(object sender, EventArgs e)
         {
             string userId = Request.QueryString["userId"];
-            UpdateUserDetails(userId);
-            Response.Redirect("~/Admin/Customer Management/customerManagement.aspx");
+            if (ValidateForm())
+            {
+                if (IsValidEmail(txtEditEmail.Text))
+                {
+                    if (!CheckEmail(userId, txtEditEmail.Text))
+                    {
+                        if (IsValidPhone(txtEditPhoneNo.Text))
+                        {
+                            UpdateUserDetails(userId);
+                            Response.Redirect("~/Admin/Customer Management/customerManagement.aspx");
+                        }
+                        else
+                        {
+                            lblErrorMsg.Text = "Invalid phone number!";
+                        }
+                    }
+                    else
+                    {
+                        lblErrorMsg.Text = "Email already exists! Please try again.";
+                    }
+                }
+                else
+                {
+                    lblErrorMsg.Text = "Invalid email!";
+                }
+            }
+            else
+            {
+                lblErrorMsg.Text = "Input fields cannot be empty!";
+            }
         }
 
-        private void UpdateUserDetails(string userId)
+       private void UpdateUserDetails(string userId)
         {
             string first_name = txtEditFirstName.Text;
             string last_name = txtEditLastName.Text;
@@ -123,11 +151,11 @@ namespace webAssignment.Admin.Customer
             int month = tempDate.Month;
 
             // Create a DateTime object from the selected values
-            DateTime birthDate = new DateTime(year, month, day);                      
+            DateTime birthDate = new DateTime(year, month, day);
 
             // Get the uploaded file
             HttpPostedFile postedFile = fileUpload.PostedFile;
-            string profile_pic_path = "";
+            string profile_pic_path = null; // Default to null if no file is uploaded
 
             // Check if a file was uploaded
             if (postedFile != null && postedFile.ContentLength > 0)
@@ -153,14 +181,17 @@ namespace webAssignment.Admin.Customer
                 // Save the file path to the database
                 profile_pic_path = "~/ProfilePic/" + fileName;
             }
-            else
-            {
-                // No file was uploaded, leave the existing profile picture
-                profile_pic_path = null;
-            }
 
             // Update the corresponding record in the database with the new details
-            string query = "UPDATE [User] SET first_name = @FirstName, last_name = @LastName, username = @UserName, email = @Email, phone_number = @PhoneNumber, birth_date = @BirthDate, profile_pic_path = @ProfilePicPath, status = @Status WHERE user_id = @UserId";
+            string query = "UPDATE [User] SET first_name = @FirstName, last_name = @LastName, username = @UserName, email = @Email, phone_number = @PhoneNumber, birth_date = @BirthDate, status = @Status";
+
+            // Conditionally add the @ProfilePicPath parameter
+            if (profile_pic_path != null)
+            {
+                query += ", profile_pic_path = @ProfilePicPath";
+            }
+
+            query += " WHERE user_id = @UserId";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -172,12 +203,73 @@ namespace webAssignment.Admin.Customer
                     cmd.Parameters.AddWithValue("@Email", email);
                     cmd.Parameters.AddWithValue("@PhoneNumber", phone_no);
                     cmd.Parameters.AddWithValue("@BirthDate", birthDate);
-                    cmd.Parameters.AddWithValue("@ProfilePicPath", profile_pic_path);
                     cmd.Parameters.AddWithValue("@Status", status);
+                    // Conditionally add the @ProfilePicPath parameter
+                    if (profile_pic_path != null)
+                    {
+                        cmd.Parameters.AddWithValue("@ProfilePicPath", profile_pic_path);
+                    }
+
                     cmd.Parameters.AddWithValue("@UserId", userId);
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
                     conn.Close();
+                }
+            }
+        }
+
+        private bool ValidateForm()
+        {
+            bool isFirstNameValid = !string.IsNullOrEmpty(txtEditFirstName.Text);
+            bool isLastNameValid = !string.IsNullOrEmpty(txtEditLastName.Text);
+            bool isUsernameValid = !string.IsNullOrEmpty(txtEditUsername.Text);
+            bool isEmailValid = !string.IsNullOrEmpty(txtEditEmail.Text);
+            bool isPhoneNoValid = !string.IsNullOrEmpty(txtEditPhoneNo.Text);
+
+            txtEditFirstName.Style["border-color"] = isFirstNameValid ? string.Empty : "#EF4444";
+            txtEditLastName.Style["border-color"] = isLastNameValid ? string.Empty : "#EF4444";
+            txtEditUsername.Style["border-color"] = isUsernameValid ? string.Empty : "#EF4444";
+            txtEditEmail.Style["border-color"] = isEmailValid ? string.Empty : "#EF4444";
+            txtEditPhoneNo.Style["border-color"] = isPhoneNoValid ? string.Empty : "#EF4444";
+
+            return isFirstNameValid && isLastNameValid && isUsernameValid && isEmailValid && isPhoneNoValid;
+        }
+
+        public static bool IsValidEmail(string email)
+        {
+            // Define a regular expression pattern for validating email addresses
+            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+            // Create a Regex object with the pattern
+            Regex regex = new Regex(pattern);
+
+            // Use the IsMatch method to see if the email matches the pattern
+            return regex.IsMatch(email);
+        }
+
+        private bool IsValidPhone(string phoneNumber)
+        {
+            string pattern = @"^\d{10,15}$";
+
+            Regex regex = new Regex(pattern);
+
+            return regex.IsMatch(phoneNumber);
+        }
+
+        private bool CheckEmail(string userId, string email)
+        {
+            string query = "SELECT COUNT(*) FROM [User] WHERE email = @Email AND user_Id != @UserId";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    conn.Close();
+                    return count > 0;
                 }
             }
         }

@@ -123,6 +123,15 @@ namespace webAssignment.Admin.Profile
         protected global::System.Web.UI.WebControls.DropDownList ddlYear;
 
         /// <summary>
+        /// lblErrorMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorMsg;
+
+        /// <summary>
         /// txtCurrentPass control.
         /// </summary>
         /// <remarks>
@@ -157,6 +166,15 @@ namespace webAssignment.Admin.Profile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnChangePass;
+
+        /// <summary>
+        /// lblChangePass control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblChangePass;
 
         /// <summary>
         /// popUpConfirmation control.

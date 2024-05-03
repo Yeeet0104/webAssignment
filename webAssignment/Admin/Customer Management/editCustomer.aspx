@@ -259,6 +259,7 @@
                         </asp:DropDownList>
                     </div>
                 </div>
+                <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
                 <div>
                 </div>
             </div>

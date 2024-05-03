@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,12 +12,26 @@ namespace webAssignment.Admin.Admin_Management
 {
     public partial class adminManagement : System.Web.UI.Page//, IFilterable
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
+            string adminId = Request.Cookies["userInfo"]["userID"];
 
+            if (!IsPostBack)
+            {
+                if (CheckIsAdminManager(adminId))
+                {
+                    divAddNewAdmin.Style["display"] = "block";
+                   // adminEditBtn.Visible = true;
+                }
+                else
+                {
+                    divAddNewAdmin.Style["display"] = "none";
+                }
+            }
         }
 
-        
+
         protected void adminEditBtn_Click(object sender, EventArgs e)
         {
 
@@ -74,5 +90,32 @@ namespace webAssignment.Admin.Admin_Management
         {
             popUpDelete.Style.Add("display", "none");
         }
+
+        protected void btnAddNewAdmin_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private bool CheckIsAdminManager(string adminId)
+        {
+            bool isAdminManager = false;
+
+            string query = "SELECT COUNT(*) FROM [User] WHERE user_id = @adminId AND role = 'Admin Manager'";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@adminId", adminId);
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+
+                    isAdminManager = count > 0;
+                }
+            }
+            return isAdminManager;
+        }
+
+    
     }
 }
