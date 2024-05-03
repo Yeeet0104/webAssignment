@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using webAssignment.Admin.Voucher;
 
 namespace webAssignment.Client.Cart
 {
@@ -21,7 +22,7 @@ namespace webAssignment.Client.Cart
         {
             if (!IsPostBack)
             {
-                Session["UserId"] = "U1001";
+                Session["UserId"] = "CS1001";
                 Session["taxRate"] = taxRate;
                 Session["Voucher"] = "";
 
@@ -166,7 +167,7 @@ namespace webAssignment.Client.Cart
 
         private decimal checkDiscountRate(string voucher, SqlCommand command, SqlConnection connection)
         {
-            string getDiscountRate = "SELECT discount_rate FROM Voucher WHERE voucher_id = @id;";
+            string getDiscountRate = "SELECT discount_rate, quantity, started_date, expiry_date FROM Voucher WHERE voucher_id = @id;";
             using (command = new SqlCommand(getDiscountRate, connection))
             {
                 command.Parameters.AddWithValue("@id", voucher);
@@ -176,8 +177,18 @@ namespace webAssignment.Client.Cart
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        Session["Voucher"] = voucher;
-                        return Convert.ToDecimal(reader[0]);
+                        int qty = Convert.ToInt32(reader[1]);
+                        DateTime start = Convert.ToDateTime(reader[2]);
+                        DateTime expiry = Convert.ToDateTime(reader[3]);
+
+                        // Check if the voucher is available
+                        if (qty != 0 && DateTime.Now >= start && DateTime.Now < expiry)
+                        {
+                            Session["Voucher"] = voucher;
+                            //decreaseVoucherQuantity(voucher);
+                            return Convert.ToDecimal(reader[0]);
+                        }
+
                     }
                 }
             }
@@ -185,6 +196,24 @@ namespace webAssignment.Client.Cart
             return 0.0m;
         }
 
+        private void decreaseVoucherQuantity(String voucher)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string updateQuery = "UPDATE Voucher SET quantity = quantity - 1 WHERE voucher_id = @id;";
+
+                using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@id", voucher);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+        }
 
         protected void btnApplyCoupon_Click(object sender, EventArgs e)
         {
@@ -294,7 +323,6 @@ namespace webAssignment.Client.Cart
                     }
                     catch (SqlException ex)
                     {
-                        // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
                         LogError(ex.Message);
                         Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
                     }
@@ -332,7 +360,6 @@ namespace webAssignment.Client.Cart
                     }
                     catch (SqlException ex)
                     {
-                        // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
                         LogError(ex.Message);
                         Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
                     }
