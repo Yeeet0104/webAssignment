@@ -49,7 +49,9 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #0e3a8c;
         }
+
     </style>
+    
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -82,7 +84,7 @@
                     <asp:LinkButton ID="lbProfile" runat="server" PostBackUrl="~/Client/Profile/AccountDetails.aspx">
                             <i class="fa-regular fa-user" class="h-5"></i>
                     </asp:LinkButton>
-
+                                        
                     <!-- Add more links as needed -->
                 </div>
             </div>

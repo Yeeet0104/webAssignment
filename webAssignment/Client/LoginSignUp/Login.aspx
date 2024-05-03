@@ -67,7 +67,7 @@
 
                     <asp:LinkButton ID="linkForgotPass" runat="server" class="pb-5 text-sm ml-5 mt-2 underline">Forgot Password?</asp:LinkButton>
 
-                    <asp:Label ID="lblLoginMessage" runat="server" class="mx-4 text-red-700" Text=""></asp:Label>
+                    <asp:Label ID="lblLoginMessage" runat="server" class="mx-4 font-bold text-red-600" Text=""></asp:Label>
                     <div class="mx-4 mt-4">
                         <asp:Button ID="btnLogin" runat="server" Text="Login" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-200 ease-in-out" OnClick="btnLogin_Click" />
                     </div>

@@ -96,6 +96,7 @@
                     <asp:Button ID="editBtn" runat="server" Text="Edit" class="px-12 py-3 ml-2 text-white w-auto bg-blue-700 rounded-xl hover:cursor-pointer" OnClick="btnEditAddress_Click"/>
                 </div>
             </div>
+            <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
         </div>
     </div>
 </asp:Content>

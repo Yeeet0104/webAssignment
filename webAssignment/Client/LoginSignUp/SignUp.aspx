@@ -8,6 +8,27 @@
             -webkit-text-fill-color: transparent;
         }
         
+        @keyframes rockUpDown {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    10% {
+        transform: translateY(-10px);
+    }
+
+    20%, 40%, 60%, 80% {
+        transform: translateY(-10px) rotate(-6deg);
+    }
+
+    30%, 50%, 70% {
+        transform: translateY(-10px) rotate(6deg);
+    }
+
+    90% {
+        transform: translateY(-10px);
+    }
+}
     </style>
 
    <script>
@@ -34,7 +55,11 @@
         document.getElementById("eyeIcon2").addEventListener("click", function () {
             togglePasswordVisibility("eyeIcon2", '<%= txtConfirmPass.ClientID %>');
         });
-    });
+       });
+
+       function showPopUp() {
+           document.getElementById('<%= popUpText.ClientID %>').classList.remove('hidden');
+       }
    </script>
 
 
@@ -88,7 +113,7 @@
                         </div>
                     </div>
 
-                    <asp:Label ID="passwordLabel" runat="server" class="mx-4"  Text=""></asp:Label>
+                    <asp:Label ID="passwordLabel" runat="server" class="mx-4 font-bold text-red-600"  Text=""></asp:Label>
 
                     <div class="mx-4 mt-6">
                         <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-200 ease-in-out" OnClick="btnSignUp_Click" />
@@ -122,7 +147,6 @@
                             <span>Google</span>
                         </div>
                     </div>
-
                     <div class="flex flex-row justify-center py-5">
                         <span class="font-medium">Already have an account?</span>
                         <asp:HyperLink ID="linkLogin" runat="server" NavigateUrl="~/Client/LoginSignUp/Login.aspx" class="hover:cursor-pointer pl-2 font-medium text-blue-600">Login Now</asp:HyperLink>
@@ -131,4 +155,30 @@
             </div>
         </div>
     </div>
+
+    <asp:Panel ID="popUpText" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+    <!-- Modal content -->
+    <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+        <div class="w-full h-fit  flex justify-end p-0">
+            <span class=" flex items-center justify-center text-3xl rounded-full">
+
+                <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click">
+                <i class=" fa-solid fa-xmark"></i>
+                </asp:LinkButton>
+            </span>
+
+        </div>
+        <div class="flex flex-col justify-center items-center gap-5">
+            <div>
+                <asp:Image ID="Image1" runat="server" ImageUrl="~/Client/LoginSignUp/welcomeDog.gif" AlternateText="welcome" CssClass="w-35 h-40 " />
+
+            </div>
+            <p class="font-bold text-2xl break-normal text-center">Thank You For Joing And Welcome </br> To G-Tech</p>
+            <div>
+                <asp:Button ID="btnContinue" runat="server" Text="Continue" CssClass="bg-blue-600 text-white font-bold text-xl p-2 px-4 rounded-lg cursor-pointer" OnClick="btnContinue_Click" />
+            </div>
+        </div>
+    </div>
+</asp:Panel>
+
 </asp:Content>

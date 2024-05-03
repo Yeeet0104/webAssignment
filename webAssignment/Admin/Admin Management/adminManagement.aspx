@@ -22,9 +22,9 @@
                 <i class="fa-solid fa-download absolute text-blue-500 text-lg left-4 top-5 transform -translate-y-1/2"></i>
                 <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
             </div>
-            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-3 gap-2 rounded-lg ">
+            <div id="divAddNewAdmin" runat="server" class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-3 gap-2 rounded-lg">
                 <i class="fa-solid fa-plus text-white text-lg left-4 top-5"></i>
-                <asp:HyperLink ID="linkAddNewAdmin" runat="server" NavigateUrl="~/Admin/Admin Management/addNewAdmin.aspx">Add New Admin</asp:HyperLink>
+                <asp:Button ID="btnAddNewAdmin" runat="server" Text="Add New Admin" OnClick="btnAddNewAdmin_Click" CssClass="cursor-pointer" />
             </div>
         </div>
     </div>
@@ -33,7 +33,6 @@
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
         <div class="grid grid-cols-3 bg-white gap-3 text-center rounded p-2">
-
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
                 <asp:Button ID="allAdmins" runat="server" Text="All" />
             </div>
@@ -42,7 +41,6 @@
             </div>
             <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
                 <asp:Button ID="blocked" runat="server" Text="Blocked" />
-
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -68,13 +66,13 @@
 
     <!--Name List-->
     <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [User] WHERE user_id LIKE 'AD%'"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand = "SELECT * FROM [User] WHERE user_id LIKE 'AD%'"></asp:SqlDataSource>
         <asp:ListView ID="adminListView" runat="server" DataSourceID="SqlDataSource1">
             <LayoutTemplate>
                 <div style="overflow-x: auto">
                     <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
                         <!-- Headers here -->
-                        <tr class="grid grid-cols-9 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
+                        <tr class="grid grid-cols-10 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
                             <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterName" runat="server">
                                   <div class="flex flex-row justify-between items-center p-2">
@@ -84,6 +82,9 @@
                                  </div>
 
                                 </asp:LinkButton>
+                            </td>
+                            <td class="col-span-1 flex justify-row pl-5">
+                                <p>Role</p>
                             </td>
                             <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
                                 <asp:LinkButton ID="filterEmail" runat="server">
@@ -165,7 +166,7 @@
                 </div>
             </LayoutTemplate>
             <ItemTemplate>
-                <tr class="grid grid-cols-9 gap-6 w-full mb-5 p-4 border-b-2" style="color: #8B8E99">
+                <tr class="grid grid-cols-10 gap-6 w-full mb-5 p-4 border-b-2" style="color: #8B8E99">
                     <td class="col-span-2 flex flex-row gap-2 items-center">
                         <asp:Image ID="customerImage" runat="server" AlternateText="Customer Image" Height="64" Width="64"
                             ImageUrl='<%# Eval("profile_pic_path", "{0}") %>' CssClass="rounded border" />
@@ -173,6 +174,7 @@
                             <%# Eval("first_name") %>  <%# Eval("last_name") %>
                         </span>
                     </td>
+                    <td class="col-span-1 flex items-center justify-start"><%# Eval("role") %></td>
                     <td class="col-span-2 flex items-center justify-center"><%# Eval("email") %></td>
                     <td class="col-span-1 flex items-center justify-center"><%# Eval("phone_number") %></td>
                     <td class="col-span-1 flex items-center justify-center"><%# Eval("birth_date", "{0:dd MMM yyyy}") %></td>
@@ -184,7 +186,7 @@
                     <td class="col-span-1 flex items-center justify-center"><%# Eval("date_created", "{0:dd MMM yyyy}") %></td>
                     <td class="col-span-1 flex justify-end items-center">
                         <div class="flex flex-row gap-4 items-center">
-                            <asp:LinkButton ID="adminEditBtn" CommandArgument='<%# Eval("user_id") %>' OnClick="adminEditBtn_Click" runat="server" CssClass="fa-solid fa-pen"></asp:LinkButton>
+                            <asp:LinkButton ID="adminEditBtn"  runat="server" OnClick="adminEditBtn_Click" CssClass="fa-solid fa-pen"></asp:LinkButton>
                             <asp:LinkButton ID="deleteAdminLink" runat="server" CommandName="DeleteAdmin" OnClick="showPopUp_Click">
                                 <i class="fa-solid fa-trash"></i>
                             </asp:LinkButton>

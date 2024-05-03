@@ -277,8 +277,8 @@
                                 <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" class="bg-blue-600 text-white rounded-lg px-8 py-3" />
                             </div>--%>
                         </div>
+                        <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -321,9 +321,11 @@
                 <div class="w-auto py-3">
                     <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3" OnClick="btnChangePass_Click" />
                 </div>
+                <asp:Label ID="lblChangePass" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
             </div>
         </div>
     </div>
+
     <asp:Panel ID="popUpConfirmation" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
         <!-- Modal content -->
         <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">

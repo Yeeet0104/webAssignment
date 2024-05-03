@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -39,75 +40,54 @@ namespace webAssignment.Client.Profile
             }
         }
                 
-            protected void cancelBtn_Click(object sender, EventArgs e)
+        protected void cancelBtn_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/Client/Profile/Address.aspx");
         }
 
         protected void btnAddAddress_Click(object sender, EventArgs e)
         {
-            if (ValidateForm())
+            if (ValidateAddress())
             {
-                string addressId = GenerateAddressId();
-                string userId = Request.Cookies["userInfo"]["userID"];
-                string addressLine1 = txtAddressLine1.Text;
-                string addressLine2 = txtAddressLine2.Text;
-                string addressType = Request.QueryString["addressType"];
-                string selectedValue = ddlCountry.SelectedValue;
-                string[] parts = selectedValue.Split('-');
-                string countryCode = parts[1].Trim();
+                if (IsValidZipCode(txtZipCode.Text))
+                {
+                    if (IsValidPhone(txtPhoneNumber.Text))
+                    {
+                        string addressId = GenerateAddressId();
+                        string userId = Request.Cookies["userInfo"]["userID"];
+                        string addressLine1 = txtAddressLine1.Text;
+                        string addressLine2 = txtAddressLine2.Text;
+                        string addressType = Request.QueryString["addressType"];
+                        string selectedValue = ddlCountry.SelectedValue;
+                        string[] parts = selectedValue.Split('-');
+                        string countryCode = parts[1].Trim();
 
-                string state = txtState.Text;
-                string city = txtCity.Text;
-                int zipCode = int.Parse(txtZipCode.Text);
-                string firstName = txtFirstName.Text;
-                string lastName = txtLastName.Text;
-                string phoneNumber = txtPhoneNumber.Text;
-                
-                InsertAddress(addressId, userId, addressType, addressLine1, addressLine2, countryCode, state, city, zipCode, firstName, lastName, phoneNumber);
+                        string state = txtState.Text;
+                        string city = txtCity.Text;
+                        int zipCode = int.Parse(txtZipCode.Text);
+                        string firstName = txtFirstName.Text;
+                        string lastName = txtLastName.Text;
+                        string phoneNumber = txtPhoneNumber.Text;
 
-                Response.Redirect("~/Client/Profile/Address.aspx");
-            }
-        }
+                        InsertAddress(addressId, userId, addressType, addressLine1, addressLine2, countryCode, state, city, zipCode, firstName, lastName, phoneNumber);
 
-        private bool ValidateForm()
-        {
-            // Check if text boxes are empty
-            bool isFirstNamelValid = !string.IsNullOrEmpty(txtFirstName.Text);
-            bool isLastNameValid = !string.IsNullOrEmpty(txtLastName.Text);
-            bool isAddress1Valid = !string.IsNullOrEmpty(txtAddressLine1.Text);
-            bool isAddress2Valid = !string.IsNullOrEmpty(txtAddressLine2.Text);
-            bool isPhoneValid = !string.IsNullOrEmpty(txtPhoneNumber.Text);
-            bool isStateValid = !string.IsNullOrEmpty(txtState.Text);
-            bool isCityValid = !string.IsNullOrEmpty(txtCity.Text);
-            bool isZipCodeValid = !string.IsNullOrEmpty(txtZipCode.Text);
-
-            // Set border color for text boxes based on validation result
-            SetTextBoxBorderColor(txtFirstName, isFirstNamelValid);
-            SetTextBoxBorderColor(txtLastName, isLastNameValid);
-            SetTextBoxBorderColor(txtAddressLine1, isAddress1Valid);
-            SetTextBoxBorderColor(txtAddressLine2, isAddress2Valid);
-            SetTextBoxBorderColor(txtPhoneNumber, isPhoneValid);
-            SetTextBoxBorderColor(txtState, isStateValid);
-            SetTextBoxBorderColor(txtCity, isCityValid);
-            SetTextBoxBorderColor(txtZipCode, isZipCodeValid);
-
-            // Return true if text boxes are not empty, otherwise false
-            return isFirstNamelValid && isLastNameValid && isAddress1Valid && isAddress2Valid && isPhoneValid && isStateValid && isCityValid && isZipCodeValid;
-        }
-
-        private void SetTextBoxBorderColor(TextBox textBox, bool isValid)
-        {
-            // Set border color based on validation result
-            if (!isValid)
-            {
-                textBox.Style["border-color"] = "#EF4444";
+                        Response.Redirect("~/Client/Profile/Address.aspx");
+                    }
+                    else
+                    {
+                        lblErrorMsg.Text = "Invalid phone number!";
+                    }
+                }
+                else
+                {
+                    lblErrorMsg.Text = "Invalid zip code!";
+                }
             }
             else
             {
-                textBox.Style.Remove("border-color");
+                lblErrorMsg.Text = "Input fields cannot be empty!";
             }
-        }
+        }              
 
         private void InsertAddress(string addressId, string userId, string addressType, string addressLine1, string addressLine2, string countryCode, string state, string city, int zipCode, string firstName, string lastName, string phoneNumber)
         {
@@ -207,24 +187,42 @@ namespace webAssignment.Client.Profile
 
             if (!string.IsNullOrEmpty(addressId))
             {
-                if (ValidateForm())
-                {                    
-                    string firstName = txtFirstName.Text;
-                    string lastName = txtLastName.Text;
-                    string addressLine1 = txtAddressLine1.Text;
-                    string addressLine2 = txtAddressLine2.Text;
-                    string selectedValue = ddlCountry.SelectedValue;
-                    string[] parts = selectedValue.Split('-');
-                    string countryCode = parts[1].Trim();
-                    string city = txtCity.Text;
-                    string state = txtState.Text;
-                    int zipCode = int.Parse(txtZipCode.Text);
-                    string phoneNumber = txtPhoneNumber.Text;
+                if (ValidateAddress())
+                {
+                    if (IsValidZipCode(txtZipCode.Text))
+                    {
+                        if (IsValidPhone(txtPhoneNumber.Text))
+                        {
+                            string firstName = txtFirstName.Text;
+                            string lastName = txtLastName.Text;
+                            string addressLine1 = txtAddressLine1.Text;
+                            string addressLine2 = txtAddressLine2.Text;
+                            string selectedValue = ddlCountry.SelectedValue;
+                            string[] parts = selectedValue.Split('-');
+                            string countryCode = parts[1].Trim();
+                            string city = txtCity.Text;
+                            string state = txtState.Text;
+                            int zipCode = int.Parse(txtZipCode.Text);
+                            string phoneNumber = txtPhoneNumber.Text;
 
-                    UpdateAddress(addressId, firstName, lastName, addressLine1, addressLine2, countryCode, city, state, zipCode, phoneNumber);
+                            UpdateAddress(addressId, firstName, lastName, addressLine1, addressLine2, countryCode, city, state, zipCode, phoneNumber);
 
-                    Response.Redirect("~/Client/Profile/Address.aspx");
-                }                
+                            Response.Redirect("~/Client/Profile/Address.aspx");
+                        }
+                        else
+                        {
+                            lblErrorMsg.Text = "Invalid phone number!";
+                        }
+                    }
+                    else
+                    {
+                        lblErrorMsg.Text = "Invalid zip code!";
+                    }
+                }
+                else
+                {
+                    lblErrorMsg.Text = "Input fields cannot be empty!";
+                }
             }            
         }
 
@@ -298,5 +296,50 @@ namespace webAssignment.Client.Profile
             }
             return newAddressId;
         }
+
+        private bool ValidateAddress()
+        {
+            bool isFirstNameValid = !string.IsNullOrEmpty(txtFirstName.Text);
+            bool isLastNameValid = !string.IsNullOrEmpty(txtLastName.Text);
+            bool isLine1Valid = !string.IsNullOrEmpty(txtAddressLine1.Text);
+            bool isLine2Valid = !string.IsNullOrEmpty(txtAddressLine2.Text);
+            bool isPhoneNoValid = !string.IsNullOrEmpty(txtPhoneNumber.Text);
+            bool isStateValid = !string.IsNullOrEmpty(txtState.Text);
+            bool isCityValid = !string.IsNullOrEmpty(txtCity.Text);
+            bool isZipCodeValid = !string.IsNullOrEmpty(txtZipCode.Text);
+
+            txtFirstName.Style["border-color"] = isFirstNameValid ? string.Empty : "#EF4444";
+            txtLastName.Style["border-color"] = isLastNameValid ? string.Empty : "#EF4444";
+            txtAddressLine1.Style["border-color"] = isLine1Valid ? string.Empty : "#EF4444";
+            txtAddressLine2.Style["border-color"] = isLine2Valid ? string.Empty : "#EF4444";
+            txtPhoneNumber.Style["border-color"] = isPhoneNoValid ? string.Empty : "#EF4444";
+            txtState.Style["border-color"] = isStateValid ? string.Empty : "#EF4444";
+            txtCity.Style["border-color"] = isCityValid ? string.Empty : "#EF4444";
+            txtZipCode.Style["border-color"] = isZipCodeValid ? string.Empty : "#EF4444";
+
+            return isFirstNameValid && isLastNameValid && isLine1Valid && isLine2Valid && isPhoneNoValid && isStateValid && isCityValid && isZipCodeValid;
+        }
+
+        private bool IsValidPhone(string phoneNumber)
+        {
+            string pattern = @"^\d{10,15}$";
+
+            Regex regex = new Regex(pattern);
+
+            return regex.IsMatch(phoneNumber);
+        }
+
+        public bool IsValidZipCode(string zipCode)
+        {
+            // Regular expression pattern for 5-digit zip codes
+            string pattern = @"^\d{5}$";
+
+            // Create a Regex object with the pattern
+            Regex regex = new Regex(pattern);
+
+            // Use the IsMatch method to check if the zip code matches the pattern
+            return regex.IsMatch(zipCode);
+        }
+
     }
 }

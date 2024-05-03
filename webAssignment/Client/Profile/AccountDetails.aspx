@@ -2,6 +2,33 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    <style>
+        @keyframes rockUpDown {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            10% {
+                transform: translateY(-10px);
+            }
+
+            20%, 40%, 60%, 80% {
+                transform: translateY(-10px) rotate(-6deg);
+            }
+
+            30%, 50%, 70% {
+                transform: translateY(-10px) rotate(6deg);
+            }
+
+            90% {
+                transform: translateY(-10px);
+            }
+        }
+        .popup-visible {
+    display: flex;
+}
+    </style>
+
     <script>
         function previewImage(input) {
             if (input.files && input.files[0]) {
@@ -43,9 +70,11 @@
             });
             document.getElementById("eyeIcon3").addEventListener("click", function () {
                 togglePasswordVisibility("eyeIcon3", '<%= txtConfirmPass.ClientID %>');
-    });
+            });
         });
-
+        function showPopUp() {
+            document.getElementById('<%= popUpText.ClientID %>').classList.remove('hidden');
+        }
     </script>
 
 </asp:Content>
@@ -243,7 +272,7 @@
                     <div class="w-auto pt-7">
                         <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" class="bg-blue-500 text-white rounded-lg px-8 py-3 mb-4 cursor-pointer hover:bg-blue-600" OnClick="btnSaveChanges_Click" />
                     </div>
-                    <asp:Label ID="lblUpdateDetailsMessage" runat="server" Text=""></asp:Label>
+                    <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
                 </div>
             </div>
         </div>
@@ -283,9 +312,35 @@
                     </div>
                 </div>
                 <div class="w-auto py-3">
-                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3" OnClick="btnChangePass_Click" />
+                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3 cursor-pointer" OnClick="btnChangePass_Click" />
                 </div>
+                <asp:Label ID="lblChangePass" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
             </div>
         </div>
     </div>
+
+    <asp:Panel ID="popUpText" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center popup-visible">
+        <!-- Modal content -->
+        <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+            <div class="w-full h-fit  flex justify-end p-0">
+                <span class=" flex items-center justify-center text-3xl rounded-full">
+                    <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click">
+                <i class=" fa-solid fa-xmark"></i>
+                    </asp:LinkButton>
+                </span>
+
+            </div>
+            <div class="flex flex-col justify-center items-center gap-5">
+                <div>
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Client/Profile/images/successCat.gif" AlternateText="success" CssClass="w-35 h-40 " />
+
+                </div>
+                <p class="font-bold text-3xl break-normal text-center">Details Updated</p>
+                <div>
+                    <asp:Button ID="btnDone" runat="server" Text="Done" CssClass="bg-blue-600 text-white font-bold text-xl p-2 px-4 rounded-lg cursor-pointer" OnClick="btnDone_Click" />
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+
 </asp:Content>

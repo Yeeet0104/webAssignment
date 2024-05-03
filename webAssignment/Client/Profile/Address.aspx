@@ -77,7 +77,7 @@
         <asp:CheckBox ID="collapsible" runat="server" class="hidden" />
         <div id="contentDiv" class="w-full">
             <div class="w-full border border-gray-400 rounded-lg flex flex-col p-4 bg-white">
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [address_id], [address_line2], [address_line1], [first_name], [last_name], [zip_code], [city], [state], [countryCode], [phone_number] FROM [Address] WHERE [address_type] = 'shipping'"></asp:SqlDataSource>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Address] WHERE [address_type] = 'shipping'"></asp:SqlDataSource>
                 <asp:ListView ID="shippingAddressList" runat="server" DataSourceID="SqlDataSource1">
                     <LayoutTemplate>
                         <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
@@ -125,7 +125,7 @@
         <asp:CheckBox ID="collapsible2" runat="server" class="hidden" />
         <div id="contentDiv2" class="w-full">
             <div class="w-full border border-gray-400 rounded-lg flex flex-col p-4 bg-white">
-                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [address_id], [address_line2], [address_line1], [first_name], [last_name], [zip_code], [city], [state], [countryCode], [phone_number] FROM [Address] WHERE [address_type] = 'billing'"></asp:SqlDataSource>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Address] WHERE [address_type] = 'billing'"></asp:SqlDataSource>
                 <asp:ListView ID="billingAddressList" runat="server" DataSourceID="SqlDataSource2">
                     <LayoutTemplate>
                         <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">

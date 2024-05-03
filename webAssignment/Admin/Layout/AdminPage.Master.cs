@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,17 +17,19 @@ namespace webAssignment
     }
     public partial class AdminPage : System.Web.UI.MasterPage
     {
-        protected void Page_Load( object sender, EventArgs e )
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
         {
             assignActiveClass();
-
+            loadProfile();
+            
         }
 
-        private void assignActiveClass( )
+        private void assignActiveClass()
         {
             string currentPage = Path.GetFileName(Request.Path).ToLower();
             // Append 'active' class based on current page
-            switch ( currentPage )
+            switch (currentPage)
             {
                 case "customermanagement.aspx":
                 case "editcustomer.aspx":
@@ -67,7 +71,7 @@ namespace webAssignment
                 case "editvoucher.aspx":
                     voucherLk.Attributes["class"] += " activeNavItem";
 
-                    break;                
+                    break;
                 case "adminprofile.aspx":
                 case "editprofile.aspx":
                     profileLk.Attributes["class"] += " activeNavItem";
@@ -76,12 +80,12 @@ namespace webAssignment
             }
         }
 
-        protected void SearchButton_Click( object sender, EventArgs e )
+        protected void SearchButton_Click(object sender, EventArgs e)
         {
             string searchTerm = SearchTextBox.Text;
             var currentContent = this.Page as IFilterable;
 
-            if ( currentContent != null )
+            if (currentContent != null)
             {
                 currentContent.FilterListView(searchTerm);
             }
@@ -91,12 +95,12 @@ namespace webAssignment
             }
         }
 
-        protected void SearchTextBox_TextChanged( object sender, EventArgs e )
+        protected void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
             string searchTerm = SearchTextBox.Text;
             var currentContent = this.Page as IFilterable;
 
-            if ( currentContent != null )
+            if (currentContent != null)
             {
                 currentContent.FilterListView(searchTerm);
             }
@@ -105,8 +109,36 @@ namespace webAssignment
                 // Handle the case where the content page does not implement IFilterable
             }
         }
+
+        private void loadProfile()
+        {
+            string userId = Request.Cookies["userInfo"]["userID"];
+
+            string query = "SELECT * FROM [User] WHERE user_id = @UserId";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        string name = reader["first_name"].ToString() + " " +  reader["last_name"].ToString();
+                        userName.Text = name;
+                        role.Text = reader["role"].ToString();
+                        if (reader["profile_pic_path"] != DBNull.Value)
+                        {
+                            string profilePicPath = reader["profile_pic_path"].ToString();
+
+                            userProfilePic.ImageUrl = profilePicPath + "?timestamp=" + DateTime.Now.Ticks;
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
-
-
-
 }
