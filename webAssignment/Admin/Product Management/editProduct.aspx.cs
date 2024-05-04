@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Irony.Parsing;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -13,9 +16,11 @@ namespace webAssignment.Admin.Product_Management
 {
     public partial class editProduct : System.Web.UI.Page
     {
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load( object sender, EventArgs e )
         {
             init();
+            initCategory();
             if ( IsPostBack )
             {
                 // the whole section here is to ensure that the text box is retain else it will disapear after refresh due to posback
@@ -53,13 +58,9 @@ namespace webAssignment.Admin.Product_Management
 
         protected void ddlnewProdStatus_SelectedIndexChanged( object sender, EventArgs e )
         {
-            editLblProdStatus.Text = editDdlProdStatus.SelectedValue;
+            editLblProdStatus.Text = ddlnewProdStatus.SelectedValue;
         }
 
-        protected void UploadButton_Click( object sender, EventArgs e )
-        {
-
-        }
         protected void createTextRowBtn_Click( object sender, EventArgs e )
         {
             //int Variantcount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 1;
@@ -150,64 +151,236 @@ namespace webAssignment.Admin.Product_Management
         private void init( )
         {
             string encProdcutID = Request.QueryString["OrderID"];
-            int productID = int.Parse(DecryptString(encProdcutID));
-            DataTable dummyData = GetDummyData();
+            string productID = DecryptString(encProdcutID);
+            LoadProductData(productID);
+            List<string> imagePaths = GetImagePaths(productID);
+            DisplayImages(imagePaths);
 
-            for ( int i = 0 ; i < dummyData.Rows.Count ; i++ )
+        }
+
+        private void LoadProductData( string productId )
+        {
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
-                DataRow row = dummyData.Rows[i];
-                if ( int.Parse(row["productID"].ToString()) == productID )
+                conn.Open();
+                string sql = "SELECT * FROM Product WHERE product_id = @ProductId; SELECT * FROM Product_Variant WHERE product_id = @ProductId;";
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
-                    editTbProductName.Text = row["productName"].ToString();
-                    editTbProductDes.Text = row["ProductDec"].ToString();
-                    editDdlProdStatus.SelectedValue = row["status"].ToString();
-                    editLblProdStatus.Text = row["status"].ToString();
-                    editDdlCategory.SelectedValue = row["category"].ToString();
-                    editTbQuantity.Text = row["Stock"].ToString();
-                    profilePic.ImageUrl = row["ProductImageUrl"].ToString();
-
-                    string[] variants = row["Variant"] as string[];
-                    int[] prices = row["Price"] as int[];
-
-                    if ( variants != null && prices != null )
+                    cmd.Parameters.AddWithValue("@ProductId", productId);
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
                     {
-                        for ( int v = 0 ; v < variants.Length ; v++ )
+                        if ( reader.Read() )
                         {
-                            int Variantcount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 1;
-                            // Dynamically create text boxes for each variant
-                            TextBox variantTextBox = new TextBox
+                            // Assume columns: ProductName, Description, CategoryId, Status
+                            editTbProductName.Text = reader["product_name"].ToString();
+                            editTbProductDes.Text = reader["product_description"].ToString();
+                            editDdlCategory.SelectedValue = reader["category_id"].ToString();
+                            ddlnewProdStatus.SelectedValue = reader["product_status"].ToString();
+                        }
+
+                        if ( reader.NextResult() )
+                        {
+                            while ( reader.Read() )
                             {
-                                ID = "variant" + ( v + 1 ) + "Tb",
-                                CssClass = "newVariation_input",
-                                Text = variants[v], // Initialize with the variant value
-                                Attributes = { ["Placeholder"] = "Variant " + ( v + 1 ) }
-                            };
-
-                            // Dynamically create text boxes for each price
-                            TextBox priceTextBox = new TextBox
-                            {
-                                ID = "priceVar" + ( v + 1 ) + "Tb",
-                                CssClass = "newVariation_input",
-                                Text = prices[v].ToString(), // Initialize with the price value
-                                Attributes = { ["placeholder"] = "Price for Variant " + ( v + 1 ) }
-                            };
-
-                            // Add the text boxes to the panel
-                            Literal divStart = new Literal { Text = "<div class='flex gap-4 items-center flex-wrap justify-evenly'>" };
-                            Literal divEnd = new Literal { Text = "</div>" };
-
-                            ViewState["VariantCount"] = ( Variantcount + 1 );
-
-
-                            panelVariantTextBoxes.Controls.Add(divStart);
-                            panelVariantTextBoxes.Controls.Add(variantTextBox);
-                            panelVariantTextBoxes.Controls.Add(priceTextBox);
-                            panelVariantTextBoxes.Controls.Add(divEnd);
+                                CreateVariantControl(reader["variant_name"].ToString(), reader["variant_price"].ToString(),(int) reader["stock"]);
+                            }
                         }
                     }
                 }
-
             }
         }
+
+        private void CreateVariantControl( string variantName, string price , int stock )
+        {
+            int variantCount = Convert.ToInt32(ViewState["VariantCount"]);
+            TextBox variantTextBox = new TextBox
+            {
+                ID = "variant" + variantCount + "Tb",
+                CssClass = "newVariation_input",
+                Text = variantName
+            };
+
+            TextBox priceTextBox = new TextBox
+            {
+                ID = "priceVar" + variantCount + "Tb",
+                CssClass = "newVariation_input",
+                Text = price
+            };
+            TextBox stockTextBox = new TextBox
+            {
+                ID = "stockVar" + variantCount + "Tb",
+                CssClass = "newVariation_input",
+                Text = stock.ToString()
+            };
+
+            Literal divStart = new Literal { Text = "<div class='flex gap-4 items-center flex-wrap justify-evenly'>" };
+            Literal divEnd = new Literal { Text = "</div>" };
+
+            panelVariantTextBoxes.Controls.Add(divStart);
+            panelVariantTextBoxes.Controls.Add(variantTextBox);
+            panelVariantTextBoxes.Controls.Add(priceTextBox);
+            panelVariantTextBoxes.Controls.Add(stockTextBox);
+            panelVariantTextBoxes.Controls.Add(divEnd);
+
+            ViewState["VariantCount"] = variantCount + 1;
+        }
+
+        protected void UploadButton_Click( object sender, EventArgs e )
+        {
+            if ( Page.IsValid )
+            {
+                UpdateProduct(editTbProductName.Text, editTbProductDes.Text, editDdlCategory.SelectedValue, ddlnewProdStatus.SelectedValue);
+            }
+        }
+
+        private void UpdateProduct( string name, string description, string categoryId, string status )
+        {
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                string sql = "UPDATE Products SET ProductName = @Name, Description = @Description, CategoryId = @CategoryId, Status = @Status WHERE ProductId = @ProductId;";
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@Name", name);
+                    cmd.Parameters.AddWithValue("@Description", description);
+                    cmd.Parameters.AddWithValue("@CategoryId", categoryId);
+                    cmd.Parameters.AddWithValue("@Status", status);
+                    cmd.Parameters.AddWithValue("@ProductId", Request.QueryString["ProductId"]);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        // for category ddl init
+        private void initCategory( )
+        {
+            List<Category> categories = getCategories();
+
+            // Clear existing items
+            editDdlCategory.Items.Clear();
+
+
+            // Check if categories were fetched successfully
+            if ( categories != null && categories.Count > 0 )
+            {
+                editDdlCategory.DataSource = categories;
+                editDdlCategory.DataTextField = "CategoryName";
+                editDdlCategory.DataValueField = "CategoryID";
+                editDdlCategory.DataBind();
+            }
+            editDdlCategory.Items.Insert(0, new ListItem("Select a category", ""));
+
+        }
+        private List<Category> getCategories( )
+        {
+            List<Category> categories = new List<Category>();
+
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                // Open the connection
+                conn.Open();
+
+                // SQL query to select data from the Category table
+                string sql = "SELECT category_id, category_name FROM Category;";
+
+                // Create a SqlCommand object
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+
+                    // Execute the query and obtain a SqlDataReader
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+
+                        while ( reader.Read() )
+                        {
+                            categories.Add(new Category
+                            {
+                                CategoryID = reader.GetString(0),
+                                CategoryName = reader.GetString(1)
+                            });
+                        }
+                    }
+                }
+            }
+
+
+            return categories;
+        }
+
+        protected List<string> GetImagePaths( string productId )
+        {
+            List<string> paths = new List<string>();
+            string query = "SELECT path FROM Image_Path WHERE product_id = @ProductId";
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                using ( SqlCommand cmd = new SqlCommand(query, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@ProductId", productId);
+                    conn.Open();
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        while ( reader.Read() )
+                        {
+                            string imagePath = reader["path"].ToString();
+                            paths.Add(imagePath);
+                        }
+                    }
+                }
+            }
+            return paths;
+        }
+        //private void DisplayImages( List<string> imagePaths )
+        //{
+        //    Literal imagesLiteral = new Literal();
+        //    foreach ( string path in imagePaths )
+        //    {
+        //        string resolvedUrl = ResolveUrl(path);
+        //        imagesLiteral.Text += $"<img src='{resolvedUrl}' class='preview-image' alt='Product Image'Height='216' Width='216' onclick='document.getElementById('<%= fileUploadClientID %>').click()'/>";
+        //    }
+        //    PanelBackground.Controls.Add(imagesLiteral);  // Assuming `imageContainer` is a Panel or similar container
+        //}
+        private void DisplayImages( List<string> imagePaths )
+        {
+            imageContainer.Controls.Clear(); // Clear existing images similar to innerHTML = ''
+
+            foreach ( string path in imagePaths )
+            {
+                // Create a new image control
+                Image img = new Image
+                {
+                    ImageUrl = ResolveUrl(path),  // Resolve the URL to ensure it's correct
+                    CssClass = "preview-image",
+                    Width = 216,
+                    Height = 216
+                };
+
+                // Add the image control to the panel
+                imageContainer.Controls.Add(img);
+            }
+        }
+
+        protected void UploadImages( object sender, EventArgs e )
+        {
+            if ( fileUpload.HasFiles )
+            {
+                List<string> imagePaths = new List<string>();
+                foreach ( HttpPostedFile postedFile in fileUpload.PostedFiles )
+                {
+                    // Generate a unique file name; could use GUID or a similar method
+                    string filename = Path.GetFileName(postedFile.FileName);
+                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(filename);
+                    string filePath = Server.MapPath("~/Admin/Product Management/productImages/") + uniqueFileName;
+
+                    // Save the uploaded file to the server
+                    postedFile.SaveAs(filePath);
+                    imagePaths.Add("~/Admin/Product Management/productImages/" + uniqueFileName);
+                    // Assuming you have a method to update or insert a new image path into the database
+                    //UpdateImagePathInDatabase(uniqueFileName, "productId");  // Example productId
+                }
+
+                // Optionally, refresh the image display
+                DisplayImages(imagePaths);
+            }
+        }
+
     }
 }

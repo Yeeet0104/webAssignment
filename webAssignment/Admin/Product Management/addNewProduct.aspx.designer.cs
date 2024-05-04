@@ -132,6 +132,15 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.TextBox priceVar1Tb;
 
         /// <summary>
+        /// stockVar1Tb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox stockVar1Tb;
+
+        /// <summary>
         /// panelVariantTextBoxes control.
         /// </summary>
         /// <remarks>
@@ -139,15 +148,6 @@ namespace webAssignment.Admin.Product_Management
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel panelVariantTextBoxes;
-
-        /// <summary>
-        /// tbQuantity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbQuantity;
 
         /// <summary>
         /// ddlCategory control.

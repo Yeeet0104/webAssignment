@@ -34,16 +34,16 @@
             </div>
         </div>
         <div class="flex">
-            <div class="relative mr-2">
-                <i class="fa-solid fa-xmark absolute text-white text-xl left-5 top-5 pt-1 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnCancel" runat="server" Text="Cancel" class="pl-11 pr-5 py-2.5 text-sm bg-red-500 text-white rounded-lg" />
+            <div class="relative mr-2 mt-2">
+                <i class="fa-solid fa-xmark absolute text-white text-xl left-5 top-3 pt-1 transform -translate-y-1/2"></i>
+                <asp:HyperLink ID="cancelBtn" runat="server" class="pl-11 pr-5 py-2.5 text-sm bg-red-500 text-white rounded-lg" NavigateUrl="~/Admin/Customer Management/customerManagement.aspx">Cancel</asp:HyperLink>
             </div>
-            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center px-4 gap-2 rounded-lg ">
-                <i class="fa-solid fa-plus text-white text-lg left-2 top-5"></i>
-                <asp:HyperLink ID="btnSaveCustomer" runat="server" NavigateUrl="~/Admin/Customer Management/customerManagement.aspx">Save Details</asp:HyperLink>
+            <div class="relative ml-2">
+                <i class="fa-solid fa-plus absolute text-white text-lg left-5 top-5 transform -translate-y-1/2"></i>
+                <asp:Button ID="btnSaveDetails" runat="server" Text="Save Details" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" OnClick="btnSaveDetails_Click"/>
             </div>
         </div>
-    </div>
+            </div>
     <!--End-->
 
     <!--Second Row-->
@@ -92,22 +92,33 @@
                 <div class="w-full">
                     <div class="flex flex-row pb-4">
                         <div class="w-1/2 pr-8">
-                            <span class="text-sm font-medium text-gray-600">Name</span>
-                            <asp:TextBox ID="txtEditName" runat="server" Text="Yap Zi Yan" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                            <span class="text-sm font-medium text-gray-600">First Name</span>
+                            <asp:TextBox ID="txtEditFirstName" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
                         <div class="w-1/2 pl-8">
-                            <span class="text-sm font-medium text-gray-600">Email</span>
-                            <asp:TextBox ID="txtEditEmail" runat="server" Text="zyyap69@gmail.com" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                            <span class="text-sm font-medium text-gray-600">Last Name</span>
+                            <asp:TextBox ID="txtEditLastName" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
                     </div>
                 </div>
                 <div class="w-full">
-                    <div class="pb-6">
-                        <div class="w-1/2 justify-start pr-8">
-                            <div class="flex flex-col">
-                                <span class="text-sm font-medium text-gray-600">Phone Number</span>
-                                <asp:TextBox ID="txtEditPhoneNo" runat="server" Text="0123136742" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
-                            </div>
+                    <div class="pb-4 flex flex-row">
+                        <div class="w-1/2 pr-8">
+                            <span class="text-sm font-medium text-gray-600">Username</span>
+                            <asp:TextBox ID="txtEditUsername" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                        </div>
+                        <div class="w-1/2 pl-8">
+                            <span class="text-sm font-medium text-gray-600">Email</span>
+                            <asp:TextBox ID="txtEditEmail" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="w-full">
+                    <div class="w-1/2 justify-start pr-8 pb-6">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-medium text-gray-600">Phone Number</span>
+                            <asp:TextBox ID="txtEditPhoneNo" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
                     </div>
                 </div>
@@ -170,6 +181,52 @@
                     <div class="w-1/3 pl-8">
                         <span class="text-sm font-medium text-gray-600">Year</span>
                         <asp:DropDownList ID="ddlYear" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl">
+                            <asp:ListItem>1950</asp:ListItem>
+                            <asp:ListItem>1951</asp:ListItem>
+                            <asp:ListItem>1952</asp:ListItem>
+                            <asp:ListItem>1953</asp:ListItem>
+                            <asp:ListItem>1954</asp:ListItem>
+                            <asp:ListItem>1955</asp:ListItem>
+                            <asp:ListItem>1956</asp:ListItem>
+                            <asp:ListItem>1957</asp:ListItem>
+                            <asp:ListItem>1958</asp:ListItem>
+                            <asp:ListItem>1959</asp:ListItem>
+                            <asp:ListItem>1960</asp:ListItem>
+                            <asp:ListItem>1961</asp:ListItem>
+                            <asp:ListItem>1962</asp:ListItem>
+                            <asp:ListItem>1963</asp:ListItem>
+                            <asp:ListItem>1964</asp:ListItem>
+                            <asp:ListItem>1965</asp:ListItem>
+                            <asp:ListItem>1966</asp:ListItem>
+                            <asp:ListItem>1967</asp:ListItem>
+                            <asp:ListItem>1968</asp:ListItem>
+                            <asp:ListItem>1969</asp:ListItem>
+                            <asp:ListItem>1970</asp:ListItem>
+                            <asp:ListItem>1971</asp:ListItem>
+                            <asp:ListItem>1972</asp:ListItem>
+                            <asp:ListItem>1973</asp:ListItem>
+                            <asp:ListItem>1974</asp:ListItem>
+                            <asp:ListItem>1975</asp:ListItem>
+                            <asp:ListItem>1976</asp:ListItem>
+                            <asp:ListItem>1977</asp:ListItem>
+                            <asp:ListItem>1978</asp:ListItem>
+                            <asp:ListItem>1979</asp:ListItem>
+                            <asp:ListItem>1980</asp:ListItem>
+                            <asp:ListItem>1981</asp:ListItem>
+                            <asp:ListItem>1982</asp:ListItem>
+                            <asp:ListItem>1983</asp:ListItem>
+                            <asp:ListItem>1984</asp:ListItem>
+                            <asp:ListItem>1985</asp:ListItem>
+                            <asp:ListItem>1986</asp:ListItem>
+                            <asp:ListItem>1987</asp:ListItem>
+                            <asp:ListItem>1988</asp:ListItem>
+                            <asp:ListItem>1989</asp:ListItem>
+                            <asp:ListItem>1990</asp:ListItem>
+                            <asp:ListItem>1991</asp:ListItem>
+                            <asp:ListItem>1992</asp:ListItem>
+                            <asp:ListItem>1993</asp:ListItem>
+                            <asp:ListItem>1994</asp:ListItem>
+                            <asp:ListItem>1995</asp:ListItem>
                             <asp:ListItem>1996</asp:ListItem>
                             <asp:ListItem>1997</asp:ListItem>
                             <asp:ListItem>1998</asp:ListItem>
@@ -182,9 +239,27 @@
                             <asp:ListItem>2005</asp:ListItem>
                             <asp:ListItem>2006</asp:ListItem>
                             <asp:ListItem>2007</asp:ListItem>
+                            <asp:ListItem>2008</asp:ListItem>
+                            <asp:ListItem>2009</asp:ListItem>
+                            <asp:ListItem>2010</asp:ListItem>
+                            <asp:ListItem>2011</asp:ListItem>
+                            <asp:ListItem>2012</asp:ListItem>
+                            <asp:ListItem>2013</asp:ListItem>
+                            <asp:ListItem>2014</asp:ListItem>
+                            <asp:ListItem>2015</asp:ListItem>
+                            <asp:ListItem>2016</asp:ListItem>
+                            <asp:ListItem>2017</asp:ListItem>
+                            <asp:ListItem>2018</asp:ListItem>
+                            <asp:ListItem>2019</asp:ListItem>
+                            <asp:ListItem>2020</asp:ListItem>
+                            <asp:ListItem>2021</asp:ListItem>
+                            <asp:ListItem>2022</asp:ListItem>
+                            <asp:ListItem>2023</asp:ListItem>
+                            <asp:ListItem>2024</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                 </div>
+                <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
                 <div>
                 </div>
             </div>

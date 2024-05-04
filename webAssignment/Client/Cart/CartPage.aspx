@@ -24,13 +24,12 @@
                             <p>Subtotal</p>
                         </div>
                     </div>
-                    <asp:ListView ID="lvCartProduct" runat="server">
+                    <asp:ListView ID="lvCartProduct" runat="server" OnItemCommand="cartListView_ItemCommand">
                         <LayoutTemplate>
-
                             <tr id="itemPlaceholder" runat="server"></tr>
                         </LayoutTemplate>
                         <ItemTemplate>
-                            <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
+                            <%--<tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
                                 <td class="col-span-2 flex items-center gap-5">
                                     <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageURL", "{0}") %>' class="h-16 w-16 rounded-md" />
                                     <span>
@@ -55,6 +54,34 @@
                                 </td>
                             </tr>
 
+                        </ItemTemplate>--%>
+                            <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
+                                <td class="col-span-2 flex items-center gap-5">
+                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath", "{0}") %>' class="h-16 w-16 rounded-md" />
+                                    <span class="overflow-hidden whitespace-nowrap overflow-ellipsis pr-1">
+                                        <%# Eval("productName") %>  <%# Eval("variantName") %>
+                                    </span>
+                                </td>
+                                <td class="col-span-1">RM <%# Eval("price") %></td>
+                                <td class="col-span-1 flex items-center gap-4">
+                                    <asp:LinkButton ID="btn_reduce_qty" runat="server" CommandArgument='<%# Eval("variantId") %>' CommandName="reduceQty">                    
+                             <i class="fa-solid fa-minus cursor-pointer bg-gray-500 hover:bg-blue-500 p-1 rounded-lg text-white transition duration-200"></i>
+                                    </asp:LinkButton>
+                                    <span>
+                                        <%# Eval("quantity") %>                                    
+
+                                    </span>
+                                    <asp:LinkButton ID="btn_increase_qty" runat="server" CommandArgument='<%# Eval("variantId") %>' CommandName="increaseQty">
+                                <i class="fa-solid fa-plus cursor-pointer bg-gray-500 hover:bg-blue-500 p-1 rounded-lg text-white transition duration-200"></i>
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 flex justify-between items-center">RM <%# Convert.ToDecimal(Eval("price")) * Convert.ToInt32(Eval("quantity")) %>
+                                    <asp:LinkButton ID="btn_delete" runat="server" CommandArgument='<%# Eval("variantId") %>' CommandName="deleteItem">
+                                    <i class="fa-solid fa-trash-can mr-2 cursor-pointer hover:bg-red-500 p-2 rounded-2xl hover:text-white transition duration-200"></i>
+                                    </asp:LinkButton>
+                                </td>
+                            </tr>
+
                         </ItemTemplate>
                     </asp:ListView>
                     <!--Display when the cart is empty-->
@@ -67,37 +94,6 @@
                         </td>
                     </tr>
                 </table>
-
-
-
-                <%-- <p class="font-bold text-gray-700 p-3">Shopping Cart</p>
-            <div class="flex w-full pl-3 h-10 bg-gray-200 items-center font-bold text-gray-500 text-sm">
-                <span class="w-3/5">Products</span>
-                <span class="w-1/5">Price</span>
-                <span class="w-1/5">Quantity</span>
-                <span class="w-1/5">Subtotal</span>
-            </div>
-            <!--Product List-->
-            <div class="flex w-full pl-3 py-2 items-center font-semibold">
-                <div class="w-3/5 flex items-center gap-4">
-                    <i class="fa-regular fa-circle-xmark"></i>
-                    <img src="image/iphone_15.jpg" class="w-auto h-20" />
-                    <asp:Label ID="lblItemName" runat="server" Text="IPhone 15"></asp:Label>
-                </div>
-                <asp:Label ID="lblItemPrice" runat="server" Text="RM 20.00" CssClass="w-1/5"></asp:Label>
-                <div class="w-1/5 flex items-center gap-4">
-                    <asp:LinkButton ID="btn_reduce_qty" runat="server">                    
-                        <i class="fa-solid fa-minus"></i>
-                    </asp:LinkButton>
-                    <asp:Label ID="lblItemQty" runat="server" Text="01"></asp:Label>
-                    <asp:LinkButton ID="btn_increase_qty" runat="server">
-                        <i class="fa-solid fa-plus"></i>
-                    </asp:LinkButton>
-                </div>
-                <div class="w-1/5">
-                    <asp:Label ID="lblItemSubtotal" runat="server" Text="RM 20.00"></asp:Label>
-                </div>
-            </div>--%>
             </div>
 
             <div class="flex flex-col h-full w-[25%] gap-8">
@@ -119,7 +115,7 @@
                     </div>
                     <div class="flex justify-between">
                         <span>Shipping</span>
-                        <asp:Label ID="lblCartShipping" runat="server" Text="Free"></asp:Label>
+                        <asp:Label ID="lblCartShipping" runat="server" Text="RM 0.00"></asp:Label>
                     </div>
                     <div class="flex justify-between">
                         <span>Discount</span>
@@ -135,14 +131,12 @@
                         <asp:Label ID="lblCartTotal" runat="server" Text="RM 0.00"></asp:Label>
                     </div>
 
-                    <asp:Button ID="btnProceedCheckout" runat="server" Text="PROCEED TO CHECKOUT" CssClass="mt-2 text-white bg-blue-700 rounded-lg w-full p-2 font-semibold text-sm cursor-pointer text-center" OnClick="btnProceedCheckout_Click" />
-                    <asp:Label ID="lblMessage" runat="server" Text="" class="font-normal text-sm"></asp:Label>
+                    <asp:Button ID="btnProceedCheckout" runat="server" Text="Proceed To Checkout" CssClass="mt-2 text-white bg-blue-700 rounded-lg w-full p-2 font-semibold text-sm cursor-pointer text-center" OnClick="btnProceedCheckout_Click" />
                 </div>
 
             </div>
         </div>
-    <div>
-
-    </div>
+        <div>
+        </div>
     </div>
 </asp:Content>

@@ -1,10 +1,13 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.master.cs" Inherits="webAssignment.AdminPage" %>
-
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
+    <script src="<%= ResolveClientUrl("~/Admin/Layout/adminPage.js") %>" type="text/javascript"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Grantha&display=swap" rel="stylesheet">
@@ -136,7 +139,7 @@
                                 class=" 
                               flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                               "
-                                NavigateUrl="/path-that-does-not-exist">
+                                NavigateUrl="~/Client/LoginSignUp/AdminLogin.aspx">
                               <i class="fa-solid fa-person-walking-arrow-right mr-4 icon-16x16"></i>Logout
 
 
@@ -168,10 +171,11 @@
 
                                 <!-- Dropdown toggle -->
                                 <button id="dropdownButton" class="focus:outline-none flex justify-end items-center space-x-4" onclick="toggleDropdown(); return false;">
-                                    <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" CssClass="h-12 w-12 rounded-full" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" />
+                                    <asp:Image ID="userProfilePic" runat="server" AlternateText="Profile Picture" CssClass="h-12 w-12 rounded-full" />
                                     <div>
-                                        <p id="UserName" class="text-gray-900 font-bold">Ryan Lee</p>
-                                        <p id="Role" class="text-gray-500 text-sm">Admin</p>
+                                        <asp:Label ID="userName" runat="server" class="text-gray-900 text-lg font-bold" Text=""></asp:Label>
+                                        </br>
+                                        <asp:Label ID="role" runat="server" class="text-gray-500 text-lg" Text=""></asp:Label>
                                     </div>
                                     <i class="fa-solid fa-chevron-down cursor-pointer"></i>
                                 </button>
@@ -239,38 +243,22 @@
                 </main>
             </div>
         </div>
+        <div id="snackbar" runat="server" class="hidden fixed text-lg right-10 transform bottom-10 bg-gray-300 text-white py-3 px-6 rounded shadow-lg text-center z-50" style="z-index: 50; min-width: 300px;" role="alert">
+            <div class="flex justify-between gap-4">
+                <div>
+                    <i id="snackbarIcon" class="fa-solid"></i>  
+
+                </div>
+                <div class="text-center w-full">
+                    <span id="snackbarMessage" runat="server" class="mr-3"></span>
+
+                </div>
+
+            </div>
+        </div>
     </form>
 </body>
 </html>
-<script>
-    // Toggle the dropdown menu visibility
-    function toggleDropdown() {
-        var dropdown = document.getElementById("dropdown");
-        if (dropdown.classList.contains("opacity-0")) {
-            dropdown.classList.remove("opacity-0", "scale-95", "invisible", "z-[-1]");
-            dropdown.classList.add("opacity-100", "scale-100", "visible");
-            dropdown.classList.add("z-[3]");
-        } else {
-            dropdown.classList.remove("opacity-100", "scale-100", "visible", "z-[3]");
-            dropdown.classList.add("z-[-1]");
-            dropdown.classList.add("opacity-0", "scale-95", "invisible");
-        }
-    }
-
-    // Log out function
-    function logOut() {
-        // You could also make an AJAX request here to log out the user server-side
-        window.location.href = 'LogoutHandler.ashx'; // Replace with your server-side logout handler
-    }
-
-    //window.addEventListener('click', function (e) {
-    //    var dropdown = document.getElementById("dropdown");
-    //    if (!dropdown.contains(e.target) && !e.target.matches('[data-dropdown-button]')) {
-    //        dropdown.classList.add("opacity-0", "scale-95", "invisible");
-    //        dropdown.classList.remove("opacity-100", "scale-100", "visible");
-    //    }
-    //});
-</script>
 <style>
     .icon-16x16 {
         font-size: 16px;

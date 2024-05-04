@@ -33,13 +33,22 @@ namespace webAssignment.Admin.Admin_Management
         protected global::System.Web.UI.WebControls.Button btnExport;
 
         /// <summary>
-        /// linkAddNewAdmin control.
+        /// divAddNewAdmin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink linkAddNewAdmin;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAddNewAdmin;
+
+        /// <summary>
+        /// btnAddNewAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddNewAdmin;
 
         /// <summary>
         /// allAdmins control.
@@ -85,6 +94,15 @@ namespace webAssignment.Admin.Admin_Management
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
+
+        /// <summary>
+        /// SqlDataSource1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
 
         /// <summary>
         /// adminListView control.

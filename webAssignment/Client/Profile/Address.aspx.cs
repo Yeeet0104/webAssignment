@@ -82,6 +82,7 @@ namespace webAssignment.Client.Profile
                         {
                             // Address successfully deleted
                             // You can redirect the user to a success page or display a message here
+                            shippingAddressList.DataBind();
                             billingAddressList.DataBind();
                         }
                         else
@@ -93,6 +94,6 @@ namespace webAssignment.Client.Profile
                 }
             }
         }
-
+                
     }
 }

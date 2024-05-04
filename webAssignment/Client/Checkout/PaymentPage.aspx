@@ -39,7 +39,7 @@
                                 <asp:Button ID="btnCOD" runat="server" Text="Cash On Delivery" OnClick="btnCOD_Click" CssClass="bg-blue-700 text-white p-4 rounded-xl cursor-pointer flex-1 font-semibold" />
                             </div>
 
-                            <asp:Panel ID="Panel1" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-8" Visible="false">
+                            <asp:Panel ID="pnlCard" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-8" Visible="false">
                                 <!-- Content for Credit Card Payment -->
                                 <h3 class="font-bold text-xl">Credit Card Payment</h3>
                                 <!-- Add ASP.NET elements for credit card payment here -->
@@ -86,10 +86,9 @@
                                     </div>
 
                                 </div>
-                                <!-- Add more elements as needed -->
                             </asp:Panel>
 
-                            <asp:Panel ID="Panel2" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-8" Visible="false">
+                            <asp:Panel ID="pnlBank" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-8" Visible="false">
                                 <!-- Content for Bank FPX Payment -->
                                 <h3 class="font-bold text-xl">Bank FPX Payment</h3>
                                 <!-- Add ASP.NET elements for bank FPX payment here -->
@@ -104,7 +103,7 @@
                                 </div>
                             </asp:Panel>
 
-                            <asp:Panel ID="Panel3" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-6" Visible="false">
+                            <asp:Panel ID="pnlCOD" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-6" Visible="false">
                                 <h3 class="font-bold text-xl">Cash On Delivery</h3>
                                 <div class="flex flex-col gap-2">
                                     <p>Thank you for choosing Cash on Delivery as your payment method. Here's what you need to know:</p>

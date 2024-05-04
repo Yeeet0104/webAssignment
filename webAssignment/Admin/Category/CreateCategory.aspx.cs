@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
@@ -75,7 +76,7 @@ namespace webAssignment.Admin.Category
         }
         private string GenerateNextCategoryId( )
         {
-            string newCategoryId = "C0001"; // default if no entries are present
+            string newCategoryId = "CAT1001"; // default if no entries are present
             string query = "SELECT MAX(category_id) as MaxCategoryId FROM Category";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
@@ -89,9 +90,9 @@ namespace webAssignment.Admin.Category
 
                     if ( result != DBNull.Value && result != null )
                     {
-                        int maxId = int.Parse(result.ToString().Substring(1)); // Assuming IDs are like 'C0001'
+                        int maxId = int.Parse(result.ToString().Substring(3)); 
                         maxId++; // Increment the numerical part
-                        newCategoryId = "C" + maxId.ToString("D4"); // Format as C + four digit number
+                        newCategoryId = "CAT" + maxId.ToString("D3"); // Format as CAT + three digit number
                     }
                 }
                 catch ( Exception ex )
@@ -106,7 +107,7 @@ namespace webAssignment.Admin.Category
 
         private void InsertCategoryIntoDatabase( string categoryId, string categoryName, string imagePath )
         {
-            string query = "INSERT INTO Category (category_id, category_name, tumbnail_img_path) VALUES (@CategoryId, @CategoryName, @ImagePath)";
+            string query = "INSERT INTO Category (category_id, category_name, tumbnail_img_path, date_added) VALUES (@CategoryId, @CategoryName, @ImagePath , @DateAdded)";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -115,6 +116,7 @@ namespace webAssignment.Admin.Category
                     cmd.Parameters.AddWithValue("@CategoryId", categoryId);
                     cmd.Parameters.AddWithValue("@CategoryName", categoryName);
                     cmd.Parameters.AddWithValue("@ImagePath", imagePath);
+                    cmd.Parameters.Add("@DateAdded", SqlDbType.DateTime).Value = DateTime.UtcNow;
 
                     try
                     {
@@ -178,6 +180,8 @@ namespace webAssignment.Admin.Category
                     ViewState.Remove("NewCateName");
                     ViewState.Remove("NewCateDes");
                     ViewState.Remove("FileSavePath");
+
+                    ShowNotification("Succesfully Added New Category", "success");
                 }
                 else
                 {
@@ -198,6 +202,13 @@ namespace webAssignment.Admin.Category
             ViewState.Remove("NewCateName");
             ViewState.Remove("NewCateDes");
             ViewState.Remove("FileSavePath");
+        }
+
+
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
     }
 }

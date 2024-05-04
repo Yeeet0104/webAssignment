@@ -1,6 +1,50 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="editProfile.aspx.cs" Inherits="webAssignment.Admin.Profile.editProfile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.getElementById('<%= profilePic.ClientID %>');
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function triggerFileUpload() {
+            document.getElementById('<%= fileUpload.ClientID %>').click();
+            return false; // Prevent postback on LinkButton click
+        }
+
+        function togglePasswordVisibility(eyeIconId, passwordFieldId) {
+            var passwordField = document.getElementById(passwordFieldId);
+            var eyeIcon = document.getElementById(eyeIconId);
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("eyeIcon1").addEventListener("click", function () {
+                togglePasswordVisibility("eyeIcon1", '<%= txtCurrentPass.ClientID %>');
+        });
+
+        document.getElementById("eyeIcon2").addEventListener("click", function () {
+            togglePasswordVisibility("eyeIcon2", '<%= txtNewPass.ClientID %>');
+        });
+        document.getElementById("eyeIcon3").addEventListener("click", function () {
+            togglePasswordVisibility("eyeIcon3", '<%= txtConfirmPass.ClientID %>');
+        });
+    });
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
@@ -10,49 +54,53 @@
                 <div class="text-2xl font-bold ">
                     <p>Profile Page</p>
                 </div>
-            <div class="flex flex-row text-sm py-2">
-                <asp:SiteMapPath
-                    ID="SiteMapPath1"
-                    runat="server"
-                    RenderCurrentNodeAsLink="false"
-                    PathSeparator=">"
-                    CssClass="siteMap font-bold flex gap-2 text-sm pt-2">
-                </asp:SiteMapPath>
-            </div>
+                <div class="flex flex-row text-sm py-2">
+                    <asp:SiteMapPath
+                        ID="SiteMapPath1"
+                        runat="server"
+                        RenderCurrentNodeAsLink="false"
+                        PathSeparator=">"
+                        CssClass="siteMap font-bold flex gap-2 text-sm pt-2">
+                    </asp:SiteMapPath>
+                </div>
             </div>
 
             <div class="flex">
-                <div class="text-lg relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 py-2.5 px-2 gap-2 rounded-lg">
-
-                    <i class="fa-regular fa-floppy-disk left-4 top-5 text-white mx-2"></i>
-                    <asp:LinkButton ID="saveChangesBtn" runat="server" OnClick="btnEdit_Click">
-                        Save Changes
-                    </asp:LinkButton>
+                <div class="relative mr-2 mt-2">
+                    <i class="fa-solid fa-xmark absolute text-white text-xl left-5 top-3 pt-1 transform -translate-y-1/2"></i>
+                    <asp:HyperLink ID="cancelBtn" runat="server" class="pl-11 pr-5 py-2.5 text-sm bg-red-500 text-white rounded-lg" NavigateUrl="~/Admin/Profile/AdminProfile.aspx">Cancel</asp:HyperLink>
                 </div>
-
+                <div class="relative ml-2">
+                    <i class="fa-regular fa-floppy-disk absolute text-white text-lg left-5 top-5 transform -translate-y-1/2"></i>
+                    <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" OnClick="btnSaveChanges_Click" />
+                </div>
             </div>
+
+
+
         </div>
         <!--Acc Settings-->
         <%--        <div>
 
            <span class="font-medium pl-2">ACCOUNT SETTINGS</span>
        </div>--%>
-        <div class="">
+        <div>
             <div class="grid grid-cols-8 gap-5 ">
                 <!--image col-->
                 <div class="col-span-2">
                     <div class="text-xl py-2">
                         <p>Profile Picture</p>
                     </div>
-                    <div class="drop-shadow bg-white p-6  rounded-xl">
-
-
-                        <div class="flex justify-center items-center">
-                            <asp:Image ID="profilePic" ImageUrl="~\Admin\Layout\image\DexProfilePic.jpeg" class="w-[300px]  rounded-lg" Height="300" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
+                    <div class="drop-shadow bg-white pv-6 pt-6 pb-8 rounded-xl">
+                        <div class="flex justify-center items-center pt-3 pb-2">
+                            <asp:Image ID="profilePic" class="w-[300px] rounded-lg" Height="300" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
                         </div>
+                        <div class="flex justify-center pt-3">
+                            <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
+                            <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
+                                Choose File
+                            </button>
 
-                        <div class="flex justify-center pt-6">
-                            <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer;" onchange="previewImage(this);" />
                         </div>
                     </div>
                 </div>
@@ -68,90 +116,27 @@
                             <div class="flex flex-col gap-5">
                                 <div class="flex flex-col">
                                     <span class="pb-1.5">First Name</span>
-                                    <asp:TextBox ID="txtFirstName" runat="server" Text="Feyz" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                    <asp:TextBox ID="txtFirstName" runat="server" class="bg-gray-100 rounded-xl p-3"></asp:TextBox>
                                 </div>
                                 <div>
                                     <div class="flex flex-col">
-                                        <span class="pb-1.5">Username</span>
-                                        <asp:TextBox ID="txtUsername" runat="server" Text="feyzibrahim" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                        <span class="pb-1.5">Email</span>
+                                        <asp:TextBox ID="txtEmail" runat="server" class="bg-gray-100 rounded-xl p-3"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="flex flex-col">
-                                        <span class="pb-1.5">Phone Number</span>
-                                        <asp:TextBox ID="txtPhoneNo" Text="0123136742" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex flex-col">
-                                        <span class="pb-1.5">State</span>
-                                        <asp:DropDownList ID="DropDownList1" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5">
-                                            <asp:ListItem>Kedah</asp:ListItem>
-                                            <asp:ListItem>Wilayah Persekutuan</asp:ListItem>
-                                            <asp:ListItem>Terengganu</asp:ListItem>
-                                            <asp:ListItem>Penang</asp:ListItem>
-                                            <asp:ListItem>Melaka</asp:ListItem>
-                                            <asp:ListItem>Johor</asp:ListItem>
-                                            <asp:ListItem>Perak</asp:ListItem>
-                                            <asp:ListItem>Sabah</asp:ListItem>
-                                            <asp:ListItem>Sarawak</asp:ListItem>
-                                            <asp:ListItem>Perlis</asp:ListItem>
-                                            <asp:ListItem>Pahang</asp:ListItem>
-                                            <asp:ListItem>Negeri Sembilan</asp:ListItem>
-                                            <asp:ListItem>Selangor</asp:ListItem>
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex flex-col">
-                                        <span class="pb-1.5">Zip Code</span>
-                                        <asp:TextBox ID="txtZipCode" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
-                                    </div>
-                                </div>
+
                             </div>
 
                             <!-- right -->
                             <div class="flex flex-col gap-5">
                                 <div class="flex flex-col">
                                     <span class="pb-1.5">Last Name</span>
-                                    <asp:TextBox ID="txtLastName" runat="server" Text="Ibrahim" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
+                                    <asp:TextBox ID="txtLastName" runat="server" class="bg-gray-100 rounded-xl p-3"></asp:TextBox>
                                 </div>
                                 <div>
                                     <div class="flex flex-col">
-                                        <span class="pb-1.5">Email</span>
-                                        <asp:TextBox ID="txtEmail" runat="server" Text="feyzibrahim@gmail.com" class="border-2 border-gray-200 rounded-sm px-2 py-2.5"></asp:TextBox>
-                                    </div>
-
-
-                                </div>
-
-                                <div>
-                                    <div class="flex flex-col">
-                                        <span class="pb-1.5">Country</span>
-                                        <asp:DropDownList ID="ddlCountry" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5">
-                                            <asp:ListItem>Australia</asp:ListItem>
-                                            <asp:ListItem>Canada</asp:ListItem>
-                                            <asp:ListItem>China</asp:ListItem>
-                                            <asp:ListItem>India</asp:ListItem>
-                                            <asp:ListItem>Malaysia</asp:ListItem>
-                                            <asp:ListItem>Singapore</asp:ListItem>
-                                            <asp:ListItem>Taiwan</asp:ListItem>
-                                            <asp:ListItem>United Kingdom</asp:ListItem>
-                                            <asp:ListItem>United State of America</asp:ListItem>
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="flex flex-col">
-                                        <span class="pb-1.5">City</span>
-                                        <asp:DropDownList ID="ddlCity" runat="server" class="border-2 border-gray-200 rounded-sm px-2 py-2.5">
-                                            <asp:ListItem>Kuala Lumpur</asp:ListItem>
-                                            <asp:ListItem>Petaling Jaya</asp:ListItem>
-                                            <asp:ListItem>Gombak</asp:ListItem>
-                                            <asp:ListItem>Kepong</asp:ListItem>
-                                            <asp:ListItem>Subang</asp:ListItem>
-                                        </asp:DropDownList>
+                                        <span class="pb-1.5">Phone Number</span>
+                                        <asp:TextBox ID="txtPhoneNo" runat="server" class="bg-gray-100 rounded-xl p-3"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -159,10 +144,9 @@
                         </div>
                         <!--DOB-->
                         <div>
-
                             <span>Birthday</span>
                             <div class="mt-1.5 grid grid-cols-3 gap-7">
-                                <asp:DropDownList ID="ddlDay" runat="server" class="w-full border-2 border-gray-200 font-medium p-3 rounded-sm">
+                                <asp:DropDownList ID="ddlDay" runat="server" class="bg-gray-100 rounded-xl p-3">
                                     <asp:ListItem>1</asp:ListItem>
                                     <asp:ListItem>2</asp:ListItem>
                                     <asp:ListItem>3</asp:ListItem>
@@ -196,7 +180,7 @@
                                     <asp:ListItem>31</asp:ListItem>
                                 </asp:DropDownList>
 
-                                <asp:DropDownList ID="ddlMonth" runat="server" class="w-full border-2 border-gray-200 font-medium p-3 rounded-sm">
+                                <asp:DropDownList ID="ddlMonth" runat="server" class="bg-gray-100 rounded-xl p-3">
                                     <asp:ListItem>January</asp:ListItem>
                                     <asp:ListItem>February</asp:ListItem>
                                     <asp:ListItem>March</asp:ListItem>
@@ -211,7 +195,53 @@
                                     <asp:ListItem>December</asp:ListItem>
                                 </asp:DropDownList>
 
-                                <asp:DropDownList ID="ddlYear" runat="server" class="w-full border-2 border-gray-200 font-medium p-3 rounded-sm">
+                                <asp:DropDownList ID="ddlYear" runat="server" class="bg-gray-100 rounded-xl p-3">
+                                    <asp:ListItem>1950</asp:ListItem>
+                                    <asp:ListItem>1951</asp:ListItem>
+                                    <asp:ListItem>1952</asp:ListItem>
+                                    <asp:ListItem>1953</asp:ListItem>
+                                    <asp:ListItem>1954</asp:ListItem>
+                                    <asp:ListItem>1955</asp:ListItem>
+                                    <asp:ListItem>1956</asp:ListItem>
+                                    <asp:ListItem>1957</asp:ListItem>
+                                    <asp:ListItem>1958</asp:ListItem>
+                                    <asp:ListItem>1959</asp:ListItem>
+                                    <asp:ListItem>1960</asp:ListItem>
+                                    <asp:ListItem>1961</asp:ListItem>
+                                    <asp:ListItem>1962</asp:ListItem>
+                                    <asp:ListItem>1963</asp:ListItem>
+                                    <asp:ListItem>1964</asp:ListItem>
+                                    <asp:ListItem>1965</asp:ListItem>
+                                    <asp:ListItem>1966</asp:ListItem>
+                                    <asp:ListItem>1967</asp:ListItem>
+                                    <asp:ListItem>1968</asp:ListItem>
+                                    <asp:ListItem>1969</asp:ListItem>
+                                    <asp:ListItem>1970</asp:ListItem>
+                                    <asp:ListItem>1971</asp:ListItem>
+                                    <asp:ListItem>1972</asp:ListItem>
+                                    <asp:ListItem>1973</asp:ListItem>
+                                    <asp:ListItem>1974</asp:ListItem>
+                                    <asp:ListItem>1975</asp:ListItem>
+                                    <asp:ListItem>1976</asp:ListItem>
+                                    <asp:ListItem>1977</asp:ListItem>
+                                    <asp:ListItem>1978</asp:ListItem>
+                                    <asp:ListItem>1979</asp:ListItem>
+                                    <asp:ListItem>1980</asp:ListItem>
+                                    <asp:ListItem>1981</asp:ListItem>
+                                    <asp:ListItem>1982</asp:ListItem>
+                                    <asp:ListItem>1983</asp:ListItem>
+                                    <asp:ListItem>1984</asp:ListItem>
+                                    <asp:ListItem>1985</asp:ListItem>
+                                    <asp:ListItem>1986</asp:ListItem>
+                                    <asp:ListItem>1987</asp:ListItem>
+                                    <asp:ListItem>1988</asp:ListItem>
+                                    <asp:ListItem>1989</asp:ListItem>
+                                    <asp:ListItem>1990</asp:ListItem>
+                                    <asp:ListItem>1991</asp:ListItem>
+                                    <asp:ListItem>1992</asp:ListItem>
+                                    <asp:ListItem>1993</asp:ListItem>
+                                    <asp:ListItem>1994</asp:ListItem>
+                                    <asp:ListItem>1995</asp:ListItem>
                                     <asp:ListItem>1996</asp:ListItem>
                                     <asp:ListItem>1997</asp:ListItem>
                                     <asp:ListItem>1998</asp:ListItem>
@@ -224,20 +254,37 @@
                                     <asp:ListItem>2005</asp:ListItem>
                                     <asp:ListItem>2006</asp:ListItem>
                                     <asp:ListItem>2007</asp:ListItem>
+                                    <asp:ListItem>2008</asp:ListItem>
+                                    <asp:ListItem>2009</asp:ListItem>
+                                    <asp:ListItem>2010</asp:ListItem>
+                                    <asp:ListItem>2011</asp:ListItem>
+                                    <asp:ListItem>2012</asp:ListItem>
+                                    <asp:ListItem>2013</asp:ListItem>
+                                    <asp:ListItem>2014</asp:ListItem>
+                                    <asp:ListItem>2015</asp:ListItem>
+                                    <asp:ListItem>2016</asp:ListItem>
+                                    <asp:ListItem>2017</asp:ListItem>
+                                    <asp:ListItem>2018</asp:ListItem>
+                                    <asp:ListItem>2019</asp:ListItem>
+                                    <asp:ListItem>2020</asp:ListItem>
+                                    <asp:ListItem>2021</asp:ListItem>
+                                    <asp:ListItem>2022</asp:ListItem>
+                                    <asp:ListItem>2023</asp:ListItem>
+                                    <asp:ListItem>2024</asp:ListItem>
                                 </asp:DropDownList>
                             </div>
                             <%--                            <div class="w-auto pt-7">
                                 <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" class="bg-blue-600 text-white rounded-lg px-8 py-3" />
                             </div>--%>
                         </div>
+                        <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
                     </div>
-
                 </div>
             </div>
         </div>
 
         <!--Change Password-->
-        <div class="text-xl mb-2">
+        <div class="text-xl mb-2 mt-5">
             <p>CHANGE PASSWORD</p>
         </div>
         <div class="drop-shadow bg-white p-4 rounded-xl">
@@ -247,7 +294,7 @@
                     <div class="flex flex-col relative">
                         <span>Current Password</span>
                         <asp:TextBox ID="txtCurrentPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5" TextMode="Password"></asp:TextBox>
-                        <i class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                        <i id="eyeIcon1" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
                     </div>
                 </div>
 
@@ -257,7 +304,7 @@
                         <div class="flex flex-col relative">
                             <span>New Password</span>
                             <asp:TextBox ID="txtNewPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5" TextMode="Password"></asp:TextBox>
-                            <i class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                            <i id="eyeIcon2" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
                         </div>
                     </div>
                 </div>
@@ -267,16 +314,18 @@
                         <div class="flex flex-col relative">
                             <span>Confirm Password</span>
                             <asp:TextBox ID="txtConfirmPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5" TextMode="Password"></asp:TextBox>
-                            <i class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                            <i id="eyeIcon3" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
                         </div>
                     </div>
                 </div>
                 <div class="w-auto py-3">
-                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3" />
+                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3" OnClick="btnChangePass_Click" />
                 </div>
+                <asp:Label ID="lblChangePass" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
             </div>
         </div>
     </div>
+
     <asp:Panel ID="popUpConfirmation" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
         <!-- Modal content -->
         <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
