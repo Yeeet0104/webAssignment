@@ -31,5 +31,10 @@ namespace webAssignment.Client.Checkout
             this.city = city;
             this.zipcode = zipcode;
         }
+
+        public Address()
+        {
+
+        }
     }
 }
