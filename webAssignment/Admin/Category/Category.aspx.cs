@@ -213,36 +213,46 @@ namespace webAssignment.Admin.Category
         }
         protected void deletedCategory( string categID )
         {
-            // Define the connection using the connection string
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
-                // Open the connection
                 conn.Open();
-
-                // SQL query to delete data from the Category table
                 string sql = "DELETE FROM Category WHERE category_id = @categID";
 
-                // Create a SqlCommand object
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
-                    // Add the category ID as a parameter to prevent SQL injection
                     cmd.Parameters.AddWithValue("@categID", categID);
-
-                    // Execute the command
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    // Optionally, check rowsAffected to see if the delete was successful
-                    if ( rowsAffected > 0 )
+                    try
                     {
-                        Debug.Write("Delete successful");
-                        categoryListView.DataSource = getCategoryData((int)ViewState["PageIndex"], pageSize); 
-                        categoryListView.DataBind();
-                        popUpDelete.Style.Add("display", "none");
-                        Session["CategoryIdDel"] = null;
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if ( rowsAffected > 0 )
+                        {
+                            Debug.Write("Delete successful");
+                            categoryListView.DataSource = getCategoryData((int)ViewState["PageIndex"], pageSize);
+                            categoryListView.DataBind();
+                            popUpDelete.Style.Add("display", "none");
+                            Session["CategoryIdDel"] = null;
+                        }
+                        else
+                        {
+                            Debug.Write("Delete failed: No row found with the specified ID");
+                        }
                     }
-                    else
+                    catch ( SqlException ex )
                     {
-                        Debug.Write("Delete failed: No row found with the specified ID");
+                        if ( ex.Number == 547 ) // Check if the exception is a foreign key violation ( stack overflow )
+                        {
+                            // Display a user-friendly error message
+                            ShowNotification("This category cannot be deleted because it is referenced by one or more products.","warning");
+                        }
+                        else
+                        {
+                            ShowNotification( "SQL Error: " + ex.Message , "warning");
+                        }
+                    }
+                    catch ( Exception ex )
+                    {
+                        // Log and display errors not related to SQL
+                        ShowNotification("General Error: " + ex.Message, "warning");
                     }
                 }
             }
@@ -411,6 +421,12 @@ namespace webAssignment.Admin.Category
                     deletedCategory(id);
                 }
             }
+        }
+
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
     }
 

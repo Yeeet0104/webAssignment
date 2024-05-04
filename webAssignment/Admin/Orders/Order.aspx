@@ -37,24 +37,25 @@
 
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
-        <div class="grid grid-cols-5 bg-white gap-3 text-center  p-2 rounded-md drop-shadow-md">
+        <div class="grid grid-cols-6 bg-white gap-3 text-center  p-2 rounded-md drop-shadow-md">
 
-
-            <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                <asp:Button ID="allStatusFilter" runat="server" Text="All Status" />
+            <div class="col-span-1">
+                <asp:Button ID="allStatusFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 text-blue-600 bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="All Product" OnClick="allStatusFilter_click" style="height: 26px" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="processingFilter" runat="server" Text="Processing" />
+            <div class="col-span-1">
+                <asp:Button ID="pendingFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Pending" OnClick="pendingFilter_click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="shippedFilter" runat="server" Text="Shipped" />
-
+            <div class="col-span-1">
+                <asp:Button ID="packedFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Packed" OnClick="packedFilter_click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="deliveredFilter" runat="server" Text="Delivered" />
+            <div class="col-span-1">
+                <asp:Button ID="otr" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="On The Road" OnClick="OnTheRoadFilter_click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="cancelledFilter" runat="server" Text="Cancelled" />
+            <div class="col-span-1">
+                <asp:Button ID="deliveredFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Delivered" OnClick="deliveredFilter_click" />
+            </div>
+            <div class="col-span-1">
+                <asp:Button ID="cancelFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Cancel" OnClick="cancelFilter_click" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -63,14 +64,6 @@
                      <i class="fa-solid fa-calendar-days"></i>
                     <span>
                        Select Date
-                    </span>
-                </asp:LinkButton>
-            </div>
-            <div class="">
-                <asp:LinkButton ID="filterOptionbtn" runat="server" class="p-3 border border-gray-200 rounded-md drop-shadow-md bg-white flex gap-3 items-center">
-                <i class="fa-solid fa-sliders "></i>
-                    <span>
-                       Filters
                     </span>
                 </asp:LinkButton>
             </div>
@@ -84,101 +77,94 @@
             Latest Orders
         </p>
 
-        <asp:ListView ID="ordersListView" runat="server" OnSelectedIndexChanged="ordersListView_SelectedIndexChanged" OnItemCommand="OrdersListView_ItemCommand">
+        <asp:ListView ID="ordersListView" runat="server" OnItemCommand="OrdersListView_ItemCommand" OnSorting="ordersListView_Sorting" OnDataBound="ordersListView_DataBound">
             <LayoutTemplate>
-                <div style="overflow-x:auto">
-                    <table class="orders-table w-full " style="overflow-x:auto;min-width:1450px">
+                <div style="overflow-x: auto">
+                    <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
                         <!-- Headers here -->
-                        <tr class="grid grid-cols-9 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
-                            <td class="col-span-1">
-                                <p>Order ID</p>
-                            </td>
-                            <td class="col-span-2">
-                                <p>Product</p>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterOdDateLv" runat="server">
+                        <tbody>
+                            <tr class="grid grid-cols-9 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
+                                <td class="col-span-1">
+                                    <p>Order ID</p>
+                                </td>
+                                <td class="col-span-2">
+                                    <p>Product</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterOdDateLv" runat="server" CommandName="Sort" CommandArgument="date_ordered">
                             <div class="flex flex-row justify-between items-center p-2">
                                 <p>Order Date </p>
                             <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
 
                             </div>
 
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1 text-center">
-                                <p>Customer</p>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterTotalPriceLv" runat="server">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 text-center">
+                                    <p>Customer</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterTotalPriceLv" runat="server" CommandName="Sort" CommandArgument="total_price">
                                   <div class="flex flex-row justify-between items-center p-2">
                                                      <p>Total </p>
                         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                                     
                                  </div>
 
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
 
-                                <asp:LinkButton ID="filterPayDayeLv" runat="server">
+                                    <asp:LinkButton ID="filterPayDayeLv" runat="server" CommandName="Sort" CommandArgument="date_paid">
                                                                   <div class="flex flex-row justify-between items-center p-2">
                             <p>Payment Date </p>
 <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                                     
                                  </div>
 
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterStatusLtPd" runat="server">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterStatusLtPd" runat="server" CommandName="Sort" CommandArgument="o.status">
                               <div class="flex flex-row justify-between items-center p-2">
                                     <p>Status </p>
                                     <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
 
                               </div>
-                                </asp:LinkButton>
-                            </td>
+                                    </asp:LinkButton>
+                                </td>
 
-                            <td class="col-span-1 flex justify-end">
-                                <p>Action</p>
+                                <td class="col-span-1 flex justify-end">
+                                    <p>Action</p>
 
-                            </td>
+                                </td>
 
-                        </tr>
-                        <tr id="itemPlaceholder" runat="server">
-                        </tr>
-                    </table>
-                    <table>
+                            </tr>
+                            <tr id="itemPlaceholder" runat="server">
+                            </tr>
+
+                        </tbody>
                         <tfoot>
+                            <tr class="">
+                                <td class="flex flex-row text-gray-400 justify-between rounded-b-lg bg-white items-center">
 
-                            <!-- footer for pagination ( WILL CHANGE TO physical button later) -->
-                            <div class="flex flex-row text-gray-400 justify-between rounded-b-lg bg-white items-center">
-                                <asp:Label ID="pageNumFoot" runat="server" Text="Showing 1-10 from 100" class="text-normal text-base p-5"></asp:Label>
-                                <div class="flex">
+                                    <asp:Label ID="pageNumFoot" runat="server" Text="Showing 1-10 from 100" class="text-normal text-base p-5"></asp:Label>
                                     <div class="p-4 text-base flex flex-row gap-3">
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
-                                            <i class="fa-solid fa-arrow-left-long"></i>
-                                        </div>
+                                        <asp:LinkButton ID="prevPage" runat="server" OnClick="prevPage_Click" CssClass="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+                                    <i class="fa-solid fa-arrow-left-long"></i>
+                                        </asp:LinkButton>
                                         <div class="min-w-11 min-h-11 rounded-full bg-blue-500 text-white border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-1"></i>
+                                            <asp:Label ID="lblCurrPagination" runat="server" Text="1"></asp:Label>
                                         </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-2"></i>
-                                        </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-3"></i>
-                                        </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-4"></i>
-                                        </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
-                                            <i class="fa-solid fa-arrow-right-long"></i>
-                                        </div>
+
+                                        <asp:LinkButton ID="nextPage" runat="server" OnClick="nextPage_Click" CssClass="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+<i class="fa-solid fa-arrow-right-long"></i>
+                                        </asp:LinkButton>
+
                                     </div>
 
-                                </div>
-                            </div>
+                                </td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -199,13 +185,21 @@
                         </div>
 
                     </td>
-                    <td class="col-span-1 flex items-center px-2 justify-center"><%# Eval("Order Date", "{0:dd MMM yyyy}") %></td>
+                    <td class="col-span-1 flex items-center px-2 justify-center"><%# Eval("OrderDate", "{0:dd MMM yyyy}") %></td>
                     <td class="col-span-1 flex items-center justify-center"><%# Eval("CustomerName") %></td>
                     <td class="col-span-1 flex items-center justify-center"><%# Eval("Total", "{0:C}") %></td>
                     <td class="col-span-1 flex items-center justify-center"><%# Eval("PaymentDate", "{0:dd MMM yyyy}") %></td>
-                    <td class="col-span-1 flex items-center w-full justify-center">
+                    <td class="col-span-1 flex items-center w-full text-gray-600 justify-center">
 
-                        <div class="<%# Eval("Status").ToString() == "Shipped" ? "bg-green-200" : "bg-red-200" %> rounded-xl flex w-4/5 p-3 text-center justify-center">
+                        <div class="<%# 
+                            Eval("Status").ToString() == "Pending" ? "bg-gray-200" 
+                                :  Eval("Status").ToString() == "On The Road" ? "bg-blue-200" 
+                                :   Eval("Status").ToString() == "Packed" ? "bg-yellow-200"
+                                :   Eval("Status").ToString() == "Delivered" ? "bg-green-200"
+                                :   Eval("Status").ToString() == "Cancelled" ? "bg-red-200" : "bg-white-200"
+    
+                            
+                            %> rounded-xl flex w-4/5 p-3 text-center justify-center">
 
                             <%# Eval("Status") %>
                         </div>
@@ -214,11 +208,11 @@
                     </td>
                     <td class="col-span-1 flex justify-end items-center">
                         <div class="flex flex-row gap-4 items-center">
-                            <asp:LinkButton ID="editItem" runat="server" CommandName="EditOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
-                                <i class="fa-solid fa-pen"></i>
+                            <asp:LinkButton ID="editItem" runat="server" CommandName="EditOrder" CommandArgument='<%# Eval("OrderID") %>' ToolTip="View Order">                            
+                                <i class="fa-solid fa-eye"></i>
                             </asp:LinkButton>
-                            <asp:LinkButton ID="deleteItem" runat="server" CommandName="DeleteOrder" CommandArgument='<%# Eval("OrderID") %>'>                            
-                                <i class="fa-solid fa-trash"></i>
+                            <asp:LinkButton ID="cancelOrder" runat="server" CommandName="DeleteOrder" CommandArgument='<%# Eval("OrderID") %>' ToolTip="Cancel Order">                            
+                                <i class="fa-solid fa-ban"></i>
                             </asp:LinkButton>
 
                         </div>

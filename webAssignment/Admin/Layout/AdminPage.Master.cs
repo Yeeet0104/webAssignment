@@ -69,6 +69,7 @@ namespace webAssignment
                     break;
                 case "voucher.aspx":
                 case "editvoucher.aspx":
+                case "addVoucher.aspx":
                     voucherLk.Attributes["class"] += " activeNavItem";
 
                     break;

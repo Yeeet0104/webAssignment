@@ -62,12 +62,14 @@
             </div>
         </div>
         <div class="flex items-center gap-3">
-            <div class="">
+            <div class="flex flex-row gap-2">
+                <asp:LinkButton ID="clearDateFilter" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center" OnClick="clearDateFilter_Click">
+                    <i class="fa-solid fa-trash"></i>
+                    <asp:Label ID="Label1" runat="server" Text="Clear Date"></asp:Label>
+                </asp:LinkButton>
                 <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center" OnClick="filterDateBtn_click">
-                     <i class="fa-solid fa-calendar-days"></i>
-                    <span>
-                       Select Date
-                    </span>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <asp:Label ID="lblDate" runat="server" Text="Select Date"></asp:Label>
                 </asp:LinkButton>
             </div>
         </div>
@@ -78,6 +80,19 @@
 
 
         <asp:ListView ID="productListView" runat="server" OnSelectedIndexChanged="productListView_SelectedIndexChanged" OnItemCommand="productListView_ItemCommand" OnSorting="productListView_Sorting" OnDataBound="productListView_DataBound">
+            <EmptyDataTemplate>
+                <table class="orders-table w-full ">
+                    <tr class="w-full ">
+                        <td>
+                            <div class="flex flex-col justify-center items-center">
+                                <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                <span>No Product Found</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </EmptyDataTemplate>
             <LayoutTemplate>
                 <div style="overflow-x: auto">
                     <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
@@ -160,7 +175,7 @@
                             <span class="text-black font-bold">
                                 <%# Eval("ProductName") %>  
                             </span>
-                            <span>Total Variant - <%# Eval("variantCount") %>
+                            <span>Total Variant : <%# Eval("variantCount") %>
                             </span>
                         </div>
 
@@ -185,7 +200,7 @@
                             <asp:LinkButton ID="editItem" runat="server" CommandName="EditProduct" CommandArgument='<%# Eval("ProductID") %>'>                            
                                 <i class="fa-solid fa-pen"></i>
                             </asp:LinkButton>
-                            <asp:LinkButton ID="deleteItem" runat="server" CommandName="DeleteProduct" CommandArgument='<%# Eval("ProductID") %>'>                            
+                            <asp:LinkButton ID="deleteItem" runat="server" CommandName="DeleteProduct" CommandArgument='<%# Eval("ProductID") + ";" + Eval("ProductName")%>'>                            
                                 <i class="fa-solid fa-trash"></i>
                             </asp:LinkButton>
 
@@ -222,15 +237,17 @@
                     <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
 
                 </div>
-                <p class="bold text-lg break-normal text-center">Are you sure you want to delete the following item?</p>
+                <p class="bold text-lg break-normal text-center">Are you sure you want to Discontinue to sell the following item?</p>
                 <p class="bold text-lg">
-                    <asp:Label ID="lblItemInfo" runat="server" Text="[OrderID]"></asp:Label>
+                    <asp:Label ID="lblmodalProdID" runat="server" Text="[productID]"></asp:Label>
+                    <span>:</span>
+                    <asp:Label ID="lblmodalProdName" runat="server" Text="[productName]"></asp:Label>
                 </p>
                 <asp:TextBox ID="passwordForDelete" runat="server" TextMode="Password" CssClass="p-2 px-4 border rounded-xl" placeholder="Enter password to confirm"></asp:TextBox>
                 <div>
 
                     <asp:Button ID="btnCancelDelete" runat="server" Text="Cancel" CssClass="bg-gray-300 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />
-                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" />
+                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnConfirmDelete_Click" />
                 </div>
             </div>
         </div>
@@ -248,7 +265,7 @@
                 </div>
                 <div class="grid grid-cols-3">
                     <p class="flex justify-center items-center">End Date :</p>
-                    <asp:TextBox ID="txtEndDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2"  />
+                    <asp:TextBox ID="txtEndDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
 
                 </div>
 

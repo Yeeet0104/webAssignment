@@ -190,6 +190,7 @@
     <Content Include="Admin\Profile\image\userProfile.gif" />
     <Content Include="Admin\SiteMapCss\siteMapAdmin.css" />
     <Content Include="Admin\Transaction\transaction.aspx" />
+    <Content Include="Admin\Voucher\addVoucher.aspx" />
     <Content Include="Admin\Voucher\editVoucher.aspx" />
     <Content Include="Admin\Voucher\voucher.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
@@ -332,6 +333,7 @@
       <DependentUpon>AdminPage.Master</DependentUpon>
     </Compile>
     <Compile Include="Admin\Layout\Filterable.cs" />
+    <Compile Include="Admin\Orders\addressInfo.cs" />
     <Compile Include="Admin\Orders\EditOrder.aspx.cs">
       <DependentUpon>EditOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -346,6 +348,8 @@
     <Compile Include="Admin\Orders\Order.aspx.designer.cs">
       <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Orders\orders.cs" />
+    <Compile Include="Admin\Orders\userInfo.cs" />
     <Compile Include="Admin\Product Management\addNewProduct.aspx.cs">
       <DependentUpon>addNewProduct.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -403,6 +407,14 @@
     <Compile Include="Admin\Transaction\transaction.aspx.designer.cs">
       <DependentUpon>transaction.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Transaction\transaction.cs" />
+    <Compile Include="Admin\Voucher\addVoucher.aspx.cs">
+      <DependentUpon>addVoucher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Voucher\addVoucher.aspx.designer.cs">
+      <DependentUpon>addVoucher.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Voucher\editVoucher.aspx.cs">
       <DependentUpon>editVoucher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -417,6 +429,7 @@
     <Compile Include="Admin\Voucher\voucher.aspx.designer.cs">
       <DependentUpon>voucher.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Voucher\Voucher.cs" />
     <Compile Include="Client\AboutUs\AboutUsPage.aspx.cs">
       <DependentUpon>AboutUsPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

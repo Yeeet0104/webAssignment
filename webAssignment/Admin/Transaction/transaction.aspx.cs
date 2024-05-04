@@ -1,62 +1,222 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Drawing.Printing;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace webAssignment.Admin.Transaction
 {
     public partial class transaction : System.Web.UI.Page
     {
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private int pageSize = 5;
         protected void Page_Load( object sender, EventArgs e )
         {
             if ( !IsPostBack )
             {
-                transactionListView.DataSource = GetDummyData();
+                ViewState["PageIndex"] = 0;
 
-                transactionListView.DataBind();
+                BindListView(0, pageSize);
             }
         }
-        private DataTable GetDummyData( )
+        private void BindListView( int pageIndex, int pageSize)
         {
-            DataTable dummyData = new DataTable();
+            transactionListView.DataSource = transactionData(pageIndex, pageSize);
+            transactionListView.DataBind();
+        }
 
-            // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("transactionID", typeof(int));
-            dummyData.Columns.Add("CustomerID", typeof(int));
-            dummyData.Columns.Add("UserName", typeof(string));
-            dummyData.Columns.Add("Amount", typeof(decimal));
-            dummyData.Columns.Add("paymentMethod", typeof(string));
-            dummyData.Columns.Add("Date", typeof(DateTime));
-            dummyData.Columns.Add("ProductName", typeof(string[]));
-            dummyData.Columns.Add("Variant", typeof(string[]));
-            dummyData.Columns.Add("Price", typeof(int[]));
+        // when on bound handle events
+        protected void transactionListView_DataBound( object sender, EventArgs e )
+        {
+            Label pageNumFoot = transactionListView.FindControl("pageNumFoot") as Label;
+            Label lblCurrPagination = transactionListView.FindControl("lblCurrPagination") as Label;
 
-            string[] productNames = { "Iphone 11" ,"Msi laptop" , "Dell desktop" };
-            string[] variants = { "256GB", "512GB", "1TB" };
-            int[] prices = { 999, 1199, 1399 };
-            double total = 0;
-            for (int i = 0;i<prices.Length ; i++ )
+            if ( pageNumFoot != null )
             {
-                total  += prices[i];    
+                int totalItems = getTotalTransactionCount();
+                int currentPageIndex = ( (int)ViewState["PageIndex"] );
+                int startRecord = ( currentPageIndex * pageSize ) + 1;
+                int endRecord = ( currentPageIndex + 1 ) * pageSize;
+                endRecord = ( endRecord > totalItems ) ? totalItems : endRecord;
+
+                lblCurrPagination.Text = ( currentPageIndex + 1 ).ToString();
+                pageNumFoot.Text = $"Showing {startRecord}-{endRecord} from {totalItems}";
             }
 
-            // Add rows with dummy data
-            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
-            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
-            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
-            dummyData.Rows.Add(3001,2001, "Dexter", total, "credit", DateTime.Now,productNames,variants,prices);
-
-
-
-            return dummyData;
         }
 
-        protected void transactionListView_SelectedIndexChanged( object sender, EventArgs e )
-        {
 
+        private List<transactionClass> transactionData( int pageIndex, int pageSize )
+        {
+            List<transactionClass> transactionData = new List<transactionClass>();
+
+            string sortExpression = ViewState["SortExpression"] as string ?? "order_id";
+            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                string sql = $@"SELECT 
+                                o.order_id,
+                                o.user_id, 
+                                u.username, 
+                                o.total_price,
+                                pay.payment_details,
+                                pay.date_paid,
+                                STRING_AGG(p.product_name + ' - ' + CAST(pv.variant_name AS NVARCHAR(100)) + ' - ' + 'RM' + CAST(pv.variant_price AS NVARCHAR(100)), '; ') AS product_details
+                            FROM 
+                                [dbo].[Order] o
+                                JOIN [dbo].[User] u ON o.user_id = u.user_id
+                                JOIN Order_details od ON o.order_id = od.order_id
+                                JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
+                                JOIN Product p ON pv.product_id = p.product_id
+                                JOIN Payment pay ON o.order_id = pay.order_id
+                            GROUP BY 
+                                o.order_id, o.user_id, u.username, o.total_price, pay.payment_details, pay.date_paid
+                ORDER BY {sortExpression} {sortDirection}
+                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        while ( reader.Read() )
+                        {
+                            transactionData.Add(new transactionClass
+                            {
+                                order_id = reader.GetString(0),
+                                user_id = reader.GetString(1),
+                                username = reader.GetString(2),
+                                total_price = reader.GetDecimal(3),
+                                payment_details = reader.GetString(4),
+                                date_paid = reader.GetDateTime(5),
+                                product_details = reader.GetString(6)
+                            });
+                        }
+                    }
+                }
+            }
+            return transactionData;
+        }
+        private List<transactionClass> getAlltransactionData()
+        {
+            List<transactionClass> transactionData = new List<transactionClass>();
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                string sql = $@"SELECT 
+                                o.order_id,
+                                o.user_id, 
+                                u.username, 
+                                o.total_price,
+                                pay.payment_details,
+                                pay.date_paid,
+                                STRING_AGG(p.product_name + ' - ' + CAST(pv.variant_name AS NVARCHAR(100)) + ' - ' + 'RM' + CAST(pv.variant_price AS NVARCHAR(100)), '; ') AS product_details
+                            FROM 
+                                [dbo].[Order] o
+                                JOIN [dbo].[User] u ON o.user_id = u.user_id
+                                JOIN Order_details od ON o.order_id = od.order_id
+                                JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
+                                JOIN Product p ON pv.product_id = p.product_id
+                                JOIN Payment pay ON o.order_id = pay.order_id
+                            GROUP BY 
+                                o.order_id, o.user_id, u.username, o.total_price, pay.payment_details, pay.date_paid
+                            ORDER BY 
+                                o.order_id;";
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        while ( reader.Read() )
+                        {
+                            transactionData.Add(new transactionClass
+                            {
+                                order_id = reader.GetString(0),
+                                user_id = reader.GetString(1),
+                                username = reader.GetString(2),
+                                total_price = reader.GetDecimal(3),
+                                payment_details = reader.GetString(4),
+                                date_paid = reader.GetDateTime(5),
+                                product_details = reader.GetString(6)
+                            });
+                        }
+                    }
+                }
+            }
+            return transactionData;
+        }
+        private int getTotalTransactionCount( )
+        {
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                string sql = @"
+            SELECT COUNT(DISTINCT o.order_id) AS totalTransactionCount
+            FROM [dbo].[Order] o
+            JOIN [dbo].[User] u ON o.user_id = u.user_id
+            JOIN Order_details od ON o.order_id = od.order_id
+            JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
+            JOIN Product p ON pv.product_id = p.product_id
+            JOIN Payment pay ON o.order_id = pay.order_id;";
+
+                connection.Open();
+                using ( SqlCommand command = new SqlCommand(sql, connection) )
+                {
+                    return (int)command.ExecuteScalar();
+                }
+            }
+        }
+        protected string FormatPaymentDetails( object paymentDetails )
+        {
+            string json = Convert.ToString(paymentDetails);
+            try
+            {
+                JObject paymentJson = JObject.Parse(json);
+                string paymentMethod = paymentJson["card_number"] != null ? "Card" : ( paymentJson["bank_number"] != null ? "Bank" : "Other" );
+
+                string details = "";
+                if ( paymentMethod == "Card" )
+                {
+                    details += "Card Number: " + paymentJson["card_number"];
+                }
+                else if ( paymentMethod == "Bank" )
+                {
+                    details += $"Bank ({paymentJson["bank_name"]}): " + paymentJson["bank_number"];
+                }
+
+                return details;
+            }
+            catch ( JsonException ex )
+            {
+                return "Invalid payment details";
+            }
+        }
+        protected string FormatProducts( object productDetails )
+        {
+            var details = productDetails.ToString();
+            var products = details.Split(';');
+            var formattedHtml = new StringBuilder();
+            foreach ( var product in products )
+            {
+                formattedHtml.Append("<div>" + product + "</div>");
+            }
+            return formattedHtml.ToString();
+        }
+        protected List<string> ParseVariants( object variantsData )
+        {
+            var variants = variantsData.ToString();
+            return variants.Split(',').ToList();
         }
         protected void transactionListView_ItemCommand( object sender, ListViewCommandEventArgs e )
         {
@@ -77,43 +237,66 @@ namespace webAssignment.Admin.Transaction
                 // Set the Order ID in the label within the popup
             }
         }
+        //sorting by clicking the table label functions
+        protected void transactionListView_Sorting( object sender, ListViewSortEventArgs e )
+        {
+            List<transactionClass> voucherList = getAlltransactionData();
+            string sortDirection = GetSortDirection(e.SortExpression);
+            IEnumerable<transactionClass> sortVoucher;
+
+            // Sorting the list using LINQ dynamically based on SortExpression and SortDirection
+            if ( sortDirection == "ASC" )
+            {
+                sortVoucher = voucherList.OrderBy(x => GetPropertyValue(x, e.SortExpression));
+            }
+            else
+            {
+                sortVoucher = voucherList.OrderByDescending(x => GetPropertyValue(x, e.SortExpression));
+            }
+            transactionListView.DataSource = transactionData((int)ViewState["PageIndex"], pageSize);
+            transactionListView.DataBind();
+        }
+        private object GetPropertyValue( object obj, string propName )
+        {
+            return obj.GetType().GetProperty(propName).GetValue(obj, null);
+        }
+        private string GetSortDirection( string column )
+        {
+            string sortDirection = "ASC";
+
+            // Retrieve the last column that was sorted.
+            string sortExpression = ViewState["SortExpression"] as string;
+
+            if ( sortExpression != null && sortExpression == column )
+            {
+                // Check if the same column is being sorted.
+                // Otherwise, the default value is returned.
+                string lastDirection = ViewState["SortDirection"] as string;
+                if ( ( lastDirection != null ) && ( lastDirection == "ASC" ) )
+                {
+                    sortDirection = "DESC";
+                }
+            }
+
+            ViewState["SortDirection"] = sortDirection;
+            ViewState["SortExpression"] = column;
+
+            return sortDirection;
+        }
         public void FilterListView( string searchTerm )
         {
-            DataTable dummyData = GetDummyData();
-            DataTable filteredData = FilterDataTable(dummyData, searchTerm);
+            List<transactionClass> rawData = transactionData((int)ViewState["PageIndex"],pageSize);
+            List<transactionClass> filteredData = FilterDataTable(rawData, searchTerm);
 
             transactionListView.DataSource = filteredData;
             transactionListView.DataBind();
         }
 
-        private DataTable FilterDataTable( DataTable dataTable, string searchTerm )
+        private List<transactionClass> FilterDataTable( List<transactionClass> rawData, string searchTerm )
         {
-            // Escape single quotes in the search term which can break the filter expression.
-            string safeSearchTerm = searchTerm.Replace("'", "''");
 
-            // Build a filter expression that checks if any of the columns contain the search term.
-            string expression = string.Format(
-                "Convert(CustomerID, 'System.String') LIKE '%{0}%' OR " +
-                "UserName LIKE '%{0}%' OR " +
-                "Convert(Date, 'System.String') LIKE '%{0}%' OR " +
-                "Description LIKE '%{0}%' OR " +
-                "Convert(Amount, 'System.String') LIKE '%{0}%' OR " +
-                "paymentMethod LIKE '%{0}%'",
-                safeSearchTerm);
 
-            // Use the Select method to find all rows matching the filter expression.
-            DataRow[] filteredRows = dataTable.Select(expression);
-
-            // Create a new DataTable to hold the filtered rows.
-            DataTable filteredDataTable = dataTable.Clone(); // Clone the structure of the table.
-
-            // Import the filtered rows into the new DataTable.
-            foreach ( DataRow row in filteredRows )
-            {
-                filteredDataTable.ImportRow(row);
-            }
-
-            return filteredDataTable;
+            return rawData;
         }
         protected void closePopUp_Click( object sender, EventArgs e )
         {
@@ -123,5 +306,31 @@ namespace webAssignment.Admin.Transaction
         {
             popUpDelete.Style.Add("display", "none");
         }
+
+
+        // for paginations
+        protected void prevPage_Click( object sender, EventArgs e )
+        {
+            int pageIndex = (int)ViewState["PageIndex"];
+
+            if ( pageIndex > 0 )
+            {
+                ViewState["PageIndex"] = pageIndex - 1;
+                BindListView((int)ViewState["PageIndex"], pageSize);
+            }
+        }
+        protected void nextPage_Click( object sender, EventArgs e )
+        {
+            int pageIndex = (int)ViewState["PageIndex"];
+            int totalVoucher = getTotalTransactionCount();
+
+            if ( ( pageIndex + 1 ) * pageSize < totalVoucher )
+            {
+                pageIndex++;
+                ViewState["PageIndex"] = pageIndex;
+                BindListView((int)ViewState["PageIndex"], pageSize);
+            }
+        }
+
     }
 }
