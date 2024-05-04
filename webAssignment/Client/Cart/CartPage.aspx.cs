@@ -22,7 +22,13 @@ namespace webAssignment.Client.Cart
         {
             if (!IsPostBack)
             {
+                // if user havent login
+                if(Session["UserId"] == null)
+                    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
+
+                //To be deleted
                 Session["UserId"] = "CS1001";
+
                 Session["taxRate"] = taxRate;
                 Session["Voucher"] = "";
 
@@ -160,6 +166,7 @@ namespace webAssignment.Client.Cart
                 {
                     // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
                     LogError(ex.Message);
+
                     Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
                 }
             }
