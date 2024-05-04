@@ -28,7 +28,13 @@
                             <span class="closeModal">&times;</span>
                         </div>
                         <div class="modal-body">
-                            <h4 class="text-xl m-2">Category</h4>
+                            <h4 class="text-xl m-2">Computer Accessories</h4>
+                            <div class="categories">
+                                <span><asp:LinkButton runat="server" Text="Mouse" OnClick="FilterByCategory" CommandArgument="mouse" /></span>
+                                <span><asp:LinkButton runat="server" Text="Keyboard" OnClick="FilterByCategory" CommandArgument="keyboard" /></span>
+                                <span><asp:LinkButton runat="server" Text="Others" OnClick="FilterByCategory" CommandArgument="others" /></span>
+                            </div>
+                            <h4 class="text-xl m-2">Computer Parts</h4>
                             <div class="categories">
                                 <span><asp:LinkButton runat="server" Text="Motherboard" OnClick="FilterByCategory" CommandArgument="motherboard" /></span>
                                 <span><asp:LinkButton runat="server" Text="Ram" OnClick="FilterByCategory" CommandArgument="ram" /></span>
@@ -37,8 +43,9 @@
                                 <span><asp:LinkButton runat="server" Text="Psu" OnClick="FilterByCategory" CommandArgument="psu" /></span>
                                 <span><asp:LinkButton runat="server" Text="Cpu" OnClick="FilterByCategory" CommandArgument="cpu" /></span>
                                 <span><asp:LinkButton runat="server" Text="Case" OnClick="FilterByCategory" CommandArgument="case" /></span>
-                                <span><asp:LinkButton runat="server" Text="Others" OnClick="FilterByCategory" CommandArgument="others" /></span>
                             </div>
+
+
                             <h4 class="text-xl m-2">Price Range</h4>
                             <div class="price-range">
                                 <asp:TextBox ID="minprice" runat="server" type="number" CssClass="minprice" min="20" max="5000" placeholder="MIN"></asp:TextBox>
@@ -56,7 +63,7 @@
             <div class="sort">
                 <span>Sort By</span>
                 <asp:LinkButton runat="server" Text="All Products (A-Z)" OnClick="SortAllProducts_Click" CssClass="hvr-float" />
-                <asp:LinkButton runat="server" Text="Popularity" OnClick="SortByPopularity_Click" CssClass="hvr-float" />
+                <asp:LinkButton runat="server" Text="Newest Arrivals" OnClick="SortByArrivals_Click" CssClass="hvr-float" />
                 <asp:LinkButton runat="server" Text="Price: Low to High" OnClick="SortByPriceLowToHigh_Click" CssClass="hvr-float" />
                 <asp:LinkButton runat="server" Text="Price: High to Low" OnClick="SortByPriceHighToLow_Click" CssClass="hvr-float" />
             </div>
@@ -68,26 +75,30 @@
                         <asp:PlaceHolder runat="server" ID="container"></asp:PlaceHolder>
                     </div>
                 </LayoutTemplate>
-                <ItemTemplate>
-                    <a class="product" href='<%# "../ProductDetails/" + Eval("Link") %>'>
-                        <div id="product" class="hover-content">
-                            <div class="product-header">
-                                <img src='<%# "/Client/Product/Products Images/" + Eval("ProductImageUrl") %>' alt='<%# Eval("ProductName") %>' />
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-name"><%# Eval("ProductName") %></span>
-                                <div class="price-and-sold">
-                                    <span>
-                                        <span class="RM">RM </span>
-                                        <span class="product-price"><%# Eval("Price") %></span>
-                                    </span>
-                                    <%--<span class="sold-amount"><%# Eval("sold") %> sold</span>--%>
+                    <ItemTemplate>
+                        <a class="product" href='<%# "/Client/ProductDetails/ProductDetailsPage.aspx?ProductId=" + Eval("product_id") %>'>
+                            <div id="product" class="hover-content">
+                                <div class="product-header">
+                                    <img src='<%# "/Client/Product/Products Images/" + Eval("product_image") + ".png" %>' alt='<%# Eval("product_name") %>' />
+                                </div>
+                                <div class="product-footer">
+                                    <span class="product-name"><%# Eval("product_name") %></span>
+                                    <div class="price-and-sold">
+                                        <span>
+                                            <span class="RM">RM </span>
+                                            <span class="product-price">
+                                                <%# Eval("min_price", "{0:N2}") %>
+                                                <%# (decimal)Eval("min_price") != (decimal)Eval("max_price") ? " - " + Eval("max_price", "{0:N2}") : "" %>
+                                            </span>       
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </ItemTemplate>
+                        </a>
+                    </ItemTemplate>
+
             </asp:ListView>
+
 
             <div id="noProductsFoundMessage" class="no-products-found" runat="server" style="display:none;">
                 No products found.
