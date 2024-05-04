@@ -13,7 +13,7 @@
                 <div class="absolute md:top-[22%] md:right-[14%] top-[16%] right-[4%] flex flex-col gap-2">
                     <h2 class="font-bold md:text-5xl sm:text-2xl text-xl py-2">Discover Most Affordable<br/>Computer Accessories</h2>
                     <span class="md:text-lg sm:text-sm text-xs">Level up with high performance G-Tech's computer accessories,<br /> or even build your own pc with G-Tech computer parts.</span><br/>      
-                    <button class="primary-button bg-blue-700 hover:bg-blue-900 border-0 mt-3 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">Explore</button>
+                    <asp:Button ID="btnExplore" runat="server" Text="Explore" CssClass="primary-button bg-blue-700 hover:bg-blue-900 border-0 mt-3 w-[60%] sm:p-2 p-1 sm:text-lg text-xs" OnClick="btnExplore_Click" />
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
             <h2 class="font-bold text-center text-4xl pt-12 pb-8">Product Categories</h2>
             <div class="flex flex-col sm:flex-row justify-center">
                 <!-- Category Box 1 -->
-                <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="#">
+                <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="/Client/Product/ProductPage.aspx?category=ComputerAccessories">
                     <div class="bg-cover bg-center h-[42vh] sm:h-[66vh] flex items-end px-6 py-4 bg-zinc-900 relative">
                         <img src="Home Images/logitec.png" alt="Computer Accessories" class="absolute inset-0 w-full h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
@@ -35,7 +35,7 @@
                 </a>
 
                 <!-- Category Box 2 -->
-                <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="#">
+                <a class="relative overflow-hidden m-6 sm:w-1/2 md:w-[40vw] rounded-lg shadow-stone-900 shadow-md transition duration-500 ease-in-out transform hover:scale-105" href="/Client/Product/ProductPage.aspx?category=ComputerParts">
                     <div class="bg-cover bg-center h-[42vh] sm:h-[66vh] flex items-end px-6 py-4 bg-zinc-900 relative">
                         <img src="Home Images/Pc.png" alt="Computer Parts" class="absolute inset-0 w-[90%] h-full object-cover transition duration-500 ease-in-out transform hover:opacity-100">
                         <div class="flex flex-col justify-center items-center text-center px-4 opacity-0 absolute inset-0 bg-black bg-opacity-60 transition duration-500 ease-in-out transform hover:opacity-100">
@@ -73,17 +73,20 @@
                 </div>
             </LayoutTemplate>
             <ItemTemplate>
-                <a class="product" href='<%# "../ProductDetailPage/" + Eval("link") %>'>
+                <a class="product" href='<%# "/Client/ProductDetails/ProductDetailsPage.aspx?ProductId=" + Eval("product_id") %>'>
                     <div id="product" class="hover-content">
                         <div class="product-header">
-                            <img src='<%# "/Client/Product/Products Images/" + Eval("ProductImageUrl") %>' alt='<%# Eval("ProductName") %>' />
+                            <img src='<%# "/Client/Product/Products Images/" + Eval("product_image") + ".png" %>' alt='<%# Eval("product_name") %>' />
                         </div>
                         <div class="product-footer">
-                            <span class="product-name"><%# Eval("ProductName") %></span>
+                            <span class="product-name"><%# Eval("product_name") %></span>
                             <div class="price-and-sold">
                                 <span>
                                     <span class="RM">RM </span>
-                                    <span class="product-price"><%# Eval("Price") %></span>
+                                    <span class="product-price">
+                                        <%# Eval("min_price", "{0:N2}") %>
+                                        <%# (decimal)Eval("min_price") != (decimal)Eval("max_price") ? " - " + Eval("max_price", "{0:N2}") : "" %>
+                                    </span>
                                 </span>
                                 <span class="sold-amount">NEW</span>
                             </div>
@@ -102,7 +105,7 @@
                     <div class="videoText flex flex-col">
                         <span class="videoHeading text-4xl">NVDIA RTX 1080 TI</span><br/>
                         <span class="videoDetails">Up to 3X of performance and breakthrough<br/>gaming technologies and VR experiences</span><br/>
-                        <button class="primary-button bg-blue-700 hover:bg-blue-900 border-0  mt-2 w-[60%] sm:p-2 p-1 sm:text-lg text-xs">View Details</button>
+                        <asp:Button ID="btnViewDetails" runat="server" Text="View Details" CssClass="primary-button bg-blue-700 hover:bg-blue-900 border-0 mt-2 w-[60%] sm:p-2 p-1 sm:text-lg text-xs" OnClick="btnViewDetails_Click" />
                     </div>
                     <a id="playRtxVideo" class="play-rtx-video-btn" href="javascript:playVideo()" onmouseover="snackBar()">
                         <i class="fa-solid fa-circle-play"></i>

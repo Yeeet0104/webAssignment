@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,185 +12,129 @@ namespace webAssignment.Client.Product
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                BindData();
+                // Check if a category filter is provided in the query string
+                string category = Request.QueryString["category"];
+                if (!string.IsNullOrEmpty(category))
+                {
+                    // Filter products based on the selected category and its subcategories
+                    DataTable filteredData = GetFilteredProductData(category, null, null, "product_name", SortDirection.Ascending);
+                    DisplayFilteredData(filteredData);
+                }
+                else
+                {
+                    // If no category filter is provided, load all products
+                    BindProductData();
+                }
             }
         }
 
-        private void BindData()
+        private DataTable GetFilteredProductData(string category, decimal? minPrice, decimal? maxPrice, string sortBy, SortDirection direction)
         {
-            DataTable dummyData = GetDummyData();
-            ListViewProducts.DataSource = dummyData;
-            ListViewProducts.DataBind();
+            DataTable productData = new DataTable();
+            List<string> subcategories = new List<string>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = @"SELECT p.product_id, p.product_name, p.product_description,
+                          MIN(pv.variant_price) AS min_price,
+                          MAX(pv.variant_price) AS max_price,
+                          (
+                              SELECT TOP 1 path
+                              FROM Image_Path ip
+                              WHERE ip.product_id = p.product_id
+                              ORDER BY image_path_id
+                          ) AS product_image
+                   FROM Product p
+                   INNER JOIN Product_Variant pv ON p.product_id = pv.product_id
+                   INNER JOIN Category c ON p.category_id = c.category_id
+                   WHERE p.product_status = 'Publish'";
+
+                // Add category filter if provided
+                if (!string.IsNullOrEmpty(category))
+                {
+                    sql += " AND (c.category_name = @Category";
+
+                    // Get all subcategories for the selected category
+                    subcategories = GetSubcategories(category);
+
+                    // Include all subcategories in the filter
+                    if (subcategories.Any())
+                    {
+                        sql += " OR c.category_name IN (" + string.Join(",", subcategories.Select(s => "@" + s)) + ")";
+                    }
+
+                    sql += ")";
+                }
+
+                // Add price filter if provided
+                if (minPrice != null && maxPrice != null)
+                {
+                    sql += " AND pv.variant_price BETWEEN @MinPrice AND @MaxPrice";
+                }
+
+                sql += " GROUP BY p.product_id, p.product_name, p.product_description, p.date_added";
+
+                // Sort the data
+                sql += " ORDER BY " + sortBy + " " + (direction == SortDirection.Ascending ? "ASC" : "DESC");
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                // Add parameters for category and subcategories
+                if (!string.IsNullOrEmpty(category))
+                {
+                    cmd.Parameters.AddWithValue("@Category", category);
+                    foreach (var subcategory in subcategories)
+                    {
+                        cmd.Parameters.AddWithValue("@" + subcategory, subcategory);
+                    }
+                }
+
+                cmd.Parameters.AddWithValue("@MinPrice", minPrice ?? decimal.MinValue);
+                cmd.Parameters.AddWithValue("@MaxPrice", maxPrice ?? decimal.MaxValue);
+                SqlDataReader reader = cmd.ExecuteReader();
+                productData.Load(reader);
+                reader.Close();
+            }
+            return productData;
         }
 
-        private DataTable GetDummyData()
+        // Method to get subcategories for a given category
+        private List<string> GetSubcategories(string category)
         {
-            DataTable dummyData = new DataTable();
+            List<string> subcategories = new List<string>();
 
-            // Add columns to match ListView's ItemTemplate
-            dummyData.Columns.Add("ProductId", typeof(int)); // Add ProductId column
-            dummyData.Columns.Add("ProductName", typeof(string));
-            dummyData.Columns.Add("Price", typeof(decimal));
-            dummyData.Columns.Add("ProductType", typeof(string));
-            dummyData.Columns.Add("ProductImageUrl", typeof(string));
-            dummyData.Columns.Add("Link", typeof(string));
-            dummyData.Columns.Add("Sold", typeof(int));
+            // Add subcategories based on the provided category
+            switch (category)
+            {
+                case "ComputerAccessories":
+                    subcategories.AddRange(new string[] { "Mouse", "Keyboard", "Others" });
+                    break;
+                case "ComputerParts":
+                    subcategories.AddRange(new string[] { "Motherboard", "RAM", "Storage", "GPU", "PSU", "CPU", "Case" });
+                    break;
+            }
 
-            // Add rows with dummy data
-            dummyData.Rows.Add(1, "CORSAIR ONE i160 Compact Gaming PC", 13999.00m, "others", "CORSAIR ONE i160 Compact Gaming PC.png", "ProductDetailsPage.aspx?ProductId=1", 939);
-            dummyData.Rows.Add(2, "Logitech G PRO X Gaming Keyboard", 649.00m, "others", "Logitech G PRO X Gaming Keyboard.png", "ProductDetailsPage.aspx?ProductId=2", 1036);
-            dummyData.Rows.Add(3, "G502 Hero High Performance Gaming Mouse", 399.00m, "others", "G502 Hero High Performance Gaming Mouse.png", "ProductDetailsPage.aspx?ProductId=3", 3902);
-            dummyData.Rows.Add(4, "G560 Lightsync PC Gaming Speakers", 329.00m, "others", "G560 Lightsync PC Gaming Speakers.png", "ProductDetailsPage.aspx?ProductId=4", 919);
-            dummyData.Rows.Add(5, "NZXT H710i PC case", 789.99m, "case", "NZXT H710i PC case.png", "ProductDetailsPage.aspx?ProductId=5", 452);
-            dummyData.Rows.Add(6, "Gigabyte Z490M Micro-ATX", 599.00m, "motherboard", "Gigabyte Z490M Micro-ATX.png", "ProductDetailsPage.aspx?ProductId=6", 302);
-            dummyData.Rows.Add(7, "MSI MPG Z590 ATX", 1299.00m, "motherboard", "MSI MPG Z590 ATX.png", "ProductDetailsPage.aspx?ProductId=7", 220);
-            dummyData.Rows.Add(8, "MSI Z490-A PRO", 699.00m, "motherboard", "MSI Z490-A PRO.png", "ProductDetailsPage.aspx?ProductId=8", 192);
-            dummyData.Rows.Add(9, "Kingston HyperX Fury 8GB", 159.99m, "ram", "Kingston HyperX FURY 8GB.png", "ProductDetailsPage.aspx?ProductId=9", 262);
-            dummyData.Rows.Add(10, "Kingston HyperX Fury Beast RGB 8GB", 188.99m, "ram", "Kingston HyperX Fury Beast RGB 8GB.png", "ProductDetailsPage.aspx?ProductId=10", 279);
-            dummyData.Rows.Add(11, "Kingston HyperX Fury Beast RGB 16GB", 349.99m, "ram", "Kingston HyperX Fury Beast RGB 16GB.png", "ProductDetailsPage.aspx?ProductId=11", 239);
-            dummyData.Rows.Add(12, "Kingston A400 SSD (480GB)", 225.00m, "storage", "Kingston A400 SSD(480gb).png", "ProductDetailsPage.aspx?ProductId=12", 172);
-            dummyData.Rows.Add(13, "WD Blue SSD 1TB", 519.00m, "storage", "WD Blue SSD 1TB.png", "ProductDetailsPage.aspx?ProductId=13", 108);
-            dummyData.Rows.Add(14, "WD Blue M.2 1TB", 272.00m, "storage", "WD Blue M.2 1TB.png", "ProductDetailsPage.aspx?ProductId=14", 123);
-            dummyData.Rows.Add(15, "Corsair RMx Series™ RM850x", 599.99m, "psu", "Corsair RMx Series RM850x.png", "ProductDetailsPage.aspx?ProductId=15", 712);
-            dummyData.Rows.Add(16, "EVGA SuperNOVA 1000w T2", 1449.99m, "psu", "EVGA SuperNOVA 1000w T2.png", "ProductDetailsPage.aspx?ProductId=16", 923);
-            dummyData.Rows.Add(17, "Lian Li PC-O11 Dynamic", 600.00m, "case", "Lian Li PC-O11 Dynamic.png", "ProductDetailsPage.aspx?ProductId=17", 490);
-            dummyData.Rows.Add(18, "Intel Core i5-11400F", 999.99m, "cpu", "Intel Core i5-11400F.png", "ProductDetailsPage.aspx?ProductId=18", 86);
-            dummyData.Rows.Add(19, "Intel Core i7-11700K", 2499.99m, "cpu", "Intel Core i7-11700K.png", "ProductDetailsPage.aspx?ProductId=19", 136);
-            dummyData.Rows.Add(20, "Intel Core i9-11900K", 2599.99m, "cpu", "Intel Core i9-11900K.png", "ProductDetailsPage.aspx?ProductId=20", 158);
-            dummyData.Rows.Add(21, "NVIDIA GTX 1080 Ti", 2899.00m, "gpu", "NVIDIA GTX 1080 Ti.png", "ProductDetailsPage.aspx?ProductId=21", 569);
-            dummyData.Rows.Add(22, "NVIDIA RTX 2080", 3288.00m, "gpu", "NVIDIA_RTX_2080.png", "ProductDetailsPage.aspx?ProductId=22", 305);
-            dummyData.Rows.Add(23, "NVIDIA RTX 3080", 4499.00m, "gpu", "NVIDIA RTX 3080 t.png", "ProductDetailsPage.aspx?ProductId=23", 99);
-
-            return dummyData;
+            return subcategories;
         }
-
 
         protected void FilterByCategory(object sender, EventArgs e)
         {
             LinkButton btn = (LinkButton)sender;
             string category = btn.CommandArgument;
-            FilterByCategoryLogic(category);
+            DataTable filteredData = GetFilteredProductData(category, null, null, "product_name", SortDirection.Ascending);
+            DisplayFilteredData(filteredData);
         }
 
-        private void FilterByCategoryLogic(string category)
+        private void BindProductData()
         {
-            DataTable dummyData = GetDummyData();
-            DataTable filteredData = dummyData.Clone(); // Create a clone of the schema
-
-            foreach (DataRow row in dummyData.Rows)
-            {
-                string productType = row["ProductType"].ToString(); // Assuming ProductType column holds the category information
-                if (productType.Equals(category, StringComparison.OrdinalIgnoreCase))
-                {
-                    filteredData.ImportRow(row);
-                }
-            }
-
-            ListViewProducts.DataSource = filteredData;
-            ListViewProducts.DataBind();
-
-            UpdateNoProductsFoundMessageVisibility(filteredData.Rows.Count == 0);
-        }
-
-        protected void ApplyPriceFilterButton_Click(object sender, EventArgs e)
-        {
-            // Ensure that both minprice and maxprice are filled before proceeding
-            if (!string.IsNullOrEmpty(minprice.Text) && !string.IsNullOrEmpty(maxprice.Text))
-            {
-                decimal minPrice = decimal.Parse(minprice.Text);
-                decimal maxPrice = decimal.Parse(maxprice.Text);
-
-                FilterByPriceRange(minPrice, maxPrice);
-            }
-            else
-            {
-                // Display a simple error message
-                ScriptManager.RegisterStartupScript(this, GetType(), "PriceFilterError", "alert('Please fill in both minimum and maximum prices.');", true);
-
-            }
-
-            // Clear the input fields after filtering
-            minprice.Text = string.Empty;
-            maxprice.Text = string.Empty;
-        }
-
-        private void FilterByPriceRange(decimal minPrice, decimal maxPrice)
-        {
-            DataTable dummyData = GetDummyData();
-            DataTable filteredData = dummyData.Clone(); // Create a clone of the schema
-
-            foreach (DataRow row in dummyData.Rows)
-            {
-                decimal productPrice = Convert.ToDecimal(row["Price"]);
-                if (productPrice >= minPrice && productPrice <= maxPrice)
-                {
-                    filteredData.ImportRow(row);
-                }
-            }
-
-            ListViewProducts.DataSource = filteredData;
-            ListViewProducts.DataBind();
-
-            UpdateNoProductsFoundMessageVisibility(filteredData.Rows.Count == 0);
-        }
-
-        protected void SortAllProducts_Click(object sender, EventArgs e)
-        {
-            DataTable dummyData = GetDummyData();
-            DataView dv = dummyData.DefaultView;
-            dv.Sort = "ProductName ASC";
-            DataTable sortedData = dv.ToTable();
-
-            ListViewProducts.DataSource = sortedData;
-            ListViewProducts.DataBind();
-
-            UpdateNoProductsFoundMessageVisibility(sortedData.Rows.Count == 0);
-        }
-
-
-        protected void SortByPopularity_Click(object sender, EventArgs e)
-        {
-            DataTable dummyData = GetDummyData();
-            DataView dv = dummyData.DefaultView;
-            dv.Sort = "Sold DESC"; // Sort by number of items sold in descending order
-            DataTable sortedData = dv.ToTable();
-
-            ListViewProducts.DataSource = sortedData;
-            ListViewProducts.DataBind();
-
-            UpdateNoProductsFoundMessageVisibility(sortedData.Rows.Count == 0);
-
-        }
-
-
-        protected void SortByPriceLowToHigh_Click(object sender, EventArgs e)
-        {
-            DataTable dummyData = GetDummyData();
-            DataView dv = dummyData.DefaultView;
-            dv.Sort = "Price ASC";
-            DataTable sortedData = dv.ToTable();
-
-            ListViewProducts.DataSource = sortedData;
-            ListViewProducts.DataBind();
-
-            UpdateNoProductsFoundMessageVisibility(sortedData.Rows.Count == 0);
-        }
-
-        protected void SortByPriceHighToLow_Click(object sender, EventArgs e)
-        {
-            DataTable dummyData = GetDummyData();
-            DataView dv = dummyData.DefaultView;
-            dv.Sort = "Price DESC";
-            DataTable sortedData = dv.ToTable();
-
-            ListViewProducts.DataSource = sortedData;
-            ListViewProducts.DataBind();
-
-            UpdateNoProductsFoundMessageVisibility(sortedData.Rows.Count == 0);
+            DataTable productData = GetFilteredProductData(null, null, null, "product_name", SortDirection.Ascending);
+            DisplayFilteredData(productData);
         }
 
 
@@ -199,45 +145,85 @@ namespace webAssignment.Client.Product
 
         protected void SearchButton_Click(object sender, EventArgs e)
         {
-            string searchQuery = productName.Text.Trim().ToLower(); // Get the search query and convert to lowercase
-            DataTable dummyData = GetDummyData(); // Retrieve dummy data
+            string productName = this.productName.Text.Trim();
 
-            // Filter the data based on the search query
-            var filteredRows = dummyData.AsEnumerable().Where(row =>
+            DataTable filteredData = GetFilteredProductData(null, null, null, "product_name", SortDirection.Ascending); // Get all products
+
+            if (!string.IsNullOrEmpty(productName))
             {
-                string productName = row.Field<string>("ProductName").ToLower(); // Get the product name and convert to lowercase
-                return productName.Contains(searchQuery); // Check if the product name contains the search query
-            });
+                // Filter the data based on the entered product name
+                filteredData.DefaultView.RowFilter = $"product_name LIKE '%{productName}%'";
+                filteredData = filteredData.DefaultView.ToTable();
+            }
 
-            // Check if there are any matching rows
-            if (filteredRows.Any())
+            DisplayFilteredData(filteredData);
+        }
+
+        protected void ApplyPriceFilterButton_Click(object sender, EventArgs e)
+        {
+            // Check if both minimum and maximum prices are filled
+            if (!string.IsNullOrEmpty(minprice.Text) && !string.IsNullOrEmpty(maxprice.Text))
             {
-                // Convert the filtered result to DataTable
-                var filteredData = filteredRows.CopyToDataTable();
-
-                // Bind the filtered data to the ListView
-                ListViewProducts.DataSource = filteredData;
-                ListViewProducts.DataBind();
-
-                UpdateNoProductsFoundMessageVisibility(false);
+                decimal minPrice = decimal.Parse(minprice.Text);
+                decimal maxPrice = decimal.Parse(maxprice.Text);
+                DataTable filteredData = GetFilteredProductData(null, minPrice, maxPrice, "product_name", SortDirection.Ascending);
+                DisplayFilteredData(filteredData);
             }
             else
             {
-                // Clear the ListView
-                ListViewProducts.DataSource = null;
-                ListViewProducts.DataBind();
-
-                UpdateNoProductsFoundMessageVisibility(true);
+                // Display an error message if both minimum and maximum prices are not filled
+                ScriptManager.RegisterStartupScript(this, GetType(), "PriceFilterError",
+                    "alert('Please fill in both minimum and maximum prices.');", true);
             }
 
-            // Clear the search input
-            productName.Text = string.Empty;
+            // Clear the input fields after filtering
+            minprice.Text = string.Empty;
+            maxprice.Text = string.Empty;
+        }
+
+
+        protected void SortAllProducts_Click(object sender, EventArgs e)
+        {
+            DataTable sortedData = GetFilteredProductData(null, null, null, "product_name", SortDirection.Ascending);
+            DisplayFilteredData(sortedData);
+        }
+
+        protected void SortByArrivals_Click(object sender, EventArgs e)
+        {
+            DataTable sortedData = GetFilteredProductData(null, null, null, "p.date_added", SortDirection.Descending);
+            DisplayFilteredData(sortedData);
+        }
+
+        protected void SortByPriceLowToHigh_Click(object sender, EventArgs e)
+        {
+            DataTable sortedData = GetFilteredProductData(null, null, null, "min_price", SortDirection.Ascending);
+            DisplayFilteredData(sortedData);
+        }
+
+        protected void SortByPriceHighToLow_Click(object sender, EventArgs e)
+        {
+            DataTable sortedData = GetFilteredProductData(null, null, null, "max_price", SortDirection.Descending);
+            DisplayFilteredData(sortedData);
+        }
+        private enum SortDirection
+        {
+            Ascending,
+            Descending
+        }
+
+        private void DisplayFilteredData(DataTable filteredData)
+        {
+            ListViewProducts.DataSource = filteredData;
+            ListViewProducts.DataBind();
+            UpdateNoProductsFoundMessageVisibility(filteredData.Rows.Count == 0);
         }
 
         private void UpdateNoProductsFoundMessageVisibility(bool isVisible)
         {
             noProductsFoundMessage.Style["display"] = isVisible ? "block" : "none";
         }
+
+
 
 
     }

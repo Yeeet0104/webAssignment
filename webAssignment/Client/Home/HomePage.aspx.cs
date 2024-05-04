@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,35 +12,63 @@ namespace webAssignment.Client.Home
 {
     public partial class HomePage : System.Web.UI.Page
     {
+
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            DataTable dummyData = GetDummyData();
-            HomeListViewProducts.DataSource = dummyData;
+            if (!IsPostBack)
+            {
+                BindProductData();
+            }
+        }
+
+        private DataTable GetProductData()
+        {
+            DataTable productData = new DataTable();
+            SqlConnection conn = new SqlConnection(connectionString);
+            conn.Open();
+            string sql = @"SELECT TOP 6 p.product_id, p.product_name, p.product_description,
+                              MIN(pv.variant_price) AS min_price,
+                              MAX(pv.variant_price) AS max_price,
+                              (
+                                  SELECT TOP 1 path
+                                  FROM Image_Path ip
+                                  WHERE ip.product_id = p.product_id
+                                  ORDER BY image_path_id
+                              ) AS product_image
+                       FROM Product p
+                       LEFT JOIN Product_Variant pv ON p.product_id = pv.product_id
+                       WHERE p.product_status = 'Publish'
+                       GROUP BY p.product_id, p.product_name, p.product_description";
+
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            productData.Load(reader);
+            reader.Close();
+            conn.Close();
+            return productData;
+        }
+
+
+        private void BindProductData()
+        {
+            DataTable productData = GetProductData();
+            HomeListViewProducts.DataSource = productData;
             HomeListViewProducts.DataBind();
         }
 
-        private DataTable GetDummyData()
+        protected void btnExplore_Click(object sender, EventArgs e)
         {
-            DataTable dummyData = new DataTable();
-
-            // Add columns to match ListView's ItemTemplate
-            dummyData.Columns.Add("ProductName", typeof(string));
-            dummyData.Columns.Add("Price", typeof(decimal));
-            dummyData.Columns.Add("ProductImageUrl", typeof(string));
-            dummyData.Columns.Add("Link", typeof(string));
-
-            // Add rows with dummy data
-            dummyData.Rows.Add("CORSAIR ONE i160 Compact Gaming PC", 13999.00m, "CORSAIR ONE i160 Compact Gaming PC.png", "Others/PC-Cosair.html");
-            dummyData.Rows.Add("Logitech G PRO X Gaming Keyboard", 649.00m, "Logitech G PRO X Gaming Keyboard.png", "Others/keyboard-proX.html");
-            dummyData.Rows.Add("G502 Hero High Performance Gaming Mouse", 399.00m, "G502 Hero High Performance Gaming Mouse.png", "Others/Mouse-G502.html");
-            dummyData.Rows.Add("G560 Lightsync PC Gaming Speakers", 329.00m, "G560 Lightsync PC Gaming Speakers.png", "Others/Speaker-G560.html");
-            dummyData.Rows.Add("NZXT H710i PC case", 789.99m, "NZXT H710i PC case.png", "CASE/Case-NZXT.html");
-            dummyData.Rows.Add("Kingston A400 SSD (480GB)", 225.00m, "Kingston A400 SSD(480gb).png", "Storage/SSD-Kingston.html");
-            dummyData.Rows.Add("MSI MPG Z590 ATX", 1299.00m, "MSI MPG Z590 ATX.png", "MotherBoard/MTB-msi.html");
-            dummyData.Rows.Add("NVIDIA GTX 1080 Ti", 2899.00m, "NVIDIA GTX 1080 Ti.png", "GPU/GPU-gtx1080Ti.html");
-
-            return dummyData;
+            Response.Redirect("/Client/Product/ProductPage.aspx");
         }
+
+        protected void btnViewDetails_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Client/ProductDetails/ProductDetailsPage.aspx?ProductId=P1007");
+        }
+
 
     }
 }
