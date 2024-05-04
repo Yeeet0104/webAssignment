@@ -16,6 +16,7 @@
 		<siteMapNode url="~/Admin/Transaction/transaction.aspx" title="Transaction list"  description="" />
 		<siteMapNode url="~/Admin/Voucher/voucher.aspx" title="Voucher list"  description="">
 			<siteMapNode url="~/Admin/Voucher/editvoucher.aspx" title="Edit Voucher"  description="" />
+			<siteMapNode url="~/Admin/Voucher/addVoucher.aspx" title="Add Voucher"  description="" />
 		</siteMapNode>
 		<siteMapNode url="~/Admin/Profile/adminProfile.aspx" title="Profile"  description="">
 			<siteMapNode url="~/Admin/Profile/editProfile.aspx" title="Edit Profile"  description="" />

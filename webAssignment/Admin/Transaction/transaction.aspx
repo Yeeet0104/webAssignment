@@ -36,17 +36,10 @@
 
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
-        <div class="grid grid-cols-3 bg-white gap-3 text-center rounded p-2">
+        <div class="grid grid-cols-1 w-[120px] bg-white gap-3 text-center rounded p-2">
 
             <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
                 <asp:Button ID="allFilter" runat="server" Text="All" />
-            </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="SuccessFilter" runat="server" Text="Success" />
-            </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="CancelledFilter" runat="server" Text="Cancelled" />
-
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -58,14 +51,6 @@
                     </span>
                 </asp:LinkButton>
             </div>
-            <div class="">
-                <asp:LinkButton ID="filterOptionbtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center">
-                <i class="fa-solid fa-sliders "></i>
-                    <span>
-                       Filters
-                    </span>
-                </asp:LinkButton>
-            </div>
         </div>
     </div>
     <!--End-->
@@ -74,153 +59,104 @@
     <div class="bg-white p-5 text-base rounded-lg drop-shadow-lg">
 
 
-        <asp:ListView ID="transactionListView" runat="server" OnSelectedIndexChanged="transactionListView_SelectedIndexChanged" OnItemCommand="transactionListView_ItemCommand">
+        <asp:ListView ID="transactionListView" runat="server" 
+            OnSorting="transactionListView_Sorting"
+            OnDataBound="transactionListView_DataBound"
+            OnItemCommand="transactionListView_ItemCommand">
+            <EmptyDataTemplate>
+                <table class="orders-table w-full ">
+                    <tr class="w-full ">
+                        <td>
+                            <div class="flex flex-col justify-center items-center">
+                                <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                <span>No Transaction Found</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </EmptyDataTemplate>
             <LayoutTemplate>
                 <div style="overflow-x: auto">
                     <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
                         <!-- Headers here -->
-
-                        <tr class="grid grid-cols-9 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
-                            <td class="col-span-1">
-                                <p>Customer ID</p>
-                            </td>
-                            <td class="col-span-1">
-                                <p>User Name</p>
-                            </td>
-                            <td class="col-span-2">
-                                <p>Product Purchased</p>
-                            </td>
-                            <td class="col-span-1 text-center">
-                                <p>Item price</p>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterPaidAmount" runat="server">
+                        <tbody>
+                            <tr class="grid grid-cols-8 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
+                                <td class="col-span-1">
+                                    <p>Customer ID</p>
+                                </td>
+                                <td class="col-span-1">
+                                    <p>User Name</p>
+                                </td>
+                                <td class="col-span-3">
+                                    <p>Product Purchased</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterPaidAmount" runat="server" CommandName="Sort" CommandArgument="total_price">
                                   <div class="flex flex-row justify-between items-center p-2">
                                                      <p>Total Amount </p>
                         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                                     
                                  </div>
 
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterPaymentMethod" runat="server">
-                                  <div class="flex flex-row justify-between items-center p-2">
-                                                     <p>Method </p>
-                        <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                                    
-                                 </div>
-
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterDatePaid" runat="server">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1">
+                                    <p>Payment Method</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterDatePaid" runat="server" CommandName="Sort" CommandArgument="date_paid">
                                   <div class="flex flex-row justify-between items-center p-2">
                                                      <p>Paid Date </p>
                         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                                     
                                  </div>
 
-                                </asp:LinkButton>
-                            </td>
+                                    </asp:LinkButton>
+                                </td>
 
-                            <td class="col-span-1 flex justify-end">
-                                <p>Action</p>
-                            </td>
-
-                            <tr id="itemPlaceholder" runat="server"></tr>
-                    </table>
-                    <table>
+                                <tr id="itemPlaceholder" runat="server"></tr>
+                        </tbody>
                         <tfoot>
+                            <tr class="">
+                                <td class="flex flex-row text-gray-400 justify-between rounded-b-lg bg-white items-center">
 
-                            <!-- footer for pagination ( WILL CHANGE TO physical button later) -->
-                            <div class="flex flex-row text-gray-400 justify-between rounded-b-lg bg-white items-center">
-                                <asp:Label ID="pageNumFoot" runat="server" Text="Showing 1-10 from 100" class="text-normal text-base p-5"></asp:Label>
-                                <div class="flex">
+                                    <asp:Label ID="pageNumFoot" runat="server" Text="Showing 1-10 from 100" class="text-normal text-base p-5"></asp:Label>
                                     <div class="p-4 text-base flex flex-row gap-3">
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
-                                            <i class="fa-solid fa-arrow-left-long"></i>
-                                        </div>
+                                        <asp:LinkButton ID="prevPage" runat="server" OnClick="prevPage_Click" CssClass="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+                                    <i class="fa-solid fa-arrow-left-long"></i>
+                                        </asp:LinkButton>
                                         <div class="min-w-11 min-h-11 rounded-full bg-blue-500 text-white border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-1"></i>
+                                            <asp:Label ID="lblCurrPagination" runat="server" Text="1"></asp:Label>
                                         </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-2"></i>
-                                        </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-3"></i>
-                                        </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center">
-                                            <i class="fa-solid fa-4"></i>
-                                        </div>
-                                        <div class="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
-                                            <i class="fa-solid fa-arrow-right-long"></i>
-                                        </div>
-                                    </div>
 
-                                </div>
-                            </div>
+                                        <asp:LinkButton ID="nextPage" runat="server" OnClick="nextPage_Click" CssClass="min-w-11 min-h-11 rounded-full border-blue-500 border flex items-center justify-center text-blue-500">
+<i class="fa-solid fa-arrow-right-long"></i>
+                                        </asp:LinkButton>
+
+                                    </div>
+                                </td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
             </LayoutTemplate>
             <ItemTemplate>
-                <tr class="grid grid-cols-9 gap-6 w-full mb-5 p-4 border-b-2 min-h-[100px]" style="color: #8B8E99">
-                    <td class="col-span-1 flex flex-row gap-2 items-center"><%# Eval("CustomerID") %></td>
-                    <td class="col-span-1 flex items-center text-black"><%# Eval("UserName") %></td>
-                    <td class="col-span-2 flex flex-row gap-2 items-center text-black">
-                        <div>
-                            <asp:Repeater ID="ProductRepeater" runat="server" DataSource='<%# Eval("ProductName") %>'>
-                                <ItemTemplate>
-                                    <div class="flex flex-col">
-                                        <span class="flex flex-row justify-between gap-3">
-                                            <span><%# Container.DataItem %> </span>
-                                            <span>-</span>
-                                        </span>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:Repeater>
+                <tr class="grid grid-cols-8 gap-6 w-full mb-5 p-4 border-b-2 min-h-[100px]" style="color: #8B8E99">
+                    <td class="col-span-1 flex flex-row gap-2 items-center"><%# Eval("user_id") %></td>
+                    <td class="col-span-1 flex items-center text-black"><%# Eval("username") %></td>
+                    <td class="col-span-3 flex flex-col gap-2 items-start justify-center text-black">
+                        <asp:Literal ID="Literal1" runat="server" Text='<%# FormatProducts(Eval("product_details")) %>' />
 
-                        </div>
-                        <div>
-
-                            <asp:Repeater ID="variantRepeater" runat="server" DataSource='<%# Eval("Variant") %>'>
-                                <ItemTemplate>
-                                    <div class="flex flex-col text-gray-500">
-
-                                        <span>
-                                            <%# Container.DataItem %>
-
-                                        </span>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </div>
 
                     </td>
-                    <td class="col-span-1 flex flex-row gap-2 items-center text-black justify-center">
-                        <div>
-                            <asp:Repeater ID="Repeater1" runat="server" DataSource='<%# Eval("Price") %>'>
-                                <ItemTemplate>
-                                    <div class="flex flex-col text-gray-500">
 
-                                        <span><%# String.Format("{0:C}", Container.DataItem) %></span>
-                                    </div>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("total_price","{0:C}") %></td>
+                    <td class="col-span-1 flex items-center justify-center">
+                        <asp:Literal ID="LiteralPaymentDetails" runat="server" Text='<%# FormatPaymentDetails(Eval("payment_details")) %>' />
 
-                                </ItemTemplate>
-                            </asp:Repeater>
-
-                        </div>
                     </td>
-                    <td class="col-span-1 flex items-center justify-center"><%# Eval("Amount","{0:C}") %></td>
-                    <td class="col-span-1 flex items-center justify-center"><%# Eval("PaymentMethod") %></td>
-                    <td class="col-span-1 flex items-center justify-center"><%# Eval("Date", "{0:dd MMM yyyy}") %></td>
-
-                    <td class="col-span-1 flex justify-end items-center">
-                        <asp:LinkButton ID="deleteItem" runat="server" CommandName="deleteTransaction" CommandArgument='<%# Eval("transactionID") + "," + Eval("UserName") %>'>                            
-                                <i class="fa-solid fa-trash"></i>
-                        </asp:LinkButton>
-                    </td>
+                    <td class="col-span-1 flex items-center justify-center"><%# Eval("date_paid", "{0:dd MMM yyyy}") %></td>
                 </tr>
             </ItemTemplate>
 

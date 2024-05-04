@@ -25,12 +25,14 @@ namespace webAssignment.Admin.Product_Management
         public string ProductName { get; set; }
         public List<Variant> Variants { get; set; } = new List<Variant>();
     }
-
+    [Serializable]
     public class Variant
     {
-        public string VariantId { get; set; }
-        public string VariantName { get; set; }
-        // Add other properties as needed, such as price, stock, etc.
+        public string product_variant_id { get; set; }
+        public string variant_name { get; set; }
+        public decimal variant_price { get; set; }
+        public int stock { get; set; }
+
     }
     public partial class Category
     {

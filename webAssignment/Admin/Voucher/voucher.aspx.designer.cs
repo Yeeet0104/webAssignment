@@ -42,22 +42,31 @@ namespace webAssignment.Admin.Voucher
         protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
 
         /// <summary>
-        /// allProductFilter control.
+        /// allVoucherFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button allProductFilter;
+        protected global::System.Web.UI.WebControls.Button allVoucherFilter;
 
         /// <summary>
-        /// activeFilter control.
+        /// ogFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button activeFilter;
+        protected global::System.Web.UI.WebControls.Button ogFilter;
+
+        /// <summary>
+        /// pendingFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button pendingFilter;
 
         /// <summary>
         /// expiredFilter control.
@@ -69,6 +78,15 @@ namespace webAssignment.Admin.Voucher
         protected global::System.Web.UI.WebControls.Button expiredFilter;
 
         /// <summary>
+        /// fullyClaimFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button fullyClaimFilter;
+
+        /// <summary>
         /// filterDateBtn control.
         /// </summary>
         /// <remarks>
@@ -78,22 +96,13 @@ namespace webAssignment.Admin.Voucher
         protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
 
         /// <summary>
-        /// filterOptionbtn control.
+        /// voucherListView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
-
-        /// <summary>
-        /// productListView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView productListView;
+        protected global::System.Web.UI.WebControls.ListView voucherListView;
 
         /// <summary>
         /// popUpDelete control.

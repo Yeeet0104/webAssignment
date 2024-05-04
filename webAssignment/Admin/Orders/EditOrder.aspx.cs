@@ -1,6 +1,15 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -8,43 +17,223 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using webAssignment.Admin.Product_Management;
+using webAssignment.Client.Profile;
 
 namespace webAssignment.Admin.Orders
 {
     public partial class EditOrder : System.Web.UI.Page
     {
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load( object sender, EventArgs e )
         {
 
             if ( !IsPostBack )
             {
-                ordersListView.DataSource = GetDummyData();
+                init();
+            }
+        }
+        private void init() {
+            string orderId = DecryptString(Request.QueryString["orderId"]);
+            string userId = DecryptString(Request.QueryString["userID"]);
+            InitializeOrder(orderId);
+            InitializeCustomer(userId);
+            //InitializeAddress(orderId);
+            InitializeOrderList(orderId);
+        }
+        public orderInfo GetOrderDetails( string orderId )
+        {
+            orderInfo order = new orderInfo();
+            string sql = $@"SELECT o.order_id, o.date_ordered ,o.status
+                    FROM [dbo].[Order] o
+                    LEFT JOIN Payment pm ON o.order_id = pm.order_id
+                    WHERE o.order_id = @orderId";
 
-                ordersListView.DataBind();
-                string orderId = Request.QueryString["OrderID"];
-                if ( !string.IsNullOrEmpty(orderId) )
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
-                    // Use this order ID to fetch data from the database
-                    //string decryptedOrderID = DecryptString(orderId);
-                   // LoadOrderData(decryptedOrderID);
-
-
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        if ( reader.Read() ) // Ensure there is at least one row
+                        {
+                            order = new orderInfo
+                            {
+                                order_id = ( "Order ID : " + reader.GetString(0) ),
+                                date_ordered = reader.GetDateTime(1),
+                                status = reader.GetString(2)
+                            };
+                        }
+                    }
                 }
+            }
+            return order;
+        }
+        public userInfo GetCustomerDetails( string userId )
+        {
+            userInfo user = new userInfo();
+            string sql = $@"SELECT username, email, phone_number
+                    FROM [dbo].[User]
+                    WHERE user_id = @userId";
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        if ( reader.Read() ) // Ensure there is at least one row
+                        {
+                            user = ( new userInfo
+                            {
+                                username = reader.GetString(0),
+                                email = reader.GetString(1),
+                                phone_number = reader.GetString(2)
+                            } );
+                        }
+
+                    }
+                }
+            }
+            return user;
+        }
+        //public Address GetAddressDetails( string orderId )
+        //{
+        //    Address address = new Address();
+        //    string sql = $@"SELECT a.*
+        //            FROM [dbo].[Address] a
+        //            JOIN [dbo].[Order] o ON a.address_id = o.address_id
+        //            WHERE o.order_id = @orderId";
+        //    using ( SqlConnection conn = new SqlConnection(connectionString) )
+        //    {
+        //        conn.Open();
+        //        using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+        //        {
+        //            using ( SqlDataReader reader = cmd.ExecuteReader() )
+        //            {
+
+        //                address = ( new userInfo
+        //                {
+        //                    username = reader.GetString(0),
+        //                    email = reader.GetString(1),
+        //                    phone_number = reader.GetString(2)
+        //                } );
+
+        //            }
+        //        }
+        //    }
+
+        //    return address;
+        //}
+        public List<ordersDetail> GetOrderItems( string orderId )
+        {
+
+            List<ordersDetail> items = new List<ordersDetail>();
+            string sql = $@"SELECT pd.product_name, od.quantity,pv.variant_name, pv.variant_price , category_name , (pv.variant_price * od.quantity) as totalRowPrice ,(SELECT TOP 1 path FROM Image_Path img WHERE img.product_id = pd.product_id)
+                    FROM Order_details od
+                    JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
+                    JOIN Product pd ON pv.product_id = pd.product_id
+                    JOIN Category c ON pd.category_id = c.category_id
+                    JOIN [dbo].[Order] o ON o.order_id = od.order_id
+                    WHERE od.order_id = @orderId";
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        while ( reader.Read() )
+                        {
+                            items.Add(new ordersDetail
+                            {
+                                product_name = reader.GetString(0),
+                                quantity = reader.GetInt32(1),
+                                variant_name = reader.GetString(2),
+                                variant_price = reader.GetDecimal(3),
+                                category_name = reader.GetString(4),
+                                totalRowPrice = reader.GetDecimal(5),
+                                ProductImageUrl = reader.GetString(6)
+                            });
+                        }
+                    }
+                }
+            }
+          
+            return items;
+
+        }
+        private void InitializeOrder( string orderId )
+        {
+            var order = GetOrderDetails(orderId);
+            lblorderId.Text = order.order_id;
+            lblDateOrded.Text = order.date_ordered.ToString("dd/MM/yyyy");
+            lblorderStatus.Text = order.status;
+            currStatus.Text = order.status;
+            lblorderStatus.CssClass = getColourStatus(order.status) + " p-3 rounded-lg";
+            currStatus.CssClass = getColourStatus(order.status) + " p-3 rounded-lg";
+        }
+
+        private void InitializeCustomer( string userId )
+        {
+            var user = GetCustomerDetails(userId);
+            customerName.Text = user.username;
+            cusEmail.Text = user.email;
+            cusPhoneNum.Text = user.phone_number;
+        }
+
+        //private void InitializeAddress( string orderId )
+        //{
+        //    var address = GetAddressDetails(orderId);
+        //    // Set labels and other controls as needed
+        //}
+
+        private void InitializeOrderList( string orderId )
+        {
+            var items = GetOrderItems(orderId);
+            ordersListView.DataSource = items;
+            ordersListView.DataBind();
+        }
+
+        protected string FormatPaymentDetails( object paymentDetails )
+        {
+            string json = Convert.ToString(paymentDetails);
+            try
+            {
+                JObject paymentJson = JObject.Parse(json);
+                string paymentMethod = paymentJson["card_number"] != null ? "Card" : ( paymentJson["bank_number"] != null ? "Bank" : ( paymentJson["COD"] != null ? "COD" : "Other" ) );
+
+                string details = "";
+                if ( paymentMethod == "Card" )
+                {
+                    details += "Card Number: " + paymentJson["card_number"];
+                }
+                else if ( paymentMethod == "Bank" )
+                {
+                    details += $"Bank ({paymentJson["bank_name"]}): " + paymentJson["bank_number"];
+                }
+                else if ( paymentMethod == "COD" )
+                {
+                    details += "COD";
+                }
+
+                return details;
+            }
+            catch ( JsonException ex )
+            {
+                return "Invalid payment details";
             }
         }
 
-        private void LoadOrderData( string decryptedOrderID )
-        {
-
-            testing.Text = decryptedOrderID;
-            // Database operations to fetch the order details by order ID
-            // Populate the controls on the page with the retrieved data
-        }
 
         // Decryption
         protected string DecryptString( string cipherText )
         {
-            string EncryptionKey = "ABC123"; // Use the same key you used during encryption
+            string EncryptionKey = "ABC123";
             cipherText = cipherText.Replace(" ", "+");
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using ( Aes encryptor = Aes.Create() )
@@ -64,33 +253,141 @@ namespace webAssignment.Admin.Orders
             }
             return cipherText;
         }
-
-
-        private DataTable GetDummyData( )
+        public OrderCalculationResults CalculateOrderDetails( string orderId )
         {
-            DataTable dummyData = new DataTable();
+            var results = new OrderCalculationResults
+            {
+                Subtotal = 0m,
+                ShippingRate = 20.00m,  // Assume shipping rate is fixed or retrieved from another source
+                SSTRate = 0.00m,        // Assuming 0% SST for simplicity
+                Items = new List<ordersDetail>()
+            };
 
-            // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("OrderId", typeof(int));
-            dummyData.Columns.Add("ProductImageUrl", typeof(string));
-            dummyData.Columns.Add("ProductName", typeof(string));
-            dummyData.Columns.Add("variant", typeof(string));
-            dummyData.Columns.Add("Category", typeof(string));
-            dummyData.Columns.Add("quantity", typeof(int));
-            dummyData.Columns.Add("price", typeof(decimal));
-            dummyData.Columns.Add("total", typeof(decimal));
-            dummyData.Columns.Add("subtotal", typeof(decimal));
-           
-            // Add rows with dummy data
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
-            dummyData.Rows.Add(10234, "~/Admin/Layout/image/DexProfilePic.jpeg","dexter","iphone 30 pro max" , "Phone" , 2 , 123.22 , 123.22, 6999);
+            string sql = $@"SELECT pd.product_name, od.quantity, pv.variant_name, pv.variant_price, 
+                    category_name, (pv.variant_price * od.quantity) as totalRowPrice, 
+                    (SELECT TOP 1 path FROM Image_Path img WHERE img.product_id = pd.product_id)
+                    FROM Order_details od
+                    JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
+                    JOIN Product pd ON pv.product_id = pd.product_id
+                    JOIN Category c ON pd.category_id = c.category_id
+                    JOIN [dbo].[Order] o ON o.order_id = od.order_id
+                    WHERE od.order_id = @orderId";
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    {
+                        while ( reader.Read() )
+                        {
+                            var itemTotal = reader.GetDecimal(5);
+                            results.Subtotal += itemTotal;
+                            Debug.WriteLine("WTF" + itemTotal);
+                            results.Items.Add(new ordersDetail
+                            {
+                                product_name = reader.GetString(0),
+                                quantity = reader.GetInt32(1),
+                                variant_name = reader.GetString(2),
+                                variant_price = reader.GetDecimal(3),
+                                category_name = reader.GetString(4),
+                                totalRowPrice = itemTotal,
+                                ProductImageUrl = reader.GetString(6)
+                            });
+                        }
+                    }
+                }
+            }
 
-
-            // Add more rows as needed for testing
-
-            return dummyData;
+            results.Total = results.Subtotal + results.ShippingRate + results.SSTRate; // Total calculation
+            return results;
         }
+        protected void ordersListView_DataBound( object sender, EventArgs e )
+        {
+            string orderId = DecryptString(Request.QueryString["orderId"]);
+            var orderDetails = CalculateOrderDetails(orderId);
+            Label lblSubtotal = ordersListView.FindControl("lblSubtotal") as Label;
+            Label lblShippingRate = ordersListView.FindControl("lblShippingRate") as Label;
+            Label lblVAT = ordersListView.FindControl("lblVAT") as Label;
+            Label lblTotal = ordersListView.FindControl("lblTotal") as Label;
+
+
+            lblSubtotal.Text = $"${orderDetails.Subtotal.ToString("0.00")}";
+            lblShippingRate.Text = $"${orderDetails.ShippingRate.ToString("0.00")}";
+            lblVAT.Text = $"${orderDetails.SSTRate.ToString("0.00")}";
+            lblTotal.Text = $"${orderDetails.Total.ToString("0.00")}";
+        }
+
+        protected void editStatus_Click( object sender, EventArgs e )
+        {
+            popUpPanel.Style.Add("display", "flex");
+        }
+
+        protected void cancelChange_Click( object sender, EventArgs e )
+        {
+            popUpPanel.Style.Add("display", "none");
+        }
+
+        protected void changeStatus_Click( object sender, EventArgs e )
+        {
+            string orderId = DecryptString(Request.QueryString["orderId"]);
+            string newStatus = statusDDl.SelectedValue; 
+            if ( lblpaymentMethod.Text != statusDDl.SelectedValue.ToString())
+            {
+                UpdateOrderStatus(orderId, newStatus);
+            }
+        }
+        private void UpdateOrderStatus( string orderId, string newStatus )
+        {
+            string sql = @"UPDATE [dbo].[Order]
+                   SET status = @newStatus
+                   WHERE order_id = @orderID";
+
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@orderID", orderId);
+                    cmd.Parameters.AddWithValue("@newStatus", newStatus);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if ( rowsAffected > 0 )
+                    {
+                        init();
+                        ShowNotification("Successfully Updated the status!" , "success");
+                    }
+                    else
+                    {
+                        ShowNotification("status is not updated" , "warning");
+                    }
+                }
+            }
+        }
+
+        private string getColourStatus( string status )
+        {
+            return status == "Pending" ? "bg-gray-200"
+                                : status == "On The Road" ? "bg-blue-200"
+                                : status == "Packed" ? "bg-yellow-200"
+                                : status == "Delivered" ? "bg-green-200"
+                                : status == "Cancelled" ? "bg-red-200" : "bg-white-200";
+        }
+
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
+    }
+
+    public class OrderCalculationResults
+    {
+        public decimal Subtotal { get; set; }
+        public decimal ShippingRate { get; set; }
+        public decimal SSTRate { get; set; }
+        public decimal Total { get; set; }
+        public List<ordersDetail> Items { get; set; }
     }
 }

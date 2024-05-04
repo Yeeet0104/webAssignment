@@ -22,10 +22,6 @@
         </div>
 
         <div class="flex">
-            <div class="relative mr-2">
-                <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
-            </div>
             <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
                 <i class="text-lg fa-solid fa-plus left-4 top-5 text-white"></i>
                 <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/Product Management/addNewProduct.aspx">Add New Product</asp:HyperLink>
@@ -37,23 +33,17 @@
 
     <!--Second Row-->
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
-        <div class="grid grid-cols-5 bg-white gap-3 text-center rounded p-2">
+        <div class="grid grid-cols-3 bg-white gap-3 text-center rounded p-2">
 
-            <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                <asp:Button ID="allProductFilter" runat="server" Text="All Product" />
+            <div class="col-span-1 ">
+                <asp:Button ID="allProductFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 text-blue-600 bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="All Product" OnClick="allProductFilter_Click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="publishFilter" runat="server" Text="Published" />
+            <div class="col-span-1 ">
+                <asp:Button ID="inStockFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="In stock" OnClick="inStockFilter_Click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="stockFilter" runat="server" Text="Low Stock" />
+            <div class="col-span-1 ">
+                <asp:Button ID="outOfStockFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Out Of Stock" OnClick="outOfStockFilter_Click" />
 
-            </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="draftFilter" runat="server" Text="Draft" />
-            </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="noStockFilter" runat="server" Text="Out Of Stock" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -76,6 +66,19 @@
 
 
         <asp:ListView ID="productListView" runat="server" OnSorting="productListView_Sorting" OnDataBound="productListView_DataBound">
+                        <EmptyDataTemplate>
+                <table class="orders-table w-full ">
+                    <tr class="w-full ">
+                        <td>
+                            <div class="flex flex-col justify-center items-center">
+                                <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                <span>No Variant Found</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </EmptyDataTemplate>
             <LayoutTemplate>
                 <div style="overflow-x: auto">
                     <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
@@ -90,7 +93,7 @@
                                     <p>Category</p>
                                 </td>
                                 <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                    <asp:LinkButton ID="stoackLk" runat="server">
+                                    <asp:LinkButton ID="stoackLk" runat="server" CommandName="Sort" CommandArgument="stock">
                                         <div class="flex flex-row justify-between items-center p-2">
                                             <p>Stock </p>
                                             <i class="fa-solid fa-sort-down relative" style="top: -3px"></i>
@@ -100,7 +103,7 @@
                                 </td>
 
                                 <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                    <asp:LinkButton ID="filterPriceLv" runat="server">
+                                    <asp:LinkButton ID="filterPriceLv" runat="server" CommandName="Sort" CommandArgument="variant_price">
                                         <div class="flex flex-row justify-between items-center p-2">
                                             <p>Price </p>
                                             <i class="fa-solid fa-sort-down relative" style="top: -3px"></i>
@@ -109,24 +112,11 @@
 
                                     </asp:LinkButton>
                                 </td>
-                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                    <asp:LinkButton ID="filterStatusLtPd" runat="server">
-                                        <div class="flex flex-row justify-between items-center p-2">
-                                            <p>Status </p>
-                                            <i class="fa-solid fa-sort-down relative" style="top: -3px"></i>
-
-                                        </div>
-                                    </asp:LinkButton>
+                                <td class="col-span-1  text-center">
+                                    <p>Status</p>
                                 </td>
-                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                    <asp:LinkButton ID="filterOdDateLv" runat="server">
-                                        <div class="flex flex-row justify-between items-center p-2">
-                                            <p>Date Added</p>
-                                            <i class="fa-solid fa-sort-down relative" style="top: -3px"></i>
-
-                                        </div>
-
-                                    </asp:LinkButton>
+                                <td class="col-span-1  text-center">
+                                    <p>Date Added</p>
                                 </td>
 
                             </tr>
