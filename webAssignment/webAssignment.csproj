@@ -70,6 +70,7 @@
     </Reference>
     <Reference Include="Google.Apis.Gmail.v1, Version=1.68.0.3399, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.Gmail.v1.1.68.0.3399\lib\net462\Google.Apis.Gmail.v1.dll</HintPath>
+      </Reference>
     <Reference Include="Highcharts, Version=11.4.1.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
       <HintPath>..\packages\Highsoft.Highcharts.11.4.1\lib\netstandard2.0\Highcharts.dll</HintPath>
     </Reference>
