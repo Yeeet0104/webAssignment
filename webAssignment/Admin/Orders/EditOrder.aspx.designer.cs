@@ -24,22 +24,13 @@ namespace webAssignment.Admin.Orders
         protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
 
         /// <summary>
-        /// btnExport control.
+        /// editStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
-
-        /// <summary>
-        /// generateInvoice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink generateInvoice;
+        protected global::System.Web.UI.WebControls.LinkButton editStatus;
 
         /// <summary>
         /// testing control.
@@ -51,58 +42,40 @@ namespace webAssignment.Admin.Orders
         protected global::System.Web.UI.WebControls.Label testing;
 
         /// <summary>
-        /// orderId control.
+        /// lblorderId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label orderId;
+        protected global::System.Web.UI.WebControls.Label lblorderId;
 
         /// <summary>
-        /// orderStatus control.
+        /// lblDateOrded control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label orderStatus;
+        protected global::System.Web.UI.WebControls.Label lblDateOrded;
 
         /// <summary>
-        /// EditOrderDetailsBtn control.
+        /// lblpaymentMethod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton EditOrderDetailsBtn;
+        protected global::System.Web.UI.WebControls.Label lblpaymentMethod;
 
         /// <summary>
-        /// addedDate control.
+        /// lblorderStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label addedDate;
-
-        /// <summary>
-        /// paymentMethod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label paymentMethod;
-
-        /// <summary>
-        /// shippingMethod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label shippingMethod;
+        protected global::System.Web.UI.WebControls.Label lblorderStatus;
 
         /// <summary>
         /// customerName control.
@@ -132,33 +105,6 @@ namespace webAssignment.Admin.Orders
         protected global::System.Web.UI.WebControls.Label cusPhoneNum;
 
         /// <summary>
-        /// invoiceID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label invoiceID;
-
-        /// <summary>
-        /// shippingInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label shippingInfo;
-
-        /// <summary>
-        /// rewards control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label rewards;
-
-        /// <summary>
         /// ordersListView control.
         /// </summary>
         /// <remarks>
@@ -184,5 +130,50 @@ namespace webAssignment.Admin.Orders
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label shippingAddresslbl;
+
+        /// <summary>
+        /// popUpPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel popUpPanel;
+
+        /// <summary>
+        /// currStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label currStatus;
+
+        /// <summary>
+        /// statusDDl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList statusDDl;
+
+        /// <summary>
+        /// cancelChange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button cancelChange;
+
+        /// <summary>
+        /// changeStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button changeStatus;
     }
 }

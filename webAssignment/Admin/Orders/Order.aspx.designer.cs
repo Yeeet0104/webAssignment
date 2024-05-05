@@ -42,22 +42,31 @@ namespace webAssignment.Admin.Orders
         protected global::System.Web.UI.WebControls.Button allStatusFilter;
 
         /// <summary>
-        /// processingFilter control.
+        /// pendingFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button processingFilter;
+        protected global::System.Web.UI.WebControls.Button pendingFilter;
 
         /// <summary>
-        /// shippedFilter control.
+        /// packedFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button shippedFilter;
+        protected global::System.Web.UI.WebControls.Button packedFilter;
+
+        /// <summary>
+        /// otr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button otr;
 
         /// <summary>
         /// deliveredFilter control.
@@ -69,31 +78,13 @@ namespace webAssignment.Admin.Orders
         protected global::System.Web.UI.WebControls.Button deliveredFilter;
 
         /// <summary>
-        /// cancelledFilter control.
+        /// cancelFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button cancelledFilter;
-
-        /// <summary>
-        /// filterDateBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
-
-        /// <summary>
-        /// filterOptionbtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
+        protected global::System.Web.UI.WebControls.Button cancelFilter;
 
         /// <summary>
         /// ordersListView control.

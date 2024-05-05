@@ -15,6 +15,15 @@ namespace webAssignment.Admin.Voucher
     {
 
         /// <summary>
+        /// lblvoucherCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblvoucherCode;
+
+        /// <summary>
         /// SiteMapPath1 control.
         /// </summary>
         /// <remarks>
@@ -24,22 +33,13 @@ namespace webAssignment.Admin.Voucher
         protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
 
         /// <summary>
-        /// saveChanges control.
+        /// edtVoucher control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button saveChanges;
-
-        /// <summary>
-        /// lblVoucherCodeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblVoucherCodeID;
+        protected global::System.Web.UI.WebControls.Button edtVoucher;
 
         /// <summary>
         /// editVoucherCode control.
@@ -51,13 +51,13 @@ namespace webAssignment.Admin.Voucher
         protected global::System.Web.UI.WebControls.TextBox editVoucherCode;
 
         /// <summary>
-        /// TextBox1 control.
+        /// discountRateTb control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox discountRateTb;
 
         /// <summary>
         /// maxTb control.
@@ -94,5 +94,14 @@ namespace webAssignment.Admin.Voucher
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox expireDateTb;
+
+        /// <summary>
+        /// quantity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox quantity;
     }
 }

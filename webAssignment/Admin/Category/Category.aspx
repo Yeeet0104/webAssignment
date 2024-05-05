@@ -32,7 +32,16 @@
         </div>
     </div>
     <!--End-->
-
+    <div class="flex justify-end mb-2">
+        <asp:LinkButton ID="clearDateFilter" runat="server" class="mr-2 p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center" OnClick="clearDateFilter_Click">
+            <i class="fa-solid fa-trash"></i>
+            <asp:Label ID="Label1" runat="server" Text="Clear Date"></asp:Label>
+        </asp:LinkButton>
+        <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center" OnClick="filterDateBtn_click">
+            <i class="fa-solid fa-calendar-days"></i>
+            <asp:Label ID="labelDateRange" runat="server" Text="Select Date "></asp:Label>
+        </asp:LinkButton>
+    </div>
     <!--category List-->
     <div class="bg-white p-5 text-base rounded-lg">
 
@@ -198,6 +207,28 @@
                 </div>
             </div>
 
+        </asp:Panel>
+        <!-- date pop up panel -->
+        <asp:Panel ID="pnlDateFilter" runat="server" CssClass="modal fixed w-full h-full top-0 left-0 flex items-center justify-center" Style="display: none; background-color: rgba(0, 0, 0, 0.5);">
+            <div class="modal-content w-1/4 bg-white p-6 rounded-lg shadow-lg text-center flex flex-col gap-10">
+                <h2 class="text-xl  font-bold">Select Date Range</h2>
+                <div class="flex flex-col gap-2 ">
+                    <div class="grid grid-cols-3 ">
+                        <p class="flex justify-center items-center">Start Date :</p>
+                        <asp:TextBox ID="txtStartDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
+                    </div>
+                    <div class="grid grid-cols-3">
+                        <p class="flex justify-center items-center">End Date :</p>
+                        <asp:TextBox ID="txtEndDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
+
+                    </div>
+
+                </div>
+                <div class="flex justify-center gap-10">
+                    <asp:Button ID="cancelDate" runat="server" Text="Cancel" OnClick="cancelDate_click" CssClass="bg-gray-200 hover:bg-blue-700 hover:text-white text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+                    <asp:Button ID="btnApplyDateFilter" runat="server" Text="Apply Filter" OnClick="btnApplyDateFilter_Click" CssClass="apply-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+                </div>
+            </div>
         </asp:Panel>
     </div>
 </asp:Content>

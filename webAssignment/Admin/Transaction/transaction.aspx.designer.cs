@@ -42,42 +42,6 @@ namespace webAssignment.Admin.Transaction
         protected global::System.Web.UI.WebControls.Button allFilter;
 
         /// <summary>
-        /// SuccessFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button SuccessFilter;
-
-        /// <summary>
-        /// CancelledFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CancelledFilter;
-
-        /// <summary>
-        /// filterDateBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
-
-        /// <summary>
-        /// filterOptionbtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterOptionbtn;
-
-        /// <summary>
         /// transactionListView control.
         /// </summary>
         /// <remarks>

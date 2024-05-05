@@ -12,22 +12,6 @@
                 <span class="font-bold text-xl">Payment Option</span>
                 <hr />
                 <div class="">
-                    <%--<div class="flex flex-col w-1/3 items-center gap-2">
-                        <i class="fa-solid fa-money-bill-wave"></i>
-                        <span class="font-semibold">Cash On Delivery</span>
-                        <asp:RadioButton ID="rdbCOD" runat="server" GroupName="PaymentOption" />
-                    </div>
-                    <div class="flex flex-col w-1/3 items-center gap-2">
-                        <i class="fa-solid fa-credit-card"></i>
-                        <span class="font-semibold">Card</span>
-                        <asp:RadioButton ID="rbdCard" runat="server" GroupName="PaymentOption" />
-                    </div>
-                    <div class="flex flex-col w-1/3 items-center gap-2">
-                        <i class="fa-solid fa-wallet"></i>
-                        <span class="font-semibold">E-wallet</span>
-                        <asp:RadioButton ID="rbdWallet" runat="server" GroupName="PaymentOption" />
-                    </div>--%>
-
                     <asp:ScriptManager ID="ScriptManager1" runat="server">
                     </asp:ScriptManager>
 
@@ -39,6 +23,7 @@
                                 <asp:Button ID="btnCOD" runat="server" Text="Cash On Delivery" OnClick="btnCOD_Click" CssClass="bg-blue-700 text-white p-4 rounded-xl cursor-pointer flex-1 font-semibold" />
                             </div>
 
+                            
                             <asp:Panel ID="pnlCard" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-8" Visible="false">
                                 <!-- Content for Credit Card Payment -->
                                 <h3 class="font-bold text-xl">Credit Card Payment</h3>
@@ -55,26 +40,9 @@
                                             <asp:Label ID="lblExpirationDate" runat="server" Text="Expiration Date:" CssClass="font-semibold "></asp:Label>
                                             <div class="flex">
                                                 <asp:DropDownList ID="ddlExpirationMonth" runat="server" class="rounded-lg flex-1 p-2 bg-gray-200 focus:shadow focus:shadow-lg focus:bg-white transition-colors duration-200">
-                                                    <asp:ListItem Text="January" Value="1"></asp:ListItem>
-                                                    <asp:ListItem Text="February" Value="2"></asp:ListItem>
-                                                    <asp:ListItem Text="March" Value="3"></asp:ListItem>
-                                                    <asp:ListItem Text="April" Value="4"></asp:ListItem>
-                                                    <asp:ListItem Text="May" Value="5"></asp:ListItem>
-                                                    <asp:ListItem Text="June" Value="6"></asp:ListItem>
-                                                    <asp:ListItem Text="July" Value="7"></asp:ListItem>
-                                                    <asp:ListItem Text="August" Value="8"></asp:ListItem>
-                                                    <asp:ListItem Text="September" Value="9"></asp:ListItem>
-                                                    <asp:ListItem Text="October" Value="10"></asp:ListItem>
-                                                    <asp:ListItem Text="November" Value="11"></asp:ListItem>
-                                                    <asp:ListItem Text="December" Value="12"></asp:ListItem>
                                                 </asp:DropDownList>
                                                 <span class="text-xl p-2 px-4">/ </span>
                                                 <asp:DropDownList ID="ddlExpirationYear" runat="server" class="rounded-lg flex-1 p-2 bg-gray-200 focus:shadow focus:shadow-lg focus:bg-white transition-colors duration-200">
-                                                    <asp:ListItem Text="2024" Value="2024"></asp:ListItem>
-                                                    <asp:ListItem Text="2025" Value="2025"></asp:ListItem>
-                                                    <asp:ListItem Text="2026" Value="2026"></asp:ListItem>
-                                                    <asp:ListItem Text="2027" Value="2027"></asp:ListItem>
-                                                    <asp:ListItem Text="2028" Value="2028"></asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -88,18 +56,24 @@
                                 </div>
                             </asp:Panel>
 
+
+
                             <asp:Panel ID="pnlBank" runat="server" CssClass="border border-gray-300 p-6 rounded-lg flex flex-col gap-8" Visible="false">
                                 <!-- Content for Bank FPX Payment -->
                                 <h3 class="font-bold text-xl">Bank FPX Payment</h3>
                                 <!-- Add ASP.NET elements for bank FPX payment here -->
                                 <div class="flex gap-3 items-center">
-                                    <asp:Label ID="lblBankFPXInfo" runat="server" Text="Select Bank:" CssClass="font-semibold"></asp:Label>
+                                    <asp:Label ID="lblBankFPXInfo" runat="server" Text="Select Bank :" CssClass="font-semibold w-1/5"></asp:Label>
                                     <asp:DropDownList ID="ddlBank" runat="server" class="rounded-lg flex-1 p-2 bg-gray-200 focus:shadow focus:shadow-lg focus:bg-white transition-colors duration-200">
                                         <asp:ListItem Text="Public Bank" Value="public-bank"></asp:ListItem>
                                         <asp:ListItem Text="CIMB Bank" Value="cimb-bank"></asp:ListItem>
                                         <asp:ListItem Text="MayBank" Value="may-bank"></asp:ListItem>
 
                                     </asp:DropDownList>
+                                </div>
+                                 <div class="flex gap-3 items-center">
+                                    <asp:Label ID="lblBankFPXNumber" runat="server" Text="Bank Number :" CssClass="font-semibold w-1/5"></asp:Label>
+                                     <asp:TextBox ID="txtBankNumber" class="rounded-lg flex-1 p-2 bg-gray-200 focus:shadow focus:shadow-lg focus:bg-white transition-colors duration-200" runat="server"></asp:TextBox>
                                 </div>
                             </asp:Panel>
 
@@ -137,14 +111,14 @@
                         </table>
                     </LayoutTemplate>
                     <ItemTemplate>
-                        <tr class="grid grid-cols-3 items-center">
+                        <tr class="grid grid-cols-4 items-center">
                             <td class="col-span-1">
-                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageURL", "{0}") %>' class="h-14 w-14 " />
+                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath", "{0}") %>' class="h-14 w-14 " />
                             </td>
-                            <td class="col-span-2 flex flex-col">
-                                <span class="font-semibold"><%# Eval("ProductName") %></span>
+                            <td class="col-span-3 flex flex-col">
+                                <span class="font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("productName") %> <%# Eval("variantName") %></span>
                                 <span class="text-gray-700">
-                                    <%# Eval("Quantity") %> x <span class="text-blue-700 font-bold"><%# Eval("Price", "{0:C}") %></span>
+                                    <%# Eval("quantity") %> x <span class="text-blue-700 font-bold">RM <%# Eval("price") %></span>
                                 </span>
                             </td>
                         </tr>
@@ -173,9 +147,11 @@
                         <span>Total</span>
                         <asp:Label ID="lblCartTotal" runat="server" Text="RM 0.00"></asp:Label>
                     </div>
-                    <asp:Button ID="btnPlaceOrder" runat="server" Text="Place Order" class="cursor-pointer bg-blue-700 text-white font-semibold text-sm h-10 rounded-lg mt-4" PostBackUrl="~/Client/Home/HomePage.aspx" />
+                    
+                    <asp:Button ID="btnPlaceOrder" runat="server" Text="Place Order" class="cursor-pointer bg-blue-700 text-white font-semibold text-sm h-10 rounded-lg mt-4" OnClick="btnPlaceOrder_Click"  />
                 </div>
             </div>
         </div>
+
     </div>
 </asp:Content>
