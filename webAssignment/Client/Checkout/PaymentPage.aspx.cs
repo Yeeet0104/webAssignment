@@ -11,6 +11,8 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Threading;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
@@ -350,6 +352,10 @@ namespace webAssignment.Client.Checkout
                 }
                 clearSession();
 
+                sendEmail();
+
+                popUpOrderPlaced.Style.Add("display", "flex");
+
             }
             else if (pnlBank.Visible)
             {
@@ -417,7 +423,13 @@ namespace webAssignment.Client.Checkout
                 {
                     updateVoucherQuantity();
                 }
+                sendEmail();
+
+
                 clearSession();
+
+                popUpOrderPlaced.Style.Add("display", "flex");
+
 
             }
             else if (pnlCOD.Visible)
@@ -463,13 +475,22 @@ namespace webAssignment.Client.Checkout
                     updateVoucherQuantity();
                 }
 
+                sendEmail();
 
                 // Remove Session 
                 clearSession();
+
+
+                popUpOrderPlaced.Style.Add("display", "flex");
             }
 
 
 
+        }
+
+        protected void closePopUp_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Client/Home/HomePage.aspx");
         }
 
         private void clearSession()
@@ -1007,5 +1028,70 @@ namespace webAssignment.Client.Checkout
             ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
 
+
+        private void sendEmail()
+        {
+            try
+            {
+                string senderEmail = "gtechpc24@gmail.com";
+                MailMessage verificationMail = new MailMessage(senderEmail, getUserEmail());
+                verificationMail.Subject = "Order Pending";
+
+                verificationMail.Body = $"<h3>Hi User {getCurrentUserId()},</h3>" +
+                                        "<p>We have received your order. Your order status is currently pending</p>" +
+                                        "<p>Your order will be packed and shipped within 3 business days.</p>" +
+                                        "<p>Thank you for choosing us, G-Tech Team.</p>";
+                verificationMail.IsBodyHtml = true;
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new NetworkCredential(senderEmail, "lajd btuc nhuf qryg");
+
+                smtpClient.Send(verificationMail);
+            }
+            catch (Exception ex)
+            {
+                ShowNotification(ex.Message, "warning");
+            }
+        }
+
+        private string getUserEmail()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+
+            string getNextNum = "SELECT email FROM User WHERE user_id = @userid";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(getNextNum, connection))
+                    {
+                        command.Parameters.AddWithValue("@userid", getCurrentUserId());
+
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                return reader.GetString(0);
+                            }
+                        }
+                    }
+
+                }
+                catch (SqlException ex)
+                {
+                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning"); // Redirect to an error page if needed
+                }
+            }
+            return "";
+        }
     }
 }

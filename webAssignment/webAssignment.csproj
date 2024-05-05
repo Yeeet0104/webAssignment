@@ -259,6 +259,7 @@
     <Content Include="Client\Cart\CartPage.aspx" />
     <Content Include="Client\Cart\images\cryingKermit.png" />
     <Content Include="Client\Checkout\image\img_placeholder.jpg" />
+    <Content Include="Client\Checkout\image\thanks.gif" />
     <Content Include="Client\Checkout\PaymentPage.aspx" />
     <Content Include="Client\ClientMasterPage\ClientPage.js" />
     <Content Include="Client\Home\Home Images\logitec.png" />
