@@ -77,7 +77,11 @@
         <asp:CheckBox ID="collapsible" runat="server" class="hidden" />
         <div id="contentDiv" class="w-full">
             <div class="w-full border border-gray-400 rounded-lg flex flex-col p-4 bg-white">
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Address] WHERE [address_type] = 'shipping'"></asp:SqlDataSource>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Address] WHERE [address_type] = 'shipping' AND [user_id] = @userId">
+                    <SelectParameters>
+                        <asp:SessionParameter Name="userId" SessionField="userId" Type="String" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
                 <asp:ListView ID="shippingAddressList" runat="server" DataSourceID="SqlDataSource1">
                     <LayoutTemplate>
                         <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
@@ -125,7 +129,11 @@
         <asp:CheckBox ID="collapsible2" runat="server" class="hidden" />
         <div id="contentDiv2" class="w-full">
             <div class="w-full border border-gray-400 rounded-lg flex flex-col p-4 bg-white">
-                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Address] WHERE [address_type] = 'billing'"></asp:SqlDataSource>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Address] WHERE [address_type] = 'billing' AND [user_id] = @userId">
+                    <SelectParameters>
+                        <asp:SessionParameter Name="userId" SessionField="userId" Type="String" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
                 <asp:ListView ID="billingAddressList" runat="server" DataSourceID="SqlDataSource2">
                     <LayoutTemplate>
                         <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
@@ -153,13 +161,13 @@
                         </div>
                     </ItemTemplate>
                     <EmptyDataTemplate>
-        <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
-            <asp:LinkButton runat="server" ID="addNewBillingAddress" OnClick="addNewBillingAddress_Click" class="px-4 pt-4 pb-36 border border-gray-400 hover:border-black hover:cursor-pointer relative">
+                        <div runat="server" id="itemPlaceholderContainer" class="grid grid-cols-2 gap-5">
+                            <asp:LinkButton runat="server" ID="addNewBillingAddress" OnClick="addNewBillingAddress_Click" class="px-4 pt-4 pb-36 border border-gray-400 hover:border-black hover:cursor-pointer relative">
                 <span class="text-gray-600">New Address</span>
                 <i id="plusIcon" class="fa-solid fa-plus text-3xl font-normal"></i>
-            </asp:LinkButton>
-        </div>
-    </EmptyDataTemplate>
+                            </asp:LinkButton>
+                        </div>
+                    </EmptyDataTemplate>
                 </asp:ListView>
             </div>
         </div>

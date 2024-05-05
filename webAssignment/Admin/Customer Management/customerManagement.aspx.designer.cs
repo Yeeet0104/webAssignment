@@ -33,31 +33,31 @@ namespace webAssignment.Admin.Customer
         protected global::System.Web.UI.WebControls.Button btnExport;
 
         /// <summary>
-        /// allAdmins control.
+        /// btnAllCustomers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button allAdmins;
+        protected global::System.Web.UI.WebControls.Button btnAllCustomers;
 
         /// <summary>
-        /// active control.
+        /// btnActive control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button active;
+        protected global::System.Web.UI.WebControls.Button btnActive;
 
         /// <summary>
-        /// blocked control.
+        /// btnBlocked control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button blocked;
+        protected global::System.Web.UI.WebControls.Button btnBlocked;
 
         /// <summary>
         /// filterDateBtn control.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Irony;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -21,9 +22,9 @@ namespace webAssignment.Client.Profile
             if (!IsPostBack)
             {
                 // Check if the user is logged in
-                if (Request.Cookies["userInfo"] != null)
+                if (Session["userId"] != null)
                 {
-                    string userId = Request.Cookies["userInfo"]["userID"];
+                    string userId = Session["userId"].ToString();
                     LoadUserDetails(userId);
                 }
                 else
@@ -35,8 +36,8 @@ namespace webAssignment.Client.Profile
         }
 
         protected void btnSaveChanges_Click(object sender, EventArgs e)
-        {// Retrieve user ID from the cookie
-            string userId = Request.Cookies["userInfo"]["userID"];
+        {// Retrieve user ID
+            string userId = Session["userId"].ToString();
 
             if (ValidateForm())
             {
@@ -333,9 +334,9 @@ namespace webAssignment.Client.Profile
 
         protected void btnChangePass_Click(object sender, EventArgs e)
         {
-            if (ValidatePassword())
+            if (ValidatePassword()) 
             {
-                string userId = Request.Cookies["userInfo"]["userID"];
+                string userId = Session["userId"].ToString();
                 string query = "SELECT password FROM [User] WHERE user_id = @UserId";
 
                 // Hash the password before querying the database
@@ -426,5 +427,55 @@ namespace webAssignment.Client.Profile
             popUpText.CssClass = "popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center hidden";
         }
 
+        protected void btnDeleteAcc_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showConfirmPopUp", "showConfirmPopUp();", true);
+        }
+
+        protected void cancelBtn_Click(object sender, EventArgs e)
+        {
+            deleteAccPopUp.CssClass = "popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center hidden";
+        }
+
+        protected void yesBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Session["userId"] != null)
+                {
+                    string userId = Session["userId"].ToString();
+
+                    string query = "DELETE FROM [User] WHERE user_id = @UserId";
+
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@UserId", userId);
+
+                            conn.Open();
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                Response.Redirect("~/Client/LoginSignUp/SignUp.aspx");
+                            }
+                            else
+                            {
+                                lblMessage.Text = "User not found or already deleted.";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    lblMessage.Text = "User ID not found in session.";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error deleting user: " + ex.Message;
+            }
+        }
     }
 }

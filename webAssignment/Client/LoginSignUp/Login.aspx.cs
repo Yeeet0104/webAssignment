@@ -27,29 +27,35 @@ namespace webAssignment.Client.LoginSignUp
 
                 // Hash the password before querying the database
                 string hashedPassword = EncryptPassword(password);
-
-                string result = LoginUser(email, hashedPassword);
-                if (result!= null)
+                if (CheckStatus(email, hashedPassword) != "Blocked")
                 {
-                    string[] resultArray = result.Split(';');
-                    string userId = resultArray[0];
-                    string role = resultArray[1];
+                    string result = LoginUser(email, hashedPassword);
+                    if (result != null)
+                    {
+                        string[] resultArray = result.Split(';');
+                        string userId = resultArray[0];
+                        string role = resultArray[1];
 
-                    if (role == "User")
-                    { 
-                    UpdateLastLoginTime(email);
-                    SetUserInfoCookie(userId);
-                    Response.Redirect("~/Client/Home/HomePage.aspx");
-                    
+                        if (role == "User")
+                        {
+                            UpdateLastLoginTime(email);
+                            SetUserSession(userId);
+                            Response.Redirect("~/Client/Home/HomePage.aspx");
+
+                        }
+                        else
+                        {
+                            lblLoginMessage.Text = "Admin or other roles cannot access this page.";
+                        }
                     }
                     else
                     {
-                    lblLoginMessage.Text = "Admin or other roles cannot access this page.";
-                }
+                        lblLoginMessage.Text = "Invalid email or password.";
+                    }
                 }
                 else
                 {
-                    lblLoginMessage.Text = "Invalid email or password.";
+                    lblLoginMessage.Text = "Your account has been blocked! Please contact customer support.";
                 }
             }
             else
@@ -93,28 +99,49 @@ namespace webAssignment.Client.LoginSignUp
             }
         }
 
+        private string CheckStatus(string email, string hashedPassword)
+        {
+            string query = @"SELECT status FROM [User] WHERE email = @Email AND password = @Password";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        return reader["status"].ToString();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
         private void UpdateLastLoginTime(string email)
         {// Updates the last login time for the user in the database.
             string updateQuery = "UPDATE [User] SET last_login = @LastLogin WHERE email = @Email";
 
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            using (SqlCommand cmd = new SqlCommand(updateQuery, conn))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                cmd.Parameters.AddWithValue("@LastLogin", DateTime.Now);
-                cmd.Parameters.AddWithValue("@Email", email);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                using (SqlCommand cmd = new SqlCommand(updateQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@LastLogin", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
-        }
 
-        private void SetUserInfoCookie(string userId)
-        {// Sets a cookie containing the user ID.
-            HttpCookie userInfoCookie = new HttpCookie("userInfo");
-            userInfoCookie["userId"] = userId.ToString();
-            userInfoCookie.Expires = DateTime.Now.AddDays(1);
-            Response.Cookies.Add(userInfoCookie);
+        private void SetUserSession(string userId)
+        {// Set a session variable containing the user ID.
+            Session["userId"] = userId.ToString();
         }
 
         private string EncryptPassword(string password)
@@ -132,6 +159,11 @@ namespace webAssignment.Client.LoginSignUp
                 }
                 return builder.ToString();
             }
+        }
+
+        protected void btnAdmin_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
         }
     }
 }

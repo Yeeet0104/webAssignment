@@ -6,6 +6,7 @@
 <head runat="server">
     <title></title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="<%= ResolveClientUrl("~/Admin/Layout/adminPage.js") %>" type="text/javascript"></script>
     <link href="https://cdn.jsdelivr.net/gh/eliyantosarage/font-awesome-pro@main/fontawesome-pro-6.5.1-web/css/all.min.css" rel="stylesheet">
@@ -125,8 +126,8 @@
 
                     <asp:Label ID="lblFeedbackUsername" runat="server" Text="Username" class="text-gray-400"></asp:Label>
                     <asp:TextBox ID="txtFeedbackUsername" runat="server" class="my-2 text-white border border-gray-300 rounded-md py-2 px-4 bg-transparent max-w-sm" placeholder="Dengwait"></asp:TextBox>
-
-                    <asp:Button ID="btnSendRequest" runat="server" Text="Send Request" class="mt-2 text-white bg-blue-500 rounded-lg w-36 p-2 font-bold" />
+                    <asp:Label ID="lblMsg" runat="server" Text="" class="text-white text-sm my-1"></asp:Label>
+                    <asp:Button ID="btnSendRequest" runat="server" Text="Send Request" class="mt-2 text-white bg-blue-500 rounded-lg w-36 p-2 font-bold hover:cursor-pointer" OnClick="btnSendRequest_Click" />
 
                     <br />
                     <br />
