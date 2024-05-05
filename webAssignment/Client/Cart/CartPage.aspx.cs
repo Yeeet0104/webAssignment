@@ -23,8 +23,8 @@ namespace webAssignment.Client.Cart
             if (!IsPostBack)
             {
                 // if user havent login
-                if(Session["UserId"] == null)
-                    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
+                //if(Session["UserId"] == null)
+                //    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
 
                 //To be deleted
                 Session["UserId"] = "CS1001";
@@ -203,24 +203,6 @@ namespace webAssignment.Client.Cart
             return 0.0m;
         }
 
-        private void decreaseVoucherQuantity(String voucher)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                string updateQuery = "UPDATE Voucher SET quantity = quantity - 1 WHERE voucher_id = @id;";
-
-                using (SqlCommand command = new SqlCommand(updateQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@id", voucher);
-                    command.ExecuteNonQuery();
-                }
-            }
-
-        }
 
         protected void btnApplyCoupon_Click(object sender, EventArgs e)
         {
@@ -234,165 +216,285 @@ namespace webAssignment.Client.Cart
 
         protected void cartListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-            // Check if the user click the reduce btn or the increase btn
-            if (e.CommandName == "reduceQty")
+            string commandName = e.CommandName;
+            string productVariantID = e.CommandArgument.ToString();
+            string userID = GetCurrentUserId();
+
+            // Connect database
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            switch (commandName)
             {
-                // Get the variant ID
-                String productVariantID = e.CommandArgument.ToString();
-                String userID = GetCurrentUserId();
-
-                // Connect database
-                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-                string reduceQtyQuery =
-                    "SELECT cd.quantity, pv.stock FROM Product_Variant pv INNER JOIN Cart_Details cd ON cd.product_variant_id = pv.product_variant_id INNER JOIN Cart c ON c.cart_id = cd.cart_id WHERE pv.product_variant_id = @pvID AND c.user_id = @userId;";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    try
-                    {
-                        connection.Open();
-
-                        using (SqlCommand command = new SqlCommand(reduceQtyQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@pvID", productVariantID);
-                            command.Parameters.AddWithValue("@userId", userID);
-
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
-                                if (reader.HasRows)
-                                {
-                                    reader.Read();
-                                    // Get the stock and check if the cart qty > than the stock
-                                    if (Convert.ToInt32(reader[0]) > 1)
-                                    {
-                                        updateCartQuantity(userID, productVariantID, Convert.ToInt32(reader[0]) - 1);
-                                        getData();
-                                        updateCartTotal();
-                                    }
-
-
-                                }
-                            }
-                        }
-
-                    }
-                    catch (SqlException ex)
-                    {
-                        // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
-                        LogError(ex.Message);
-                        Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
-                    }
-                }
-
+                case "reduceQty":
+                    UpdateQuantity(productVariantID, userID, -1, connectionString);
+                    break;
+                case "increaseQty":
+                    UpdateQuantity(productVariantID, userID, 1, connectionString);
+                    break;
+                case "deleteItem":
+                    DeleteItem(productVariantID, userID, connectionString);
+                    break;
+                default:
+                    // Handle other command names if needed
+                    break;
             }
-            else if (e.CommandName == "increaseQty")
+        }
+
+        private void UpdateQuantity(string productVariantID, string userID, int change, string connectionString)
+        {
+            // Query to update quantity
+            string updateQuery = @"
+                    UPDATE Cart_Details 
+                    SET quantity = quantity + @change
+                    WHERE product_variant_id = @pvID 
+                    AND cart_id IN (SELECT cart_id FROM Cart WHERE user_id = @userID)
+                    AND quantity + @change > 0
+                    AND quantity + @change <= (SELECT stock FROM Product_Variant WHERE product_variant_id = @pvID);";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Get the variant ID
-                String productVariantID = e.CommandArgument.ToString();
-                String userID = GetCurrentUserId();
-
-                // Connect database
-                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-                string increaseQtyQuery =
-                    "SELECT cd.quantity, pv.stock FROM Product_Variant pv INNER JOIN Cart_Details cd ON cd.product_variant_id = pv.product_variant_id INNER JOIN Cart c ON c.cart_id = cd.cart_id WHERE pv.product_variant_id = @pvID AND c.user_id = @userId;";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                try
                 {
-                    try
-                    {
-                        connection.Open();
+                    connection.Open();
 
-                        using (SqlCommand command = new SqlCommand(increaseQtyQuery, connection))
+                    using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@change", change);
+                        command.Parameters.AddWithValue("@pvID", productVariantID);
+                        command.Parameters.AddWithValue("@userID", userID);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
                         {
-                            command.Parameters.AddWithValue("@pvID", productVariantID);
-                            command.Parameters.AddWithValue("@userId", userID);
-
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
-                                if (reader.HasRows)
-                                {
-                                    reader.Read();
-                                    // Get the stock and check if the cart qty > than the stock
-                                    if (Convert.ToInt32(reader[0]) < Convert.ToInt32(reader[1]))
-                                    {
-                                        updateCartQuantity(userID, productVariantID, Convert.ToInt32(reader[0]) + 1);
-                                        getData();
-                                        updateCartTotal();
-                                    }
-
-
-                                }
-                            }
-                        }
-
-                    }
-                    catch (SqlException ex)
-                    {
-                        LogError(ex.Message);
-                        Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
-                    }
-                }
-            }
-            else if (e.CommandName == "deleteItem")
-            {
-                // Get the variant ID
-                String productVariantID = e.CommandArgument.ToString();
-                String userID = GetCurrentUserId();
-
-                // Connect database
-                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
-                string deleteItemQuery =
-                    "DELETE FROM Cart_Details  WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM cart WHERE user_id = @userId);";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    try
-                    {
-                        connection.Open();
-
-                        using (SqlCommand command = new SqlCommand(deleteItemQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@pvID", productVariantID);
-                            command.Parameters.AddWithValue("@userId", userID);
-
-                            command.ExecuteNonQuery();
-
                             getData();
                             updateCartTotal();
                         }
-
+                        else
+                        {
+                            if (change < 0)
+                            {
+                                ShowNotification("Quantity cannot be reduced further.", "warning");
+                            }
+                            else
+                            {
+                                ShowNotification("Quantity exceeds available stock.", "warning");
+                            }
+                        }
                     }
-                    catch (SqlException ex)
-                    {
-                        LogError(ex.Message);
-                        Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
-                    }
+                }
+                catch (SqlException ex)
+                {
+                    ShowNotification(ex.Message, "warning");
                 }
             }
         }
 
-        private void updateCartQuantity(String userID, String pvID, int newQty)
+        private void DeleteItem(string productVariantID, string userID, string connectionString)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            string deleteQuery = @"
+        DELETE FROM Cart_Details  
+        WHERE product_variant_id = @pvID 
+        AND cart_id IN (SELECT cart_id FROM cart WHERE user_id = @userID);";
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Open();
-
-                string updateQuery = "UPDATE Cart_Details SET quantity = @newQty WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM Cart WHERE user_id = @userID);";
-
-                using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                try
                 {
+                    connection.Open();
 
-                    command.Parameters.AddWithValue("@newQty", newQty);
-                    command.Parameters.AddWithValue("@pvID", pvID);
-                    command.Parameters.AddWithValue("userID", userID);
+                    using (SqlCommand command = new SqlCommand(deleteQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@pvID", productVariantID);
+                        command.Parameters.AddWithValue("@userID", userID);
 
-                    command.ExecuteNonQuery();
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            getData();
+                            updateCartTotal();
+                        }
+                        else
+                        {
+                            ShowNotification("Failed to delete item.", "warning");
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ShowNotification(ex.Message, "warning");
                 }
             }
         }
+
+        //protected void cartListView_ItemCommand(object sender, ListViewCommandEventArgs e)
+        //{
+        //    // Check if the user click the reduce btn or the increase btn
+        //    if (e.CommandName == "reduceQty")
+        //    {
+        //        // Get the variant ID
+        //        String productVariantID = e.CommandArgument.ToString();
+        //        String userID = GetCurrentUserId();
+
+        //        // Connect database
+        //        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+        //        string reduceQtyQuery =
+        //            @"SELECT cd.quantity, pv.stock FROM Product_Variant pv INNER JOIN Cart_Details cd ON cd.product_variant_id = pv.product_variant_id INNER JOIN Cart c ON c.cart_id = cd.cart_id WHERE pv.product_variant_id = @pvID AND c.user_id = @userId;";
+
+        //        using (SqlConnection connection = new SqlConnection(connectionString))
+        //        {
+        //            try
+        //            {
+        //                connection.Open();
+
+        //                using (SqlCommand command = new SqlCommand(reduceQtyQuery, connection))
+        //                {
+        //                    command.Parameters.AddWithValue("@pvID", productVariantID);
+        //                    command.Parameters.AddWithValue("@userId", userID);
+
+        //                    using (SqlDataReader reader = command.ExecuteReader())
+        //                    {
+        //                        if (reader.HasRows)
+        //                        {
+        //                            reader.Read();
+        //                            // Get the stock and check if the cart qty > than the stock
+        //                            if (Convert.ToInt32(reader[0]) > 1)
+        //                            {
+        //                                updateCartQuantity(userID, productVariantID, Convert.ToInt32(reader[0]) - 1);
+        //                                getData();
+        //                                updateCartTotal();
+        //                            }
+
+
+        //                        }
+        //                    }
+        //                }
+
+        //            }
+        //            catch (SqlException ex)
+        //            {
+        //                // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+        //                LogError(ex.Message);
+        //                ShowNotification(ex.Message, "warning");
+        //            }
+        //        }
+
+        //    }
+        //    else if (e.CommandName == "increaseQty")
+        //    {
+        //        // Get the variant ID
+        //        String productVariantID = e.CommandArgument.ToString();
+        //        String userID = GetCurrentUserId();
+
+        //        // Connect database
+        //        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+        //        string increaseQtyQuery =
+        //            "SELECT cd.quantity, pv.stock FROM Product_Variant pv INNER JOIN Cart_Details cd ON cd.product_variant_id = pv.product_variant_id INNER JOIN Cart c ON c.cart_id = cd.cart_id WHERE pv.product_variant_id = @pvID AND c.user_id = @userId;";
+
+        //        using (SqlConnection connection = new SqlConnection(connectionString))
+        //        {
+        //            try
+        //            {
+        //                connection.Open();
+
+        //                using (SqlCommand command = new SqlCommand(increaseQtyQuery, connection))
+        //                {
+        //                    command.Parameters.AddWithValue("@pvID", productVariantID);
+        //                    command.Parameters.AddWithValue("@userId", userID);
+
+        //                    using (SqlDataReader reader = command.ExecuteReader())
+        //                    {
+        //                        if (reader.HasRows)
+        //                        {
+        //                            reader.Read();
+        //                            // Get the stock and check if the cart qty > than the stock
+        //                            if (Convert.ToInt32(reader[0]) < Convert.ToInt32(reader[1]))
+        //                            {
+        //                                updateCartQuantity(userID, productVariantID, Convert.ToInt32(reader[0]) + 1);
+        //                                getData();
+        //                                updateCartTotal();
+        //                            }
+
+
+        //                        }
+        //                    }
+        //                }
+
+        //            }
+        //            catch (SqlException ex)
+        //            {
+        //                LogError(ex.Message);
+        //                ShowNotification(ex.Message, "warning");
+        //            }
+        //        }
+        //    }
+        //    else if (e.CommandName == "deleteItem")
+        //    {
+        //        // Get the variant ID
+        //        String productVariantID = e.CommandArgument.ToString();
+        //        String userID = GetCurrentUserId();
+
+        //        // Connect database
+        //        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+        //        string deleteItemQuery =
+        //            "DELETE FROM Cart_Details  WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM cart WHERE user_id = @userId);";
+
+        //        using (SqlConnection connection = new SqlConnection(connectionString))
+        //        {
+        //            try
+        //            {
+        //                connection.Open();
+
+        //                using (SqlCommand command = new SqlCommand(deleteItemQuery, connection))
+        //                {
+        //                    command.Parameters.AddWithValue("@pvID", productVariantID);
+        //                    command.Parameters.AddWithValue("@userId", userID);
+
+        //                    command.ExecuteNonQuery();
+
+        //                    getData();
+        //                    updateCartTotal();
+        //                }
+
+        //            }
+        //            catch (SqlException ex)
+        //            {
+        //                LogError(ex.Message);
+        //                Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void updateCartQuantity(String userID, String pvID, int newQty)
+        //{
+        //    string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        string updateQuery = "UPDATE Cart_Details SET quantity = @newQty WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM Cart WHERE user_id = @userID);";
+
+        //        using (SqlCommand command = new SqlCommand(updateQuery, connection))
+        //        {
+
+        //            command.Parameters.AddWithValue("@newQty", newQty);
+        //            command.Parameters.AddWithValue("@pvID", pvID);
+        //            command.Parameters.AddWithValue("userID", userID);
+
+        //            command.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
+        protected void ShowNotification(string message, string type)
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
+
     }
 }
