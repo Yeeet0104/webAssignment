@@ -293,11 +293,11 @@ namespace webAssignment.Admin.Category
                         if ( ex.Number == 547 ) // Check if the exception is a foreign key violation ( stack overflow )
                         {
                             // Display a user-friendly error message
-                            ShowNotification("This category cannot be deleted because it is referenced by one or more products.","warning");
+                            ShowNotification("This category cannot be deleted because it is referenced by one or more products.", "warning");
                         }
                         else
                         {
-                            ShowNotification( "SQL Error: " + ex.Message , "warning");
+                            ShowNotification("SQL Error: " + ex.Message, "warning");
                         }
                     }
                     catch ( Exception ex )
@@ -425,7 +425,7 @@ namespace webAssignment.Admin.Category
                 worksheet.Cell(currentRow, 3).Value = "Stock";
                 worksheet.Cell(currentRow, 4).Value = "Date Added";
 
-                List<Category> categories = getCategoryData(0, GetTotalCategoriesCount()+1);
+                List<Category> categories = getCategoryData(0, GetTotalCategoriesCount() + 1);
                 // Assuming 'categoryListView' is data-bound to a collection of categories
                 foreach ( Category item in categories )
                 {
@@ -535,6 +535,49 @@ namespace webAssignment.Admin.Category
             ViewState["onePageStartDate"] = "";
             ViewState["onePageEndDate"] = "";
             BindListView(0, pageSize);
+        }
+        protected void btnExportToExcel_Click( object sender, EventArgs e )
+        {
+            var categories = getAllCategories(); // Fetch all categories for export
+
+            using ( var workbook = new XLWorkbook() )
+            {
+                var worksheet = workbook.Worksheets.Add("Categories");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Category ID";
+                worksheet.Cell(currentRow, 2).Value = "Category Name";
+                worksheet.Cell(currentRow, 3).Value = "Thumbnail Image Path";
+                worksheet.Cell(currentRow, 4).Value = "Date Added";
+                worksheet.Cell(currentRow, 5).Value = "Number Of Products";
+                worksheet.Cell(currentRow, 6).Value = "Total Sold";
+                worksheet.Cell(currentRow, 7).Value = "Stock";
+
+                foreach ( var category in categories )
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = category.CategoryID;
+                    worksheet.Cell(currentRow, 2).Value = category.CategoryName;
+                    worksheet.Cell(currentRow, 3).Value = category.CategoryBanner;
+                    worksheet.Cell(currentRow, 4).Value = category.date_added.ToString("dd/MM/yyyy");
+                    worksheet.Cell(currentRow, 5).Value = category.NumberOfProd;
+                    worksheet.Cell(currentRow, 6).Value = category.Sold;
+                    worksheet.Cell(currentRow, 7).Value = category.Stock;
+                }
+
+                worksheet.Columns().AdjustToContents(); // Adjust column width to content
+
+                using ( var stream = new MemoryStream() )
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    Response.Clear();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename=Categories.xlsx");
+                    stream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
         }
     }
 

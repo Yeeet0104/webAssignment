@@ -22,13 +22,12 @@
         <div class="flex">
             <div class="relative rounded-lg text-blue-500 cursor-pointer mr-2 cursor-pointer hover:text-gray-200 hover:bg-blue-500 pl-11 pr-5 py-2.5 text-sm bg-gray-200">
                 <i class="fa-solid fa-download absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" OnClick="btnExport_Click" class="cursor-pointer" />
+                <asp:Button ID="btnExport" runat="server" Text="Export" OnClick="btnExportToExcel_Click" class="cursor-pointer" />
             </div>
             <div class="text-sm relative ml-2 bg-blue-500 hover:text-blue-500 hover:bg-gray-300 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
                 <i class="text-lg fa-solid fa-plus left-4 top-5"></i>
                 <asp:HyperLink ID="createNewCategory" runat="server" NavigateUrl="~/Admin/Category/CreateCategory.aspx">Create Category</asp:HyperLink>
             </div>
-
         </div>
     </div>
     <!--End-->

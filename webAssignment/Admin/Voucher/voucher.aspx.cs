@@ -566,5 +566,53 @@ namespace webAssignment.Admin.Voucher
             ViewState["onePageEndDate"] = "";
             BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
         }
+
+        protected void btnExportToExcel_Click( object sender, EventArgs e )
+        {
+            var vouchers = GetAllVoucher();  
+
+            using ( var workbook = new XLWorkbook() )
+            {
+                var worksheet = workbook.Worksheets.Add("Vouchers");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Voucher ID";
+                worksheet.Cell(currentRow, 2).Value = "Quantity";
+                worksheet.Cell(currentRow, 3).Value = "Discount Rate (%)";
+                worksheet.Cell(currentRow, 4).Value = "Cap At (RM)";
+                worksheet.Cell(currentRow, 5).Value = "Min Spend (RM)";
+                worksheet.Cell(currentRow, 6).Value = "Added Date";
+                worksheet.Cell(currentRow, 7).Value = "Started Date";
+                worksheet.Cell(currentRow, 8).Value = "Expiry Date";
+                worksheet.Cell(currentRow, 9).Value = "Status";
+
+                foreach ( var voucher in vouchers )
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = voucher.voucher_id;
+                    worksheet.Cell(currentRow, 2).Value = voucher.quantity;
+                    worksheet.Cell(currentRow, 3).Value = voucher.discount_rate;
+                    worksheet.Cell(currentRow, 4).Value = voucher.cap_at;
+                    worksheet.Cell(currentRow, 5).Value = voucher.min_spend;
+                    worksheet.Cell(currentRow, 6).Value = voucher.added_date.ToString("dd/MM/yyyy");
+                    worksheet.Cell(currentRow, 7).Value = voucher.started_date.ToString("dd/MM/yyyy");
+                    worksheet.Cell(currentRow, 8).Value = voucher.expiry_date.ToString("dd/MM/yyyy");
+                    worksheet.Cell(currentRow, 9).Value = voucher.voucher_status;
+                }
+
+                worksheet.Columns().AdjustToContents(); // Adjust column width to content
+
+                using ( var stream = new MemoryStream() )
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    Response.Clear();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename=Vouchers.xlsx");
+                    stream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+        }
     }
 }

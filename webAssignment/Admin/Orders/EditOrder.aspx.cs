@@ -100,34 +100,6 @@ namespace webAssignment.Admin.Orders
             }
             return user;
         }
-        //public Address GetAddressDetails( string orderId )
-        //{
-        //    Address address = new Address();
-        //    string sql = $@"SELECT a.*
-        //            FROM [dbo].[Address] a
-        //            JOIN [dbo].[Order] o ON a.address_id = o.address_id
-        //            WHERE o.order_id = @orderId";
-        //    using ( SqlConnection conn = new SqlConnection(connectionString) )
-        //    {
-        //        conn.Open();
-        //        using ( SqlCommand cmd = new SqlCommand(sql, conn) )
-        //        {
-        //            using ( SqlDataReader reader = cmd.ExecuteReader() )
-        //            {
-
-        //                address = ( new userInfo
-        //                {
-        //                    username = reader.GetString(0),
-        //                    email = reader.GetString(1),
-        //                    phone_number = reader.GetString(2)
-        //                } );
-
-        //            }
-        //        }
-        //    }
-
-        //    return address;
-        //}
         public List<ordersDetail> GetOrderItems( string orderId )
         {
 

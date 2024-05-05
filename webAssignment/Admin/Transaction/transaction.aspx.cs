@@ -4,11 +4,13 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Newtonsoft.Json;
@@ -399,6 +401,52 @@ namespace webAssignment.Admin.Transaction
                 ( t.date_paid.ToString("dd/MM/yyyy").Contains(searchTerm) ) ||
                 t.product_details.ToLower().Contains(searchTerm) 
             ).ToList();
+        }
+
+
+        protected void btnExportToExcel_Click( object sender, EventArgs e )
+        {
+            // Fetching all transaction data
+            var transactions = getAlltransactionData(); // This should fetch all data required for export
+
+            using ( var workbook = new XLWorkbook() )
+            {
+                var worksheet = workbook.Worksheets.Add("Transactions");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Order ID";
+                worksheet.Cell(currentRow, 2).Value = "User ID";
+                worksheet.Cell(currentRow, 3).Value = "Username";
+                worksheet.Cell(currentRow, 4).Value = "Total Price";
+                worksheet.Cell(currentRow, 5).Value = "Payment Details";
+                worksheet.Cell(currentRow, 6).Value = "Date Paid";
+                worksheet.Cell(currentRow, 7).Value = "Product Details";
+
+                foreach ( var transaction in transactions )
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = transaction.order_id;
+                    worksheet.Cell(currentRow, 2).Value = transaction.user_id;
+                    worksheet.Cell(currentRow, 3).Value = transaction.username;
+                    worksheet.Cell(currentRow, 4).Value = transaction.total_price;
+                    worksheet.Cell(currentRow, 5).Value = transaction.payment_details;
+                    worksheet.Cell(currentRow, 6).Value = transaction.date_paid;
+                    worksheet.Cell(currentRow, 7).Value = transaction.product_details;
+                }
+
+                worksheet.Columns().AdjustToContents(); // Adjust column width to content
+
+                using ( var stream = new MemoryStream() )
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    Response.Clear();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename=Transactions.xlsx");
+                    stream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
         }
     }
 }

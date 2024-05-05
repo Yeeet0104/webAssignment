@@ -25,7 +25,7 @@ namespace webAssignment
         protected void Page_Load(object sender, EventArgs e)
         {
             assignActiveClass();
-            loadProfile();
+            //loadProfile();
             var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx" };
 
             string currentPage = Path.GetFileName(Request.FilePath);
@@ -201,7 +201,6 @@ namespace webAssignment
         {
             string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
 
-            // Using ScriptManager to register the startup script
             ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowSnackbar", script, true);
         }
 
