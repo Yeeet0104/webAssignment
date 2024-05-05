@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
@@ -118,10 +119,6 @@ namespace webAssignment
             {
                 currentContent.FilterListView(searchTerm);
             }
-            else
-            {
-                // Handle the case where the content page does not implement IFilterable
-            }
         }
 
         protected void SearchTextBox_TextChanged(object sender, EventArgs e)
@@ -135,13 +132,26 @@ namespace webAssignment
             }
             else
             {
-                // Handle the case where the content page does not implement IFilterable
+                ShowNotification("Search Error", "warning");
             }
         }
 
         protected void filterDatePopUp_Click( object sender, EventArgs e )
         {
             pnlDateFilter.Style.Add("display", "flex");
+        }        
+        protected void allTimeDate_Click( object sender, EventArgs e )
+        {
+            lblDate.Text = "All Time";
+
+            DateTime startDate = new DateTime(1800, 1, 1);  
+            DateTime endDate = new DateTime(2100, 12, 31);  
+
+            // Store in session
+            Session["StartDate"] = startDate;
+            Session["EndDate"] = endDate;
+            pnlDateFilter.Style.Add("display", "none");
+            Response.Redirect(Request.RawUrl);
         }
         protected void cancelDate_click( object sender, EventArgs e )
         {
@@ -160,7 +170,6 @@ namespace webAssignment
                 return;
             }
 
-            // Check if the end date is a valid date
             if ( !DateTime.TryParse(txtEndDate.Text, out endDate) )
             {
                 ShowNotification("Missing Inputs", "warning");
@@ -168,9 +177,9 @@ namespace webAssignment
                 return;
             }
 
-            // Optional: Check if the start date is before the end date
             if ( startDate > endDate )
             {
+                ShowNotification("Start Date cannot more than end date", "warning");
                 return;
             }
             if ( startDate != null && endDate != null )
@@ -180,6 +189,7 @@ namespace webAssignment
 
                 lblDate.Text = startDate.ToString("dd/MM/yyyy") + " - " + endDate.ToString("dd/MM/yyyy");
                 Response.Redirect(Request.RawUrl);
+                pnlDateFilter.Style.Add("display", "none");
             }
             else
             {
