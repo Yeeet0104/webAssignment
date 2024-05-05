@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ using webAssignment.Admin.Product_Management;
 
 namespace webAssignment.Admin.Orders
 {
-    public partial class Order : System.Web.UI.Page
+    public partial class Order : System.Web.UI.Page , IFilterable
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private int pageSize = 5;
@@ -85,8 +86,33 @@ namespace webAssignment.Admin.Orders
         public List<orders> getOrders( int pageIndex, int pageSize, string status )
         {
             List<orders> orders = new List<orders>();
-            string sortExpression = ViewState["SortExpression"] as string ?? "o.order_id";
-            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+            string sortExpression = ViewState["SortExpression"] as string ?? "o.date_ordered";
+            string sortDirection = ViewState["SortDirection"] as string ?? "DESC";
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+            List<string> conditions = new List<string>();
+            // Check Session and assign dates if available
+            if ( Session["StartDate"] != null && Session["EndDate"] != null )
+            {
+                sortStartDate = (DateTime)Session["StartDate"];
+                sortEndDate = (DateTime)Session["EndDate"];
+            }
+            else
+            {
+                sortStartDate = DateTime.Today;
+                sortEndDate = DateTime.Today;
+            }
+            if ( !string.IsNullOrEmpty(status) )
+            {
+                conditions.Add("o.status = @status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("o.date_ordered >= @startDate AND o.date_ordered <= @endDate");
+            }
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
 
             string sql = $@"SELECT 
                             o.order_id, 
@@ -106,7 +132,7 @@ namespace webAssignment.Admin.Orders
                             INNER JOIN Image_Path i ON p.product_id = i.product_id
                             INNER JOIN [dbo].[User] u ON o.user_id = u.user_id
                             LEFT JOIN Payment pm ON o.order_id = pm.order_id
-                        {( string.IsNullOrEmpty(status) ? "" : "WHERE o.status = @status" )}
+                        {whereClause}
                         GROUP BY o.order_id, o.date_ordered, o.total_price, o.status, o.user_id , date_paid
                         ORDER BY {sortExpression} {sortDirection}
                         OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
@@ -119,6 +145,11 @@ namespace webAssignment.Admin.Orders
                 {
                     cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     if ( !string.IsNullOrEmpty(status) )
                     {
                         cmd.Parameters.AddWithValue("@status", status);
@@ -187,63 +218,6 @@ namespace webAssignment.Admin.Orders
             }
         }
 
-        public List<orders> getAllOrders( )
-        {
-            List<orders> orders = new List<orders>();
-            string sortExpression = ViewState["SortExpression"] as string ?? "o.order_id";
-            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
-
-            string sql = $@"SELECT 
-                            o.order_id, 
-                            MIN(i.path) AS ProductImageUrl, 
-                            MIN(p.product_name) AS ProductName, 
-                            COUNT(DISTINCT od.product_variant_id)-1  AS AdditionalProductsCount,
-                            o.date_ordered AS OrderDate,
-                            MIN(u.first_name + ' ' + u.last_name) AS CustomerName,
-                            o.total_price AS Total,
-                            MAX(pm.date_paid) AS PaymentDate,
-                            o.status AS Status
-                        FROM 
-                            [dbo].[Order] o
-                            INNER JOIN Order_details od ON o.order_id = od.order_id
-                            INNER JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
-                            INNER JOIN Product p ON pv.product_id = p.product_id
-                            INNER JOIN Image_Path i ON p.product_id = i.product_id
-                            INNER JOIN [dbo].[User] u ON o.user_id = u.user_id
-                            LEFT JOIN Payment pm ON o.order_id = pm.order_id
-                        GROUP BY o.order_id, o.date_ordered, o.total_price, o.status, o.user_id";
-
-            using ( SqlConnection conn = new SqlConnection(connectionString) )
-            {
-
-                conn.Open();
-                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
-                {
-
-                    using ( SqlDataReader reader = cmd.ExecuteReader() )
-                    {
-                        while ( reader.Read() )
-                        {
-                            orders.Add(new orders
-                            {
-                                OrderId = reader["order_id"].ToString(),
-                                ProductImageUrl = reader["ProductImageUrl"].ToString(),
-                                ProductName = reader["ProductName"].ToString(),
-                                AdditionalProductsCount = Convert.ToInt32(reader["AdditionalProductsCount"]),
-                                OrderDate = Convert.ToDateTime(reader["OrderDate"]),
-                                CustomerName = reader["CustomerName"].ToString(),
-                                Total = Convert.ToDecimal(reader["Total"]),
-                                PaymentDate = Convert.ToDateTime(reader["PaymentDate"]),
-                                Status = reader["Status"].ToString()
-                            });
-                        }
-                    }
-                }
-            }
-            return orders;
-        }
-
-
         //sorting by clicking the table label functions
         protected void ordersListView_Sorting( object sender, ListViewSortEventArgs e )
         {
@@ -278,16 +252,44 @@ namespace webAssignment.Admin.Orders
         public int getAllOrdersCount( string status )
         {
             List<orders> orders = new List<orders>();
-            string sortExpression = ViewState["SortExpression"] as string ?? "o.order_id";
-            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+            string sortExpression = ViewState["SortExpression"] as string ?? "o.date_ordered";
+            string sortDirection = ViewState["SortDirection"] as string ?? "DESC";
+
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+            List<string> conditions = new List<string>();
+            // Check Session and assign dates if available
+            if ( Session["StartDate"] != null && Session["EndDate"] != null )
+            {
+                sortStartDate = (DateTime)Session["StartDate"];
+                sortEndDate = (DateTime)Session["EndDate"];
+            }
+            else
+            {
+                sortStartDate = DateTime.Today;
+                sortEndDate = DateTime.Today;
+            }
+            if ( !string.IsNullOrEmpty(status) )
+            {
+                conditions.Add("o.status = @status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("o.date_ordered >= @startDate AND o.date_ordered <= @endDate");
+            }
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
+
             var total = 0;
             string sql = $@"SELECT COUNT(DISTINCT o.order_id) AS TotalCount
                          FROM 
                             [dbo].[Order] o
                             INNER JOIN Order_details od ON o.order_id = od.order_id
                             INNER JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
-                            {( string.IsNullOrEmpty(status) ? "" : "WHERE o.status = @status" )}
-";
+                            {whereClause}";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -295,6 +297,11 @@ namespace webAssignment.Admin.Orders
                 conn.Open();
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     if ( !string.IsNullOrEmpty(status) )
                     {
                         cmd.Parameters.AddWithValue("@status", status);
@@ -442,5 +449,29 @@ namespace webAssignment.Admin.Orders
         }
 
 
+        //Search bar filter functions
+        public void FilterListView( string searchTerm )
+        {
+            List<orders> orderData = getOrders(0, pageSize, ViewState["FilterStatus"].ToString());
+            List<orders> filteredData = FilterCategoryList(orderData, searchTerm);
+            ordersListView.DataSource = filteredData;
+            ordersListView.DataBind();
+        }
+
+        // Lists and LINQ
+        private List<orders> FilterCategoryList( List<orders> orders, string searchTerm )
+        {
+            searchTerm = searchTerm?.ToLower() ?? string.Empty; // Handle null search term and convert to lowercase
+
+            return orders.Where(o =>
+                o.OrderId.ToLower().Contains(searchTerm) ||
+                o.ProductName.ToLower().Contains(searchTerm) ||
+                o.CustomerName.ToLower().Contains(searchTerm) ||
+                o.Total.ToString().Contains(searchTerm) ||
+                o.Status.ToString().Contains(searchTerm) ||
+                ( o.OrderDate.ToString("dd/MM/yyyy").Contains(searchTerm) ) ||
+                ( o.PaymentDate.ToString("dd/MM/yyyy").Contains(searchTerm) )
+            ).ToList();
+        }
     }
 }

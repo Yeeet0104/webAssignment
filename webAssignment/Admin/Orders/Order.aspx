@@ -40,7 +40,7 @@
         <div class="grid grid-cols-6 bg-white gap-3 text-center  p-2 rounded-md drop-shadow-md">
 
             <div class="col-span-1">
-                <asp:Button ID="allStatusFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 text-blue-600 bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="All Product" OnClick="allStatusFilter_click" style="height: 26px" />
+                <asp:Button ID="allStatusFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 text-blue-600 bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="All Product" OnClick="allStatusFilter_click" Style="height: 26px" />
             </div>
             <div class="col-span-1">
                 <asp:Button ID="pendingFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Pending" OnClick="pendingFilter_click" />
@@ -58,16 +58,6 @@
                 <asp:Button ID="cancelFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Cancel" OnClick="cancelFilter_click" />
             </div>
         </div>
-        <div class="flex items-center gap-3">
-            <div class="">
-                <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-md drop-shadow-md bg-white flex gap-3 items-center">
-                     <i class="fa-solid fa-calendar-days"></i>
-                    <span>
-                       Select Date
-                    </span>
-                </asp:LinkButton>
-            </div>
-        </div>
     </div>
     <!--End-->
 
@@ -78,6 +68,19 @@
         </p>
 
         <asp:ListView ID="ordersListView" runat="server" OnItemCommand="OrdersListView_ItemCommand" OnSorting="ordersListView_Sorting" OnDataBound="ordersListView_DataBound">
+            <EmptyDataTemplate>
+                <table class="orders-table w-full ">
+                    <tr class="w-full ">
+                        <td>
+                            <div class="flex flex-col justify-center items-center">
+                                <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                <span>No Order yet :(</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </EmptyDataTemplate>
             <LayoutTemplate>
                 <div style="overflow-x: auto">
                     <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">

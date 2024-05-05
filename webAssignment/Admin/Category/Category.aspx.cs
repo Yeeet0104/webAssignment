@@ -30,6 +30,8 @@ namespace webAssignment.Admin.Category
             if ( !IsPostBack )
             {
                 ViewState["PageIndex"] = 0;
+                ViewState["onePageStartDate"] = "";
+                ViewState["onePageEndDate"] = "";
                 BindListView(0, pageSize);
             }
         }
@@ -66,6 +68,23 @@ namespace webAssignment.Admin.Category
             string sortExpression = ViewState["SortExpression"] as string ?? "category_id";
             string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
 
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
+
+            List<string> conditions = new List<string>();
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("c.date_added >= @startDate AND c.date_added <= @endDate");
+            }
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
             string sql = $@"SELECT 
                         c.category_id,
                         c.category_name,
@@ -82,6 +101,8 @@ namespace webAssignment.Admin.Category
                             Product_Variant pv ON p.product_id = pv.product_id
                         LEFT JOIN 
                             Order_details od ON pv.product_variant_id = od.product_variant_id
+                        
+                        {whereClause}
                         GROUP BY 
                             c.category_id, c.category_name, c.tumbnail_img_path, c.date_added
                         ORDER BY {sortExpression} {sortDirection}
@@ -95,7 +116,11 @@ namespace webAssignment.Admin.Category
                     //cmd.Parameters.AddWithValue("@Filter", filter ?? string.Empty);
                     cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
-
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     using ( SqlDataReader reader = cmd.ExecuteReader() )
                     {
                         while ( reader.Read() )
@@ -150,12 +175,38 @@ namespace webAssignment.Admin.Category
         private int GetTotalCategoriesCount( )
         {
             int total = 0;
-            string sql = "SELECT COUNT(*) FROM Category";
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
+
+            List<string> conditions = new List<string>();
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("date_added >= @startDate AND date_added <= @endDate");
+            }
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
+
+            string sql = $@"SELECT COUNT(*) FROM Category {whereClause}";
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 conn.Open();
+
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     total = (int)cmd.ExecuteScalar();
                 }
             }
@@ -295,12 +346,14 @@ namespace webAssignment.Admin.Category
         // Lists and LINQ
         private List<Category> FilterCategoryList( List<Category> categories, string searchTerm )
         {
-            string safeSearchTerm = searchTerm.Replace("'", "''");
-
-            // Using LINQ to filter the list of categories by name
-            var filteredCategories = categories.Where(c => c.CategoryName.Contains(safeSearchTerm)).ToList();
-            Debug.Write("WOIU" + filteredCategories.ToString());
-            return filteredCategories;
+            searchTerm = searchTerm?.ToLower() ?? string.Empty; // Handle null search term and convert to lowercase
+            return categories.Where(c =>
+                c.CategoryID.ToLower().Contains(searchTerm) ||
+                c.CategoryName.ToString().Contains(searchTerm) ||
+                c.Sold.ToString().Contains(searchTerm) ||
+                c.Stock.ToString().Contains(searchTerm) ||
+                ( c.date_added.ToString("dd/MM/yyyy").Contains(searchTerm) )
+            ).ToList();
         }
 
         //sorting by clicking the table label functions
@@ -427,6 +480,61 @@ namespace webAssignment.Admin.Category
         {
             string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
             ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
+
+        protected void filterDateBtn_click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "flex");
+        }
+
+        protected void btnApplyDateFilter_Click( object sender, EventArgs e )
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            if ( !DateTime.TryParse(txtStartDate.Text, out startDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtStartDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            // Check if the end date is a valid date
+            if ( !DateTime.TryParse(txtEndDate.Text, out endDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtEndDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            // Optional: Check if the start date is before the end date
+            if ( startDate > endDate )
+            {
+                return;
+            }
+            if ( startDate != null && endDate != null )
+            {
+                labelDateRange.Text = startDate.ToString("dd/MM/yyyy") + " - " + endDate.ToString("dd/MM/yyyy");
+                ViewState["onePageStartDate"] = startDate;
+                ViewState["onePageEndDate"] = endDate;
+
+                BindListView(0, pageSize);
+            }
+            else
+            {
+                txtEndDate.CssClass += "border-red-800";
+            }
+        }
+        protected void cancelDate_click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "none");
+        }
+        protected void clearDateFilter_Click( object sender, EventArgs e )
+        {
+            labelDateRange.Text = "Select Date";
+            ViewState["onePageStartDate"] = "";
+            ViewState["onePageEndDate"] = "";
+            BindListView(0, pageSize);
         }
     }
 

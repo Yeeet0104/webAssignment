@@ -35,6 +35,8 @@ namespace webAssignment
             {
                 ViewState["PageIndex"] = 0;
                 ViewState["FilterStatus"] = "";
+                ViewState["onePageStartDate"] = "";
+                ViewState["onePageEndDate"] = "";
                 BindListView(0, pageSize, "");
 
             }
@@ -99,34 +101,55 @@ namespace webAssignment
         // all the init for the nessary product datas
         private List<productsList> getProductData( int pageIndex, int pageSize, string status )
         {
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+            // Check Session and assign dates if available
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
             var productsList = new List<productsList>();
             string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
             string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
 
+            List<string> conditions = new List<string>();
+            if ( !string.IsNullOrEmpty(status) )
+            {
+                conditions.Add("p.product_status = @product_status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("p.date_added >= @startDate AND p.date_added <= @endDate");
+            }
+
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
             string sql = $@"SELECT 
-                        c.category_name,
-                        p.product_id, 
-                        p.product_name, 
-                        p.date_added,
-                        p.product_status,
-                        SUM(pv.stock) AS total_stock,
-                        COUNT(pv.product_variant_id) AS total_variants, 
-                        (SELECT TOP 1 ip.path FROM image_path ip WHERE ip.product_id = p.product_id) AS first_image_path
-                    FROM 
-                        category c 
-                    INNER JOIN 
-                        product p ON c.category_id = p.category_id 
-                    LEFT JOIN 
-                        product_variant pv ON p.product_id = pv.product_id
-                    {( string.IsNullOrEmpty(status) ? "" : "WHERE p.product_status = @product_status" )}
-                    GROUP BY 
-                        c.category_name,
-                        p.product_id, 
-                        p.product_name, 
-                        p.date_added,
-                        p.product_status
-                    ORDER BY {sortExpression} {sortDirection}
-                    OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                                c.category_name,
+                                p.product_id, 
+                                p.product_name, 
+                                p.date_added,
+                                p.product_status,
+                                SUM(pv.stock) AS total_stock,
+                                COUNT(pv.product_variant_id) AS total_variants, 
+                                (SELECT TOP 1 ip.path FROM image_path ip WHERE ip.product_id = p.product_id) AS first_image_path
+                            FROM 
+                                category c 
+                            INNER JOIN 
+                                product p ON c.category_id = p.category_id 
+                            LEFT JOIN 
+                                product_variant pv ON p.product_id = pv.product_id
+                            {whereClause}
+                            GROUP BY 
+                                c.category_name,
+                                p.product_id, 
+                                p.product_name, 
+                                p.date_added,
+                                p.product_status
+                            ORDER BY {sortExpression} {sortDirection}
+                            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -135,11 +158,15 @@ namespace webAssignment
                 {
                     cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     if ( !string.IsNullOrEmpty(status) )
                     {
                         cmd.Parameters.AddWithValue("@product_status", status);
                     }
-
                     using ( SqlDataReader reader = cmd.ExecuteReader() )
                     {
                         while ( reader.Read() )
@@ -226,99 +253,124 @@ namespace webAssignment
         }
         private int GetTotalProductsCount( string status = "" )
         {
-            string countSql = @"SELECT COUNT(*)
-                        FROM Product p 
-                        JOIN Category c ON p.category_id = c.category_id ";
-
-            if ( !string.IsNullOrWhiteSpace(status) )
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+            // Check Session and assign dates if available
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
             {
-                countSql += " WHERE p.product_status = @Status";
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
+            var productsList = new List<productsList>();
+            string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
+            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+
+            List<string> conditions = new List<string>();
+            if ( !string.IsNullOrEmpty(status) )
+            {
+                conditions.Add("p.product_status = @product_status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("p.date_added >= @startDate AND p.date_added <= @endDate");
             }
 
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
+            string countSql = $@"SELECT COUNT(*)
+                        FROM Product p 
+                        JOIN Category c ON p.category_id = c.category_id
+                        {whereClause}";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 conn.Open();
                 using ( SqlCommand cmd = new SqlCommand(countSql, conn) )
                 {
-                    if ( !string.IsNullOrWhiteSpace(status) )
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
                     {
-                        cmd.Parameters.AddWithValue("@Status", status);
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
+                    if ( !string.IsNullOrEmpty(status) )
+                    {
+                        cmd.Parameters.AddWithValue("@product_status", status);
                     }
                     return (int)cmd.ExecuteScalar();
                 }
             }
         }
 
-        private List<productsList> getProductDataByDate( int pageIndex, int pageSize, DateTime startDate, DateTime endDate )
-        {
-            var productsList = new List<productsList>();
-            string filter = ViewState["Filter"] as string;
-            string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
-            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
-            string sql = $@"SELECT 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status,
-	                        sum(pv.stock) as total_stock,
-                            count(pv.product_variant_id) as total_variants, -- total count of variants for each product
-                            (select top 1 ip.path from image_path ip where ip.product_id = p.product_id) as first_image_path
-                        from 
-                            category c 
-                        inner join 
-                            product p on c.category_id = p.category_id 
-                        left join 
-                            product_variant pv on p.product_id = pv.product_id
-                        WHERE
-                            p.date_added >= @startDate AND p.date_added <= @endDate
-                        group by 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status
-                        ORDER BY {sortExpression} {sortDirection}
-                        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+        //private List<productsList> getProductDataByDate( int pageIndex, int pageSize, DateTime startDate, DateTime endDate )
+        //{
+        //    var productsList = new List<productsList>();
+        //    string filter = ViewState["Filter"] as string;
+        //    string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
+        //    string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+        //    string sql = $@"SELECT 
+        //                    c.category_name,
+        //                    p.product_id, 
+        //                    p.product_name, 
+        //                    p.date_added,
+        //                    p.product_status,
+	       //                 sum(pv.stock) as total_stock,
+        //                    count(pv.product_variant_id) as total_variants, -- total count of variants for each product
+        //                    (select top 1 ip.path from image_path ip where ip.product_id = p.product_id) as first_image_path
+        //                from 
+        //                    category c 
+        //                inner join 
+        //                    product p on c.category_id = p.category_id 
+        //                left join 
+        //                    product_variant pv on p.product_id = pv.product_id
+        //                WHERE
+        //                    p.date_added >= @startDate AND p.date_added <= @endDate
+        //                group by 
+        //                    c.category_name,
+        //                    p.product_id, 
+        //                    p.product_name, 
+        //                    p.date_added,
+        //                    p.product_status
+        //                ORDER BY {sortExpression} {sortDirection}
+        //                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
 
 
-            using ( SqlConnection conn = new SqlConnection(connectionString) )
-            {
-                conn.Open();
-                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
-                {
-                    cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
-                    cmd.Parameters.AddWithValue("@startDate", startDate);
-                    cmd.Parameters.AddWithValue("@endDate", endDate);
+        //    using ( SqlConnection conn = new SqlConnection(connectionString) )
+        //    {
+        //        conn.Open();
+        //        using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+        //        {
+        //            cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
+        //            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+        //            cmd.Parameters.AddWithValue("@startDate", startDate);
+        //            cmd.Parameters.AddWithValue("@endDate", endDate);
 
 
-                    using ( SqlDataReader reader = cmd.ExecuteReader() )
-                    {
+        //            using ( SqlDataReader reader = cmd.ExecuteReader() )
+        //            {
 
-                        while ( reader.Read() )
-                        {
-                            productsList.Add(new productsList
-                            {
-                                CategoryName = reader.GetString(0),
-                                ProductID = reader.GetString(1),
-                                ProductName = reader.GetString(2),
-                                date_added = reader.GetDateTime(3),
-                                ProductVariantID = "",
-                                VariantPrice = 0,
-                                variantCount = reader.GetInt32(6).ToString(),
-                                total_stock = reader.GetInt32(5),
-                                ProductStatus = reader.GetString(4),
-                                ProductImageUrl = reader.GetString(7)
-                            });
-                        }
-                    }
-                }
-            }
-            return productsList;
-        }
+        //                while ( reader.Read() )
+        //                {
+        //                    productsList.Add(new productsList
+        //                    {
+        //                        CategoryName = reader.GetString(0),
+        //                        ProductID = reader.GetString(1),
+        //                        ProductName = reader.GetString(2),
+        //                        date_added = reader.GetDateTime(3),
+        //                        ProductVariantID = "",
+        //                        VariantPrice = 0,
+        //                        variantCount = reader.GetInt32(6).ToString(),
+        //                        total_stock = reader.GetInt32(5),
+        //                        ProductStatus = reader.GetString(4),
+        //                        ProductImageUrl = reader.GetString(7)
+        //                    });
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return productsList;
+        //}
 
         // for paginations
         protected void prevPage_Click( object sender, EventArgs e )
@@ -427,16 +479,17 @@ namespace webAssignment
 
         private List<productsList> FilterCategoryList( List<productsList> prodlist, string searchTerm )
         {
-            string safeSearchTerm = searchTerm.Replace("'", "''");
+            string safeSearchTerm = searchTerm.Replace("'", "''").ToLower();
 
             // Using LINQ to filter the list of categories by name
             var productsLists = prodlist.Where(p =>
                 p.CategoryName.ToLower().Contains(searchTerm) ||
-                p.ProductName.ToString().Contains(searchTerm) ||
-                p.ProductStatus.ToString().Contains(searchTerm) ||
-                p.variantCount.ToString().Contains(searchTerm) ||
+                p.total_stock.ToString().Contains(searchTerm) ||
+                p.ProductName.ToLower().Contains(searchTerm) ||
+                p.ProductStatus.ToLower().Contains(searchTerm) ||
+                p.variantCount.ToLower().Contains(searchTerm) ||
                 p.VariantPrice.ToString().Contains(searchTerm) ||
-                p.date_added.ToString("dd/MM/yyyy").Contains(searchTerm)).ToList();;
+                p.date_added.ToString("dd/MM/yyyy").Contains(searchTerm)).ToList(); ;
 
             return productsLists;
         }
@@ -568,8 +621,9 @@ namespace webAssignment
             if ( startDate != null && endDate != null )
             {
                 lblDate.Text = startDate.ToString("dd/MM/yyyy") + " - " + endDate.ToString("dd/MM/yyyy");
-
-                BindListViewWithDateFilter(startDate, endDate);
+                ViewState["onePageStartDate"] = startDate;
+                ViewState["onePageEndDate"] = endDate;
+                BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
             }
             else
             {
@@ -580,13 +634,7 @@ namespace webAssignment
         {
             pnlDateFilter.Style.Add("display", "none");
         }
-        private void BindListViewWithDateFilter( DateTime startDate, DateTime endDate )
-        {
-            var filteredProducts = getProductDataByDate(0, pageSize, startDate, endDate);
-            productListView.DataSource = filteredProducts;
-            productListView.DataBind();
-            pnlDateFilter.Style.Add("display", "none");
-        }
+
 
 
         private void deleteProduct( string productID )
@@ -657,7 +705,9 @@ namespace webAssignment
         protected void clearDateFilter_Click( object sender, EventArgs e )
         {
             lblDate.Text = "Select Date";
-            BindListView(0, pageSize, "");
+            ViewState["onePageStartDate"] = "";
+            ViewState["onePageEndDate"] = "";
+            BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
         }
     }
 }

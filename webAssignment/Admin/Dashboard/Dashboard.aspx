@@ -3,8 +3,7 @@
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <script src="/lib/highcharts.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="text-base flex flex-col gap-7 mt-4">
@@ -14,17 +13,6 @@
             <div class="text-2xl font-bold ">
                 <p>Dashboard</p>
             </div>
-
-            <asp:LinkButton ID="filterDatePopUp" runat="server" CssClass="link-button">
-
-                <asp:Label ID="startDate" runat="server" Text="28 jan 2023"></asp:Label>
-                <span>- </span>
-                <asp:Label ID="endDate" runat="server" Text="28 jan 2024"></asp:Label>
-
-
-
-                <i class="fa-regular fa-calendar text-center pl-2"></i>
-            </asp:LinkButton>
         </div>
 
         <!-- some stat -->
@@ -35,10 +23,10 @@
                     <p>Total Sales</p>
                     <div>
 
-                        <asp:Label ID="todaySales" runat="server" Text="RM100000" CssClass="font-bold text-black text-2xl"></asp:Label>
+                        <asp:Label ID="todaySales" runat="server" Text="RM 0" CssClass="font-bold text-black text-2xl"></asp:Label>
                     </div>
                     <div class="text-sm">
-                        <asp:Label ID="itemSolded" runat="server" Text="Item sold on that time frame"></asp:Label>
+                        <asp:Label ID="itemSolded" runat="server" Text="Item sold "></asp:Label>
                     </div>
 
                 </div>
@@ -58,10 +46,10 @@
                     <p>Total Orders</p>
                     <div>
 
-                        <asp:Label ID="Label1" runat="server" Text="600 Orders" CssClass="font-bold text-black text-2xl"></asp:Label>
+                        <asp:Label ID="lblOrders" runat="server" Text="600 Orders" CssClass="font-bold text-black text-2xl"></asp:Label>
                     </div>
                     <div class="text-sm">
-                        <asp:Label ID="Label2" runat="server" Text="Total orders on that time frame"></asp:Label>
+                        <asp:Label ID="subLblOrders" runat="server" Text="Total orders on that time frame"></asp:Label>
                     </div>
 
                 </div>
@@ -80,10 +68,10 @@
                     <p>Total User Visited</p>
                     <div>
 
-                        <asp:Label ID="Label3" runat="server" Text="150 Users" CssClass="font-bold text-black text-2xl"></asp:Label>
+                        <asp:Label ID="lblVisitCount" runat="server" Text="150 Users" CssClass="font-bold text-black text-2xl"></asp:Label>
                     </div>
                     <div class="text-sm">
-                        <asp:Label ID="Label4" runat="server" Text="Total user visited the web on that time frame"></asp:Label>
+                        <asp:Label ID="sublblVisitCount" runat="server" Text="Total user visited the web on that time frame"></asp:Label>
                     </div>
 
                 </div>
@@ -103,10 +91,10 @@
                     <p>Total Wishlist</p>
                     <div>
 
-                        <asp:Label ID="Label5" runat="server" Text="1233 items" CssClass="font-bold text-black text-2xl"></asp:Label>
+                        <asp:Label ID="lblWishlist" runat="server" Text="0 items" CssClass="font-bold text-black text-2xl"></asp:Label>
                     </div>
                     <div class="text-sm">
-                        <asp:Label ID="Label6" runat="server" Text="Total of user wishlist item on that time frame"></asp:Label>
+                        <asp:Label ID="sublblWishlist" runat="server" Text="Total of user wishlist item on that time frame"></asp:Label>
                     </div>
 
                 </div>
@@ -123,25 +111,28 @@
 
 
         <!-- graph and best selling item -->
-        <div class="grid grid-cols-4 gap-7">
+        <div class="grid grid-cols-4 gap-7 ">
             <!-- graph  -->
-            <div class="col-span-2">
-                <div class="p-7 bg-white rounded-lg  drop-shadow">
+            <div class="col-span-2 h-[550px] bg-white rounded-lg  drop-shadow">
+                <div class="p-7">
 
                     <div class="flex flex-row justify-between items-center">
 
-                        <p class=" text-lg">Sales Details</p>
+                        <p class=" text-lg">
+                            Sales Details
+                            <asp:Label ID="lblDateRange" runat="server" Text=""></asp:Label>
+                        </p>
                         <div>
                             <i class="fa-solid fa-circle text-blue-600"></i>
-                            <span>Sales</span>
+                            <span>Sales Details </span>
                         </div>
                     </div>
                     <div>
-                        <asp:Label ID="chartSales" runat="server" Text="RM 12000" CssClass="font-bold text-2xl"></asp:Label>
+                        <asp:Label ID="chartSales" runat="server" Text="RM 0" CssClass="font-bold text-2xl"></asp:Label>
 
                     </div>
                     <div class="w-full flex justify-center pt-10" style="height: 400px; width: 100%">
-                        <canvas id="myChart"></canvas>
+                        <div id="salesChartContainer" style="width: 100%; height: 400px;"></div>
                         <%--<asp:Image ID="Image4" runat="server" ImageUrl="~/Admin/Dashboard/Images/dummyChartV2.jpeg" />--%>
                     </div>
                 </div>
@@ -159,13 +150,26 @@
 
                 </div>
                 <asp:ListView ID="bestSellingItemLv" runat="server">
+                    <EmptyDataTemplate>
+                        <table class="orders-table w-full ">
+                            <tr class="w-full ">
+                                <td>
+                                    <div class="flex flex-col justify-center items-center">
+                                        <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                        <span>No Product Found</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </EmptyDataTemplate>
                     <LayoutTemplate>
                         <table class="w-full text-center py-4">
                             <tr class="w-full grid grid-cols-5 gap-6 py-4 rounded-lg px-3 mb-5 bg-gray-100">
                                 <td class="col-span-2 text-left">Product</td>
                                 <td class="col-span-1">Price</td>
-                                <td class="col-span-1">Sold</td>
-                                <td class="col-span-1 text-right">Profit</td>
+                                <td class="col-span-1">Unit Sold</td>
+                                <td class="col-span-1 text-right">Total Revenue</td>
                             </tr>
                             <tr id="itemPlaceholder" runat="server"></tr>
                         </table>
@@ -174,26 +178,26 @@
                         <tr class="grid grid-cols-5 gap-6 w-full mb-5 px-3 hover:bg-gray-200 rounded">
 
                             <td class="col-span-2 flex items-center text-left">
-                                <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
-                                    ImageUrl='<%# Eval("ProductImageUrl", "{0}") %>' CssClass="rounded border" />
+        <%--                        <asp:Image ID="productImages" runat="server" AlternateText="Product Image" Height="64" Width="64"
+                                    ImageUrl='<%# Eval("ProductImagePath", "{0}") %>' CssClass="rounded border" />--%>
 
                                 <div class="pl-2 flex flex-col">
                                     <span>
 
-                                        <%# Eval("productName") %>
+                                        <%# Eval("product_name") %>
                                     </span>
                                     <span class="text-gray-500">
 
-                                        <%#Eval("productVariant") %>
+                                        <%#Eval("variant_name") %>
                                     </span>
                                 </div>
 
 
 
                             </td>
-                            <td class="col-span-1 flex items-center justify-center"><%# Eval("price", "{0:C}") %></td>
-                            <td class="col-span-1 flex items-center justify-center"><%# Eval("sold", "{0:C}") %></td>
-                            <td class="col-span-1 flex items-center justify-end"><%# Eval("profit", "{0:C}") %></td>
+                            <td class="col-span-1 flex items-center justify-center"><%# Eval("variant_price", "{0:C}") %></td>
+                            <td class="col-span-1 flex items-center justify-center"><%# Eval("TotalUnitsSold", "{0}") %></td>
+                            <td class="col-span-1 flex items-center justify-end"><%# Eval("TotalRevenue", "{0:C}") %></td>
 
                         </tr>
                     </ItemTemplate>
@@ -201,7 +205,7 @@
             </div>
         </div>
         <!--Lastest Order Section -->
-        <div class="bg-white p-8 rounded-lg drop-shadow-lg mb-2">
+       <%-- <div class="bg-white p-8 rounded-lg drop-shadow-lg mb-2">
             <p class="pb-5 text-black font-bold">
                 Latest Orders
             </p>
@@ -353,98 +357,57 @@
             </asp:ListView>
 
 
-        </div>
+        </div>--%>
     </div>
     <style>
-        .link-button {
-            position: relative;
-            padding: 12px 16px;
-            color: #000;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden; /* Ensures the background doesn't spill out of the border-radius */
-            transition: color 0.4s ease-in-out;
-        }
-
-            .link-button::before {
-                content: '';
-                position: absolute;
-                bottom: -100%; /* Start from the bottom */
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: #007bff; /* The color you want on hover */
-                transition: bottom 0.4s ease-in-out;
-                z-index: 0;
-            }
-
-            .link-button:hover::before {
-                bottom: 0; /* Slide in on hover */
-            }
-
-
-            .link-button:hover {
-                color: white !important;
-            }
-
-                /* Remove background-color change for the icon */
-                .link-button:hover i {
-                    color: white !important;
-                }
-
-            /* Fix the z-index for the icon as well */
-            .link-button span, .link-button label, .link-button i {
-                position: relative;
-                z-index: 1;
-            }
     </style>
     <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-                datasets: [{
-                    label: 'Monthly Sales',
-                    data: [100000, 90000, 80000, 85000, 60000, 50000, 75000, 80000, 85000], // replace these values with your actual data
-                    backgroundColor: [
-                        '#6366F1',
-                    ],
-                    borderColor: [
-                        '#6366F1',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Sales Amount (RM)', // Y-axis label
-                            font: {
-                                size: 14 // Customize the font size as needed
+        document.addEventListener('DOMContentLoaded', function () {
+            updateChart();
 
-                            }
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Month', // X-axis label
-                            font: {
-                                size: 14 // Customize the font size as needed
-                            },
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-            }
+            document.getElementById('btnApplyDateFilter').addEventListener('click', function () {
+                var startDate = document.getElementById('txtStartDate').value;
+                var endDate = document.getElementById('txtEndDate').value;
+                updateChart(startDate, endDate);
+            });
         });
+
+        function updateChart(startDate, endDate) {
+            // Assuming GetSalesJsonData is correctly getting and parsing the updated SQL data
+            var salesData = JSON.parse('<%= GetSalesJsonData() %>');
+            console.log(salesData);
+
+            Highcharts.chart('salesChartContainer', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Sales Data by Date'
+                },
+                xAxis: {
+                    categories: salesData.map(data => data.Date),
+                    title: {
+                        text: 'Date'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total Sales'
+                    }
+                },
+                series: [{
+                    name: 'Sales',
+                    data: salesData.map(data => data.TotalSales)
+                }],
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                }
+            });
+        }
     </script>
 </asp:Content>
