@@ -51,6 +51,21 @@
             background: #0e3a8c;
         }
 
+        #cartBadge {
+            position: absolute;
+            top: -9px;
+            right: -15px;
+            background-color: #e50000;
+            color: white;
+            padding: 0px;
+            border-radius: 25px;
+            width: 20px;
+            font-size: 13px;
+            height: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
     </style>
     
     <asp:ContentPlaceHolder ID="head" runat="server">
@@ -76,8 +91,9 @@
                     <!-- Add more links as needed -->
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <asp:LinkButton ID="lbCart" runat="server" PostBackUrl="~/Client/Cart/CartPage.aspx">
+                    <asp:LinkButton ID="lbCart" runat="server" PostBackUrl="~/Client/Cart/CartPage.aspx" style="position: relative; margin: 0px 10px;">
                             <i class="fa-solid fa-cart-shopping"></i>
+                             <span id="cartBadge" runat="server" class="badge">0</span>
                     </asp:LinkButton>
                     <asp:LinkButton ID="lbWishlist" runat="server" PostBackUrl="~/Client/Wishlist/WishlistPage.aspx">
                             <i class="fa-regular fa-heart"></i>

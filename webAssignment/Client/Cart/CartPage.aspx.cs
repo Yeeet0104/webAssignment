@@ -37,8 +37,6 @@ namespace webAssignment.Client.Cart
             }
         }
 
-
-
         private void getData()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
@@ -86,9 +84,7 @@ namespace webAssignment.Client.Cart
                 }
                 catch (SqlException ex)
                 {
-                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
-                    LogError(ex.Message);
-                    Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
+                    ShowNotification(ex.Message, "warning");
                 }
             }
         }
@@ -164,9 +160,9 @@ namespace webAssignment.Client.Cart
                 }
                 catch (SqlException ex)
                 {
+                    ShowNotification(ex.Message, "warning");
                     // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
                     LogError(ex.Message);
-
                     Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
                 }
             }

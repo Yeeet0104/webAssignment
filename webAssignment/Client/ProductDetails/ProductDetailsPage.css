@@ -69,7 +69,7 @@
         font-size: 12px;
     }
 
-.product-variations button {
+.variation-btn {
     color: #064954;
     display: inline-block;
     padding: 4px 8px;
@@ -80,7 +80,7 @@
     background-color: white;
 }
 
-    .product-variations button:hover, .product-variations button.selected {
+    .variation-btn:hover, .variation-btn.selected {
         color: #1d4ed8;
         border: 1px solid #1d4ed8;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;

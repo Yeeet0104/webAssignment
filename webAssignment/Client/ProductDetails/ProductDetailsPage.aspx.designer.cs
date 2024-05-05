@@ -60,6 +60,33 @@ namespace webAssignment.Client.ProductDetails
         protected global::System.Web.UI.WebControls.HiddenField selectedVariation;
 
         /// <summary>
+        /// btnVariation1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVariation1;
+
+        /// <summary>
+        /// btnVariation2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVariation2;
+
+        /// <summary>
+        /// btnVariation3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVariation3;
+
+        /// <summary>
         /// stepdown control.
         /// </summary>
         /// <remarks>

@@ -172,8 +172,7 @@ namespace webAssignment.Client.Product
             else
             {
                 // Display an error message if both minimum and maximum prices are not filled
-                ScriptManager.RegisterStartupScript(this, GetType(), "PriceFilterError",
-                    "alert('Please fill in both minimum and maximum prices.');", true);
+                ShowNotification("Please fill in both minimum and maximum prices.", "warning");
             }
 
             // Clear the input fields after filtering
@@ -223,7 +222,11 @@ namespace webAssignment.Client.Product
             noProductsFoundMessage.Style["display"] = isVisible ? "block" : "none";
         }
 
-
+        protected void ShowNotification(string message, string type)
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
 
 
     }
