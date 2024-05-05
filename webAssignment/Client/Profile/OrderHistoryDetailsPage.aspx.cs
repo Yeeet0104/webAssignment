@@ -37,7 +37,7 @@ namespace webAssignment.Client.Profile
         }
         private void updateOrderStatusBar(string status)
         {
-                   
+
             switch (status.ToUpper())
             {
                 case "PENDING":
@@ -75,7 +75,6 @@ namespace webAssignment.Client.Profile
                     checkDelivered.Style["display"] = "block";
                     delivered.Style["background-color"] = "blue";
 
-                    reviewBox.Style["display"] = "block";
                     break;
                 case "CANCELLED":
                     cancelled.Style["display"] = "block";
@@ -236,7 +235,7 @@ WHERE
                                 reader.Read();
                                 lblOrderID.Text = orderID;
                                 DateTime orderDate = (DateTime)reader[0];
-                                lblOrderDate.Text = orderDate.ToString("MM/dd/yyyy");       
+                                lblOrderDate.Text = orderDate.ToString("MM/dd/yyyy");
                                 string status = Convert.ToString(reader[1]);
                                 lblOrderStatus.Text = status.ToUpper();
                             }
@@ -297,7 +296,7 @@ WHERE
         }
         protected string DecryptString(string cipherText)
         {
-            string EncryptionKey = "ABC123";  
+            string EncryptionKey = "ABC123";
             cipherText = cipherText.Replace(" ", "+");
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using (Aes encryptor = Aes.Create())
@@ -318,26 +317,7 @@ WHERE
             return cipherText;
         }
 
-        private DataTable GetDummyData()
-        {
-            DataTable dummyData = new DataTable();
 
-            // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("ProductImageUrl", typeof(string));
-            dummyData.Columns.Add("ProductName", typeof(string));
-            dummyData.Columns.Add("Price", typeof(decimal));
-            dummyData.Columns.Add("Quantity", typeof(int));
-            dummyData.Columns.Add("Subtotal", typeof(decimal));
-
-            // Add rows with dummy data
-            dummyData.Rows.Add("~/Client/Cart/images/i7.png", "Iphone 11", 1500.00m, 2, 3000.00m);
-            dummyData.Rows.Add("~/Admin/Layout/image/DexProfilePic.jpeg", "DTX 4090", 10.00m, 1, 10.00m);
-            dummyData.Rows.Add("~/Client/Cart/images/ssd.jpg", "Iphone 11", 1500.00m, 2, 3000.00m);
-            dummyData.Rows.Add("~/Client/Cart/images/cryingKermit.png", "Kermit", 10.00m, 1, 10.00m);
-            // Add more rows as needed for testing
-
-            return dummyData;
-        }
 
         private String getCurrentUserId()
         {
@@ -387,12 +367,28 @@ WHERE
 
         protected void lbReview_Click(object sender, EventArgs e)
         {
+            string encOrderID = Request.QueryString["OrderID"];
 
+            Response.Redirect($"~/Client/Profile/ReviewPage.aspx?OrderID={encOrderID}");
         }
 
         protected void lbCancel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        protected void orderListView_ItemCommand(object sender, ListViewCommandEventArgs e)
+        {
+
+            if (e.CommandName == "reviewClick")
+            {
+                string variantID = e.CommandArgument.ToString();
+                string encVariantID = EncryptString(variantID);
+                string encOrderID = Request.QueryString["OrderID"];
+
+
+                Response.Redirect($"~/Client/Profile/ReviewPage.aspx?OrderID={encOrderID}&VariantID={encVariantID}");
+            }
         }
     }
 }
