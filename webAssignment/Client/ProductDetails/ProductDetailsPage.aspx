@@ -26,10 +26,10 @@
                 <span class="my-2 w-[88%]">
                     <asp:Label ID="lblShortProductDesc1" runat="server" CssClass="product-desc" Text="Short Product Description" /></span>
                 <div class="product-variations">
-                    <asp:HiddenField ID="selectedVariation" runat="server" />
-                    <span><button type="button" class="variation-btn" onclick="selectVariation(this);">Variation 1</button></span>
-                    <span><button type="button" class="variation-btn" onclick="selectVariation(this);">Variation 2</button></span>
-                    <span><button type="button" class="variation-btn" onclick="selectVariation(this);">Variation 3</button></span>
+                    <asp:HiddenField ID="selectedVariation" runat="server"  />
+                    <asp:Button ID="btnVariation1" runat="server" CssClass="variation-btn" Text="Variation 1" OnClick="UpdatePrice" runat="server" />
+                    <asp:Button ID="btnVariation2" runat="server" CssClass="variation-btn" Text="Variation 2" OnClick="UpdatePrice" runat="server" />
+                    <asp:Button ID="btnVariation3" runat="server" CssClass="variation-btn" Text="Variation 3" OnClick="UpdatePrice" runat="server" />  
                 </div>
                 <div class="product-quantity">
                     <h5 class="mr-4">Quantity: </h5>
@@ -230,20 +230,6 @@
 
 
     </script>
-    <script>
-        function selectVariation(button) {
-            // Remove the selected class from all variation buttons
-            var variationButtons = document.querySelectorAll('.variation-btn');
-            variationButtons.forEach(function (btn) {
-                btn.classList.remove('selected');
-            });
 
-            // Add the selected class to the clicked button
-            button.classList.add('selected');
-
-            // Update the hidden field value
-            document.getElementById('<%= selectedVariation.ClientID %>').value = button.textContent;
-        }
-    </script>
 
 </asp:Content>
