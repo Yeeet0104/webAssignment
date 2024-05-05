@@ -23,12 +23,12 @@
 
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordField.type = 'password';
                 eyeIcon.classList.remove('fa-eye-slash');
                 eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
             }
         }
 
@@ -272,12 +272,9 @@
                                     <asp:ListItem>2023</asp:ListItem>
                                     <asp:ListItem>2024</asp:ListItem>
                                 </asp:DropDownList>
-                            </div>
-                            <%--                            <div class="w-auto pt-7">
-                                <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" class="bg-blue-600 text-white rounded-lg px-8 py-3" />
-                            </div>--%>
+                            </div>        
                         </div>
-                        <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600 pt-5" runat="server" Text=""></asp:Label>
                     </div>
                 </div>
             </div>
@@ -294,7 +291,7 @@
                     <div class="flex flex-col relative">
                         <span>Current Password</span>
                         <asp:TextBox ID="txtCurrentPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5" TextMode="Password"></asp:TextBox>
-                        <i id="eyeIcon1" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                        <i id="eyeIcon1" class="fa-solid fa-eye-slash absolute right-4 top-2/3 transform -translate-y-1/2 text-black hover:cursor-pointer"></i>
                     </div>
                 </div>
 
@@ -304,7 +301,7 @@
                         <div class="flex flex-col relative">
                             <span>New Password</span>
                             <asp:TextBox ID="txtNewPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5" TextMode="Password"></asp:TextBox>
-                            <i id="eyeIcon2" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                            <i id="eyeIcon2" class="fa-solid fa-eye-slash absolute right-4 top-2/3 transform -translate-y-1/2 text-black hover:cursor-pointer"></i>
                         </div>
                     </div>
                 </div>
@@ -314,12 +311,12 @@
                         <div class="flex flex-col relative">
                             <span>Confirm Password</span>
                             <asp:TextBox ID="txtConfirmPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5" TextMode="Password"></asp:TextBox>
-                            <i id="eyeIcon3" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black"></i>
+                            <i id="eyeIcon3" class="fa-solid fa-eye-slash absolute right-4 top-2/3 transform -translate-y-1/2 text-black hover:cursor-pointer"></i>
                         </div>
                     </div>
                 </div>
                 <div class="w-auto py-3">
-                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3" OnClick="btnChangePass_Click" />
+                    <asp:Button ID="btnChangePass" runat="server" Text="Change Password" class="bg-blue-600 text-white rounded-lg px-12 py-3 hover:cursor-pointer" OnClick="btnChangePass_Click" />
                 </div>
                 <asp:Label ID="lblChangePass" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
             </div>

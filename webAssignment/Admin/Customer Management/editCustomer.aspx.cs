@@ -26,6 +26,15 @@ namespace webAssignment.Admin.Customer
                 {
                     // Load the address details corresponding to the address ID
                     LoadUserForEdit(userId);
+
+                    if (lblStatus.Text == "Active")
+                    {
+                        lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100";
+                    }
+                    else
+                    {
+                        lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-red-700 bg-red-100";
+                    }
                 }
             }
         }
@@ -50,13 +59,14 @@ namespace webAssignment.Admin.Customer
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
-                    {                        
+                    {
                         txtEditFirstName.Text = reader["first_name"].ToString();
-                        txtEditLastName.Text = reader["last_name"].ToString() ;
+                        txtEditLastName.Text = reader["last_name"].ToString();
                         txtEditUsername.Text = reader["username"].ToString();
                         txtEditEmail.Text = reader["email"].ToString();
                         txtEditPhoneNo.Text = reader["phone_number"].ToString();
-                        ddlStatus.Items.Add(reader["status"].ToString());
+                        ddlStatus.SelectedValue = (reader["status"].ToString());
+                        lblStatus.Text = reader["status"].ToString();
 
                         // Check if the birthdate field is null
                         if (reader["birth_date"] != DBNull.Value)
@@ -84,16 +94,19 @@ namespace webAssignment.Admin.Customer
 
         protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblStatus.Text = ddlStatus.SelectedItem.Text;
-            if (ddlStatus.SelectedItem.Text == "Blocked")
+            if (IsPostBack)
             {
-                // Add CSS class to change color to red
-                lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-red-700 bg-red-100";
-            }
-            else
-            {
-                // Reset CSS class for other statuses
-                lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100";
+                lblStatus.Text = ddlStatus.SelectedItem.Text;
+                if (ddlStatus.SelectedItem.Text == "Blocked")
+                {
+                    // Add CSS class to change color to red
+                    lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-red-700 bg-red-100";
+                }
+                else
+                {
+                    // Reset CSS class for other statuses
+                    lblStatus.CssClass = "rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100";
+                }
             }
         }
 
@@ -132,7 +145,7 @@ namespace webAssignment.Admin.Customer
             }
         }
 
-       private void UpdateUserDetails(string userId)
+        private void UpdateUserDetails(string userId)
         {
             string first_name = txtEditFirstName.Text;
             string last_name = txtEditLastName.Text;
@@ -195,7 +208,7 @@ namespace webAssignment.Admin.Customer
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using(SqlCommand cmd = new SqlCommand(query, conn))
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@FirstName", first_name);
                     cmd.Parameters.AddWithValue("@LastName", last_name);

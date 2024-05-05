@@ -21,9 +21,9 @@ namespace webAssignment.Admin.Profile
             if (!IsPostBack)
             {
                 // Check if the user is logged in
-                if (Request.Cookies["userInfo"] != null)
+                if (Session["userId"] != null)
                 {
-                    string userId = Request.Cookies["userInfo"]["userID"];
+                    string userId = Session["userId"].ToString();
                     LoadAdminDetails(userId);
                 }
                 else
@@ -175,12 +175,12 @@ namespace webAssignment.Admin.Profile
 
         protected void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            string userId = Request.Cookies["userInfo"]["userID"];
+            string userId = Session["userId"].ToString();
             if (ValidateForm())
             {
                 if (IsValidEmail(txtEmail.Text))
                 {
-                    if (CheckEmail(userId, txtEmail.Text))
+                    if (!CheckEmail(userId, txtEmail.Text))
                     {
                         if (IsValidPhone(txtPhoneNo.Text))
                         {                            
@@ -212,7 +212,7 @@ namespace webAssignment.Admin.Profile
         {
             if (ValidatePassword())
             {
-                string userId = Request.Cookies["userInfo"]["userID"];
+                string userId = Session["userId"].ToString();
                 string query = "SELECT password FROM [User] WHERE user_id = @UserId";
 
                 // Hash the password before querying the database

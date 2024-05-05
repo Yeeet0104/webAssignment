@@ -60,6 +60,15 @@ namespace webAssignment.Client.ProductDetails
         protected global::System.Web.UI.WebControls.HiddenField selectedVariation;
 
         /// <summary>
+        /// ddlProdVariant control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlProdVariant;
+
+        /// <summary>
         /// stepdown control.
         /// </summary>
         /// <remarks>
@@ -150,6 +159,15 @@ namespace webAssignment.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblTotalRatings;
 
         /// <summary>
+        /// starlbl1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starlbl1;
+
+        /// <summary>
         /// Label5StarCount control.
         /// </summary>
         /// <remarks>
@@ -166,6 +184,15 @@ namespace webAssignment.Client.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label5StarPercentage;
+
+        /// <summary>
+        /// starlbl2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starlbl2;
 
         /// <summary>
         /// Label4StarCount control.
@@ -186,6 +213,15 @@ namespace webAssignment.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label Label4StarPercentage;
 
         /// <summary>
+        /// starlbl3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starlbl3;
+
+        /// <summary>
         /// Label3StarCount control.
         /// </summary>
         /// <remarks>
@@ -204,6 +240,15 @@ namespace webAssignment.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label Label3StarPercentage;
 
         /// <summary>
+        /// starlbl4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starlbl4;
+
+        /// <summary>
         /// Label2StarCount control.
         /// </summary>
         /// <remarks>
@@ -220,6 +265,15 @@ namespace webAssignment.Client.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label2StarPercentage;
+
+        /// <summary>
+        /// starlbl5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starlbl5;
 
         /// <summary>
         /// Label1StarCount control.

@@ -37,8 +37,6 @@ namespace webAssignment.Client.Cart
             }
         }
 
-
-
         private void getData()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
@@ -86,9 +84,7 @@ namespace webAssignment.Client.Cart
                 }
                 catch (SqlException ex)
                 {
-                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
-                    LogError(ex.Message);
-                    Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
+                    ShowNotification(ex.Message, "warning");
                 }
             }
         }
@@ -164,9 +160,9 @@ namespace webAssignment.Client.Cart
                 }
                 catch (SqlException ex)
                 {
+                    ShowNotification(ex.Message, "warning");
                     // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
                     LogError(ex.Message);
-
                     Response.Redirect("~/ErrorPage.aspx"); // Redirect to an error page if needed
                 }
             }
@@ -233,6 +229,9 @@ namespace webAssignment.Client.Cart
                     break;
                 case "deleteItem":
                     DeleteItem(productVariantID, userID, connectionString);
+                    getData();
+                    updateCartTotal();
+                    Response.Redirect(Request.RawUrl);
                     break;
                 default:
                     // Handle other command names if needed
@@ -326,6 +325,7 @@ namespace webAssignment.Client.Cart
                     ShowNotification(ex.Message, "warning");
                 }
             }
+
         }
 
         //protected void cartListView_ItemCommand(object sender, ListViewCommandEventArgs e)

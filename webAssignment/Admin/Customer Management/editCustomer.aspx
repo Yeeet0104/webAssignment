@@ -73,7 +73,7 @@
                 <div class="flex flex-col">
                     <div class="flex flex-row justify-between">
                         <span class="font-medium">Status</span>
-                        <asp:Label ID="lblStatus" runat="server" Text="Active" class="rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100"></asp:Label>
+                        <asp:Label ID="lblStatus" runat="server" Text="" class="rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100"></asp:Label>
                     </div>
                     <span class="font-medium text-lg pt-2 pb-1 text-gray-400">Customer Status</span>
                     <asp:DropDownList ID="ddlStatus" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-xl" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged" AutoPostBack="True">

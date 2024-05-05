@@ -281,7 +281,9 @@
                         <asp:TextBox ID="txtEndDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
 
                     </div>
-
+                    <div>
+                        <asp:Button ID="allTimeDate" CssClass="w-full apply-button bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" runat="server" Text="All" OnClick="allTimeDate_Click" />
+                    </div>
                 </div>
                 <div class="flex justify-center gap-10">
                     <asp:Button ID="cancelDate" runat="server" Text="Close" OnClick="cancelDate_click" CssClass="bg-gray-200 hover:bg-blue-700 hover:text-white text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
