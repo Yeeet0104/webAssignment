@@ -42,15 +42,6 @@ namespace webAssignment.Admin.Transaction
         protected global::System.Web.UI.WebControls.Button allFilter;
 
         /// <summary>
-        /// filterDateBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
-
-        /// <summary>
         /// transactionListView control.
         /// </summary>
         /// <remarks>

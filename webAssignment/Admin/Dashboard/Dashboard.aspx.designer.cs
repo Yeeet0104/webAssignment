@@ -15,33 +15,6 @@ namespace webAssignment
     {
 
         /// <summary>
-        /// filterDatePopUp control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton filterDatePopUp;
-
-        /// <summary>
-        /// startDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label startDate;
-
-        /// <summary>
-        /// endDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label endDate;
-
-        /// <summary>
         /// todaySales control.
         /// </summary>
         /// <remarks>
@@ -69,22 +42,22 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Image soldIcon;
 
         /// <summary>
-        /// Label1 control.
+        /// lblOrders control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label lblOrders;
 
         /// <summary>
-        /// Label2 control.
+        /// subLblOrders control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label subLblOrders;
 
         /// <summary>
         /// Image1 control.
@@ -96,22 +69,22 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
-        /// Label3 control.
+        /// lblVisitCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.Label lblVisitCount;
 
         /// <summary>
-        /// Label4 control.
+        /// sublblVisitCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.Label sublblVisitCount;
 
         /// <summary>
         /// Image2 control.
@@ -123,22 +96,22 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Image Image2;
 
         /// <summary>
-        /// Label5 control.
+        /// lblWishlist control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5;
+        protected global::System.Web.UI.WebControls.Label lblWishlist;
 
         /// <summary>
-        /// Label6 control.
+        /// sublblWishlist control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label6;
+        protected global::System.Web.UI.WebControls.Label sublblWishlist;
 
         /// <summary>
         /// Image3 control.
@@ -148,6 +121,15 @@ namespace webAssignment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image Image3;
+
+        /// <summary>
+        /// lblDateRange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDateRange;
 
         /// <summary>
         /// chartSales control.
@@ -175,14 +157,5 @@ namespace webAssignment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListView bestSellingItemLv;
-
-        /// <summary>
-        /// ordersListView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView ordersListView;
     }
 }

@@ -28,7 +28,9 @@
             </div>
             <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
                 <i class="text-lg fa-solid fa-plus left-4 top-5 text-white"></i>
-                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/Voucher/addVoucher.aspx">Add New Voucher</asp:HyperLink>
+                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/Voucher/addVoucher.aspx">Add New Voucher
+
+                </asp:HyperLink>
             </div>
 
         </div>
@@ -44,21 +46,28 @@
             </div>
             <div class="col-span-1">
                 <asp:Button ID="ogFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="On Going" OnClick="ogFilter_Click" />
-            </div>            
+            </div>
             <div class="col-span-1">
-                <asp:Button ID="pendingFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer"  runat="server" Text="Pending" OnClick="pendingFilter_Click" />
+                <asp:Button ID="pendingFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Pending" OnClick="pendingFilter_Click" />
             </div>
             <div class="col-span-1">
                 <asp:Button ID="expiredFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Expired" OnClick="expiredFilter_Click" />
 
             </div>
             <div class="col-span-1">
-                <asp:Button ID="fullyClaimFilter"  CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer"  runat="server" Text="Fully Claimed" OnClick="fullyClaimFilter_Click" />
+                <asp:Button ID="fullyClaimFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Fully Claimed" OnClick="fullyClaimFilter_Click" />
             </div>
         </div>
         <div class="flex items-center gap-3">
+            <asp:LinkButton ID="clearDateFilter" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center" OnClick="clearDateFilter_Click">
+                <i class="fa-solid fa-trash"></i>
+                <asp:Label ID="Label1" runat="server" Text="Clear Date"></asp:Label>
+            </asp:LinkButton>
             <div class="">
-                <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center"> <i class="fa-solid fa-calendar-days"></i><span>Select Date </span></asp:LinkButton>
+                <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center" OnClick="filterDateBtn_click">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <asp:Label ID="labelDateRange" runat="server" Text="Select Date "></asp:Label>
+                </asp:LinkButton>
             </div>
         </div>
     </div>
@@ -86,81 +95,81 @@
                     <table class="orders-table w-full " style="overflow-x: auto; min-width: 1450px">
                         <!-- Headers here -->
                         <tbody>
-                        <tr class="grid grid-cols-11 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
-                            <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterVoucherCode" runat="server" CommandName="Sort" CommandArgument="voucher_id">
+                            <tr class="grid grid-cols-11 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
+                                <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterVoucherCode" runat="server" CommandName="Sort" CommandArgument="voucher_id">
                                   <div class="flex flex-row justify-between items-center p-2">
                                                      <p>Voucher Code </p>
                                         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                                     
                                  </div>
 
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1  text-center">
-                                <p>Discount</p>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="capAtFilter" runat="server" CommandName="Sort" CommandArgument="cap_at">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1  text-center">
+                                    <p>Discount</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="capAtFilter" runat="server" CommandName="Sort" CommandArgument="cap_at">
                                   <div class="flex flex-row justify-between items-center p-2">
                                                      <p>Max </p>
                         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                                     
                                  </div>
 
-                                </asp:LinkButton>
-                            </td>
+                                    </asp:LinkButton>
+                                </td>
 
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="minFilter" runat="server" CommandName="Sort" CommandArgument="min_spend">
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="minFilter" runat="server" CommandName="Sort" CommandArgument="min_spend">
                                   <div class="flex flex-row justify-between items-center p-2">
                                                      <p>Min </p>
                         <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
                                     
                                  </div>
 
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterStartDate" runat="server" CommandName="Sort" CommandArgument="started_date">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterStartDate" runat="server" CommandName="Sort" CommandArgument="started_date">
                               <div class="flex flex-row justify-between items-center p-2">
                                     <p>Start Date </p>
                                     <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
 
                               </div>
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterExpiredDate" runat="server">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterExpiredDate" runat="server">
                               <div class="flex flex-row justify-between items-center p-2" CommandName="Sort" CommandArgument="expiry_date">
                                     <p>Expiry </p>
                                     <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
 
                               </div>
-                                </asp:LinkButton>
-                            </td>
-                            <td class="col-span-2  text-center">
-                                <p>Status</p>
-                            </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterDateCreated" runat="server" CommandName="Sort" CommandArgument="added_date">
+                                    </asp:LinkButton>
+                                </td>
+                                <td class="col-span-2  text-center">
+                                    <p>Status</p>
+                                </td>
+                                <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                    <asp:LinkButton ID="filterDateCreated" runat="server" CommandName="Sort" CommandArgument="added_date">
                                 <div class="flex flex-row justify-between items-center p-2">
                                     <p>Date Created</p>
                                     <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
 
                                 </div>
 
-                                </asp:LinkButton>
-                            </td>
+                                    </asp:LinkButton>
+                                </td>
 
 
-                            <td class="col-span-1 flex justify-end">
-                                <p>Action</p>
-                            </td>
+                                <td class="col-span-1 flex justify-end">
+                                    <p>Action</p>
+                                </td>
 
-                        </tr>
-                        <tr id="itemPlaceholder" runat="server">
-                        </tr>
+                            </tr>
+                            <tr id="itemPlaceholder" runat="server">
+                            </tr>
                         </tbody>
                         <tfoot>
                             <tr class="">
@@ -265,7 +274,28 @@
     </asp:Panel>
 
     <%-- pop up for datepicker --%>
+    <!-- date pop up panel -->
+    <asp:Panel ID="pnlDateFilter" runat="server" CssClass="modal fixed w-full h-full top-0 left-0 flex items-center justify-center" Style="display: none; background-color: rgba(0, 0, 0, 0.5);">
+        <div class="modal-content w-1/4 bg-white p-6 rounded-lg shadow-lg text-center flex flex-col gap-10">
+            <h2 class="text-xl  font-bold">Select Date Range</h2>
+            <div class="flex flex-col gap-2 ">
+                <div class="grid grid-cols-3 ">
+                    <p class="flex justify-center items-center">Start Date :</p>
+                    <asp:TextBox ID="txtStartDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
+                </div>
+                <div class="grid grid-cols-3">
+                    <p class="flex justify-center items-center">End Date :</p>
+                    <asp:TextBox ID="txtEndDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
 
+                </div>
+
+            </div>
+            <div class="flex justify-center gap-10">
+                <asp:Button ID="cancelDate" runat="server" Text="Cancel" OnClick="cancelDate_click" CssClass="bg-gray-200 hover:bg-blue-700 hover:text-white text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+                <asp:Button ID="btnApplyDateFilter" runat="server" Text="Apply Filter" OnClick="btnApplyDateFilter_Click" CssClass="apply-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+            </div>
+        </div>
+    </asp:Panel>
 
     <!--End-->
 </asp:Content>

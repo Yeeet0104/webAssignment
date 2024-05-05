@@ -42,16 +42,7 @@
                 <asp:Button ID="allFilter" runat="server" Text="All" />
             </div>
         </div>
-        <div class="flex items-center gap-3">
-            <div class="">
-                <asp:LinkButton ID="filterDateBtn" runat="server" class="p-3 border border-gray-200 rounded-lg bg-white flex gap-3 items-center">
-                     <i class="fa-solid fa-calendar-days"></i>
-                    <span>
-                       Select Date
-                    </span>
-                </asp:LinkButton>
-            </div>
-        </div>
+       
     </div>
     <!--End-->
 

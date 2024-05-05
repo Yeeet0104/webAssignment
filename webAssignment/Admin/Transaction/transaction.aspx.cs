@@ -9,13 +9,15 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DocumentFormat.OpenXml.Office.Word;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using webAssignment.Admin.Orders;
 
 namespace webAssignment.Admin.Transaction
 {
-    public partial class transaction : System.Web.UI.Page
+    public partial class transaction : System.Web.UI.Page , IFilterable
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private int pageSize = 5;
@@ -59,8 +61,31 @@ namespace webAssignment.Admin.Transaction
         {
             List<transactionClass> transactionData = new List<transactionClass>();
 
-            string sortExpression = ViewState["SortExpression"] as string ?? "order_id";
-            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+            string sortExpression = ViewState["SortExpression"] as string ?? "pay.date_paid";
+            string sortDirection = ViewState["SortDirection"] as string ?? "DESC";
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+            List<string> conditions = new List<string>();
+            // Check Session and assign dates if available
+            if ( Session["StartDate"] != null && Session["EndDate"] != null )
+            {
+                sortStartDate = (DateTime)Session["StartDate"];
+                sortEndDate = (DateTime)Session["EndDate"];
+            }
+            else
+            {
+                sortStartDate = DateTime.Today;
+                sortEndDate = DateTime.Today;
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("pay.date_paid >= @startDate AND pay.date_paid <= @endDate");
+            }
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 string sql = $@"SELECT 
@@ -78,6 +103,7 @@ namespace webAssignment.Admin.Transaction
                                 JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
                                 JOIN Product p ON pv.product_id = p.product_id
                                 JOIN Payment pay ON o.order_id = pay.order_id
+                            {whereClause}
                             GROUP BY 
                                 o.order_id, o.user_id, u.username, o.total_price, pay.payment_details, pay.date_paid
                 ORDER BY {sortExpression} {sortDirection}
@@ -88,9 +114,14 @@ namespace webAssignment.Admin.Transaction
                 {
                     cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
-
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     using ( SqlDataReader reader = cmd.ExecuteReader() )
                     {
+
                         while ( reader.Read() )
                         {
                             transactionData.Add(new transactionClass
@@ -159,20 +190,50 @@ namespace webAssignment.Admin.Transaction
         }
         private int getTotalTransactionCount( )
         {
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+            List<string> conditions = new List<string>();
+            // Check Session and assign dates if available
+            if ( Session["StartDate"] != null && Session["EndDate"] != null )
+            {
+                sortStartDate = (DateTime)Session["StartDate"];
+                sortEndDate = (DateTime)Session["EndDate"];
+            }
+            else
+            {
+                sortStartDate = DateTime.Today;
+                sortEndDate = DateTime.Today;
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("pay.date_paid >= @startDate AND pay.date_paid <= @endDate");
+            }
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
-                string sql = @"
-            SELECT COUNT(DISTINCT o.order_id) AS totalTransactionCount
-            FROM [dbo].[Order] o
-            JOIN [dbo].[User] u ON o.user_id = u.user_id
-            JOIN Order_details od ON o.order_id = od.order_id
-            JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
-            JOIN Product p ON pv.product_id = p.product_id
-            JOIN Payment pay ON o.order_id = pay.order_id;";
+                string sql = $@"
+                                SELECT COUNT(DISTINCT o.order_id) AS totalTransactionCount
+                                FROM [dbo].[Order] o
+                                JOIN [dbo].[User] u ON o.user_id = u.user_id
+                                JOIN Order_details od ON o.order_id = od.order_id
+                                JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
+                                JOIN Product p ON pv.product_id = p.product_id
+                                JOIN Payment pay ON o.order_id = pay.order_id
+                                {whereClause}       
+
+                    ;";
 
                 connection.Open();
                 using ( SqlCommand command = new SqlCommand(sql, connection) )
                 {
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        command.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        command.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     return (int)command.ExecuteScalar();
                 }
             }
@@ -283,21 +344,6 @@ namespace webAssignment.Admin.Transaction
 
             return sortDirection;
         }
-        public void FilterListView( string searchTerm )
-        {
-            List<transactionClass> rawData = transactionData((int)ViewState["PageIndex"],pageSize);
-            List<transactionClass> filteredData = FilterDataTable(rawData, searchTerm);
-
-            transactionListView.DataSource = filteredData;
-            transactionListView.DataBind();
-        }
-
-        private List<transactionClass> FilterDataTable( List<transactionClass> rawData, string searchTerm )
-        {
-
-
-            return rawData;
-        }
         protected void closePopUp_Click( object sender, EventArgs e )
         {
             popUpDelete.Style.Add("display", "none");
@@ -331,6 +377,28 @@ namespace webAssignment.Admin.Transaction
                 BindListView((int)ViewState["PageIndex"], pageSize);
             }
         }
+        public void FilterListView( string searchTerm )
+        {
+            List<transactionClass> transData = transactionData(0, pageSize);
+            List<transactionClass> filteredData = FilterTransList(transData, searchTerm);
+            transactionListView.DataSource = filteredData;
+            transactionListView.DataBind();
+        }
 
+        // Lists and LINQ
+        private List<transactionClass> FilterTransList( List<transactionClass> trans, string searchTerm )
+        {
+            searchTerm = searchTerm?.ToLower() ?? string.Empty; // Handle null search term and convert to lowercase
+
+            return trans.Where(t =>
+                t.order_id.ToLower().Contains(searchTerm) ||
+                t.user_id.ToLower().Contains(searchTerm) ||
+                t.username.ToLower().Contains(searchTerm) ||
+                t.total_price.ToString().Contains(searchTerm) ||
+                t.payment_details.ToLower().Contains(searchTerm) ||
+                ( t.date_paid.ToString("dd/MM/yyyy").Contains(searchTerm) ) ||
+                t.product_details.ToLower().Contains(searchTerm) 
+            ).ToList();
+        }
     }
 }

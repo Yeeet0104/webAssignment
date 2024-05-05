@@ -23,8 +23,8 @@ namespace webAssignment.Client.Cart
             if (!IsPostBack)
             {
                 // if user havent login
-                if(Session["UserId"] == null)
-                    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
+                //if(Session["UserId"] == null)
+                //    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
 
                 //To be deleted
                 Session["UserId"] = "CS1001";
@@ -345,7 +345,7 @@ namespace webAssignment.Client.Cart
                 string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
                 string deleteItemQuery =
-                    "DELETE FROM Cart_Details  WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM cart WHERE user_id = @userId);";
+                    "DELETE FROM Cart_Details WHERE product_variant_id = @pvID AND cart_id = (SELECT cart_id FROM cart WHERE user_id = @userId);";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {

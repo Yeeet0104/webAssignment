@@ -28,6 +28,8 @@ namespace webAssignment.Admin.Voucher
             {
                 ViewState["PageIndex"] = 0;
                 ViewState["FilterStatus"] = "";
+                ViewState["onePageStartDate"] = "";
+                ViewState["onePageEndDate"] = "";
                 BindListView(0, pageSize, "");
             }
         }
@@ -38,13 +40,34 @@ namespace webAssignment.Admin.Voucher
         }
         private List<Voucher> GetVoucherData( int pageIndex, int pageSize, string status )
         {
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
             List<Voucher> vouchers = new List<Voucher>();
 
             string filter = ViewState["Filter"] as string;
             string sortExpression = ViewState["SortExpression"] as string ?? "voucher_id";
             string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
 
-            string sql = $@"SELECT * FROM Voucher {( string.IsNullOrEmpty(status) ? "" : "WHERE voucher_status = @status" )}
+            List<string> conditions = new List<string>();
+            if ( !string.IsNullOrEmpty(status) )
+            {
+                conditions.Add("voucher_status = @status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("added_date >= @startDate AND added_date <= @endDate");
+            }
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+            string sql = $@"SELECT * FROM Voucher {( whereClause )}
                 ORDER BY {sortExpression} {sortDirection}
                 OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
             using ( SqlConnection conn = new SqlConnection(connectionString) )
@@ -55,7 +78,11 @@ namespace webAssignment.Admin.Voucher
                 {
                     cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
-
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     if ( !string.IsNullOrEmpty(status) )
                     {
                         cmd.Parameters.AddWithValue("@status", status);
@@ -87,15 +114,40 @@ namespace webAssignment.Admin.Voucher
         private int GetTotalVouchers( string status )
         {
             int totalCount = 0;
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
+            List<string> conditions = new List<string>();
+            if ( !string.IsNullOrEmpty(status) )
+            {
+                conditions.Add("voucher_status = @status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("added_date >= @startDate AND added_date <= @endDate");
+            }
+
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 conn.Open();
                 // Initialize the SQL command
-                string sql = $@"SELECT COUNT(*) FROM Voucher {( string.IsNullOrEmpty(status) ? "" : "WHERE voucher_status = @status" )}";
+                string sql = $@"SELECT COUNT(*) FROM Voucher {( whereClause )}";
 
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
-                    // If the status is provided, add it as a parameter
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
                     if ( !string.IsNullOrEmpty(status) )
                     {
                         cmd.Parameters.AddWithValue("@status", status);
@@ -301,9 +353,7 @@ namespace webAssignment.Admin.Voucher
                 default:
                     allVoucherFilter.CssClass += " text-blue-600 bg-gray-100";
                     break;
-
             }
-
         }
         // filter tab functions
         private void resetfilterTabSttyle( )
@@ -392,6 +442,7 @@ namespace webAssignment.Admin.Voucher
                 v.added_date.ToString("dd/MM/yyyy").Contains(searchTerm)
             ).ToList();
         }
+
         // pop up functions
         protected void closePopUp_Click( object sender, EventArgs e )
         {
@@ -451,6 +502,69 @@ namespace webAssignment.Admin.Voucher
                     Response.End();
                 }
             }
+        }
+
+
+        protected void filterDateBtn_click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "flex");
+        }
+
+        protected void btnApplyDateFilter_Click( object sender, EventArgs e )
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            if ( !DateTime.TryParse(txtStartDate.Text, out startDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtStartDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            // Check if the end date is a valid date
+            if ( !DateTime.TryParse(txtEndDate.Text, out endDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtEndDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            // Optional: Check if the start date is before the end date
+            if ( startDate > endDate )
+            {
+                return;
+            }
+            if ( startDate != null && endDate != null )
+            {
+                labelDateRange.Text = startDate.ToString("dd/MM/yyyy") + " - " + endDate.ToString("dd/MM/yyyy");
+                ViewState["onePageStartDate"] = startDate;
+                ViewState["onePageEndDate"] = endDate;
+                BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
+            }
+            else
+            {
+                txtEndDate.CssClass += "border-red-800";
+            }
+        }
+        protected void cancelDate_click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "none");
+        }
+
+
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
+
+        protected void clearDateFilter_Click( object sender, EventArgs e )
+        {
+            labelDateRange.Text = "Select Date";
+            ViewState["onePageStartDate"] = "";
+            ViewState["onePageEndDate"] = "";
+            BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
         }
     }
 }
