@@ -76,7 +76,7 @@
                 <a class="product" href='<%# "/Client/ProductDetails/ProductDetailsPage.aspx?ProductId=" + Eval("product_id") %>'>
                     <div id="product" class="hover-content">
                         <div class="product-header">
-                            <img src='<%# "/Client/Product/Products Images/" + Eval("product_image") + ".png" %>' alt='<%# Eval("product_name") %>' />
+                            <asp:Image ID="productImage" runat="server" alt='<%# Eval("product_name") %>' ImageUrl='<%# Eval("product_image") %>' />                        
                         </div>
                         <div class="product-footer">
                             <span class="product-name"><%# Eval("product_name") %></span>
