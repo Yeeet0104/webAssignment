@@ -15,24 +15,6 @@ namespace webAssignment.Client.Profile
     {
 
         /// <summary>
-        /// imgReview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgReview;
-
-        /// <summary>
-        /// fileUpload control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
-
-        /// <summary>
         /// imgProd control.
         /// </summary>
         /// <remarks>
@@ -42,6 +24,24 @@ namespace webAssignment.Client.Profile
         protected global::System.Web.UI.WebControls.Image imgProd;
 
         /// <summary>
+        /// lbName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbName;
+
+        /// <summary>
+        /// ddlRate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlRate;
+
+        /// <summary>
         /// txtComment control.
         /// </summary>
         /// <remarks>
@@ -49,15 +49,6 @@ namespace webAssignment.Client.Profile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtComment;
-
-        /// <summary>
-        /// lvProductList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvProductList;
 
         /// <summary>
         /// btnSubmitReview control.

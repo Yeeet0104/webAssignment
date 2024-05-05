@@ -33,24 +33,6 @@ namespace webAssignment.Client.Profile
         protected global::System.Web.UI.WebControls.LinkButton lbCancel;
 
         /// <summary>
-        /// reviewBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reviewBox;
-
-        /// <summary>
-        /// lbReview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbReview;
-
-        /// <summary>
         /// cancelled control.
         /// </summary>
         /// <remarks>

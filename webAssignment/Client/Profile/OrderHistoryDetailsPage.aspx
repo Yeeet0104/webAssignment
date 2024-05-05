@@ -12,11 +12,11 @@
 
             </div>
             <div id="cancelBox" class="hidden" runat="server">
-                <asp:LinkButton ID="lbCancel" runat="server" CssClass="font-semibold text-base bg-red-600 text-white py-1 px-4 rounded-lg flex items-center gap-2" PostBackUrl="~/Client/Profile/ReviewPage.aspx" OnClick="lbCancel_Click"><i class="fa-regular fa-xmark text-xs"></i><span>Cancel & Refund</span></asp:LinkButton>
+                <asp:LinkButton ID="lbCancel" runat="server" CssClass="font-semibold text-base bg-red-600 text-white py-1 px-4 rounded-lg flex items-center gap-2" OnClick="lbCancel_Click"><i class="fa-regular fa-xmark text-xs"></i><span>Cancel & Refund</span></asp:LinkButton>
             </div>
-            <div id="reviewBox" class="hidden" runat="server">
+            <%--<div id="reviewBox" class="hidden" runat="server">
                 <asp:LinkButton ID="lbReview" runat="server" CssClass="font-semibold text-base bg-blue-700 text-white py-1 px-4 rounded-lg flex items-center gap-2 " OnClick="lbReview_Click"><i class="fa-regular fa-pen-to-square text-xs"></i><span>Rate</span></asp:LinkButton>
-            </div>
+            </div>--%>
         </div>
         <div class="mb-4 shadow shadow-lg rounded-xl border border-gray-300">
             <div class="container mx-auto p-4 bg-white rounded-xl h-[200px] relative">
@@ -259,8 +259,8 @@
                     <div class="flex flex-row items-center gap-2 px-5 pt-6 pb-2">
                         <div class="text-lg text-gray-900 font-bold">Order List</div>
                     </div>
-                    <div class="grid grid-cols-5 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center px-5">
-                        <div class="col-span-2">
+                    <div class="grid grid-cols-7 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center px-5">
+                        <div class="col-span-3">
                             <p>Product</p>
                         </div>
                         <div class="col-span-1">
@@ -272,15 +272,18 @@
                         <div class="col-span-1">
                             <p>Subtotal</p>
                         </div>
+                        <div class="col-span-1">
+                            <p>Action</p>
+                        </div>
                     </div>
-                    <asp:ListView ID="lvOrderList" runat="server">
+                    <asp:ListView ID="lvOrderList" runat="server" OnItemCommand="orderListView_ItemCommand">
                         <LayoutTemplate>
 
                             <div id="itemPlaceholder" runat="server"></div>
                         </LayoutTemplate>
                         <ItemTemplate>
-                            <div class="grid grid-cols-5 flex items-center px-5 py-4 font-semibold">
-                                <div class="col-span-2 flex items-center gap-5">
+                            <div class="grid grid-cols-7 flex items-center px-5 py-4 font-semibold">
+                                <div class="col-span-3 flex items-center gap-5">
                                     <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath") %>' class="h-16 w-16 rounded-md" />
                                     <span>
                                         <%# Eval("productName") %> <%# Eval("variantName") %> 
@@ -294,6 +297,10 @@
                                 </div>
                                 <div class="col-span-1">
                                     <%# Eval("amount") %>
+                                </div>
+
+                                <div class="col-span-1">
+                                    <asp:LinkButton ID="lbReview" runat="server" CssClass="font-semibold text-base bg-blue-700 text-white py-1 px-4 w-[70%] rounded-lg flex items-center gap-2 " CommandArgument='<%# Eval("variantID") %>' CommandName="reviewClick"><i class="fa-regular fa-pen-to-square text-xs"></i><span>Rate</span></asp:LinkButton>
                                 </div>
                             </div>
 
