@@ -23,7 +23,7 @@
                     <p>Action</p>
                 </div>
             </div>
-            <asp:ListView ID="lvOrder" runat="server">
+            <asp:ListView ID="lvOrder" runat="server" OnItemCommand="orderListView_ItemCommand">
                 <LayoutTemplate>
                         <tr id="itemPlaceholder" runat="server"></tr>
                 </LayoutTemplate>
@@ -31,28 +31,34 @@
                     <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
                         <td class="col-span-1 flex items-center gap-2">
                             <span>
-                                <%# Eval("OrderID") %>
+                                <%# Eval("orderID") %>
                             </span>
                         </td>
                         <td class="col-span-1 font-bold">
                             <script>
-                                var status = "<%# Eval("Status") %>";
-                                if (status === "Pending") {
-                                    document.write('<span class="text-orange-500">' + status + '</span>');
-                                } else if (status == "Cancelled") {
-                                    document.write('<span class="text-red-500">' + status + '</span>');
-                                } else if (status == "Shipped") {
-                                    document.write('<span class="text-green-500">' + status + '</span>');
+                                var status = "<%# Eval("status") %>";
+                                status = status.toUpperCase();
+                                if (status === "PENDING") {
+                                    document.write('<span class="text-amber-500">' + status + '</span>');
+                                } else if (status == "CANCELLED") {
+                                    document.write('<span class="text-rose-600">' + status + '</span>');
+                                } else if (status == "DELIVERED") {
+                                    document.write('<span class="text-emerald-500">' + status + '</span>');
+                                } else if (status == "PACKED"){
+                                    document.write('<span class="text-blue-700">' + status + '</span>');
+                                }
+                                else if (status == "ON THE ROAD") {
+                                    document.write('<span class="text-purple-600">' + status + '</span>');
                                 }
                             </script>
                         </td>
-                        <td class="col-span-1"><%# ((DateTime)Eval("Date")).ToShortDateString() %></td>
-                        <td class="col-span-1"><%# Eval("Total", "{0:C}") %></td>
+                        <td class="col-span-1"><%# ((DateTime)Eval("date")).ToShortDateString() %></td>
+                        <td class="col-span-1">RM <%# Eval("total") %></td>
                         <td class="col-span-1">
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Client/Profile/OrderHistoryDetailsPage.aspx" class="text-blue-500 hover:text-blue-800">
-                                <span>View Details</span>
+                            <asp:LinkButton ID="lbtnViewDetails" runat="server" CommandArgument='<%# Eval("orderID") %>' CommandName="orderDetails" class="text-blue-500 hover:text-blue-800 cursor-pointer">
+                                <span class="">View Details</span>
                                  <i class="fa-solid fa-circle-chevron-right ml-1"></i>
-                            </asp:HyperLink>
+                            </asp:LinkButton>
                         </td>
                     </tr>
                 </ItemTemplate>

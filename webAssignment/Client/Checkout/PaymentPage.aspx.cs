@@ -348,6 +348,7 @@ namespace webAssignment.Client.Checkout
                 {
                     updateVoucherQuantity();
                 }
+                clearSession();
 
             }
             else if (pnlBank.Visible)
@@ -416,6 +417,8 @@ namespace webAssignment.Client.Checkout
                 {
                     updateVoucherQuantity();
                 }
+                clearSession();
+
             }
             else if (pnlCOD.Visible)
             {
@@ -459,12 +462,24 @@ namespace webAssignment.Client.Checkout
                 {
                     updateVoucherQuantity();
                 }
+
+
+                // Remove Session 
+                clearSession();
             }
 
 
 
         }
 
+        private void clearSession()
+        {
+            Session.Remove("orderTotal");
+            Session.Remove("Voucher");
+            Session.Remove("taxRate");
+            Session.Remove("billingAddress");
+            Session.Remove("shippingAddress");
+        }
         private void updateVoucherQuantity()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
