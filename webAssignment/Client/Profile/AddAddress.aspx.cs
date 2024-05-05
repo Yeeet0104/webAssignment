@@ -54,7 +54,7 @@ namespace webAssignment.Client.Profile
                     if (IsValidPhone(txtPhoneNumber.Text))
                     {
                         string addressId = GenerateAddressId();
-                        string userId = Request.Cookies["userInfo"]["userID"];
+                        string userId = Session["userId"].ToString();
                         string addressLine1 = txtAddressLine1.Text;
                         string addressLine2 = txtAddressLine2.Text;
                         string addressType = Request.QueryString["addressType"];
@@ -182,6 +182,7 @@ namespace webAssignment.Client.Profile
 
         protected void btnEditAddress_Click(object sender, EventArgs e)
         {
+            string userId = Session["userId"].ToString();
             // Retrieve the address ID from the query string
             string addressId = Request.QueryString["addressId"];
 
@@ -205,7 +206,7 @@ namespace webAssignment.Client.Profile
                             int zipCode = int.Parse(txtZipCode.Text);
                             string phoneNumber = txtPhoneNumber.Text;
 
-                            UpdateAddress(addressId, firstName, lastName, addressLine1, addressLine2, countryCode, city, state, zipCode, phoneNumber);
+                            UpdateAddress(userId, addressId, firstName, lastName, addressLine1, addressLine2, countryCode, city, state, zipCode, phoneNumber);
 
                             Response.Redirect("~/Client/Profile/Address.aspx");
                         }
@@ -226,10 +227,10 @@ namespace webAssignment.Client.Profile
             }            
         }
 
-        private void UpdateAddress(string addressId, string firstName, string lastName, string addressLine1, string addressLine2, string countryCode, string city, string state, int zipCode, string phoneNumber)
+        private void UpdateAddress(string userId, string addressId, string firstName, string lastName, string addressLine1, string addressLine2, string countryCode, string city, string state, int zipCode, string phoneNumber)
         {
             //SQL query to update the address details
-            string query = "UPDATE [Address] SET first_name = @FirstName, last_name = @LastName, address_line1 = @AddressLine1, address_line2 = @AddressLine2, countryCode = @CountryCode, city = @City, state = @State, zip_code = @ZipCode, phone_number = @PhoneNumber WHERE address_id = @AddressId";
+            string query = "UPDATE [Address] SET first_name = @FirstName, last_name = @LastName, address_line1 = @AddressLine1, address_line2 = @AddressLine2, countryCode = @CountryCode, city = @City, state = @State, zip_code = @ZipCode, phone_number = @PhoneNumber WHERE user_id = @UserId AND address_id = @AddressId";
 
             // Establish connection and command objects
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -237,6 +238,7 @@ namespace webAssignment.Client.Profile
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     // Add parameters
+                    cmd.Parameters.AddWithValue("@UserId", userId);
                     cmd.Parameters.AddWithValue("@FirstName", firstName);
                     cmd.Parameters.AddWithValue("@LastName", lastName);
                     cmd.Parameters.AddWithValue("@AddressLine1", addressLine1);
@@ -251,18 +253,7 @@ namespace webAssignment.Client.Profile
                     // Open connection and execute query
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    conn.Close();
-
-                    if (rowsAffected > 0)
-                    {
-                        // Address details updated successfully
-                        // You can redirect the user to a success page or display a message here
-                    }
-                    else
-                    {
-                        // Failed to update address details
-                        // You can handle this scenario based on your application's requirements
-                    }
+                    conn.Close();                                       
                 }
             }
         }

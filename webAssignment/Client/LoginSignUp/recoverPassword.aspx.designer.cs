@@ -11,17 +11,8 @@ namespace webAssignment.Client.LoginSignUp
 {
 
 
-    public partial class Login
+    public partial class WebForm1
     {
-
-        /// <summary>
-        /// bgImg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image bgImg;
 
         /// <summary>
         /// txtEmail control.
@@ -33,24 +24,6 @@ namespace webAssignment.Client.LoginSignUp
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
-        /// txtPass control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPass;
-
-        /// <summary>
-        /// forgotPassLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink forgotPassLink;
-
-        /// <summary>
         /// lblLoginMessage control.
         /// </summary>
         /// <remarks>
@@ -60,22 +33,13 @@ namespace webAssignment.Client.LoginSignUp
         protected global::System.Web.UI.WebControls.Label lblLoginMessage;
 
         /// <summary>
-        /// btnLogin control.
+        /// btnSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogin;
-
-        /// <summary>
-        /// btnAdmin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAdmin;
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
 
         /// <summary>
         /// linkSignUp control.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -17,9 +18,9 @@ namespace webAssignment.Admin.Profile
             if (!IsPostBack)
             {
                 // Check if the user is logged in
-                if (Request.Cookies["userInfo"] != null)
+                if (Session["userId"] != null)
                 {
-                    string userId = Request.Cookies["userInfo"]["userID"];
+                    string userId = Session["userId"].ToString();
                     LoadAdminDetails(userId);
                 }
                 else
@@ -54,11 +55,10 @@ namespace webAssignment.Admin.Profile
                         {
                             // Retrieve the birthdate from the database
                             DateTime birthdate = Convert.ToDateTime(reader["birth_date"]);
-
-                            // Select the corresponding items in the dropdown lists
-                            ddlDay.SelectedValue = birthdate.Day.ToString();
-                            ddlMonth.SelectedValue = birthdate.ToString("MMMM");
-                            ddlYear.SelectedValue = birthdate.Year.ToString();
+               
+                            txtDay.Text = birthdate.Day.ToString();
+                            txtMonth.Text = birthdate.ToString("MMMM");
+                            txtYear.Text = birthdate.Year.ToString();
                         }
 
                         if (reader["profile_pic_path"] != DBNull.Value)

@@ -51,12 +51,12 @@
 
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordField.type = 'password';
                 eyeIcon.classList.remove('fa-eye-slash');
                 eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
             }
         }
 
@@ -75,6 +75,9 @@
         function showPopUp() {
             document.getElementById('<%= popUpText.ClientID %>').classList.remove('hidden');
         }
+            function showConfirmPopUp() {
+                document.getElementById('<%= deleteAccPopUp.ClientID %>').classList.remove('hidden');
+            }
     </script>
 
 </asp:Content>
@@ -287,7 +290,7 @@
                     <div class="flex flex-col relative">
                         <span>Current Password</span>
                         <asp:TextBox ID="txtCurrentPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5"></asp:TextBox>
-                        <i id="eyeIcon1" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
+                        <i id="eyeIcon1" class="fa-solid fa-eye-slash absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
                     </div>
                 </div>
 
@@ -297,7 +300,7 @@
                         <div class="flex flex-col relative">
                             <span>New Password</span>
                             <asp:TextBox ID="txtNewPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5"></asp:TextBox>
-                            <i id="eyeIcon2" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
+                            <i id="eyeIcon2" class="fa-solid fa-eye-slash absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
                         </div>
                     </div>
                 </div>
@@ -307,7 +310,7 @@
                         <div class="flex flex-col relative">
                             <span>Confirm Password</span>
                             <asp:TextBox ID="txtConfirmPass" runat="server" class="border-2 border-gray-200 rounded-sm px-3 py-2.5"></asp:TextBox>
-                            <i id="eyeIcon3" class="fa-solid fa-eye absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
+                            <i id="eyeIcon3" class="fa-solid fa-eye-slash absolute right-4 top-2/3 transform -translate-y-1/2 text-black cursor-pointer"></i>
                         </div>
                     </div>
                 </div>
@@ -317,6 +320,10 @@
                 <asp:Label ID="lblChangePass" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
             </div>
         </div>
+        <div class="w-full flex justify-end">
+            <asp:Button ID="btnDeleteAcc" runat="server" Text="Delete Account" class="bg-red-600 text-white rounded-lg px-12 py-3 mt-20 cursor-pointer" OnClick="btnDeleteAcc_Click" />
+        </div>
+        <asp:Label ID="lblMessage" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
     </div>
 
     <asp:Panel ID="popUpText" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center popup-visible">
@@ -343,4 +350,29 @@
         </div>
     </asp:Panel>
 
+
+<asp:Panel ID="deleteAccPopUp" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center popup-visible">
+    <!-- Modal content -->
+    <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+        <div class="w-full h-fit flex justify-end p-0">
+            <span class=" flex items-center justify-center text-3xl rounded-full">
+                <asp:LinkButton ID="closePopUp2" runat="server" OnClick="closePopUp_Click">
+            <i class=" fa-solid fa-xmark"></i>
+                </asp:LinkButton>
+            </span>
+
+        </div>
+        <div class="flex flex-col justify-center items-center gap-5">
+            <div>
+                <asp:Image ID="Image2" runat="server" ImageUrl="~/Client/Profile/images/confirmDelete.gif" AlternateText="Are you sure" CssClass="w-35 h-40 " />
+
+            </div>
+            <p class="font-bold text-xl break-normal text-center">Once account is deleted, you are no longer a member.<br />Are you sure?</p>
+            <div>
+                <asp:Button ID="cancelBtn" runat="server" Text="Cancel" CssClass="bg-blue-600 mr-6 text-white font-bold text-xl p-2 px-4 rounded-lg cursor-pointer" OnClick="cancelBtn_Click"  />
+                <asp:Button ID="yesBtn" runat="server" Text="Yes" CssClass="bg-red-600 ml-6 text-white font-bold text-xl py-2 px-6 rounded-lg cursor-pointer" OnClick="yesBtn_Click"  />
+            </div>
+        </div>
+    </div>
+</asp:Panel>
 </asp:Content>

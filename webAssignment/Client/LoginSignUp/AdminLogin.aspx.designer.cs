@@ -33,13 +33,13 @@ namespace webAssignment.Client.LoginSignUp
         protected global::System.Web.UI.WebControls.TextBox txtPass;
 
         /// <summary>
-        /// linkForgotPass control.
+        /// linkForgotPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkForgotPass;
+        protected global::System.Web.UI.WebControls.HyperLink linkForgotPassword;
 
         /// <summary>
         /// lblLoginMessage control.
@@ -58,5 +58,14 @@ namespace webAssignment.Client.LoginSignUp
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLogin;
+
+        /// <summary>
+        /// customerLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton customerLink;
     }
 }

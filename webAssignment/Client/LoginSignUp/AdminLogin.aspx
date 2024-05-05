@@ -18,12 +18,12 @@
 
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add("fa-eye-slash");
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
             } else {
                 passwordField.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add("fa-eye");
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
             }
         }
 
@@ -57,17 +57,19 @@
                     <div class="relative">
                         <i class="fa-solid fa-lock absolute text-xl pl-1 pt-1 left-3 top-6 transform -translate-y-1/2 text-gray-400"></i>
                         <asp:TextBox ID="txtPass" runat="server" TextMode="Password" placeholder="Enter your password" class="border border-gray-300 rounded-md px-12 py-2 text-lg mt-1 w-full"></asp:TextBox>
-                        <i id="eyeIcon" class="fa-regular fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                        <i id="eyeIcon" class="fa-regular fa-eye-slash absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
                     </div>
                 </div>
-
-                <asp:LinkButton ID="linkForgotPass" runat="server" class="text-sm ml-5 my-2 underline">Forgot Password?</asp:LinkButton>
+                <asp:HyperLink ID="linkForgotPassword" class="text-sm ml-5 my-2 underline hover:text-blue-600" NavigateUrl="~/Client/LoginSignUp/recoverPassword.aspx" runat="server">Forgot Password?</asp:HyperLink>
                 <asp:Label ID="lblLoginMessage" runat="server" class="mx-4 font-bold text-red-600" Text=""></asp:Label>
                 <div class="mx-4 mt-5">
                     <asp:Button ID="btnLogin" runat="server" Text="Login" class="w-full px-16 py-2 bg-blue-700 font-bold text-white rounded-md cursor-pointer font-medium hover:bg-blue-400 duration-500 ease-in-out" OnClick="btnLogin_Click" />
                 </div>
+                <div class="flex justify-center my-5">
+                    <asp:LinkButton ID="customerLink" runat="server" CssClass="text-sm underline" OnClick="customerLink_Click">Customer Login</asp:LinkButton>
+                </div>
 
-                <span class="font-medium text-gray-400 text-center pt-8">Terms of use. Privacy policy</span>
+                <span class="font-medium text-gray-400 text-center">Terms of use. Privacy policy</span>
             </div>
         </div>
     </div>

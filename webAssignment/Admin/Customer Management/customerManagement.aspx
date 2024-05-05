@@ -20,7 +20,7 @@
         <div class="flex">
             <div class="relative mr-2">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
+                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg hover:cursor-pointer" OnClick="btnExport_Click" />
             </div>
         </div>
     </div>
@@ -30,14 +30,14 @@
     <div class="flex flex-row justify-between text-sm text-gray-600 font-medium my-4 justify-self-center">
         <div class="grid grid-cols-3 bg-white gap-3 text-center rounded p-2">
 
-            <div class="col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg">
-                <asp:Button ID="allAdmins" runat="server" Text="All" />
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 hover:cursor-pointer rounded-lg">
+                <asp:Button ID="btnAllCustomers" runat="server" Text="All" OnClick="allCustomers_Click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="active" runat="server" Text="Active" />
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 hover:cursor-pointer rounded-lg">
+                <asp:Button ID="btnActive" runat="server" Text="Active" OnClick="active_Click" />
             </div>
-            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
-                <asp:Button ID="blocked" runat="server" Text="Blocked" />
+            <div class="col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 hover:cursor-pointer rounded-lg">
+                <asp:Button ID="btnBlocked" runat="server" Text="Blocked" OnClick="blocked_Click" />
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -71,45 +71,28 @@
                         <!-- Headers here -->
                         <tr class="grid grid-cols-11 gap-6 px-4 py-2 rounded-lg  items-center bg-gray-100 mb-3">
                             <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterName" runat="server">
+                                <asp:LinkButton ID="filterName" runat="server" OnClick="filterName_Click">
                       <div class="flex flex-row justify-between items-center p-2">
                                          <p>Name </p>
             <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>                    
                      </div>
                                 </asp:LinkButton>
                             </td>
-                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterUsername" runat="server">
-          <div class="flex flex-row justify-between items-center p-2">
-                             <p>Username</p>
-<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-        
-         </div>
-
-                                </asp:LinkButton>
+                            <td class="col-span-1 flex flex-row justify-center items-center">
+                                <p>Username</p>
                             </td>
-                            <td class="col-span-2 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterEmail" runat="server">
-                      <div class="flex flex-row justify-between items-center p-2">
-                                         <p>Email </p>
-            <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                    
-                     </div>
-
-                                </asp:LinkButton>
+                            <td class="col-span-2 flex flex-row justify-center items-center">
+                                <p>Email</p>
                             </td>
-
                             <td class="col-span-1 text-center">
                                 <p>Phone No</p>
                             </td>
                             <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterDOB" runat="server">
+                                <asp:LinkButton ID="filterDOB" runat="server" OnClick="SortByDOBDateJoined_Click">
                    <div class="flex flex-row justify-between items-center p-2">
                                       <p>DOB </p>
          <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
-                 
-                  </div>
-
+                                   </div>
                                 </asp:LinkButton>
                             </td>
 
@@ -118,7 +101,7 @@
                                 <p>Status</p>
                             </td>
                             <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
-                                <asp:LinkButton ID="filterJoined" runat="server">
+                                <asp:LinkButton ID="filterJoined" runat="server" OnClick="SortByDOBDateJoined_Click">
                    <div class="flex flex-row justify-between items-center p-2">
                                       <p>Joined</p>
          <i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
@@ -126,8 +109,14 @@
                   </div>
                                 </asp:LinkButton>
                             </td>
-                            <td class="col-span-1 text-center">
-                                <p>Last Login</p>
+                            <td class="col-span-1 hover:bg-white hover:text-black rounded-lg">
+                                <asp:LinkButton ID="filterLastLogin" runat="server" OnClick="filterLastLogin_Click">
+          <div class="flex flex-row justify-between items-center p-2">
+                             <p>Last Login</p>
+<i class="fa-solid fa-sort-down relative" style="top:-3px"></i>
+        
+         </div>
+                                </asp:LinkButton>
                             </td>
                             <td class="col-span-1 flex justify-end">
                                 <p>Action</p>
