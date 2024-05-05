@@ -97,7 +97,7 @@ namespace webAssignment.Client.ProductDetails
 
                 if (!string.IsNullOrEmpty(row["product_image"].ToString()))
                 {
-                    imgProduct.ImageUrl = "/Client/Product/Products Images/" + row["product_image"].ToString() + ".png";
+                    imgProduct.ImageUrl = row["product_image"].ToString();
                 }
 
             }

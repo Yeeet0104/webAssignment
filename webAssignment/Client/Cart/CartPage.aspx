@@ -57,7 +57,7 @@
                         </ItemTemplate>--%>
                             <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
                                 <td class="col-span-2 flex items-center gap-5">
-                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# "/Client/Product/Products Images/" + Eval("imagePath", "{0}") + ".png" %>'  class="h-16 w-16 rounded-md" />
+                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath", "{0}") %>'  class="h-16 w-16 rounded-md" />
                                     <span class="overflow-hidden whitespace-nowrap overflow-ellipsis pr-1">
                                         <%# Eval("productName") %>  <%# Eval("variantName") %>
                                     </span>
