@@ -31,14 +31,12 @@ namespace webAssignment
 
             DateTime? startDate = Session["StartDate"] as DateTime?;
             DateTime? endDate = Session["EndDate"] as DateTime?;
-            Debug.WriteLine("WOIO" + startDate);
-            Debug.WriteLine("WOIO" + endDate);
             if ( startDate != null && endDate != null )
             {
                 init();
             }
         }
-   
+
         private void init( )
         {
             itemSolded.Text = GetTotalNumberOfOrders().ToString() + " Items Solded Today";
@@ -49,6 +47,7 @@ namespace webAssignment
             bestSellingItemLv.DataSource = GetBestSellingProductVariants();
             bestSellingItemLv.DataBind();
             chartBoxInit();
+
         }
         private void chartBoxInit( )
         {
@@ -59,27 +58,6 @@ namespace webAssignment
             {
                 chartSales.Text = "RM " + salesData.ToString();
                 todaySales.Text = "RM " + salesData.ToString();
-            }
-        }
-        protected void ordersListView_SelectedIndexChanged( object sender, EventArgs e )
-        {
-
-        }
-        protected void OrdersListView_ItemCommand( object sender, ListViewCommandEventArgs e )
-        {
-            if ( e.CommandName == "EditOrder" )
-            {
-                string orderId = e.CommandArgument.ToString();
-                string encryptedStr = EncryptString(orderId);
-                Response.Redirect($"~/Admin/orders/EditOrder.aspx?OrderID={encryptedStr}");
-            }
-            else if ( e.CommandName == "DeleteOrder" )
-            {
-                // Show the popup
-                //popUpDelete.Style.Add("display", "flex");
-
-                //// Set the Order ID in the label within the popup
-                //lblItemInfo.Text = e.CommandArgument.ToString();
             }
         }
         protected string EncryptString( string clearText )
@@ -322,9 +300,17 @@ namespace webAssignment
             {
                 sortStartDate = (DateTime)Session["StartDate"];
                 sortEndDate = (DateTime)Session["EndDate"];
+            lblDateRange.Text = ((DateTime)Session["StartDate"]).ToString("dd/MM/yyyy") + " - " + ( (DateTime)Session["EndDate"] ).ToString("dd/MM/yyyy");
 
-                dateFilter = " AND date_ordered >= @startDate AND date_ordered <= @endDate ";
             }
+            else
+            {
+                sortStartDate = DateTime.Today;
+                sortEndDate = DateTime.Today;
+                lblDateRange.Text = "Today";
+            }
+
+            dateFilter = " AND date_ordered >= @startDate AND date_ordered <= @endDate ";
 
             using ( SqlConnection con = new SqlConnection(connectionString) )
             {
@@ -387,7 +373,7 @@ namespace webAssignment
             using ( SqlConnection con = new SqlConnection(connectionString) )
             {
                 string sql = @"
-                    SELECT 
+                    SELECT TOP 4
                         pv.product_variant_id,
                         pv.variant_name,
                         pv.variant_price,

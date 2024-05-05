@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Presentation;
+﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
@@ -52,7 +53,24 @@ namespace webAssignment.Admin.Orders
                 popUpDelete.Style.Add("display", "flex");
 
                 // Set the Order ID in the label within the popup
+                ViewState["OrderIdToDelete"] = e.CommandArgument.ToString();
                 lblItemInfo.Text = e.CommandArgument.ToString();
+            }
+        }
+        private void UpdateOrderStatus( string orderId, string newStatus )
+        {
+            string sql = "UPDATE [Order] SET status = @status WHERE order_id = @orderId";
+
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@status", newStatus);
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+                    cmd.ExecuteNonQuery();
+                    ShowNotification("Successfully Updated Status to cancel" , "success");
+                }
             }
         }
         protected string EncryptString( string clearText )
@@ -360,7 +378,7 @@ namespace webAssignment.Admin.Orders
             ViewState["FilterStatus"] = "Pending";
             ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "Pending");
-            changeSelectedtabCss("");
+            changeSelectedtabCss("Pending");
         }
 
         protected void OnTheRoadFilter_click( object sender, EventArgs e )
@@ -368,7 +386,7 @@ namespace webAssignment.Admin.Orders
             ViewState["FilterStatus"] = "On The Road";
             ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "On The Road");
-            changeSelectedtabCss("");
+            changeSelectedtabCss("On The Road");
         }
 
         protected void deliveredFilter_click( object sender, EventArgs e )
@@ -376,7 +394,7 @@ namespace webAssignment.Admin.Orders
             ViewState["FilterStatus"] = "Delivered";
             ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "Delivered");
-            changeSelectedtabCss("");
+            changeSelectedtabCss("Delivered");
         }
 
         protected void cancelFilter_click( object sender, EventArgs e )
@@ -384,7 +402,7 @@ namespace webAssignment.Admin.Orders
             ViewState["FilterStatus"] = "Cancelled";
             ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "Cancelled");
-            changeSelectedtabCss("");
+            changeSelectedtabCss("Cancelled");
         }
 
         protected void packedFilter_click( object sender, EventArgs e )
@@ -392,7 +410,7 @@ namespace webAssignment.Admin.Orders
             ViewState["FilterStatus"] = "Packed";
             ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "Packed");
-            changeSelectedtabCss("");
+            changeSelectedtabCss("Packed");
         }
 
         private void changeSelectedtabCss( string tabName )
@@ -472,6 +490,68 @@ namespace webAssignment.Admin.Orders
                 ( o.OrderDate.ToString("dd/MM/yyyy").Contains(searchTerm) ) ||
                 ( o.PaymentDate.ToString("dd/MM/yyyy").Contains(searchTerm) )
             ).ToList();
+        }
+
+        protected void btnConfirmDelete_Click( object sender, EventArgs e )
+        {
+            string orderId = ViewState["OrderIdToDelete"].ToString();
+            if ( !string.IsNullOrEmpty(orderId) )
+            {
+                UpdateOrderStatus(orderId, "Cancelled");
+                ViewState["OrderIdToDelete"] = null; 
+                popUpDelete.Style.Add("display", "none");
+                BindListView((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
+            }
+        }
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
+
+        protected void btnExportToExcel_Click( object sender, EventArgs e )
+        {
+            var orders = getOrders(0, 10000, ViewState["FilterStatus"].ToString()); // Fetching all orders, adjust as necessary
+
+            using ( var workbook = new XLWorkbook() )
+            {
+                var worksheet = workbook.Worksheets.Add("Orders");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Order ID";
+                worksheet.Cell(currentRow, 2).Value = "Product Name";
+                worksheet.Cell(currentRow, 3).Value = "Additional Products Count";
+                worksheet.Cell(currentRow, 4).Value = "Order Date";
+                worksheet.Cell(currentRow, 5).Value = "Customer Name";
+                worksheet.Cell(currentRow, 6).Value = "Total";
+                worksheet.Cell(currentRow, 7).Value = "Payment Date";
+                worksheet.Cell(currentRow, 8).Value = "Status";
+
+                foreach ( var order in orders )
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = order.OrderId;
+                    worksheet.Cell(currentRow, 2).Value = order.ProductName;
+                    worksheet.Cell(currentRow, 3).Value = order.AdditionalProductsCount;
+                    worksheet.Cell(currentRow, 4).Value = order.OrderDate.ToString("dd/MM/yyyy");
+                    worksheet.Cell(currentRow, 5).Value = order.CustomerName;
+                    worksheet.Cell(currentRow, 6).Value = order.Total;
+                    worksheet.Cell(currentRow, 7).Value = order.PaymentDate.ToString("dd/MM/yyyy");
+                    worksheet.Cell(currentRow, 8).Value = order.Status;
+                }
+
+                worksheet.Columns().AdjustToContents(); // Adjust columns to content
+
+                using ( var stream = new MemoryStream() )
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    Response.Clear();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename=Orders.xlsx");
+                    stream.WriteTo(Response.OutputStream);
+                    Response.End();
+                }
+            }
         }
     }
 }

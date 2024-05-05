@@ -22,10 +22,15 @@ namespace webAssignment.Admin.Product_Management
             {
                 initCategory();
                 ViewState["VariantCount"] = 1;
+                ViewState["addedOnce"] = 0;
             }
             else
             {
-                recreateVariantTb();
+                if ( (int) ViewState["addedOnce"] == 1)
+                {
+                    recreateVariantTb();
+
+                }
             }
         }
 
@@ -71,6 +76,7 @@ namespace webAssignment.Admin.Product_Management
         protected void createTextRowBtn_Click( object sender, EventArgs e )
         {
             ViewState["VariantCount"] = ( (int)ViewState["VariantCount"] + 1 );
+            ViewState["addedOnce"] = 1;
             int Variantcount = (int)ViewState["VariantCount"];
 
             // Create the container div for the new row
@@ -205,6 +211,20 @@ namespace webAssignment.Admin.Product_Management
                 if ( string.IsNullOrWhiteSpace(textBoxVariant.Text) || string.IsNullOrWhiteSpace(textBoxPrice.Text) || string.IsNullOrWhiteSpace(textBoxStock.Text) )
                 {
                     ShowNotification("Please make sure no field for the product variant is empty", "warning");
+                    return false;
+                }
+
+                // Check if price is an integer
+                if ( !int.TryParse(textBoxPrice.Text, out int price) )
+                {
+                    ShowNotification("Please enter a valid integer for price.", "warning");
+                    return false;
+                }
+
+                // Check if stock is an integer
+                if ( !int.TryParse(textBoxStock.Text, out int stock) )
+                {
+                    ShowNotification("Please enter a valid integer for stock.", "warning");
                     return false;
                 }
             }
