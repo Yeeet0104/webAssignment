@@ -24,15 +24,6 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
 
         /// <summary>
-        /// btnExport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
-
-        /// <summary>
         /// btnAddNewCust control.
         /// </summary>
         /// <remarks>
@@ -112,6 +103,15 @@ namespace webAssignment.Admin.Product_Management
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+
+        /// <summary>
+        /// resetVariant control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton resetVariant;
 
         /// <summary>
         /// createTextRowBtn control.

@@ -1,5 +1,8 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.VariantTypes;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Irony.Parsing;
 using System;
@@ -16,6 +19,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
 using webAssignment.Admin.Layout;
 using webAssignment.Admin.Product_Management;
 
@@ -30,12 +34,17 @@ namespace webAssignment
             if ( !IsPostBack )
             {
                 ViewState["PageIndex"] = 0;
+                ViewState["FilterStatus"] = "";
+                ViewState["onePageStartDate"] = "";
+                ViewState["onePageEndDate"] = "";
                 BindListView(0, pageSize, "");
+
             }
         }
+
         private void BindListView( int pageIndex, int pageSize, string status )
         {
-            productListView.DataSource = getProductData(pageIndex, pageSize, status);
+            productListView.DataSource = getProductData(pageIndex, pageSize, status ?? ViewState["FilterStatus"] as string);
             productListView.DataBind();
         }
 
@@ -48,7 +57,7 @@ namespace webAssignment
 
             if ( pageNumFoot != null )
             {
-                int totalItems = GetTotalProductsCount();
+                int totalItems = GetTotalProductsCount(ViewState["FilterStatus"].ToString());
                 int currentPageIndex = ( (int)ViewState["PageIndex"] );
                 int startRecord = ( currentPageIndex * pageSize ) + 1;
                 int endRecord = ( currentPageIndex + 1 ) * pageSize;
@@ -69,10 +78,15 @@ namespace webAssignment
             {
                 string productID = e.CommandArgument.ToString();
                 string encryptedStr = EncryptString(productID);
-                Response.Redirect($"~/Admin/Product Management/editProduct.aspx?OrderID={encryptedStr}");
+                Response.Redirect($"~/Admin/Product Management/editProduct.aspx?ProdID={encryptedStr}");
             }
             else if ( e.CommandName == "DeleteProduct" )
             {
+                string[] arrays = e.CommandArgument.ToString().Split(';');
+                popUpDelete.Style.Add("display", "flex");
+                lblmodalProdID.Text = arrays[0];
+                lblmodalProdName.Text = arrays[1];
+                Session["productIdDel"] = arrays[0];
             }
             else if ( e.CommandName == "viewItems" )
             {
@@ -82,70 +96,60 @@ namespace webAssignment
             }
         }
 
+
+
         // all the init for the nessary product datas
         private List<productsList> getProductData( int pageIndex, int pageSize, string status )
         {
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+            // Check Session and assign dates if available
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
             var productsList = new List<productsList>();
-            string filter = ViewState["Filter"] as string;
             string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
             string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
-            string sql = "";
-            if ( status == "" )
-            {
 
-                sql = $@"SELECT 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status,
-	                        sum(pv.stock) as total_stock,
-                            count(pv.product_variant_id) as total_variants, -- total count of variants for each product
-                            (select top 1 ip.path from image_path ip where ip.product_id = p.product_id) as first_image_path
-                        from 
-                            category c 
-                        inner join 
-                            product p on c.category_id = p.category_id 
-                        left join 
-                            product_variant pv on p.product_id = pv.product_id
-                        group by 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status
-                        ORDER BY {sortExpression} {sortDirection}
-                        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
-            }
-            else
+            List<string> conditions = new List<string>();
+            if ( !string.IsNullOrEmpty(status) )
             {
-                sql = $@"SELECT 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status,
-	                        sum(pv.stock) as total_stock,
-                            count(pv.product_variant_id) as total_variants, -- total count of variants for each product
-                            (select top 1 ip.path from image_path ip where ip.product_id = p.product_id) as first_image_path
-                        from 
-                            category c 
-                        inner join 
-                            product p on c.category_id = p.category_id 
-                        left join 
-                            product_variant pv on p.product_id = pv.product_id
-                        WHERE 
-                            p.product_status = @product_status
-                        group by 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status
-                        ORDER BY {sortExpression} {sortDirection}
-                        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                conditions.Add("p.product_status = @product_status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("p.date_added >= @startDate AND p.date_added <= @endDate");
             }
 
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
+            string sql = $@"SELECT 
+                                c.category_name,
+                                p.product_id, 
+                                p.product_name, 
+                                p.date_added,
+                                p.product_status,
+                                SUM(pv.stock) AS total_stock,
+                                COUNT(pv.product_variant_id) AS total_variants, 
+                                (SELECT TOP 1 ip.path FROM image_path ip WHERE ip.product_id = p.product_id) AS first_image_path
+                            FROM 
+                                category c 
+                            INNER JOIN 
+                                product p ON c.category_id = p.category_id 
+                            LEFT JOIN 
+                                product_variant pv ON p.product_id = pv.product_id
+                            {whereClause}
+                            GROUP BY 
+                                c.category_name,
+                                p.product_id, 
+                                p.product_name, 
+                                p.date_added,
+                                p.product_status
+                            ORDER BY {sortExpression} {sortDirection}
+                            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -154,15 +158,17 @@ namespace webAssignment
                 {
                     cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
-                    if ( status != "" )
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
+                    if ( !string.IsNullOrEmpty(status) )
                     {
                         cmd.Parameters.AddWithValue("@product_status", status);
-
                     }
-
                     using ( SqlDataReader reader = cmd.ExecuteReader() )
                     {
-
                         while ( reader.Read() )
                         {
                             productsList.Add(new productsList
@@ -245,97 +251,126 @@ namespace webAssignment
             }
             return productsList;
         }
-        private int GetTotalProductsCount( )
+        private int GetTotalProductsCount( string status = "" )
         {
-            string countSql = $@"SELECT COUNT(*)
-                     FROM 
-                        Category c 
-                     LEFT JOIN 
-                        Product p ON c.category_id = p.category_id
-                     WHERE 
-                        p.product_id IS NOT NULL";
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+            // Check Session and assign dates if available
+            if ( ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "" )
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
+            var productsList = new List<productsList>();
+            string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
+            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
 
-            int totalCount = 0;
+            List<string> conditions = new List<string>();
+            if ( !string.IsNullOrEmpty(status) )
+            {
+                conditions.Add("p.product_status = @product_status");
+            }
+            if ( sortStartDate.HasValue && sortEndDate.HasValue )
+            {
+                conditions.Add("p.date_added >= @startDate AND p.date_added <= @endDate");
+            }
+
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
+            string countSql = $@"SELECT COUNT(*)
+                        FROM Product p 
+                        JOIN Category c ON p.category_id = c.category_id
+                        {whereClause}";
+
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 conn.Open();
                 using ( SqlCommand cmd = new SqlCommand(countSql, conn) )
                 {
-                    totalCount = (int)cmd.ExecuteScalar();
-                }
-            }
-            return totalCount;
-        }
-
-        private List<productsList> getProductDataByDate( int pageIndex, int pageSize, DateTime startDate, DateTime endDate )
-        {
-            var productsList = new List<productsList>();
-            string filter = ViewState["Filter"] as string;
-            string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
-            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
-            string sql = $@"SELECT 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status,
-	                        sum(pv.stock) as total_stock,
-                            count(pv.product_variant_id) as total_variants, -- total count of variants for each product
-                            (select top 1 ip.path from image_path ip where ip.product_id = p.product_id) as first_image_path
-                        from 
-                            category c 
-                        inner join 
-                            product p on c.category_id = p.category_id 
-                        left join 
-                            product_variant pv on p.product_id = pv.product_id
-                        WHERE
-                            p.date_added >= @startDate AND p.date_added <= @endDate
-                        group by 
-                            c.category_name,
-                            p.product_id, 
-                            p.product_name, 
-                            p.date_added,
-                            p.product_status
-                        ORDER BY {sortExpression} {sortDirection}
-                        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
-
-
-
-            using ( SqlConnection conn = new SqlConnection(connectionString) )
-            {
-                conn.Open();
-                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
-                {
-                    cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
-                    cmd.Parameters.AddWithValue("@startDate", startDate);
-                    cmd.Parameters.AddWithValue("@endDate", endDate);
-
-
-                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    if ( sortStartDate.HasValue && sortEndDate.HasValue )
                     {
-
-                        while ( reader.Read() )
-                        {
-                            productsList.Add(new productsList
-                            {
-                                CategoryName = reader.GetString(0),
-                                ProductID = reader.GetString(1),
-                                ProductName = reader.GetString(2),
-                                date_added = reader.GetDateTime(3),
-                                ProductVariantID = "",
-                                VariantPrice = 0,
-                                variantCount = reader.GetInt32(6).ToString(),
-                                total_stock = reader.GetInt32(5),
-                                ProductStatus = reader.GetString(4),
-                                ProductImageUrl = reader.GetString(7)
-                            });
-                        }
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
                     }
+                    if ( !string.IsNullOrEmpty(status) )
+                    {
+                        cmd.Parameters.AddWithValue("@product_status", status);
+                    }
+                    return (int)cmd.ExecuteScalar();
                 }
             }
-            return productsList;
         }
+
+        //private List<productsList> getProductDataByDate( int pageIndex, int pageSize, DateTime startDate, DateTime endDate )
+        //{
+        //    var productsList = new List<productsList>();
+        //    string filter = ViewState["Filter"] as string;
+        //    string sortExpression = ViewState["SortExpression"] as string ?? "product_id";
+        //    string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+        //    string sql = $@"SELECT 
+        //                    c.category_name,
+        //                    p.product_id, 
+        //                    p.product_name, 
+        //                    p.date_added,
+        //                    p.product_status,
+	       //                 sum(pv.stock) as total_stock,
+        //                    count(pv.product_variant_id) as total_variants, -- total count of variants for each product
+        //                    (select top 1 ip.path from image_path ip where ip.product_id = p.product_id) as first_image_path
+        //                from 
+        //                    category c 
+        //                inner join 
+        //                    product p on c.category_id = p.category_id 
+        //                left join 
+        //                    product_variant pv on p.product_id = pv.product_id
+        //                WHERE
+        //                    p.date_added >= @startDate AND p.date_added <= @endDate
+        //                group by 
+        //                    c.category_name,
+        //                    p.product_id, 
+        //                    p.product_name, 
+        //                    p.date_added,
+        //                    p.product_status
+        //                ORDER BY {sortExpression} {sortDirection}
+        //                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+
+
+        //    using ( SqlConnection conn = new SqlConnection(connectionString) )
+        //    {
+        //        conn.Open();
+        //        using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+        //        {
+        //            cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
+        //            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+        //            cmd.Parameters.AddWithValue("@startDate", startDate);
+        //            cmd.Parameters.AddWithValue("@endDate", endDate);
+
+
+        //            using ( SqlDataReader reader = cmd.ExecuteReader() )
+        //            {
+
+        //                while ( reader.Read() )
+        //                {
+        //                    productsList.Add(new productsList
+        //                    {
+        //                        CategoryName = reader.GetString(0),
+        //                        ProductID = reader.GetString(1),
+        //                        ProductName = reader.GetString(2),
+        //                        date_added = reader.GetDateTime(3),
+        //                        ProductVariantID = "",
+        //                        VariantPrice = 0,
+        //                        variantCount = reader.GetInt32(6).ToString(),
+        //                        total_stock = reader.GetInt32(5),
+        //                        ProductStatus = reader.GetString(4),
+        //                        ProductImageUrl = reader.GetString(7)
+        //                    });
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return productsList;
+        //}
 
         // for paginations
         protected void prevPage_Click( object sender, EventArgs e )
@@ -345,19 +380,19 @@ namespace webAssignment
             if ( pageIndex > 0 )
             {
                 ViewState["PageIndex"] = pageIndex - 1;
-                BindListView((int)ViewState["PageIndex"], pageSize, "");
+                BindListView((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
             }
         }
         protected void nextPage_Click( object sender, EventArgs e )
         {
             int pageIndex = (int)ViewState["PageIndex"];
-            int totalCategories = GetTotalProductsCount();
+            int totalProducts = GetTotalProductsCount(ViewState["FilterStatus"].ToString());
 
-            if ( ( pageIndex + 1 ) * pageSize < totalCategories )
+            if ( ( pageIndex + 1 ) * pageSize < totalProducts )
             {
-                Debug.Write("BABAK1 " + pageIndex);
-                ViewState["PageIndex"] = pageIndex + 1;
-                BindListView((int)ViewState["PageIndex"], pageSize, "");
+                pageIndex++;
+                ViewState["PageIndex"] = pageIndex;
+                BindListView((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
             }
         }
 
@@ -377,7 +412,7 @@ namespace webAssignment
             {
                 sortProd = categories.OrderByDescending(x => GetPropertyValue(x, e.SortExpression));
             }
-            productListView.DataSource = getProductData((int)ViewState["PageIndex"], pageSize, "");
+            productListView.DataSource = getProductData((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
             productListView.DataBind();
         }
         private object GetPropertyValue( object obj, string propName )
@@ -396,7 +431,6 @@ namespace webAssignment
                 // Check if the same column is being sorted.
                 // Otherwise, the default value is returned.
                 string lastDirection = ViewState["SortDirection"] as string;
-                Debug.Write("babakqweqwelast" + lastDirection);
                 if ( ( lastDirection != null ) && ( lastDirection == "ASC" ) )
                 {
                     sortDirection = "DESC";
@@ -443,46 +477,23 @@ namespace webAssignment
             productListView.DataBind();
         }
 
-        private List<productsList> FilterCategoryList( List<productsList> categories, string searchTerm )
+        private List<productsList> FilterCategoryList( List<productsList> prodlist, string searchTerm )
         {
-            string safeSearchTerm = searchTerm.Replace("'", "''");
+            string safeSearchTerm = searchTerm.Replace("'", "''").ToLower();
 
             // Using LINQ to filter the list of categories by name
-            var filteredCategories = categories.Where(c => c.CategoryName.Contains(safeSearchTerm)).ToList();
-            return filteredCategories;
+            var productsLists = prodlist.Where(p =>
+                p.CategoryName.ToLower().Contains(searchTerm) ||
+                p.total_stock.ToString().Contains(searchTerm) ||
+                p.ProductName.ToLower().Contains(searchTerm) ||
+                p.ProductStatus.ToLower().Contains(searchTerm) ||
+                p.variantCount.ToLower().Contains(searchTerm) ||
+                p.VariantPrice.ToString().Contains(searchTerm) ||
+                p.date_added.ToString("dd/MM/yyyy").Contains(searchTerm)).ToList(); ;
+
+            return productsLists;
         }
 
-        private DataTable FilterDataTable( DataTable dataTable, string searchTerm )
-        {
-            // Escape single quotes in the search term which can break the filter expression.
-            string safeSearchTerm = searchTerm.Replace("'", "''");
-
-            // Build a filter expression that checks if any of the columns contain the search term.
-            string expression = string.Format(
-                "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
-                "ProductName LIKE '%{0}%' OR " +
-                "Convert(AdditionalProductsCount, 'System.String') LIKE '%{0}%' OR " +
-                "Convert(Date, 'System.String') LIKE '%{0}%' OR " +
-                "CustomerName LIKE '%{0}%' OR " +
-                "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
-                "Convert(PaymentDate, 'System.String') LIKE '%{0}%' OR " +
-                "Status LIKE '%{0}%'",
-                safeSearchTerm);
-
-            // Use the Select method to find all rows matching the filter expression.
-            DataRow[] filteredRows = dataTable.Select(expression);
-
-            // Create a new DataTable to hold the filtered rows.
-            DataTable filteredDataTable = dataTable.Clone(); // Clone the structure of the table.
-
-            // Import the filtered rows into the new DataTable.
-            foreach ( DataRow row in filteredRows )
-            {
-                filteredDataTable.ImportRow(row);
-            }
-
-            return filteredDataTable;
-        }
 
         // filter tab functions
         protected void closePopUp_Click( object sender, EventArgs e )
@@ -493,28 +504,47 @@ namespace webAssignment
         {
             popUpDelete.Style.Add("display", "none");
         }
+        protected void btnConfirmDelete_Click( object sender, EventArgs e )
+        {
+            if ( passwordForDelete.Text.ToString() != "" )
+            {
+                if ( Page.IsValid && passwordForDelete.Text.ToString() == "12345" )
+                {
+                    deleteProduct(Session["productIdDel"].ToString());
+                }
+            }
+        }
         protected void publishFilter_click( object sender, EventArgs e )
         {
+            ViewState["FilterStatus"] = "Publish";
+            ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "Publish");
             changeSelectedtabCss("Publish");
-
         }
+
         protected void draftFilter_click( object sender, EventArgs e )
         {
+            ViewState["FilterStatus"] = "Draft";
+            ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "Draft");
             changeSelectedtabCss("Draft");
         }
+
         protected void discontinuedFilter_click( object sender, EventArgs e )
         {
-            BindListView(0, pageSize, "discontinued");
-            changeSelectedtabCss("discontinued");
+            ViewState["FilterStatus"] = "Discontinued";
+            ViewState["PageIndex"] = 0;
+            BindListView(0, pageSize, "Discontinued");
+            changeSelectedtabCss("Discontinued");
         }
+
         protected void allProductFilter_click( object sender, EventArgs e )
         {
+            ViewState["FilterStatus"] = "";
+            ViewState["PageIndex"] = 0;
             BindListView(0, pageSize, "");
             changeSelectedtabCss("");
         }
-
         private void changeSelectedtabCss( string tabName )
         {
             resetfilterTabSttyle();
@@ -526,7 +556,7 @@ namespace webAssignment
                 case "Draft":
                     draftFilter.CssClass += " text-blue-600 bg-gray-100";
                     break;
-                case "discontinued":
+                case "Discontinued":
                     discontinuedFilter.CssClass += " text-blue-600 bg-gray-100";
                     break;
                 default:
@@ -534,9 +564,6 @@ namespace webAssignment
                     break;
 
             }
-
-
-
         }
 
         private void resetfilterTabSttyle( )
@@ -575,7 +602,7 @@ namespace webAssignment
             {
                 ShowNotification("Missing Inputs", "warning");
                 txtStartDate.CssClass += " border-red-800 border-2";
-                return; 
+                return;
             }
 
             // Check if the end date is a valid date
@@ -583,21 +610,20 @@ namespace webAssignment
             {
                 ShowNotification("Missing Inputs", "warning");
                 txtEndDate.CssClass += " border-red-800 border-2";
-                return; 
+                return;
             }
 
             // Optional: Check if the start date is before the end date
             if ( startDate > endDate )
             {
-
-                return; 
+                return;
             }
             if ( startDate != null && endDate != null )
             {
-
-                // Now call your method to fetch the data based on these dates
-                BindListViewWithDateFilter(startDate, endDate);
-
+                lblDate.Text = startDate.ToString("dd/MM/yyyy") + " - " + endDate.ToString("dd/MM/yyyy");
+                ViewState["onePageStartDate"] = startDate;
+                ViewState["onePageEndDate"] = endDate;
+                BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
             }
             else
             {
@@ -608,13 +634,65 @@ namespace webAssignment
         {
             pnlDateFilter.Style.Add("display", "none");
         }
-        private void BindListViewWithDateFilter( DateTime startDate, DateTime endDate )
+
+
+
+        private void deleteProduct( string productID )
         {
-            var filteredProducts = getProductDataByDate(0, pageSize, startDate, endDate);
-            productListView.DataSource = filteredProducts;
-            productListView.DataBind();
-            pnlDateFilter.Style.Add("display", "none");
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
+            {
+                conn.Open();
+                string sql = "UPDATE Product SET product_Status = @status WHERE product_id = @productID";
+                using ( SqlCommand cmd = new SqlCommand(sql, conn) )
+                {
+                    cmd.Parameters.AddWithValue("@productID", productID);
+                    cmd.Parameters.AddWithValue("@status", "Discontinued");
+                    cmd.ExecuteNonQuery();
+                    popUpDelete.Style.Add("display", "none");
+                }
+            }
+            Response.Redirect(Request.RawUrl);
         }
+
+        //protected void btnExport_Click( object sender, EventArgs e )
+        //{
+        //    using ( var workbook = new XLWorkbook() )
+        //    {
+        //        var worksheet = workbook.Worksheets.Add("Categories");
+        //        var currentRow = 1;
+
+        //        // Assuming you want to export the headers
+        //        worksheet.Cell(currentRow, 1).Value = "Category Name";
+        //        worksheet.Cell(currentRow, 2).Value = "Total Sold";
+        //        worksheet.Cell(currentRow, 3).Value = "Stock";
+        //        worksheet.Cell(currentRow, 4).Value = "Date Added";
+
+        //        List<Category> categories = getProductData(0, GetTotalCategoriesCount() + 1);
+        //        // Assuming 'categoryListView' is data-bound to a collection of categories
+        //        foreach ( Category item in categories )
+        //        {
+        //            if ( item != null )
+        //            {
+        //                currentRow++;
+        //                worksheet.Cell(currentRow, 1).Value = item.CategoryName;
+        //                worksheet.Cell(currentRow, 2).Value = item.Sold;
+        //                worksheet.Cell(currentRow, 3).Value = item.Stock;
+        //                worksheet.Cell(currentRow, 4).Value = item.date_added;
+        //            }
+        //        }
+
+        //        using ( var stream = new MemoryStream() )
+        //        {
+        //            workbook.SaveAs(stream);
+        //            stream.Position = 0;
+        //            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //            Response.AddHeader("content-disposition", "attachment;filename=Categories.xlsx");
+        //            stream.WriteTo(Response.OutputStream);
+        //            Response.Flush();
+        //            Response.End();
+        //        }
+        //    }
+        //}
 
 
         //snackbar
@@ -624,6 +702,12 @@ namespace webAssignment
             ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
 
-
+        protected void clearDateFilter_Click( object sender, EventArgs e )
+        {
+            lblDate.Text = "Select Date";
+            ViewState["onePageStartDate"] = "";
+            ViewState["onePageEndDate"] = "";
+            BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="editVoucher.aspx.cs" Inherits="webAssignment.Admin.Voucher.editVoucher" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="addVoucher.aspx.cs" Inherits="webAssignment.Admin.Voucher.addVoucher" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -11,7 +11,7 @@
             <div class="flex flex-col w-3/5">
                 <div class="text-2xl font-bold ">
                     <p>
-                        Edit Voucher :[<asp:Label ID="lblvoucherCode" runat="server" Text="[voucherCode]"></asp:Label>]
+                        Add Voucher
                     </p>
                 </div>
                 <div class="flex flex-row text-sm py-2">
@@ -27,7 +27,7 @@
             <div class="flex w-full justify-end mb-3">
                 <div class="relative ml-2 cursor-pointer">
                     <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
-                    <asp:Button ID="edtVoucher" runat="server" Text="Edit Voucher" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" OnClick="edtVoucher_Click"   />
+                    <asp:Button ID="btnAddNewVoucher" runat="server" Text="Add Voucher" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" OnClick="btnAddNewVoucher_Click1" />
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                                 </div>
                                 <span class=" text-base">Voucher Code</span>
                             </div>
-                            <asp:TextBox class="p-3 rounded-xl bg-gray-100" ID="editVoucherCode" runat="server" ToolTip="Category Name" placeholder="Type Voucher Code..." ReadOnly="true" ></asp:TextBox>
+                            <asp:TextBox class="p-3 rounded-xl bg-gray-100" ID="editVoucherCode" runat="server" ToolTip="Category Name" placeholder="Type Voucher Code..."></asp:TextBox>
                         </div>
                         <div class="grid grid-cols-2 items-center">
                             <div class="flex gap-4  items-center">

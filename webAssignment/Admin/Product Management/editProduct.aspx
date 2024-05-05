@@ -42,13 +42,9 @@
         </div>
 
         <div class="flex justify-between">
-            <div class="relative mr-2">
-                <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg  cursor-pointer" />
-            </div>
             <div class="relative ml-2">
                 <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
-                <asp:Button ID="btnAddNewCust" runat="server" Text="Add Product" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" />
+                <asp:Button ID="btnAddNewCust" runat="server" Text="Update Product" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" OnClick="UploadButton_Click" />
             </div>
 
         </div>
@@ -79,7 +75,7 @@
                     </div>
                     <asp:Panel ID="imageContainer" CssClass="w-full flex flex-row gap-10 items-center  justify-center" runat="server"></asp:Panel>
                     <asp:FileUpload ID="fileUpload" runat="server" AllowMultiple="true" />
-                    <asp:Button ID="btnUpload" runat="server" Text="Upload New Image(s)" OnClick="UploadImages" />
+                    <asp:Button CssClass="bg-blue-400 px-2 py-1 rounded text-white hover:bg-blue-700 cursor-pointer" ID="btnUpload" runat="server" Text="Upload New Image(s)" OnClick="UploadImages" />
 
                 </div>
             </div>
@@ -95,19 +91,22 @@
                                     <span class="text-lg">Variants Pricing</span>
                                     <span class="text-sm text-gray-400">Enter the name and price for each variant.</span>
                                 </div>
-                                <asp:LinkButton ID="createTextRowBtn" runat="server" OnClick="createTextRowBtn_Click" CssClass="flex items-center gap-4 hover:bg-gray-200 px-2 p-1 rounded-lg drop-shadow-lg border">   
-                                    <span>Add Variant</span>
-                                    <i class="text-xl fa-regular fa-square-plus "></i>
+                                <div class="flex flex-row gap-2">
+                                    <asp:LinkButton ID="resetVariant" runat="server" OnClick="resetVariant_Click" CssClass="flex items-center gap-4 hover:bg-gray-200 px-2 p-1 rounded-lg drop-shadow-lg border">   
+                                        <span>Reset</span>
+<i class="fa-solid fa-arrow-rotate-right"></i>
 
-                                </asp:LinkButton>
-                                <%--<asp:Button ID="Button1" runat="server" Text="Create TextBox" OnClick="btnCreateTextBox_Click" />--%>
+                                    </asp:LinkButton>
+                                    <asp:LinkButton ID="createTextRowBtn" runat="server" OnClick="createTextRowBtn_Click" CssClass="flex items-center gap-4 hover:bg-gray-200 px-2 p-1 rounded-lg drop-shadow-lg border">   
+                                        <span>Add Variant</span>
+                                        <i class="text-xl fa-regular fa-square-plus "></i>
+
+                                    </asp:LinkButton>
+
+                                </div>
                             </div>
                             <div>
-                                <div class='flex gap-4 items-center flex-wrap justify-evenly mb-4'>
-                                    <%--                                <asp:TextBox ID="variant1Tb" runat="server" CssClass="editTbVariation_input" Placeholder="Variant 1"></asp:TextBox>
-                                    <asp:TextBox ID="priceVar1Tb" runat="server" CssClass="editTbVariation_input" Placeholder="Price for Variant 1"></asp:TextBox>--%>
-                                </div>
-                                <asp:Panel ID="panelVariantTextBoxes" runat="server" CssClass="flex flex-col gap-4">
+                                <asp:Panel ID="panelVariantTextBoxes" runat="server" CssClass="">
                                 </asp:Panel>
                             </div>
                         </ContentTemplate>
@@ -132,10 +131,6 @@
                     <asp:ListItem Value="Pc">Pc</asp:ListItem>
                     <asp:ListItem Value="Laptop">Laptop</asp:ListItem>
                 </asp:DropDownList>
-                <%--                <span class="text-gray-500">Product Description</span>
-                <asp:DropDownList CssClass="p-3 bg-gray-100 text-gray-500 rounded-xl" ID="DropDownList2" runat="server">
-                    <asp:ListItem Value="-">Select Tag</asp:ListItem>
-                </asp:DropDownList>--%>
             </div>
             <div class="bg-white flex flex-col p-4 bg-white rounded-xl h-fit">
                 <div class="flex flex-row justify-between mb-5 items-center">

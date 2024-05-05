@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Newtonsoft.Json;
 
 namespace webAssignment.Admin.Product_Management
 {
@@ -118,10 +119,16 @@ namespace webAssignment.Admin.Product_Management
 
             if ( checkInputs() == false )
             {
+                ShowNotification("Please correct the highlighted errors and try again.", "error");
                 return;
             }
             if ( checkProdVariants() == false )
             {
+                return;
+            }
+            if ( productDec() == "" )
+            {
+                ShowNotification("Please Include Atleast One DEC1:  !.", "error");
                 return;
             }
 
@@ -139,6 +146,7 @@ namespace webAssignment.Admin.Product_Management
                 {
                     ShowNotification("Please correct the highlighted errors and try again.", "error");
                 }
+                ShowNotification("Successfully added new product", "Success");
             }
         }
 
@@ -301,18 +309,38 @@ namespace webAssignment.Admin.Product_Management
         }
 
         // adding new product functions
+
+        private string productDec( )
+        {
+            var lines = newProductDes.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var descriptions = new List<string>();
+
+            foreach ( var line in lines )
+            {
+                // Assuming the format is "DECx: description here"
+                var splitIndex = line.IndexOf(":");
+                if ( splitIndex != -1 && line.StartsWith("DEC") ) // Ensuring it starts with "DEC"
+                {
+                    descriptions.Add(line.Substring(splitIndex + 1).Trim()); // +1 to skip the colon itself
+                }
+            }
+
+            return JsonConvert.SerializeObject(descriptions);
+        }
         private string InsertProduct( string prodName, string prodDesc, string categoryId, string status )
         {
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 conn.Open();
                 string sql = "INSERT INTO Product (product_id,category_id, product_name, product_description, product_status , date_added) OUTPUT INSERTED.product_id VALUES (@productID,@CategoryID, @ProductName, @ProductDescription, @Status,@date_Added)";
+
+
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
                     cmd.Parameters.AddWithValue("@productID", GetNextProductId(conn));
                     cmd.Parameters.AddWithValue("@CategoryID", categoryId);
                     cmd.Parameters.AddWithValue("@ProductName", prodName);
-                    cmd.Parameters.AddWithValue("@ProductDescription", prodDesc);
+                    cmd.Parameters.AddWithValue("@ProductDescription", productDec());
                     cmd.Parameters.AddWithValue("@Status", status);
                     cmd.Parameters.Add("@date_Added", SqlDbType.DateTime).Value = DateTime.UtcNow;
                     string productId = cmd.ExecuteScalar().ToString();
@@ -341,6 +369,7 @@ namespace webAssignment.Admin.Product_Management
                         string variantId = GetNextProductVariantId(conn);
 
                         string sql = "INSERT INTO Product_Variant (product_variant_id,product_id, variant_name, variant_price, stock,variant_status) VALUES (@VariantID,@ProductID, @VariantName, @VariantPrice, @Stock, @status)";
+
                         using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                         {
                             cmd.Parameters.AddWithValue("@VariantID", variantId);
@@ -488,7 +517,7 @@ namespace webAssignment.Admin.Product_Management
         }
 
 
-        // double check if the inputed file is an image
+        // double check if the inputed file is an ikmage
         private bool IsImage( string file )
         {
             string extension = Path.GetExtension(file).ToLowerInvariant();
