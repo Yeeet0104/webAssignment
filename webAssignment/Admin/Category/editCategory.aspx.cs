@@ -124,7 +124,7 @@ namespace webAssignment.Admin.Category
                     row["descriptions"] = editCategoryDes.Text;
                 }
 
-                if ( getFileSavePath(false) != "No File" )
+                if ( getFileSavePath(false) != "No File" )  
                 {
                     changesDetected = true;
                     row["tumbnail_img_path"] = getFileSavePath(true);

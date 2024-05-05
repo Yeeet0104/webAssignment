@@ -1,9 +1,13 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -22,7 +26,32 @@ namespace webAssignment
         {
             assignActiveClass();
             loadProfile();
-            
+            var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx" };
+
+            string currentPage = Path.GetFileName(Request.FilePath);
+            Debug.WriteLine("currentPagecurrentPage" + currentPage);
+            Debug.WriteLine("currentPagecurrentPage" + visiblePages.Contains(currentPage, StringComparer.OrdinalIgnoreCase));
+            if ( visiblePages.Contains(currentPage, StringComparer.OrdinalIgnoreCase) )
+            {
+                filterDatePopUp.Visible = false;
+            }
+            else
+            {
+                filterDatePopUp.Visible = true;
+            }
+            // Set the visibility of the button based on whether the current page is in the list
+            if (!IsPostBack)
+            {
+                if ( Session["StartDate"] != null && Session["EndDate"] != null )
+                {
+                    
+                    lblDate.Text = ((DateTime)Session["StartDate"]).ToString("dd/MMM/yyyy") + " - " + ( (DateTime)Session["EndDate"] ).ToString("dd/MMM/yyyy");
+                }
+                else
+                {
+                    lblDate.Text = "Today";
+                }
+            }
         }
 
         private void assignActiveClass()
@@ -69,6 +98,7 @@ namespace webAssignment
                     break;
                 case "voucher.aspx":
                 case "editvoucher.aspx":
+                case "addVoucher.aspx":
                     voucherLk.Attributes["class"] += " activeNavItem";
 
                     break;
@@ -89,10 +119,6 @@ namespace webAssignment
             {
                 currentContent.FilterListView(searchTerm);
             }
-            else
-            {
-                // Handle the case where the content page does not implement IFilterable
-            }
         }
 
         protected void SearchTextBox_TextChanged(object sender, EventArgs e)
@@ -106,8 +132,77 @@ namespace webAssignment
             }
             else
             {
-                // Handle the case where the content page does not implement IFilterable
+                ShowNotification("Search Error", "warning");
             }
+        }
+
+        protected void filterDatePopUp_Click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "flex");
+        }        
+        protected void allTimeDate_Click( object sender, EventArgs e )
+        {
+            lblDate.Text = "All Time";
+
+            DateTime startDate = new DateTime(1800, 1, 1);  
+            DateTime endDate = new DateTime(2100, 12, 31);  
+
+            // Store in session
+            Session["StartDate"] = startDate;
+            Session["EndDate"] = endDate;
+            pnlDateFilter.Style.Add("display", "none");
+            Response.Redirect(Request.RawUrl);
+        }
+        protected void cancelDate_click( object sender, EventArgs e )
+        {
+            pnlDateFilter.Style.Add("display", "none");
+        }
+
+        protected void btnApplyDateFilter_Click( object sender, EventArgs e )
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            if ( !DateTime.TryParse(txtStartDate.Text, out startDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtStartDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            if ( !DateTime.TryParse(txtEndDate.Text, out endDate) )
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtEndDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            if ( startDate > endDate )
+            {
+                ShowNotification("Start Date cannot more than end date", "warning");
+                return;
+            }
+            if ( startDate != null && endDate != null )
+            {
+                Session["StartDate"] = startDate;
+                Session["EndDate"] = endDate;
+
+                lblDate.Text = startDate.ToString("dd/MM/yyyy") + " - " + endDate.ToString("dd/MM/yyyy");
+                Response.Redirect(Request.RawUrl);
+                pnlDateFilter.Style.Add("display", "none");
+            }
+            else
+            {
+                txtEndDate.CssClass += "border-red-800";
+            }
+        }
+
+        protected void ShowNotification( string message, string type )
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+
+            // Using ScriptManager to register the startup script
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowSnackbar", script, true);
         }
 
         private void loadProfile()

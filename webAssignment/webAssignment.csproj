@@ -58,6 +58,7 @@
     <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
+
     <Reference Include="Google.Apis, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.68.0\lib\net462\Google.Apis.dll</HintPath>
     </Reference>
@@ -69,6 +70,8 @@
     </Reference>
     <Reference Include="Google.Apis.Gmail.v1, Version=1.68.0.3399, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.Gmail.v1.1.68.0.3399\lib\net462\Google.Apis.Gmail.v1.dll</HintPath>
+    <Reference Include="Highcharts, Version=11.4.1.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Highsoft.Highcharts.11.4.1\lib\netstandard2.0\Highcharts.dll</HintPath>
     </Reference>
     <Reference Include="Irony, Version=1.0.11.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <HintPath>..\packages\Irony.NetCore.1.0.11\lib\net461\Irony.dll</HintPath>
@@ -80,6 +83,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.4\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+
     <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -199,6 +203,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
+    <Content Include="Admin\Dashboard\dashboardFunc.js" />
+    <Content Include="Admin\VisitorCounter.cs" />
     <Content Include="Admin\Admin Management\adminManagement.aspx" />
     <Content Include="Admin\Category\editCategory.aspx" />
     <Content Include="Admin\Category\sad_kermit.png" />
@@ -238,6 +244,7 @@
     <Content Include="Admin\Profile\image\userProfile.gif" />
     <Content Include="Admin\SiteMapCss\siteMapAdmin.css" />
     <Content Include="Admin\Transaction\transaction.aspx" />
+    <Content Include="Admin\Voucher\addVoucher.aspx" />
     <Content Include="Admin\Voucher\editVoucher.aspx" />
     <Content Include="Admin\Voucher\voucher.aspx" />
     <Content Include="App_Data\MainDatabase.mdf" />
@@ -254,6 +261,7 @@
     <Content Include="Client\Cart\images\cryingKermit.png" />
     <Content Include="Client\Checkout\image\img_placeholder.jpg" />
     <Content Include="Client\Checkout\PaymentPage.aspx" />
+    <Content Include="Client\ClientMasterPage\ClientPage.js" />
     <Content Include="Client\Home\Home Images\logitec.png" />
     <Content Include="Client\Home\Home Images\logitec2.png" />
     <Content Include="Client\Home\Home Images\Pc.png" />
@@ -310,6 +318,8 @@
     <Content Include="Client\Checkout\CheckoutPage.aspx" />
     <Content Include="Client\Profile\ReviewPage.aspx" />
     <Content Include="Client\Wishlist\WishlistPage.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="lib\highcharts.js" />
     <Content Include="ProfilePic\defaultPic.jpg" />
     <Content Include="testingDb.aspx" />
     <Content Include="Web.config" />
@@ -382,6 +392,7 @@
       <DependentUpon>AdminPage.Master</DependentUpon>
     </Compile>
     <Compile Include="Admin\Layout\Filterable.cs" />
+    <Compile Include="Admin\Orders\addressInfo.cs" />
     <Compile Include="Admin\Orders\EditOrder.aspx.cs">
       <DependentUpon>EditOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -396,6 +407,8 @@
     <Compile Include="Admin\Orders\Order.aspx.designer.cs">
       <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Orders\orders.cs" />
+    <Compile Include="Admin\Orders\userInfo.cs" />
     <Compile Include="Admin\Product Management\addNewProduct.aspx.cs">
       <DependentUpon>addNewProduct.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -453,6 +466,14 @@
     <Compile Include="Admin\Transaction\transaction.aspx.designer.cs">
       <DependentUpon>transaction.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Transaction\transaction.cs" />
+    <Compile Include="Admin\Voucher\addVoucher.aspx.cs">
+      <DependentUpon>addVoucher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Voucher\addVoucher.aspx.designer.cs">
+      <DependentUpon>addVoucher.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Voucher\editVoucher.aspx.cs">
       <DependentUpon>editVoucher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -467,6 +488,7 @@
     <Compile Include="Admin\Voucher\voucher.aspx.designer.cs">
       <DependentUpon>voucher.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Voucher\Voucher.cs" />
     <Compile Include="Client\AboutUs\AboutUsPage.aspx.cs">
       <DependentUpon>AboutUsPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -481,6 +503,7 @@
     <Compile Include="Client\Cart\CartPage.aspx.designer.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Client\Checkout\Address.cs" />
     <Compile Include="Client\Checkout\CheckoutPage.aspx.cs">
       <DependentUpon>CheckoutPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -614,6 +637,9 @@
     <Compile Include="Client\Profile\Address.aspx.designer.cs">
       <DependentUpon>Address.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="testingDb.aspx.cs">
@@ -649,7 +675,9 @@
     <Content Include="CategoryBannerImg\sad-mouse.gif" />
     <Content Include="CategoryBannerImg\WhatsApp Image 2024-03-28 at 7.23.30 PM.jpeg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Admin\VisitorCountClass\" />
+  </ItemGroup>
   <ItemGroup />
   <ItemGroup />
   <PropertyGroup>

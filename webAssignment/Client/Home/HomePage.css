@@ -43,7 +43,7 @@ nav.sticky {
 
 #productContainer {
     display: grid;
-    grid-template-columns: repeat(8, 250px);
+    grid-template-columns: repeat(6, 250px);
     overflow-x: scroll;
     grid-gap: 30px;
     scroll-behavior: smooth;

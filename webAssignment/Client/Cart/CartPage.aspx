@@ -57,7 +57,7 @@
                         </ItemTemplate>--%>
                             <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
                                 <td class="col-span-2 flex items-center gap-5">
-                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath", "{0}") %>' class="h-16 w-16 rounded-md" />
+                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# "/Client/Product/Products Images/" + Eval("imagePath", "{0}") + ".png" %>'  class="h-16 w-16 rounded-md" />
                                     <span class="overflow-hidden whitespace-nowrap overflow-ellipsis pr-1">
                                         <%# Eval("productName") %>  <%# Eval("variantName") %>
                                     </span>
@@ -131,7 +131,7 @@
                         <asp:Label ID="lblCartTotal" runat="server" Text="RM 0.00"></asp:Label>
                     </div>
 
-                    <asp:Button ID="btnProceedCheckout" runat="server" Text="PROCEED TO CHECKOUT" CssClass="mt-2 text-white bg-blue-700 rounded-lg w-full p-2 font-semibold text-sm cursor-pointer text-center" OnClick="btnProceedCheckout_Click" />
+                    <asp:Button ID="btnProceedCheckout" runat="server" Text="Proceed To Checkout" CssClass="mt-2 text-white bg-blue-700 rounded-lg w-full p-2 font-semibold text-sm cursor-pointer text-center" OnClick="btnProceedCheckout_Click" />
                 </div>
 
             </div>

@@ -42,6 +42,15 @@ namespace webAssignment.Client.ClientMasterPage
         protected global::System.Web.UI.WebControls.LinkButton lbCart;
 
         /// <summary>
+        /// cartBadge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cartBadge;
+
+        /// <summary>
         /// lbWishlist control.
         /// </summary>
         /// <remarks>
@@ -121,5 +130,23 @@ namespace webAssignment.Client.ClientMasterPage
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSendRequest;
+
+        /// <summary>
+        /// snackbar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl snackbar;
+
+        /// <summary>
+        /// snackbarMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl snackbarMessage;
     }
 }

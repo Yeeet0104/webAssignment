@@ -78,6 +78,24 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Button discontinuedFilter;
 
         /// <summary>
+        /// clearDateFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton clearDateFilter;
+
+        /// <summary>
+        /// Label1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
+
+        /// <summary>
         /// filterDateBtn control.
         /// </summary>
         /// <remarks>
@@ -85,6 +103,15 @@ namespace webAssignment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton filterDateBtn;
+
+        /// <summary>
+        /// lblDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDate;
 
         /// <summary>
         /// productListView control.
@@ -123,13 +150,22 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
-        /// lblItemInfo control.
+        /// lblmodalProdID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblItemInfo;
+        protected global::System.Web.UI.WebControls.Label lblmodalProdID;
+
+        /// <summary>
+        /// lblmodalProdName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblmodalProdName;
 
         /// <summary>
         /// passwordForDelete control.

@@ -42,13 +42,49 @@ namespace webAssignment.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblProductPrice;
 
         /// <summary>
-        /// lblShortProductDesc control.
+        /// lblShortProductDesc1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblShortProductDesc;
+        protected global::System.Web.UI.WebControls.Label lblShortProductDesc1;
+
+        /// <summary>
+        /// selectedVariation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField selectedVariation;
+
+        /// <summary>
+        /// btnVariation1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVariation1;
+
+        /// <summary>
+        /// btnVariation2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVariation2;
+
+        /// <summary>
+        /// btnVariation3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVariation3;
 
         /// <summary>
         /// stepdown control.
@@ -96,102 +132,147 @@ namespace webAssignment.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Button btnAddToWishlist;
 
         /// <summary>
-        /// totalCusRating control.
+        /// lblShortProductDesc2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label totalCusRating;
+        protected global::System.Web.UI.WebControls.Label lblShortProductDesc2;
 
         /// <summary>
-        /// fivestarPercent control.
+        /// lblShortProductDesc3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label fivestarPercent;
+        protected global::System.Web.UI.WebControls.Label lblShortProductDesc3;
 
         /// <summary>
-        /// fivestarAmount control.
+        /// lblOverallRating control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label fivestarAmount;
+        protected global::System.Web.UI.WebControls.Label lblOverallRating;
 
         /// <summary>
-        /// Label1 control.
+        /// divStarRating control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStarRating;
 
         /// <summary>
-        /// Label2 control.
+        /// lblTotalRatings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label lblTotalRatings;
 
         /// <summary>
-        /// Label3 control.
+        /// Label5StarCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.Label Label5StarCount;
 
         /// <summary>
-        /// Label4 control.
+        /// Label5StarPercentage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.Label Label5StarPercentage;
 
         /// <summary>
-        /// Label5 control.
+        /// Label4StarCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5;
+        protected global::System.Web.UI.WebControls.Label Label4StarCount;
 
         /// <summary>
-        /// Label6 control.
+        /// Label4StarPercentage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label6;
+        protected global::System.Web.UI.WebControls.Label Label4StarPercentage;
 
         /// <summary>
-        /// Label7 control.
+        /// Label3StarCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label7;
+        protected global::System.Web.UI.WebControls.Label Label3StarCount;
 
         /// <summary>
-        /// Label8 control.
+        /// Label3StarPercentage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label8;
+        protected global::System.Web.UI.WebControls.Label Label3StarPercentage;
+
+        /// <summary>
+        /// Label2StarCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label2StarCount;
+
+        /// <summary>
+        /// Label2StarPercentage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label2StarPercentage;
+
+        /// <summary>
+        /// Label1StarCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1StarCount;
+
+        /// <summary>
+        /// Label1StarPercentage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1StarPercentage;
+
+        /// <summary>
+        /// rptReviews control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptReviews;
     }
 }

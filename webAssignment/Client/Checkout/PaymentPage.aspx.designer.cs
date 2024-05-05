@@ -60,13 +60,13 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.Button btnCOD;
 
         /// <summary>
-        /// Panel1 control.
+        /// pnlCard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
+        protected global::System.Web.UI.WebControls.Panel pnlCard;
 
         /// <summary>
         /// lblCardNumber control.
@@ -132,13 +132,13 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.TextBox txtCVV;
 
         /// <summary>
-        /// Panel2 control.
+        /// pnlBank control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel2;
+        protected global::System.Web.UI.WebControls.Panel pnlBank;
 
         /// <summary>
         /// lblBankFPXInfo control.
@@ -159,13 +159,31 @@ namespace webAssignment.Client.Checkout
         protected global::System.Web.UI.WebControls.DropDownList ddlBank;
 
         /// <summary>
-        /// Panel3 control.
+        /// lblBankFPXNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel3;
+        protected global::System.Web.UI.WebControls.Label lblBankFPXNumber;
+
+        /// <summary>
+        /// txtBankNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBankNumber;
+
+        /// <summary>
+        /// pnlCOD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCOD;
 
         /// <summary>
         /// lvCheckoutProduct control.

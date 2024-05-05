@@ -24,15 +24,6 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
 
         /// <summary>
-        /// btnExport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
-
-        /// <summary>
         /// HyperLink1 control.
         /// </summary>
         /// <remarks>
@@ -51,40 +42,22 @@ namespace webAssignment.Admin.Product_Management
         protected global::System.Web.UI.WebControls.Button allProductFilter;
 
         /// <summary>
-        /// publishFilter control.
+        /// inStockFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button publishFilter;
+        protected global::System.Web.UI.WebControls.Button inStockFilter;
 
         /// <summary>
-        /// stockFilter control.
+        /// outOfStockFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button stockFilter;
-
-        /// <summary>
-        /// draftFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button draftFilter;
-
-        /// <summary>
-        /// noStockFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button noStockFilter;
+        protected global::System.Web.UI.WebControls.Button outOfStockFilter;
 
         /// <summary>
         /// backBtn control.

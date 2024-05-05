@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.master.cs" Inherits="webAssignment.AdminPage" %>
+
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <!DOCTYPE html>
 
@@ -41,26 +42,6 @@
 
 
                         </asp:HyperLink>
-
-                        <asp:HyperLink ID="productLk" runat="server"
-                            class=" 
-                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
-                                "
-                            NavigateUrl="~/Admin/Product Management/adminProducts.aspx">
-                                <i class="fas fa-box mr-4 icon-16x16"></i>Products
-
-
-                        </asp:HyperLink>
-
-                        <asp:HyperLink ID="categoryLk" runat="server"
-                            class=" 
-                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
-                                "
-                            NavigateUrl="~/Admin/Category/Category.aspx">
-                                <i class="fa-solid fa-layer-group mr-4 icon-16x16""></i>Category
-
-
-                        </asp:HyperLink>
                         <asp:HyperLink ID="orderLk" runat="server"
                             class=" 
                                 flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
@@ -76,17 +57,42 @@
                             NavigateUrl="~/Admin/Transaction/transaction.aspx">
                                 <i class="fa-solid fa-wallet mr-4 icon-16x16""></i>Transaction
                         </asp:HyperLink>
-                        <asp:HyperLink ID="voucherLk" runat="server"
-                            class=" 
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-base px-6 py-2">
+                            PRODUCT MANAGEMENT
+                        </div>
+                        <div>
+                            <asp:HyperLink ID="productLk" runat="server"
+                                class=" 
                                 flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
                                 "
-                            NavigateUrl="~/Admin/Voucher/voucher.aspx">
+                                NavigateUrl="~/Admin/Product Management/adminProducts.aspx">
+                                <i class="fas fa-box mr-4 icon-16x16"></i>Products
+
+
+                            </asp:HyperLink>
+
+                            <asp:HyperLink ID="categoryLk" runat="server"
+                                class=" 
+                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                                "
+                                NavigateUrl="~/Admin/Category/Category.aspx">
+                                <i class="fa-solid fa-layer-group mr-4 icon-16x16""></i>Category
+
+
+                            </asp:HyperLink>
+                            <asp:HyperLink ID="voucherLk" runat="server"
+                                class=" 
+                                flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+                                "
+                                NavigateUrl="~/Admin/Voucher/voucher.aspx">
 
        <i class="fa-solid fa-ticket mr-4 icon-16x16"></i>
                                 Voucher
-                        </asp:HyperLink>
+                            </asp:HyperLink>
+                        </div>
                     </div>
-
 
                     <!-- User Management Section -->
                     <div class="mt-4">
@@ -153,16 +159,20 @@
                 <!-- Header -->
                 <div class="items-center justify-center w-auto m-4 mt-10 mb-5">
                     <div class="flex flex-row w-full px-6 justify-between items-center">
-                        <div class="w-4/5 flex flex-row items-center">
+
+                        <asp:LinkButton ID="filterDatePopUp" runat="server" CssClass="link-button" OnClick="filterDatePopUp_Click">
+                            <asp:Label ID="lblDate" runat="server" Text="Filter By Date"></asp:Label>
+                            <i class="fa-regular fa-calendar text-center pl-2"></i>
+                        </asp:LinkButton>
+                        <div class="w-3/5 flex flex-row items-center">
                             <asp:TextBox ID="SearchTextBox" runat="server" CssClass="
-                                w-11/12 px-4 py-2 mr-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:outline-none focus:ring h-fit"
+                                w-11/12 px-4 py-3 mr-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:outline-none focus:ring h-fit"
                                 placeholder="Search..." AutoPostBack="True" OnTextChanged="SearchTextBox_TextChanged"></asp:TextBox>
+
                             <asp:LinkButton ID="SearchButton" runat="server" CssClass="px-1 py-2 text-gray-700 rounded-md" OnClick="SearchButton_Click" Text="ok">
 
                                   <i class="fa-solid fa-magnifying-glass text-xl "></i>
                             </asp:LinkButton>
-
-
                         </div>
                         <%--<i class="fa-solid fa-bell text-xl ml-5 cursor-pointer"></i>--%>
                         <div class="w-1/10 bg-white rounded-lg p-1 relative">
@@ -233,6 +243,7 @@
 
 
                 <!-- MAIN CONTENT GOES HERE -->
+
                 <main class="px-10 overflow-y-scroll scrollbar-hide" style="height: 85%">
 
                     <div class=" font-semibold ">
@@ -246,7 +257,7 @@
         <div id="snackbar" runat="server" class="hidden fixed text-lg right-10 transform bottom-10 bg-gray-300 text-white py-3 px-6 rounded shadow-lg text-center z-50" style="z-index: 50; min-width: 300px;" role="alert">
             <div class="flex justify-between gap-4">
                 <div>
-                    <i id="snackbarIcon" class="fa-solid"></i>  
+                    <i id="snackbarIcon" class="fa-solid"></i>
 
                 </div>
                 <div class="text-center w-full">
@@ -256,10 +267,76 @@
 
             </div>
         </div>
+        <!-- date pop up panel -->
+        <asp:Panel ID="pnlDateFilter" runat="server" CssClass="modal fixed w-full h-full top-0 left-0 flex items-center justify-center" Style="display: none; background-color: rgba(0, 0, 0, 0.5);">
+            <div class="modal-content w-1/4 bg-white p-6 rounded-lg shadow-lg text-center flex flex-col gap-10">
+                <h2 class="text-xl  font-bold">Select Date Range</h2>
+                <div class="flex flex-col gap-2 ">
+                    <div class="grid grid-cols-3 ">
+                        <p class="flex justify-center items-center">Start Date :</p>
+                        <asp:TextBox ID="txtStartDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
+                    </div>
+                    <div class="grid grid-cols-3">
+                        <p class="flex justify-center items-center">End Date :</p>
+                        <asp:TextBox ID="txtEndDate" runat="server" TextMode="Date" CssClass="date-picker form-input block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer col-span-2" />
+
+                    </div>
+                    <div>
+                        <asp:Button ID="allTimeDate" CssClass="w-full apply-button bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" runat="server" Text="All" OnClick="allTimeDate_Click" />
+                    </div>
+                </div>
+                <div class="flex justify-center gap-10">
+                    <asp:Button ID="cancelDate" runat="server" Text="Close" OnClick="cancelDate_click" CssClass="bg-gray-200 hover:bg-blue-700 hover:text-white text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+                    <asp:Button ID="btnApplyDateFilter" runat="server" Text="Apply Filter" OnClick="btnApplyDateFilter_Click" CssClass="apply-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+                </div>
+            </div>
+        </asp:Panel>
     </form>
 </body>
 </html>
 <style>
+    .link-button {
+        position: relative;
+        padding: 12px 16px;
+        color: #000;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden; /* Ensures the background doesn't spill out of the border-radius */
+        transition: color 0.4s ease-in-out;
+    }
+
+        .link-button::before {
+            content: '';
+            position: absolute;
+            bottom: -100%; /* Start from the bottom */
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #007bff; /* The color you want on hover */
+            transition: bottom 0.4s ease-in-out;
+            z-index: 0;
+        }
+
+        .link-button:hover::before {
+            bottom: 0; /* Slide in on hover */
+        }
+
+
+        .link-button:hover {
+            color: white !important;
+        }
+
+            /* Remove background-color change for the icon */
+            .link-button:hover i {
+                color: white !important;
+            }
+
+        /* Fix the z-index for the icon as well */
+        .link-button span, .link-button label, .link-button i {
+            position: relative;
+            z-index: 1;
+        }
+
     .icon-16x16 {
         font-size: 16px;
         width: 16px;
