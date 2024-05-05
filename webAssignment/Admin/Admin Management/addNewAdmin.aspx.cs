@@ -19,7 +19,13 @@ namespace webAssignment.Admin.Admin_Management
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                if (Session["userId"] == null)
+                {
+                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+                }
+            }
         }
 
         protected void btnAddAdmin_Click(object sender, EventArgs e)
@@ -48,7 +54,7 @@ namespace webAssignment.Admin.Admin_Management
                 }
                 else
                 {
-                    lblErrorMsg.Text = "Invalid email!";
+                    lblErrorMsg.Text = "Invalid email format!";
                 }
             }
             else
@@ -144,7 +150,13 @@ namespace webAssignment.Admin.Admin_Management
 
                 int rowsAffected = cmd.ExecuteNonQuery();
                 conn.Close();
-                
+                if (rowsAffected > 0)
+                {
+                    if (picAdded)
+                    {
+                        profilePic.ImageUrl = profile_pic_path + "?timestamp=" + DateTime.Now.Ticks;
+                    }
+                }               
                 return rowsAffected > 0;
             }
         }

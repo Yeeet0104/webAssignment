@@ -38,7 +38,7 @@ namespace webAssignment.Client.LoginSignUp
 
                     if (role == "Admin" || role == "Admin Manager")
                     {                        
-                        SetUserInfoCookie(userId);
+                        SetUserSession(userId);
                         Response.Redirect("~/Admin/Dashboard/Dashboard.aspx");
                     }
                     else
@@ -56,7 +56,6 @@ namespace webAssignment.Client.LoginSignUp
                 lblLoginMessage.Text = "Input fields cannot be empty!";
             }
         }
-
         private string LoginAdmin(string email, string hashedPassword)
         {
             string query = @"SELECT user_id, role FROM [User] WHERE email = @Email AND password = @Password";
@@ -81,7 +80,6 @@ namespace webAssignment.Client.LoginSignUp
                 }
             }
         }
-
         private bool ValidateForm()
         {
             bool isEmailValid = !string.IsNullOrEmpty(txtEmail.Text);
@@ -92,15 +90,10 @@ namespace webAssignment.Client.LoginSignUp
 
             return isEmailValid && isPassValid;
         }
-
-        private void SetUserInfoCookie(string userId)
-        {// Sets a cookie containing the user ID.
-            HttpCookie userInfoCookie = new HttpCookie("userInfo");
-            userInfoCookie["userId"] = userId.ToString();
-            userInfoCookie.Expires = DateTime.Now.AddDays(1);
-            Response.Cookies.Add(userInfoCookie);
+        private void SetUserSession(string userId)
+        {// Set a session variable containing the user ID.
+            Session["userId"] = userId.ToString();
         }
-
         private string EncryptPassword(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())
@@ -116,6 +109,11 @@ namespace webAssignment.Client.LoginSignUp
                 }
                 return builder.ToString();
             }
+        }
+
+        protected void customerLink_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Client/LoginSignUp/Login.aspx");
         }
     }
 }

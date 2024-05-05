@@ -112,7 +112,7 @@ namespace webAssignment
 
         private void loadProfile()
         {
-            string userId = Request.Cookies["userInfo"]["userID"];
+            string userId = Session["userId"].ToString();
 
             string query = "SELECT * FROM [User] WHERE user_id = @UserId";
 
