@@ -27,9 +27,10 @@
                     <asp:Label ID="lblShortProductDesc1" runat="server" CssClass="product-desc" Text="Short Product Description" /></span>
                 <div class="product-variations">
                     <asp:HiddenField ID="selectedVariation" runat="server"  />
-                    <asp:Button ID="btnVariation1" runat="server" CssClass="variation-btn" Text="Variation 1" OnClick="UpdatePrice" runat="server" />
-                    <asp:Button ID="btnVariation2" runat="server" CssClass="variation-btn" Text="Variation 2" OnClick="UpdatePrice" runat="server" />
-                    <asp:Button ID="btnVariation3" runat="server" CssClass="variation-btn" Text="Variation 3" OnClick="UpdatePrice" runat="server" />  
+                     <asp:DropDownList AutoPostBack="true" CssClass="p-3 bg-gray-200 text-md text-black mb-4 text-gray-500 rounded-xl" ID="ddlProdVariant" runat="server" ViewStateMode="Enabled"
+                         OnSelectedIndexChanged="ddlProdVariant_SelectedIndexChanged">
+                        <asp:ListItem Value="-"> Select a variant</asp:ListItem>
+                    </asp:DropDownList> 
                 </div>
                 <div class="product-quantity">
                     <h5 class="mr-4">Quantity: </h5>
@@ -89,7 +90,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style="width: 90%;"></div>
+                                                                        <div id="starlbl1" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label5StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -107,7 +108,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl2" runat="server" class="bg-[#319ba1] h-2 rounded-lg"  style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label4StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -124,7 +125,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl3" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label3StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -140,7 +141,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl4" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label2StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -155,7 +156,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl5" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label1StarCount" runat="server" Text="9.9%"></asp:Label>

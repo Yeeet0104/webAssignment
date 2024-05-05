@@ -76,7 +76,7 @@
                     </div>
                 </LayoutTemplate>
                     <ItemTemplate>
-                        <a class="product" href='<%# "~/Client/ProductDetails/ProductDetailsPage.aspx?ProductId=" + Eval("product_id") %>'>
+                        <a class="product" href='<%# "/Client/ProductDetails/ProductDetailsPage.aspx?ProductId=" + Eval("product_id") %>'>
                             <div id="product" class="hover-content">
                                 <div class="product-header">
                                     <img src='<%# "~/Client/Product/Products Images/" + Eval("product_image") + ".png" %>' alt='<%# Eval("product_name") %>' />

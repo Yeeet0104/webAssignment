@@ -25,6 +25,19 @@
                         </div>
                     </div>
                     <asp:ListView ID="lvCartProduct" runat="server" OnItemCommand="cartListView_ItemCommand">
+                        <EmptyDataTemplate>
+                            <table class="orders-table w-full ">
+                                <tr class="w-full ">
+                                    <td>
+                                        <div class="flex flex-col justify-center items-center">
+                                            <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                            <span>No Product Found</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </EmptyDataTemplate>
                         <LayoutTemplate>
                             <tr id="itemPlaceholder" runat="server"></tr>
                         </LayoutTemplate>
@@ -57,7 +70,7 @@
                         </ItemTemplate>--%>
                             <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
                                 <td class="col-span-2 flex items-center gap-5">
-                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# "/Client/Product/Products Images/" + Eval("imagePath", "{0}") + ".png" %>'  class="h-16 w-16 rounded-md" />
+                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# "/Client/Product/Products Images/" + Eval("imagePath", "{0}") + ".png" %>' class="h-16 w-16 rounded-md" />
                                     <span class="overflow-hidden whitespace-nowrap overflow-ellipsis pr-1">
                                         <%# Eval("productName") %>  <%# Eval("variantName") %>
                                     </span>

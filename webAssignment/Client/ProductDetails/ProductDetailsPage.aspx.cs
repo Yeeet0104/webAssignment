@@ -70,6 +70,7 @@ namespace webAssignment.Client.ProductDetails
 
         private void PopulateProductDetails(string productId)
         {
+            ddlProdVariant.Items.Clear();
             DataTable productData = GetProductData(productId);
             if (productData.Rows.Count > 0)
             {
@@ -81,6 +82,7 @@ namespace webAssignment.Client.ProductDetails
                 string[] descriptionsArray = JsonConvert.DeserializeObject<string[]>(descriptionJson);
                 if (descriptionsArray != null && descriptionsArray.Length > 0)
                 {
+
                     string firstDescription = descriptionsArray[0];
                     lblShortProductDesc1.Text = firstDescription;
 
@@ -102,7 +104,26 @@ namespace webAssignment.Client.ProductDetails
 
             }
         }
+        // for category ddl init
+        private void initProVariant( string productId )
+        {
+            DataTable prodVar = GetProductVariantData(productId);
 
+            // Clear existing items
+            ddlProdVariant.Items.Clear();
+
+
+            // Check if categories were fetched successfully
+            if ( prodVar != null )
+            {
+                ddlProdVariant.DataSource = prodVar;
+                ddlProdVariant.DataTextField = "variant_name";
+                ddlProdVariant.DataValueField = "product_variant_id";
+                ddlProdVariant.DataBind();
+            }
+            ddlProdVariant.Items.Insert(0, new ListItem("Select a variant", ""));
+
+        }
         private DataTable GetProductVariantData(string productId)
         {
             DataTable variantData = new DataTable();
@@ -124,16 +145,17 @@ namespace webAssignment.Client.ProductDetails
         private void PopulateVariantDetails(string productId)
         {
             DataTable variantData = GetProductVariantData(productId);
-            if (variantData.Rows.Count > 0)
-            {
-                Button[] buttons = { btnVariation1, btnVariation2, btnVariation3 }; // Add more buttons as needed
+            initProVariant(productId);
+            //if (variantData.Rows.Count > 0)
+            //{
+            //    Button[] buttons = { btnVariation1, btnVariation2, btnVariation3 }; // Add more buttons as needed
 
-                for (int i = 0; i < variantData.Rows.Count && i < buttons.Length; i++)
-                {
-                    buttons[i].Text = variantData.Rows[i]["variant_name"].ToString();
-                    buttons[i].Attributes["data-variant-id"] = variantData.Rows[i]["product_variant_id"].ToString();
-                }
-            }
+            //    for (int i = 0; i < variantData.Rows.Count && i < buttons.Length; i++)
+            //    {
+            //        buttons[i].Text = variantData.Rows[i]["variant_name"].ToString();
+            //        buttons[i].Attributes["data-variant-id"] = variantData.Rows[i]["product_variant_id"].ToString();
+            //    }
+            //}
         }
 
         private DataTable GetReviewData(string productId)
@@ -148,8 +170,6 @@ namespace webAssignment.Client.ProductDetails
                INNER JOIN [User] u ON r.user_id = u.user_id
                INNER JOIN Product_Variant pv ON r.product_variant_id = pv.product_variant_id
                WHERE pv.product_id = @ProductId";
-
-
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -220,6 +240,11 @@ namespace webAssignment.Client.ProductDetails
                 {
                     starPercentages[i] = (double)starCounts[i] / totalRatings * 100;
                     Debug.WriteLine($"Star {i + 1} Count: {starCounts[i]}, Percentage: {starPercentages[i]}%");
+                    starlbl1.Style.Add("width", starPercentages[4].ToString() + "%");
+                    starlbl2.Style.Add("width", starPercentages[3].ToString() + "%");
+                    starlbl3.Style.Add("width", starPercentages[2].ToString() + "%");
+                    starlbl4.Style.Add("width", starPercentages[1].ToString() + "%");
+                    starlbl5.Style.Add("width", starPercentages[0].ToString() + "%");
                 }
 
                 // Set overall rating label
@@ -266,9 +291,9 @@ namespace webAssignment.Client.ProductDetails
             selectedVariation.Value = variantId;
 
             // Remove the selected class from all variation buttons
-            btnVariation1.CssClass = btnVariation1.CssClass.Replace("selected", "").Trim();
-            btnVariation2.CssClass = btnVariation2.CssClass.Replace("selected", "").Trim();
-            btnVariation3.CssClass = btnVariation3.CssClass.Replace("selected", "").Trim();
+            //btnVariation1.CssClass = btnVariation1.CssClass.Replace("selected", "").Trim();
+            //btnVariation2.CssClass = btnVariation2.CssClass.Replace("selected", "").Trim();
+            //btnVariation3.CssClass = btnVariation3.CssClass.Replace("selected", "").Trim();
 
             // Add the selected class to the clicked button
             variationButton.CssClass += " selected";
@@ -309,7 +334,7 @@ namespace webAssignment.Client.ProductDetails
             }
 
             // Check if a variation is selected
-            if (string.IsNullOrEmpty(selectedVariation.Value))
+            if (string.IsNullOrEmpty(ddlProdVariant.SelectedValue))
             {
                 // Show a notification to select a variation
                 ShowNotification("Please select a variation before adding to cart.", "warning");
@@ -318,9 +343,9 @@ namespace webAssignment.Client.ProductDetails
 
             // Get user ID, variation, qty
             string userId = Session["UserId"].ToString();
-            string productVariantId = selectedVariation.Value;
+            string productVariantId = ddlProdVariant.SelectedItem.Value.ToString();
             int quantity = int.Parse(qtyInput.Text);
-
+            Debug.WriteLine("cibai" + productVariantId);
             // Generate cart ID 
             string cartId = GenerateCartId();
 
@@ -335,7 +360,7 @@ namespace webAssignment.Client.ProductDetails
                 {
                     // Show success message
                     ShowNotification("Product added to cart successfully!", "success");
-
+                    Response.Redirect(Request.RawUrl);
                 }
                 else
                 {
@@ -453,24 +478,24 @@ namespace webAssignment.Client.ProductDetails
             return cartQuantity;
         }
 
-        private void UpdateCartIconBadge(int cartQuantity)
-        {
+        //private void UpdateCartIconBadge(int cartQuantity)
+        //{
 
-            var cartBadge = (HtmlGenericControl)Master.FindControl("cartBadge");
+        //    var cartBadge = (HtmlGenericControl)Master.FindControl("cartBadge");
             
-            // Update the HTML element containing the cart icon badge
-            if (cartQuantity > 0)
-            {
-                // Display the badge and update its value
-                cartBadge.Visible = true;
-                cartBadge.InnerText = cartQuantity.ToString();
-            }
-            else
-            {
-                // Hide the badge if there are no items in the cart
-                cartBadge.Visible = false;
-            }
-        }
+        //    // Update the HTML element containing the cart icon badge
+        //    if (cartQuantity > 0)
+        //    {
+        //        // Display the badge and update its value
+        //        cartBadge.Visible = true;
+        //        cartBadge.InnerText = cartQuantity.ToString();
+        //    }
+        //    else
+        //    {
+        //        // Hide the badge if there are no items in the cart
+        //        cartBadge.Visible = false;
+        //    }
+        //}
 
         protected void btnAddToWishlist_Click(object sender, EventArgs e)
         {
@@ -499,5 +524,12 @@ namespace webAssignment.Client.ProductDetails
             ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
 
+        protected void ddlProdVariant_SelectedIndexChanged( object sender, EventArgs e )
+        {
+            decimal price = GetPriceForVariant(ddlProdVariant.SelectedValue.ToString());
+            lblProductPrice.Text = string.Format("RM {0:N2}", price);
+
+            Debug.WriteLine("BABAI CIBAi");
+        }
     }
 }
