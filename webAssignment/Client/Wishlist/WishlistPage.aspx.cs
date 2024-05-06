@@ -35,39 +35,46 @@ namespace webAssignment.Client.Wishlist
 
         private void BindWishlistItems( )
         {
-            //string userId = Session["UserId"].ToString();
-            string userId = "CS1001";
-            try
-            {
 
-                using ( SqlConnection connection = new SqlConnection(connectionString) )
+            if ( Session["UserId"] != null )
+            {
+             string userId = Session["UserId"].ToString();
+                try
                 {
-                    connection.Open();
 
-                    // Query to fetch wishlist items for the specified user
-                    string query = @"SELECT DISTINCT p.product_id, p.product_name, pv.variant_price, ip.path, pv.variant_status, pv.variant_name ,pv.product_variant_id
-                             FROM Wishlist w
-                             JOIN Wishlist_details wd ON w.wishlist_id = wd.wishlist_id
-                             JOIN Product_Variant pv ON wd.product_variant_id = pv.product_variant_id
-                             JOIN Product p ON pv.product_id = p.product_id
-                             JOIN Image_Path ip ON p.product_id = ip.product_id
-                             WHERE w.user_id = @userId";
+                    using ( SqlConnection connection = new SqlConnection(connectionString) )
+                    {
+                        connection.Open();
 
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@userId", userId);
+                        // Query to fetch wishlist items for the specified user
+                        string query = @"SELECT DISTINCT p.product_id, p.product_name, pv.variant_price, ip.path, pv.variant_status, pv.variant_name ,pv.product_variant_id
+                                 FROM Wishlist w
+                                 JOIN Wishlist_details wd ON w.wishlist_id = wd.wishlist_id
+                                 JOIN Product_Variant pv ON wd.product_variant_id = pv.product_variant_id
+                                 JOIN Product p ON pv.product_id = p.product_id
+                                 JOIN Image_Path ip ON p.product_id = ip.product_id
+                                 WHERE w.user_id = @userId";
 
-                    SqlDataReader reader = command.ExecuteReader();
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@userId", userId);
 
-                    lvWishlist.DataSource = reader;
-                    lvWishlist.DataBind();
+                        SqlDataReader reader = command.ExecuteReader();
 
-                    reader.Close();
+                        lvWishlist.DataSource = reader;
+                        lvWishlist.DataBind();
+
+                        reader.Close();
+                    }
                 }
+                catch ( Exception ex )
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+
             }
-            catch ( Exception ex )
+            else
             {
-                // Handle exceptions
-                Console.WriteLine("Error: " + ex.Message);
+                lvWishlist.DataBind();
             }
         }
 
