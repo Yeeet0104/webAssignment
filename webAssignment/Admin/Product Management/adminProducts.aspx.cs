@@ -635,8 +635,6 @@ namespace webAssignment
             pnlDateFilter.Style.Add("display", "none");
         }
 
-
-
         private void deleteProduct( string productID )
         {
             using ( SqlConnection conn = new SqlConnection(connectionString) )
@@ -654,45 +652,52 @@ namespace webAssignment
             Response.Redirect(Request.RawUrl);
         }
 
-        //protected void btnExport_Click( object sender, EventArgs e )
-        //{
-        //    using ( var workbook = new XLWorkbook() )
-        //    {
-        //        var worksheet = workbook.Worksheets.Add("Categories");
-        //        var currentRow = 1;
+        protected void btnExport_Click( object sender, EventArgs e )
+        {
+            using ( var workbook = new XLWorkbook() )
+            {
+                var worksheet = workbook.Worksheets.Add("Product Data");
+                var currentRow = 1;
+                // Define headers
+                worksheet.Cell(currentRow, 1).Value = "Category Name";
+                worksheet.Cell(currentRow, 2).Value = "Product ID";
+                worksheet.Cell(currentRow, 3).Value = "Product Name";
+                worksheet.Cell(currentRow, 4).Value = "Date Added";
+                worksheet.Cell(currentRow, 5).Value = "Product Status";
+                worksheet.Cell(currentRow, 6).Value = "Total Stock";
+                worksheet.Cell(currentRow, 7).Value = "Image URL";
 
-        //        // Assuming you want to export the headers
-        //        worksheet.Cell(currentRow, 1).Value = "Category Name";
-        //        worksheet.Cell(currentRow, 2).Value = "Total Sold";
-        //        worksheet.Cell(currentRow, 3).Value = "Stock";
-        //        worksheet.Cell(currentRow, 4).Value = "Date Added";
+                // Fetch data
+                var products = getTotalProducts(); // Make sure this method returns List<productsList>
 
-        //        List<Category> categories = getProductData(0, GetTotalCategoriesCount() + 1);
-        //        // Assuming 'categoryListView' is data-bound to a collection of categories
-        //        foreach ( Category item in categories )
-        //        {
-        //            if ( item != null )
-        //            {
-        //                currentRow++;
-        //                worksheet.Cell(currentRow, 1).Value = item.CategoryName;
-        //                worksheet.Cell(currentRow, 2).Value = item.Sold;
-        //                worksheet.Cell(currentRow, 3).Value = item.Stock;
-        //                worksheet.Cell(currentRow, 4).Value = item.date_added;
-        //            }
-        //        }
+                foreach ( var product in products )
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = product.CategoryName;
+                    worksheet.Cell(currentRow, 2).Value = product.ProductID;
+                    worksheet.Cell(currentRow, 3).Value = product.ProductName;
+                    worksheet.Cell(currentRow, 4).Value = product.date_added;
+                    worksheet.Cell(currentRow, 5).Value = product.ProductStatus;
+                    worksheet.Cell(currentRow, 6).Value = product.total_stock;
+                    worksheet.Cell(currentRow, 7).Value = product.ProductImageUrl;
+                }
 
-        //        using ( var stream = new MemoryStream() )
-        //        {
-        //            workbook.SaveAs(stream);
-        //            stream.Position = 0;
-        //            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //            Response.AddHeader("content-disposition", "attachment;filename=Categories.xlsx");
-        //            stream.WriteTo(Response.OutputStream);
-        //            Response.Flush();
-        //            Response.End();
-        //        }
-        //    }
-        //}
+                // Formatting for the header
+                worksheet.Range(1, 1, 1, 7).Style.Font.Bold = true;
+                worksheet.Columns().AdjustToContents();  // Adjust column width
+
+                using ( var stream = new MemoryStream() )
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", $"attachment; filename=Products_{DateTime.Now:yyyyMMdd}.xlsx");
+                    stream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+        }
 
 
         //snackbar

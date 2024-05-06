@@ -12,11 +12,11 @@
 
             </div>
             <div id="cancelBox" class="hidden" runat="server">
-                <asp:LinkButton ID="lbCancel" runat="server" CssClass="font-semibold text-base bg-red-600 text-white py-1 px-4 rounded-lg flex items-center gap-2" PostBackUrl="~/Client/Profile/ReviewPage.aspx" OnClick="lbCancel_Click"><i class="fa-regular fa-xmark text-xs"></i><span>Cancel & Refund</span></asp:LinkButton>
+                <asp:LinkButton ID="lbCancel" runat="server" CssClass="font-semibold text-base bg-red-600 text-white py-1 px-4 rounded-lg flex items-center gap-2" OnClick="lbCancel_Click"><i class="fa-regular fa-xmark text-xs"></i><span>Cancel & Refund</span></asp:LinkButton>
             </div>
-            <div id="reviewBox" class="hidden" runat="server">
+            <%--<div id="reviewBox" class="hidden" runat="server">
                 <asp:LinkButton ID="lbReview" runat="server" CssClass="font-semibold text-base bg-blue-700 text-white py-1 px-4 rounded-lg flex items-center gap-2 " OnClick="lbReview_Click"><i class="fa-regular fa-pen-to-square text-xs"></i><span>Rate</span></asp:LinkButton>
-            </div>
+            </div>--%>
         </div>
         <div class="mb-4 shadow shadow-lg rounded-xl border border-gray-300">
             <div class="container mx-auto p-4 bg-white rounded-xl h-[200px] relative">
@@ -59,7 +59,7 @@
                             <div class="absolute flex flex-col justify-center items-center" style="bottom: -75px">
 
                                 <asp:Image ID="Image1" CssClass="w-[36px] h-[36px]" runat="server" ImageUrl="~/Client/Profile/images/package.gif" />
-                                <div class="text-center text-xs font-medium uppercase text-blue-500">Packaging</div>
+                                <div class="text-center text-xs font-medium uppercase text-blue-500">Packed</div>
                             </div>
                         </div>
 
@@ -237,6 +237,23 @@
                 <!-- Address -->
                 <div class="border border-gray-300 shadow shadow-xl rounded-2xl p-6 flex-1 flex flex-col gap-5 font-semibold bg-white">
                     <div class="flex flex-row items-center gap-2 ">
+                        <div class="text-lg text-gray-900 font-bold">Order Notes</div>
+                    </div>
+
+                    <div class="grid grid-cols-6 ">
+                        <div class="col-span-6 text-gray-700 flex flex-col gap-1">
+                            <asp:Label ID="lblOrderNote" runat="server" Text="Label"></asp:Label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="flex flex-row w-full gap-5">
+                <!-- Address -->
+                <div class="border border-gray-300 shadow shadow-xl rounded-2xl p-6 flex-1 flex flex-col gap-5 font-semibold bg-white">
+                    <div class="flex flex-row items-center gap-2 ">
                         <div class="text-lg text-gray-900 font-bold">Shipping Address</div>
                     </div>
 
@@ -250,7 +267,22 @@
                     </div>
 
                 </div>
+                <!-- Address -->
+                <div class="border border-gray-300 shadow shadow-xl rounded-2xl p-6 flex-1 flex flex-col gap-5 font-semibold bg-white">
+                    <div class="flex flex-row items-center gap-2 ">
+                        <div class="text-lg text-gray-900 font-bold">Billing Address</div>
+                    </div>
 
+                    <div class="grid grid-cols-6 ">
+                        <div class="col-span-6 text-gray-700 flex flex-col gap-1">
+                            <asp:Label ID="lblBillingAddress1" runat="server" Text="Label"></asp:Label>
+                            <asp:Label ID="lblBillingAddress2" runat="server" Text="Label"></asp:Label>
+                            <asp:Label ID="lblBillingAddress3" runat="server" Text="Label"></asp:Label>
+                            <asp:Label ID="lblBillingAddress4" runat="server" Text="Label"></asp:Label>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <!-- Order List -->
             <div class="w-full">
@@ -259,8 +291,8 @@
                     <div class="flex flex-row items-center gap-2 px-5 pt-6 pb-2">
                         <div class="text-lg text-gray-900 font-bold">Order List</div>
                     </div>
-                    <div class="grid grid-cols-5 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center px-5">
-                        <div class="col-span-2">
+                    <div class="grid grid-cols-7 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center px-5">
+                        <div class="col-span-3">
                             <p>Product</p>
                         </div>
                         <div class="col-span-1">
@@ -272,28 +304,34 @@
                         <div class="col-span-1">
                             <p>Subtotal</p>
                         </div>
+                        <div class="col-span-1">
+                            <p>Action</p>
+                        </div>
                     </div>
-                    <asp:ListView ID="lvOrderList" runat="server">
+                    <asp:ListView ID="lvOrderList" runat="server" OnItemCommand="orderListView_ItemCommand">
                         <LayoutTemplate>
 
                             <div id="itemPlaceholder" runat="server"></div>
                         </LayoutTemplate>
                         <ItemTemplate>
-                            <div class="grid grid-cols-5 flex items-center px-5 py-4 font-semibold">
-                                <div class="col-span-2 flex items-center gap-5">
+                            <div class="grid grid-cols-7 flex items-center px-5 py-4 text-sm">
+                                <div class="col-span-3 flex items-center gap-5">
                                     <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath") %>' class="h-16 w-16 rounded-md" />
                                     <span>
                                         <%# Eval("productName") %> <%# Eval("variantName") %> 
                                     </span>
                                 </div>
-                                <div class="col-span-1"><%# Eval("price") %></div>
-                                <div class="col-span-1 flex items-center gap-4">
-                                    <span>
+                                <div class="col-span-1">RM <%# Eval("price") %></div>
+                                <div class="col-span-1 pl-6">
+                                    <span class="text-center">
                                         <%# Eval("quantity") %>
                                     </span>
                                 </div>
                                 <div class="col-span-1">
-                                    <%# Eval("amount") %>
+                                    RM <%# Eval("amount") %>
+                                </div>
+                                <div>
+                                    <asp:LinkButton ID="lbReview" runat="server" CssClass="font-semibold text-base bg-blue-700 text-white py-1 px-4 w-[70%] rounded-lg flex items-center gap-2 " CommandArgument='<%# Eval("variantID") %>' CommandName="reviewClick"><i class="fa-regular fa-pen-to-square text-xs"></i><span>Rate</span></asp:LinkButton>
                                 </div>
                             </div>
 
@@ -305,6 +343,65 @@
             </div>
 
         </div>
+        <asp:Panel ID="popUpDelete" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+            <asp:LinkButton ID="LinkButton1" runat="server">LinkButton</asp:LinkButton>
+            <!-- Modal content -->
+            <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+
+                <div class="grid grid-cols-3 w-full h-fit justify-center flex p-0">
+                    <div>
+                    </div>
+                    <p class="text-2xl text-red-600 font-bold text-center">WARNING</p>
+                    <span class="w-auto flex items-center justify-end text-3xl rounded-full">
+
+
+                        <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click">
+                   <i class=" fa-solid fa-xmark"></i>
+                        </asp:LinkButton>
+
+                    </span>
+
+                </div>
+                <div class="flex flex-col justify-center items-center gap-5">
+
+                    <div style="font-size: 64px">
+                        <asp:Image ID="Image4" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
+
+                    </div>
+                    <p class="bold text-lg break-normal text-center">Are you sure you want to cancel this following Order?</p>
+                    <div class="flex gap-10 text-white font-bold">
+
+                        <asp:Button ID="btnCancelDelete" runat="server" Text="No" CssClass="bg-gray-500 p-2 p px-6 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />
+                        <asp:Button ID="btnConfirmDelete" OnClick="btnConfirmDelete_click" runat="server" Text="Yes" CssClass="bg-red-500 p-2 px-6 rounded-lg cursor-pointer" />
+                    </div>
+                </div>
+            </div>
+
+        </asp:Panel>
+        <asp:Panel ID="refund" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+            <asp:LinkButton ID="LinkButton2" runat="server">LinkButton</asp:LinkButton>
+            <!-- Modal content -->
+            <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
+
+                <div class="w-full h-fit justify-center flex p-0">
+                    <p class="text-2xl text-cyan-500 font-bold text-center">ORDER CANCELLED</p>
+
+                </div>
+                <div class="flex flex-col justify-center items-center gap-5">
+
+                    <div style="font-size: 64px">
+                        <asp:Image ID="Image5" runat="server" ImageUrl="~/Client/Profile/images/save-money.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
+
+                    </div>
+                    <p class="bold text-lg break-normal text-center">Order cancelled successfully.<br></br>Don't worry, the refund is on the way!</p>
+                    <div class="flex gap-10 text-white font-bold">
+
+                        <asp:Button ID="btnDoneCancel" OnClick="btnDoneCancel_Click" runat="server" Text="Confirm" CssClass="bg-cyan-500 p-2 px-6 rounded-lg cursor-pointer"  />
+                    </div>
+                </div>
+            </div>
+
+        </asp:Panel>
     </div>
 
 </asp:Content>

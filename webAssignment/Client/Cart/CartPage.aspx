@@ -10,8 +10,8 @@
             <div class="h-full w-[75%] flex flex-col border border-gray-200 shadow-xl rounded-lg">
                 <table class="orders-table w-full">
                     <p class="text-xl text-gray-900 font-bold p-4">Shopping Cart</p>
-                    <div class="grid grid-cols-5 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center">
-                        <div class="col-span-2">
+                    <div class="grid grid-cols-6 p-4 bg-gray-200 font-bold text-gray-600 text-sm flex items-center">
+                        <div class="col-span-3">
                             <p>Product</p>
                         </div>
                         <div class="col-span-1">
@@ -25,6 +25,19 @@
                         </div>
                     </div>
                     <asp:ListView ID="lvCartProduct" runat="server" OnItemCommand="cartListView_ItemCommand">
+                        <EmptyDataTemplate>
+                            <table class="orders-table w-full ">
+                                <tr class="w-full ">
+                                    <td>
+                                        <div class="flex flex-col justify-center items-center">
+                                            <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                            <span>No Product Found</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </EmptyDataTemplate>
                         <LayoutTemplate>
                             <tr id="itemPlaceholder" runat="server"></tr>
                         </LayoutTemplate>
@@ -55,12 +68,17 @@
                             </tr>
 
                         </ItemTemplate>--%>
-                            <tr class="grid grid-cols-5 flex items-center p-4 font-semibold">
-                                <td class="col-span-2 flex items-center gap-5">
-                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# "/Client/Product/Products Images/" + Eval("imagePath", "{0}") + ".png" %>'  class="h-16 w-16 rounded-md" />
-                                    <span class="overflow-hidden whitespace-nowrap overflow-ellipsis pr-1">
-                                        <%# Eval("productName") %>  <%# Eval("variantName") %>
-                                    </span>
+                            <tr class="grid grid-cols-6 flex items-center p-4 font-semibold">
+                                <td class="col-span-3 flex items-center gap-5">
+                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath", "{0}") %>' class="h-16 w-16 rounded-md" />
+                                    <div class="flex flex-col overflow-hidden whitespace-nowrap overflow-ellipsis pr-2">
+                                        <span class="overflow-hidden whitespace-nowrap overflow-ellipsis">
+                                            <%# Eval("productName") %>
+                                        </span>
+                                        <span class="overflow-hidden whitespace-nowrap overflow-ellipsis">
+                                              <%# Eval("variantName") %>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="col-span-1">RM <%# Eval("price") %></td>
                                 <td class="col-span-1 flex items-center gap-4">

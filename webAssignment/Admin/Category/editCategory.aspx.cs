@@ -50,14 +50,21 @@ namespace webAssignment.Admin.Category
         private void init( )
         {
             string encCateID = Request.QueryString["CategoryID"];
+
+            if ( string.IsNullOrEmpty(encCateID) )
+            {
+                Response.Redirect("~/Admin/Category/Category.aspx"); 
+                return; 
+            }
+
             string categoryID = DecryptString(encCateID);
             DataTable categoryData = getspecificCategoryData(categoryID);
 
             if ( categoryData.Rows.Count > 0 )
             {
-                DataRow row = categoryData.Rows[0]; // Assuming categoryID is unique and only one row is returned
+                // categoryID is unique and only one row is returned
+                DataRow row = categoryData.Rows[0]; 
                 editCategoryName.Text = row["CategoryName"].ToString();
-                // Make sure "CategoryDec" is the correct column name
                 tumbnail.ImageUrl = row["tumbnail_img_path"].ToString();
                 editCategoryDes.Text = row["descriptions"].ToString();
             }
@@ -68,25 +75,22 @@ namespace webAssignment.Admin.Category
 
             DataTable categoryData = new DataTable();
 
-            // Define the connection using the connection string
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
-                // Open the connection
+
                 conn.Open();
 
-                // SQL query to select data from the Category table
                 string sql = "SELECT category_id, category_name, tumbnail_img_path , descriptions FROM Category WHERE category_id = @categoryID";
 
-                // Create a SqlCommand object
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
-                    // Define the parameter and its value
+
                     cmd.Parameters.AddWithValue("@categoryID", categoryID);
 
-                    // Execute the query and obtain a SqlDataReader
+
                     using ( SqlDataReader reader = cmd.ExecuteReader() )
                     {
-                        // Load data directly from the SqlDataReader to the DataTable
+
                         categoryData.Load(reader);
                     }
                 }
@@ -112,7 +116,6 @@ namespace webAssignment.Admin.Category
                 DataRow row = categoryData.Rows[0];
                 bool changesDetected = false;
 
-                // Check for changes in each field
                 if ( editCategoryName.Text != row["CategoryName"].ToString() )
                 {
                     changesDetected = true;
@@ -130,10 +133,8 @@ namespace webAssignment.Admin.Category
                     row["tumbnail_img_path"] = getFileSavePath(true);
                 }
 
-                // Only update if changes were detected
                 if ( changesDetected )
                 {
-                    Debug.Write("babi" + row["tumbnail_img_path"]);
                     UpdateCategoryData(row);
                     init();
                 }

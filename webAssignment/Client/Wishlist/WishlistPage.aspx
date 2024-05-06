@@ -9,158 +9,70 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-10">
                 <span class="text-3xl text-gray-900 font-black font-bold p-4">Wishlist</span>
-                <asp:Button ID="btnMoveAllToCart" runat="server" Text="Move All To Cart" class="mt-2 text-white bg-blue-600 hover:bg-blue-800 rounded-lg w-40 h-10 p-2 font-semibold text-sm cursor-pointer text-center transition duration-200 shadow-md" />
+                <%--                <asp:Button ID="btnMoveAllToCart" runat="server" Text="Move All To Cart" class="mt-2 text-white bg-blue-600 hover:bg-blue-800 rounded-lg w-40 h-10 p-2 font-semibold text-sm cursor-pointer text-center transition duration-200 shadow-md" />--%>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 
-                <asp:ListView ID="lvWishlist" runat="server">
+                <asp:ListView ID="lvWishlist" runat="server" OnItemCommand="lvWishlist_ItemCommand">
+                    <EmptyDataTemplate>
+                        <table class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4">
+                            <tr class="w-full ">
+                                <td>
+                                    <div class="flex flex-col justify-center items-center">
+                                        <asp:Image ID="sadKermit" runat="server" ImageUrl="~/Admin/Category/sad_kermit.png" AlternateText="Product Image" Height="128" Width="128" />
+                                        <span>No Wishlist Yet :(</span>
+                                        <div class="text-sm mt-3 relative ml-2 bg-blue-500 hover:text-blue-500 hover:bg-gray-300 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
+                                            <asp:LinkButton ID="goToProds" PostBackUrl="~/Client/Product/ProductPage.aspx" runat="server">Go To Product</asp:LinkButton>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </EmptyDataTemplate>
                     <LayoutTemplate>
-                        <div id="itemPlaceholder" runat="server">
-                        </div>
+                        <div id="itemPlaceholder" runat="server"></div>
                     </LayoutTemplate>
                     <ItemTemplate>
-                        <div class="bg-white rounded-xl border border-gray-200 shadow-md flex flex-col justify-between gap-4 min-h-[370px] p-5 relative hover:shadow-2xl transition duration-300">
+                        <asp:LinkButton ID="redirect" runat="server" PostBackUrl='<%# "/Client/ProductDetails/ProductDetailsPage.aspx?ProductId=" +  Eval("product_id") %>' Style="display: block; height: 100%; width: 100%; position: absolute; top: 0; left: 0; z-index: 1;">
 
-                            <!-- Status Banner -->
-                            <script>
-                                var qty = "<%# Eval("Quantity") %>";
-                                if (qty == 0) {
-                                    document.write('<div class="absolute top-0 left-0 bg-gray-700 text-white py-2 px-3 font-bold rounded-tl-lg rounded-br-lg text-sm">Out Of Stock</div>');
-                                } else {
-                                    document.write('<div class="absolute top-0 left-0 bg-green-700 text-white py-2 px-3 font-bold rounded-tl-lg rounded-br-lg text-sm shadow shadow-lg">In Stock</div>');
-                                }
-                            </script>
+                            <div class="bg-white rounded-xl border border-gray-200 shadow-md flex flex-col justify-between gap-4 min-h-[370px] p-5 relative hover:shadow-2xl transition duration-300">
 
-                            <!-- Delete Button (top-right corner) -->
-                            <button class="absolute top-1 right-1 bg-gray-500 text-white rounded-full p-2 shadow hover:bg-red-600 focus:outline-none w-8 h-8 flex items-center justify-center transition duration-200" id="<%# Eval("ProductID") %>">
-                                <i class="fa-solid fa-heart-crack"></i>
-                            </button>
+                                <!-- Status Banner -->
+                                <div class="absolute top-0 left-0 bg-opacity-95 text-white py-2 px-3 font-bold rounded-tl-lg rounded-br-lg text-md <%# Eval("variant_status").ToString() == "In Stock" ? "bg-green-700" : "bg-gray-700" %>">
+                                    <%# Eval("variant_status") %>
+                                </div>
 
-                            <div class="h-[70%] flex justify-center items-center">
-                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageURL", "{0}") %>' class="w-auto h-full rounded-lg " />
-                            </div>
+                                <!-- Delete Button (top-right corner) -->
+                                <%--                               <button class="absolute top-1 right-1 bg-gray-500 text-white rounded-full p-2 shadow hover:bg-red-600 focus:outline-none w-8 h-8 flex items-center justify-center transition duration-200" id='<%# Eval("product_id") %>'>
+                                    <i class="fa-solid fa-heart-crack"></i>
+                                </button>--%>
+                                <div>
+                                    <asp:LinkButton ID="unwishlistItem" CssClass="absolute top-1 right-1 bg-gray-500 text-white rounded-full p-2 shadow hover:bg-red-600 focus:outline-none w-8 h-8 flex items-center justify-center transition duration-200 z-10" runat="server" CommandName="unwishlist" CommandArgument='<%# Eval("product_variant_id") %>'>
+                                        <i class="fa-solid fa-heart-crack"></i>
+                                    </asp:LinkButton>
+                                </div>
+                                <div class="h-[70%] flex justify-center items-center">
+                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("path") %>' class="w-auto h-full rounded-lg" />
+                                </div>
 
-                            <!-- Product Details -->
-                            <div class="h-[25%] flex flex-col gap-2">
-                                <h2 class="text-lg font-bold overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("ProductName") %></h2>
-                                <div class="flex justify-between items-center">
-                                    <p class="text-gray-700 font-semibold"><%# Eval("Price", "{0:c}") %></p>
-                                    <button class="bg-blue-600 text-white rounded-lg py-2 px-3 shadow hover:bg-blue-800 focus:outline-none font-semibold text-sm transition duration-200">
-                                        Add To Cart
-                                    </button>
+                                <!-- Product Details -->
+                                <div class="h-[25%] flex flex-col gap-2">
+                                    <h2 class="text-lg font-bold overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("product_name") %></h2>
+                                    <div class="text-sm text-gray-700">Variation: <%# Eval("variant_name") %></div>
+                                    <div class="flex justify-between items-center">
+                                        <p class="text-gray-700 font-semibold"><%# Eval("variant_price", "{0:c}") %></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <%--</a>--%>
+                        </asp:LinkButton>
                     </ItemTemplate>
                 </asp:ListView>
-            </div>
 
+
+            </div>
         </div>
 
     </div>
-    <%--
 
-            <!-- Product Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                <div class="bg-white rounded-lg border border-gray-200 shadow-lg flex flex-col gap-2 h-[464px]">
-                    <div class="h-[80%] relative">
-                        <img src="../Cart/images/rtx4060ti.png" alt="Product Image" class="w-auto h-full mb-4 rounded-lg">
-
-                        <!-- Status Banner -->
-                        <div class="absolute top-0 left-0 bg-gray-700 bg-opacity-95 text-white py-2 px-3 font-bold rounded-tl-lg rounded-br-lg text-md">
-                            Out of Stock
-                        </div>
-
-                        <!-- Delete Button (top-right corner) -->
-                        <button class="absolute top-2 right-2 bg-gray-500 text-white rounded-full p-2 shadow hover:bg-red-600 focus:outline-none w-8 h-8 flex items-center justify-center transition duration-200">
-                            <i class="fa-solid fa-heart-crack"></i>
-                        </button>
-                    </div>
-                    <div class="h-[20%] m-2">
-                        <h2 class="text-xl font-bold mb-2">Intel i7 11<sup>th</sup> GEN</h2>
-                        <div class="flex justify-between items-center">
-                            <p class="text-gray-700 font-semibold  text-lg">$19.99</p>
-                            <button class="bg-blue-600 text-white rounded-lg py-2 px-3 shadow hover:bg-blue-800 focus:outline-none font-semibold text-sm transition duration-200">
-                                Add To Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="bg-white rounded-lg border border-gray-200 shadow-lg flex flex-col gap-2 h-[464px]">
-                    <div class="h-[80%] relative">
-                        <img src="../Cart/images/ryzen.jpg" alt="Product Image" class="w-full h-full mb-4 rounded-lg">
-
-                        <!-- Status Banner -->
-                        <div class="absolute top-0 left-0 bg-green-700 bg-opacity-95 text-white py-2 px-3 font-bold rounded-tl-lg rounded-br-lg text-md">
-                            In Stock
-                        </div>
-
-                        <!-- Delete Button (top-right corner) -->
-                        <button class="absolute top-2 right-2 bg-gray-500 text-white rounded-full p-2 shadow hover:bg-red-600 focus:outline-none w-8 h-8 flex items-center justify-center transition duration-200">
-                            <i class="fa-solid fa-heart-crack"></i>
-                        </button>
-                    </div>
-                    <div class="h-[20%] m-2">
-                        <h2 class="text-xl font-bold mb-2">AMD Ryzen 7 5700X3D</h2>
-                        <div class="flex justify-between items-center">
-                            <p class="text-gray-700 font-semibold  text-lg">$25.00</p>
-                            <button class="bg-blue-600 text-white rounded-lg py-2 px-3 shadow hover:bg-blue-800 focus:outline-none font-semibold text-sm transition duration-200">
-                                Add To Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg border border-gray-200 shadow-lg flex flex-col gap-2 h-[464px]">
-                    <div class="h-[80%] relative">
-                        <img src="../Cart/images/rtx5090.jpg" alt="Product Image" class="w-full h-full mb-4 rounded-lg">
-
-                        <!-- Status Banner -->
-                        <div class="absolute top-0 left-0 bg-gray-900 bg-opacity-75 text-white py-2 px-3 font-semibold rounded-tl-lg rounded-br-lg text-sm">
-                            Out of Stock
-                        </div>
-
-                        <!-- Delete Button (top-right corner) -->
-                        <button class="absolute top-2 right-2 bg-gray-500 text-white rounded-full p-2 shadow hover:bg-red-600 focus:outline-none w-8 h-8 flex items-center justify-center transition duration-200">
-                            <i class="fa-solid fa-heart-crack"></i>
-                        </button>
-                    </div>
-                    <div class="h-[20%] m-2">
-                        <h2 class="text-xl font-bold mb-2">RTX 5090</h2>
-                        <div class="flex justify-between items-center">
-                            <p class="text-gray-700 font-semibold  text-lg">$9.99</p>
-                            <button class="bg-blue-600 text-white rounded-lg py-2 px-3 shadow hover:bg-blue-800 focus:outline-none font-semibold text-sm transition duration-200">
-                                Add To Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg border border-gray-200 shadow-lg flex flex-col gap-2 h-[464px] ">
-                    <div class="h-[80%] relative">
-                        <img src="../../Admin/Layout/image/DexProfilePic.jpeg" alt="Product Image" class="w-full h-full mb-4 rounded-lg">
-
-                        <!-- Status Banner -->
-                        <div class="absolute top-0 left-0 bg-gray-900 bg-opacity-75 text-white py-2 px-3 font-semibold rounded-tl-lg rounded-br-lg text-sm">
-                            Out of Stock
-                        </div>
-
-                        <!-- Delete Button (top-right corner) -->
-                        <button class="absolute top-2 right-2 bg-gray-500 text-white rounded-full p-2 shadow hover:bg-red-600 focus:outline-none w-8 h-8 flex items-center justify-center transition duration-200">
-                            <i class="fa-solid fa-heart-crack"></i>
-                        </button>
-                    </div>
-                    <div class="h-[20%] m-2">
-                        <h2 class="text-xl font-bold mb-2">Intel i7 11<sup>th</sup> GEN</h2>
-                        <div class="flex justify-between items-center">
-                            <p class="text-gray-700 font-semibold  text-lg">$19.99</p>
-                            <button class="bg-blue-600 text-white rounded-lg py-2 px-3 shadow hover:bg-blue-800 focus:outline-none font-semibold text-sm transition duration-200">
-                                Add To Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add more product items as needed -->
-            </div>--%>
 </asp:Content>

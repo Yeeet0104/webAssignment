@@ -25,12 +25,8 @@
         <div class="flex">
             <div class="relative">
                 <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
+                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" OnClick="btnExportToExcel_Click" />
             </div>
-            <%--            <div class="text-sm relative ml-2 bg-blue-500 text-white flex flex-row items-center p-1 px-2 gap-2 rounded-lg">
-                <i class="text-lg fa-solid fa-plus left-4 top-5 text-white"></i>
-                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/Orders/EditOrders.aspx">Add New Product</asp:HyperLink>
-            </div>--%>
         </div>
     </div>
     <!--End-->
@@ -40,7 +36,7 @@
         <div class="grid grid-cols-6 bg-white gap-3 text-center  p-2 rounded-md drop-shadow-md">
 
             <div class="col-span-1">
-                <asp:Button ID="allStatusFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 text-blue-600 bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="All Product" OnClick="allStatusFilter_click" Style="height: 26px" />
+                <asp:Button ID="allStatusFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 text-blue-600 bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="All Product" OnClick="allStatusFilter_click" />
             </div>
             <div class="col-span-1">
                 <asp:Button ID="pendingFilter" CssClass="w-full px-3 py-2 hover:text-blue-600 hover:bg-gray-100 rounded-lg cursor-pointer" runat="server" Text="Pending" OnClick="pendingFilter_click" />
@@ -195,23 +191,23 @@
                     <td class="col-span-1 flex items-center w-full text-gray-600 justify-center">
 
                         <div class="<%# 
-                            Eval("Status").ToString() == "Pending" ? "bg-gray-200" 
-                                :  Eval("Status").ToString() == "On The Road" ? "bg-blue-200" 
-                                :   Eval("Status").ToString() == "Packed" ? "bg-yellow-200"
-                                :   Eval("Status").ToString() == "Delivered" ? "bg-green-200"
-                                :   Eval("Status").ToString() == "Cancelled" ? "bg-red-200" : "bg-white-200"
+                            Eval("Status").ToString().ToLower() == "pending" ? "bg-gray-200" 
+                                :  Eval("Status").ToString().ToLower() == "on the road" ? "bg-blue-200" 
+                                :   Eval("Status").ToString().ToLower() == "packed" ? "bg-yellow-200"
+                                :   Eval("Status").ToString().ToLower() == "delivered" ? "bg-green-200"
+                                :   Eval("Status").ToString().ToLower() == "cancelled" ? "bg-red-200" : "bg-white-200"
     
                             
                             %> rounded-xl flex w-4/5 p-3 text-center justify-center">
 
-                            <%# Eval("Status") %>
+                            <%# Eval("Status").ToString().Substring(0, 1).ToUpper() + Eval("Status").ToString().Substring(1).ToLower() %>
                         </div>
 
 
                     </td>
                     <td class="col-span-1 flex justify-end items-center">
                         <div class="flex flex-row gap-4 items-center">
-                            <asp:LinkButton ID="editItem" runat="server" CommandName="EditOrder" CommandArgument='<%# Eval("OrderID") %>' ToolTip="View Order">                            
+                            <asp:LinkButton ID="editItem" runat="server" CommandName="ViewOrder" CommandArgument='<%# Eval("OrderID") %>' ToolTip="View Order">                            
                                 <i class="fa-solid fa-eye"></i>
                             </asp:LinkButton>
                             <asp:LinkButton ID="cancelOrder" runat="server" CommandName="DeleteOrder" CommandArgument='<%# Eval("OrderID") %>' ToolTip="Cancel Order">                            
@@ -252,7 +248,7 @@
                     <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
 
                 </div>
-                <p class="bold text-lg break-normal text-center">Are you sure you want to delete the following item?</p>
+                <p class="bold text-lg break-normal text-center">Are you sure you want to change the following item status to cancel?</p>
                 <p class="bold text-lg">
                     <asp:Label ID="lblItemInfo" runat="server" Text="[OrderID]"></asp:Label>
                 </p>
@@ -260,7 +256,7 @@
                 <div>
 
                     <asp:Button ID="btnCancelDelete" runat="server" Text="Cancel" CssClass="bg-gray-300 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />
-                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" />
+                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnConfirmDelete_Click" />
                 </div>
             </div>
         </div>

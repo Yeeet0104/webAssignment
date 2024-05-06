@@ -153,7 +153,25 @@ namespace webAssignment.Admin.Category
         private List<Category> getAllCategories( )
         {
             List<Category> categories = new List<Category>();
-            string sql = "SELECT category_id, category_name, tumbnail_img_path, date_added FROM Category ORDER BY category_name";
+            string sql = @"SELECT 
+                        c.category_id,
+                        c.category_name,
+                        c.tumbnail_img_path,
+                        c.date_added,
+                        COUNT(DISTINCT p.product_id) AS NumberOfProd,
+                        SUM(ISNULL(od.quantity, 0)) AS Sold,
+                        SUM(ISNULL(pv.stock, 0)) AS Stock
+                        FROM 
+                            Category c
+                        LEFT JOIN 
+                            Product p ON c.category_id = p.category_id
+                        LEFT JOIN 
+                            Product_Variant pv ON p.product_id = pv.product_id
+                        LEFT JOIN 
+                            Order_details od ON pv.product_variant_id = od.product_variant_id
+                        GROUP BY 
+                            c.category_id, c.category_name, c.tumbnail_img_path, c.date_added
+                        ORDER BY category_id";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -170,9 +188,9 @@ namespace webAssignment.Admin.Category
                                 CategoryName = reader.GetString(1),
                                 CategoryBanner = reader.GetString(2),
                                 date_added = reader.GetDateTime(3),
-                                NumberOfProd = 2, // Dummy data for demonstration
-                                Sold = 3,          // Dummy data for demonstration
-                                Stock = 5          // Dummy data for demonstration
+                                NumberOfProd = reader.GetInt32(4),
+                                Sold = reader.GetInt32(5),
+                                Stock = reader.GetInt32(6),
                             });
                         }
                     }
@@ -239,7 +257,6 @@ namespace webAssignment.Admin.Category
 
             if ( ( pageIndex + 1 ) * pageSize < totalCategories )
             {
-                Debug.Write("BABAK1 " + pageIndex);
                 ViewState["PageIndex"] = pageIndex + 1;
                 BindListView((int)ViewState["PageIndex"], pageSize);
             }
@@ -257,7 +274,6 @@ namespace webAssignment.Admin.Category
             if ( e.CommandName == "EditCategory" )
             {
                 string categoryID = e.CommandArgument.ToString();
-                Debug.Write(categoryID);
                 string encryptedStr = EncryptString(categoryID);
                 Response.Redirect($"~/Admin/Category/editCategory.aspx?CategoryID={encryptedStr}");
             }
@@ -267,7 +283,6 @@ namespace webAssignment.Admin.Category
                 popUpDelete.Style.Add("display", "flex");
                 lblItemInfo.Text = e.CommandArgument.ToString();
                 Session["CategoryIdDel"] = e.CommandArgument.ToString();
-                // Set the Category Name in the label within the popup
             }
         }
         protected void deletedCategory( string categID )
@@ -293,24 +308,22 @@ namespace webAssignment.Admin.Category
                         }
                         else
                         {
-                            Debug.Write("Delete failed: No row found with the specified ID");
+                            ShowNotification("Delete failed: No row found with the specified ID", "warning");
                         }
                     }
                     catch ( SqlException ex )
                     {
                         if ( ex.Number == 547 ) // Check if the exception is a foreign key violation ( stack overflow )
                         {
-                            // Display a user-friendly error message
-                            ShowNotification("This category cannot be deleted because it is referenced by one or more products.","warning");
+                            ShowNotification("This category cannot be deleted because it is referenced by one or more products.", "warning");
                         }
                         else
                         {
-                            ShowNotification( "SQL Error: " + ex.Message , "warning");
+                            ShowNotification("SQL Error: " + ex.Message, "warning");
                         }
                     }
                     catch ( Exception ex )
                     {
-                        // Log and display errors not related to SQL
                         ShowNotification("General Error: " + ex.Message, "warning");
                     }
                 }
@@ -392,17 +405,15 @@ namespace webAssignment.Admin.Category
 
         private string GetSortDirection( string column )
         {
-            // By default, set the sort direction to ascending
+            // default is ascending
             string sortDirection = "ASC";
 
-            // Retrieve the last column that was sorted.
+            // Retrieve the last column that was sorted which means that which tab have been selected jn
             string sortExpression = ViewState["SortExpression"] as string;
 
             Debug.Write("babakqweqwe" + sortExpression);
             if ( sortExpression != null && sortExpression == column )
             {
-                // Check if the same column is being sorted.
-                // Otherwise, the default value is returned.
                 string lastDirection = ViewState["SortDirection"] as string;
                 Debug.Write("babakqweqwelast" + lastDirection);
                 if ( ( lastDirection != null ) && ( lastDirection == "ASC" ) )
@@ -427,14 +438,12 @@ namespace webAssignment.Admin.Category
                 var worksheet = workbook.Worksheets.Add("Categories");
                 var currentRow = 1;
 
-                // Assuming you want to export the headers
                 worksheet.Cell(currentRow, 1).Value = "Category Name";
                 worksheet.Cell(currentRow, 2).Value = "Total Sold";
                 worksheet.Cell(currentRow, 3).Value = "Stock";
                 worksheet.Cell(currentRow, 4).Value = "Date Added";
 
-                List<Category> categories = getCategoryData(0, GetTotalCategoriesCount()+1);
-                // Assuming 'categoryListView' is data-bound to a collection of categories
+                List<Category> categories = getCategoryData(0, GetTotalCategoriesCount() + 1);
                 foreach ( Category item in categories )
                 {
                     if ( item != null )
@@ -515,9 +524,10 @@ namespace webAssignment.Admin.Category
                 return;
             }
 
-            // Optional: Check if the start date is before the end date
+            //Check if the start date is before the end date
             if ( startDate > endDate )
             {
+                ShowNotification("Start Date cannot more than end date!", "warning");
                 return;
             }
             if ( startDate != null && endDate != null )
@@ -544,6 +554,51 @@ namespace webAssignment.Admin.Category
             ViewState["onePageEndDate"] = "";
             BindListView(0, pageSize);
         }
+        protected void btnExportToExcel_Click( object sender, EventArgs e )
+        {
+            var categories = getAllCategories(); 
+
+            using ( var workbook = new XLWorkbook() )
+            {
+                var worksheet = workbook.Worksheets.Add("Categories");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Category ID";
+                worksheet.Cell(currentRow, 2).Value = "Category Name";
+                worksheet.Cell(currentRow, 3).Value = "Thumbnail Image Path";
+                worksheet.Cell(currentRow, 4).Value = "Date Added";
+                worksheet.Cell(currentRow, 5).Value = "Number Of Products";
+                worksheet.Cell(currentRow, 6).Value = "Total Sold";
+                worksheet.Cell(currentRow, 7).Value = "Stock";
+
+                foreach ( var category in categories )
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = category.CategoryID;
+                    worksheet.Cell(currentRow, 2).Value = category.CategoryName;
+                    worksheet.Cell(currentRow, 3).Value = category.CategoryBanner;
+                    worksheet.Cell(currentRow, 4).Value = category.date_added.ToString("dd/MM/yyyy");
+                    worksheet.Cell(currentRow, 5).Value = category.NumberOfProd;
+                    worksheet.Cell(currentRow, 6).Value = category.Sold;
+                    worksheet.Cell(currentRow, 7).Value = category.Stock;
+                }
+
+                worksheet.Columns().AdjustToContents(); // Adjust column width to content
+
+                using ( var stream = new MemoryStream() )
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    Response.Clear();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename=Categories.xlsx");
+                    stream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+        }
+
+
     }
 
 }

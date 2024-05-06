@@ -22,11 +22,10 @@ namespace webAssignment.Client.Cart
         {
             if (!IsPostBack)
             {
-                // if user havent login
-                //if(Session["UserId"] == null)
-                //    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
+                //if user havent login
+                if (Session["UserId"] == null)
+                    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
 
-                //To be deleted
                 Session["taxRate"] = taxRate;
                 Session["Voucher"] = "";
 
@@ -227,6 +226,9 @@ namespace webAssignment.Client.Cart
                     break;
                 case "deleteItem":
                     DeleteItem(productVariantID, userID, connectionString);
+                    getData();
+                    updateCartTotal();
+                    Response.Redirect(Request.RawUrl);
                     break;
                 default:
                     // Handle other command names if needed
@@ -320,6 +322,7 @@ namespace webAssignment.Client.Cart
                     ShowNotification(ex.Message, "warning");
                 }
             }
+
         }
 
         //protected void cartListView_ItemCommand(object sender, ListViewCommandEventArgs e)

@@ -22,35 +22,14 @@ namespace webAssignment
     public partial class AdminPage : System.Web.UI.MasterPage
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load( object sender, EventArgs e )
         {
-            // Set the visibility of the button based on whether the current page is in the list
-            if (!IsPostBack)
-            {
-               if (Session["userId"] != null)
-                {
-                    loadProfile();
-                    if (Session["StartDate"] != null && Session["EndDate"] != null)
-                    {
-
-                        lblDate.Text = ((DateTime)Session["StartDate"]).ToString("dd/MMM/yyyy") + " - " + ((DateTime)Session["EndDate"]).ToString("dd/MMM/yyyy");
-                    }
-                    else
-                    {
-                        lblDate.Text = "Today";
-                    }
-                }
-                else
-                {
-                    // Handle the case where the user is not logged in
-                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
-                }
-                assignActiveClass();            
-            var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx" };
+            assignActiveClass();
+            //loadProfile();
+            var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx","addnewproduct.aspx", "editproduct.aspx", "productvariant.aspx", "addvoucher.aspx", "editvoucher.aspx", "createcategory.aspx", "editcategory.aspx" };
 
             string currentPage = Path.GetFileName(Request.FilePath);
-            Debug.WriteLine("currentPagecurrentPage" + currentPage);
-            Debug.WriteLine("currentPagecurrentPage" + visiblePages.Contains(currentPage, StringComparer.OrdinalIgnoreCase));
+
             if ( visiblePages.Contains(currentPage, StringComparer.OrdinalIgnoreCase) )
             {
                 filterDatePopUp.Visible = false;
@@ -59,15 +38,42 @@ namespace webAssignment
             {
                 filterDatePopUp.Visible = true;
             }
-                          
+            // Set the visibility of the button based on whether the current page is in the list
+            if ( !IsPostBack )
+            {
+                if ( Session["StartDate"] != null && Session["EndDate"] != null )
+                {
+
+                    DateTime startDateCheck = new DateTime(1800, 1, 1);
+                    DateTime endDateCheck = new DateTime(2100, 12, 31);
+
+                    DateTime checkstartDate = (DateTime)Session["StartDate"];
+                    DateTime checkEndDate = (DateTime)Session["EndDate"];
+                    if ( startDateCheck.ToString("dd/MM/yyyy") == checkstartDate.ToString("dd/MM/yyyy") && endDateCheck.ToString("dd/MM/yyyy") == checkEndDate.ToString("dd/MM/yyyy") )
+                    {
+
+                        lblDate.Text = "All Time";
+                    }
+                    else
+                    {
+
+                        lblDate.Text = ( (DateTime)Session["StartDate"] ).ToString("dd/MMM/yyyy") + " - " + ( (DateTime)Session["EndDate"] ).ToString("dd/MMM/yyyy");
+
+                    }
+                }
+                else
+                {
+                    lblDate.Text = "Today";
+                }
+
             }
         }
 
-        private void assignActiveClass()
+        private void assignActiveClass( )
         {
             string currentPage = Path.GetFileName(Request.Path).ToLower();
             // Append 'active' class based on current page
-            switch (currentPage)
+            switch ( currentPage )
             {
                 case "customermanagement.aspx":
                 case "editcustomer.aspx":
@@ -96,7 +102,7 @@ namespace webAssignment
                 case "editcategory.aspx":
                     categoryLk.Attributes["class"] += " activeNavItem";
                     break;
-                case "editorder.aspx":
+                case "vieworder.aspx":
                 case "order.aspx":
                     orderLk.Attributes["class"] += " activeNavItem";
 
@@ -107,7 +113,7 @@ namespace webAssignment
                     break;
                 case "voucher.aspx":
                 case "editvoucher.aspx":
-                case "addVoucher.aspx":
+                case "addvoucher.aspx":
                     voucherLk.Attributes["class"] += " activeNavItem";
 
                     break;
@@ -119,23 +125,23 @@ namespace webAssignment
             }
         }
 
-        protected void SearchButton_Click(object sender, EventArgs e)
+        protected void SearchButton_Click( object sender, EventArgs e )
         {
             string searchTerm = SearchTextBox.Text;
             var currentContent = this.Page as IFilterable;
 
-            if (currentContent != null)
+            if ( currentContent != null )
             {
                 currentContent.FilterListView(searchTerm);
             }
         }
 
-        protected void SearchTextBox_TextChanged(object sender, EventArgs e)
+        protected void SearchTextBox_TextChanged( object sender, EventArgs e )
         {
             string searchTerm = SearchTextBox.Text;
             var currentContent = this.Page as IFilterable;
 
-            if (currentContent != null)
+            if ( currentContent != null )
             {
                 currentContent.FilterListView(searchTerm);
             }
@@ -148,13 +154,13 @@ namespace webAssignment
         protected void filterDatePopUp_Click( object sender, EventArgs e )
         {
             pnlDateFilter.Style.Add("display", "flex");
-        }        
+        }
         protected void allTimeDate_Click( object sender, EventArgs e )
         {
             lblDate.Text = "All Time";
 
-            DateTime startDate = new DateTime(1800, 1, 1);  
-            DateTime endDate = new DateTime(2100, 12, 31);  
+            DateTime startDate = new DateTime(1800, 1, 1);
+            DateTime endDate = new DateTime(2100, 12, 31);
 
             // Store in session
             Session["StartDate"] = startDate;
@@ -210,29 +216,28 @@ namespace webAssignment
         {
             string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
 
-            // Using ScriptManager to register the startup script
             ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowSnackbar", script, true);
         }
 
-        private void loadProfile()
+        private void loadProfile( )
         {
             string userId = Session["userId"].ToString();
 
             string query = "SELECT * FROM [User] WHERE user_id = @UserId";
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                using ( SqlCommand cmd = new SqlCommand(query, conn) )
                 {
                     cmd.Parameters.AddWithValue("@UserId", userId);
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    if ( reader.Read() )
                     {
-                        string name = reader["first_name"].ToString() + " " +  reader["last_name"].ToString();
+                        string name = reader["first_name"].ToString() + " " + reader["last_name"].ToString();
                         userName.Text = name;
                         role.Text = reader["role"].ToString();
-                        if (reader["profile_pic_path"] != DBNull.Value)
+                        if ( reader["profile_pic_path"] != DBNull.Value )
                         {
                             string profilePicPath = reader["profile_pic_path"].ToString();
 

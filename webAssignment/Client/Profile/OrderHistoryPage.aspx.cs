@@ -29,7 +29,7 @@ namespace webAssignment.Client.Profile
         {
             if (e.CommandName == "orderDetails")
             {
-                String orderID = e.CommandArgument.ToString();
+                string orderID = e.CommandArgument.ToString();
                 string encryptedStr = EncryptString(orderID);
                 Response.Redirect($"~/Client/Profile/OrderHistoryDetailsPage.aspx?OrderID={encryptedStr}");
             }

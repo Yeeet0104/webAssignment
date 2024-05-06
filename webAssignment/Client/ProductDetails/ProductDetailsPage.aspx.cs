@@ -38,8 +38,19 @@ namespace webAssignment.Client.ProductDetails
                     ShowNotification("ProductId is missing in the query string.", "warning");
                 }
             }
+
+            // Check if there is a success message in the session
+            if (Session["reviewLikeDislike"] != null)
+            {
+                string successMessage = Session["reviewLikeDislike"].ToString();
+                ShowNotification(successMessage, "success");
+
+                // Clear the session variable after displaying the notification
+                Session.Remove("reviewLikeDislike");
+            }
         }
 
+        //Display Product Details
         private DataTable GetProductData(string productId)
         {
             DataTable productData = new DataTable();
@@ -67,9 +78,9 @@ namespace webAssignment.Client.ProductDetails
             conn.Close();
             return productData;
         }
-
         private void PopulateProductDetails(string productId)
         {
+            ddlProdVariant.Items.Clear();
             DataTable productData = GetProductData(productId);
             if (productData.Rows.Count > 0)
             {
@@ -81,6 +92,7 @@ namespace webAssignment.Client.ProductDetails
                 string[] descriptionsArray = JsonConvert.DeserializeObject<string[]>(descriptionJson);
                 if (descriptionsArray != null && descriptionsArray.Length > 0)
                 {
+
                     string firstDescription = descriptionsArray[0];
                     lblShortProductDesc1.Text = firstDescription;
 
@@ -97,12 +109,30 @@ namespace webAssignment.Client.ProductDetails
 
                 if (!string.IsNullOrEmpty(row["product_image"].ToString()))
                 {
-                    imgProduct.ImageUrl = "/Client/Product/Products Images/" + row["product_image"].ToString() + ".png";
+                    imgProduct.ImageUrl = row["product_image"].ToString();
                 }
 
             }
         }
+        private void initProductVariant( string productId )
+        {
+            DataTable prodVar = GetProductVariantData(productId);
 
+            // Clear existing items
+            ddlProdVariant.Items.Clear();
+
+
+            // Check if categories were fetched successfully
+            if ( prodVar != null )
+            {
+                ddlProdVariant.DataSource = prodVar;
+                ddlProdVariant.DataTextField = "variant_name";
+                ddlProdVariant.DataValueField = "product_variant_id";
+                ddlProdVariant.DataBind();
+            }
+            ddlProdVariant.Items.Insert(0, new ListItem("Select a variant", ""));
+
+        }
         private DataTable GetProductVariantData(string productId)
         {
             DataTable variantData = new DataTable();
@@ -120,22 +150,21 @@ namespace webAssignment.Client.ProductDetails
             }
             return variantData;
         }
-
         private void PopulateVariantDetails(string productId)
         {
             DataTable variantData = GetProductVariantData(productId);
-            if (variantData.Rows.Count > 0)
-            {
-                Button[] buttons = { btnVariation1, btnVariation2, btnVariation3 }; // Add more buttons as needed
+            initProductVariant(productId);
+            //if (variantData.Rows.Count > 0)
+            //{
+            //    Button[] buttons = { btnVariation1, btnVariation2, btnVariation3 }; // Add more buttons as needed
 
-                for (int i = 0; i < variantData.Rows.Count && i < buttons.Length; i++)
-                {
-                    buttons[i].Text = variantData.Rows[i]["variant_name"].ToString();
-                    buttons[i].Attributes["data-variant-id"] = variantData.Rows[i]["product_variant_id"].ToString();
-                }
-            }
+            //    for (int i = 0; i < variantData.Rows.Count && i < buttons.Length; i++)
+            //    {
+            //        buttons[i].Text = variantData.Rows[i]["variant_name"].ToString();
+            //        buttons[i].Attributes["data-variant-id"] = variantData.Rows[i]["product_variant_id"].ToString();
+            //    }
+            //}
         }
-
         private DataTable GetReviewData(string productId)
         {
             DataTable reviewData = new DataTable();
@@ -149,8 +178,6 @@ namespace webAssignment.Client.ProductDetails
                INNER JOIN Product_Variant pv ON r.product_variant_id = pv.product_variant_id
                WHERE pv.product_id = @ProductId";
 
-
-
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@ProductId", productId);
@@ -160,15 +187,12 @@ namespace webAssignment.Client.ProductDetails
             }
             return reviewData;
         }
-
-
         private void PopulateReviewData(string productId)
         {
             DataTable reviewData = GetReviewData(productId);
             rptReviews.DataSource = reviewData;
             rptReviews.DataBind();
         }
-
         protected string GetStarRating(int rating)
         {
             StringBuilder starsHtml = new StringBuilder();
@@ -191,7 +215,6 @@ namespace webAssignment.Client.ProductDetails
 
             return starsHtml.ToString();
         }
-
         protected void PopulateOverallRatingData(string productId)
         {
             DataTable reviewData = GetReviewData(productId);
@@ -220,6 +243,11 @@ namespace webAssignment.Client.ProductDetails
                 {
                     starPercentages[i] = (double)starCounts[i] / totalRatings * 100;
                     Debug.WriteLine($"Star {i + 1} Count: {starCounts[i]}, Percentage: {starPercentages[i]}%");
+                    starlbl1.Style.Add("width", starPercentages[4].ToString() + "%");
+                    starlbl2.Style.Add("width", starPercentages[3].ToString() + "%");
+                    starlbl3.Style.Add("width", starPercentages[2].ToString() + "%");
+                    starlbl4.Style.Add("width", starPercentages[1].ToString() + "%");
+                    starlbl5.Style.Add("width", starPercentages[0].ToString() + "%");
                 }
 
                 // Set overall rating label
@@ -255,6 +283,7 @@ namespace webAssignment.Client.ProductDetails
             }
         }
 
+        //Update Product Price when Variation is selected
         protected void UpdatePrice(object sender, EventArgs e)
         {
             Button variationButton = (Button)sender;
@@ -266,14 +295,13 @@ namespace webAssignment.Client.ProductDetails
             selectedVariation.Value = variantId;
 
             // Remove the selected class from all variation buttons
-            btnVariation1.CssClass = btnVariation1.CssClass.Replace("selected", "").Trim();
-            btnVariation2.CssClass = btnVariation2.CssClass.Replace("selected", "").Trim();
-            btnVariation3.CssClass = btnVariation3.CssClass.Replace("selected", "").Trim();
+            //btnVariation1.CssClass = btnVariation1.CssClass.Replace("selected", "").Trim();
+            //btnVariation2.CssClass = btnVariation2.CssClass.Replace("selected", "").Trim();
+            //btnVariation3.CssClass = btnVariation3.CssClass.Replace("selected", "").Trim();
 
             // Add the selected class to the clicked button
             variationButton.CssClass += " selected";
         }
-
         private decimal GetPriceForVariant(string variantId)
         {
             decimal price = 0.00m;
@@ -297,7 +325,13 @@ namespace webAssignment.Client.ProductDetails
 
             return price;
         }
+        protected void ddlProdVariant_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            decimal price = GetPriceForVariant(ddlProdVariant.SelectedValue.ToString());
+            lblProductPrice.Text = string.Format("RM {0:N2}", price);
+        }
 
+        //Add to Cart Function
         protected void btnAddToCart_Click(object sender, EventArgs e)
         {
             // Check if the user is logged in
@@ -309,7 +343,7 @@ namespace webAssignment.Client.ProductDetails
             }
 
             // Check if a variation is selected
-            if (string.IsNullOrEmpty(selectedVariation.Value))
+            if (string.IsNullOrEmpty(ddlProdVariant.SelectedValue))
             {
                 // Show a notification to select a variation
                 ShowNotification("Please select a variation before adding to cart.", "warning");
@@ -318,7 +352,7 @@ namespace webAssignment.Client.ProductDetails
 
             // Get user ID, variation, qty
             string userId = Session["UserId"].ToString();
-            string productVariantId = selectedVariation.Value;
+            string productVariantId = ddlProdVariant.SelectedItem.Value.ToString();
             int quantity = int.Parse(qtyInput.Text);
 
             // Generate cart ID 
@@ -335,7 +369,7 @@ namespace webAssignment.Client.ProductDetails
                 {
                     // Show success message
                     ShowNotification("Product added to cart successfully!", "success");
-
+                    Response.Redirect(Request.RawUrl);
                 }
                 else
                 {
@@ -349,7 +383,6 @@ namespace webAssignment.Client.ProductDetails
                 ShowNotification("Failed to add product to cart.", "warning");
             }
         }
-
         private string GenerateCartId()
         {
             string cartIdPrefix = "C";
@@ -376,8 +409,6 @@ namespace webAssignment.Client.ProductDetails
             string formattedId = cartIdPrefix + nextId.ToString("D4");
             return formattedId;
         }
-
-
         private bool AddToCart(string cartId, string userId)
         {
             bool success = false;
@@ -401,7 +432,6 @@ namespace webAssignment.Client.ProductDetails
             }
             return success;
         }
-
         private bool AddToCartDetails(string cartId, string productVariantId, int quantity)
         {
             bool success = false;
@@ -422,27 +452,187 @@ namespace webAssignment.Client.ProductDetails
             }
             catch (SqlException ex)
             {
-                // Log the exception or handle it as needed
+
                 success = false;
             }
             return success;
         }
 
-        private int GetCartQuantity(string userId)
+        //Like & Dislikes Review Function
+        protected void btnLike_Click(object sender, EventArgs e)
         {
-            int cartQuantity = 0;
             try
             {
+                string reviewId = ((System.Web.UI.WebControls.LinkButton)sender).CommandArgument;
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string sqlQuery = "UPDATE Review SET post_like = post_like + 1 WHERE review_id = @ReviewId";
+                    SqlCommand command = new SqlCommand(sqlQuery, conn);
+                    command.Parameters.AddWithValue("@ReviewId", reviewId);
+
+                    conn.Open();
+                    command.ExecuteNonQuery();
+                }
+
+                Session["reviewLikeDislike"] = "Like customer review successfully.";
+                // Redirect to the raw URL
+                Response.Redirect(Request.RawUrl);
+
+            }
+            catch (Exception ex)
+            {
+                // Show error notification
+                ShowNotification("Unable to like the customer review.", "warning");
+                // Log the exception or handle it accordingly
+                Console.WriteLine(ex.Message);
+            }
+        }
+        protected void btnDislike_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string reviewId = ((System.Web.UI.WebControls.LinkButton)sender).CommandArgument;
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string sqlQuery = "UPDATE Review SET post_dislike = post_dislike + 1 WHERE review_id = @ReviewId";
+                    SqlCommand command = new SqlCommand(sqlQuery, conn);
+                    command.Parameters.AddWithValue("@ReviewId", reviewId);
+
+                    conn.Open();
+                    command.ExecuteNonQuery();
+                }
+
+                Session["reviewLikeDislike"] = "Dislike customer review successfully.";
+                // Redirect to the raw URL
+                Response.Redirect(Request.RawUrl);
+            }
+            catch (Exception ex)
+            {
+                // Show error notification
+                ShowNotification("Unable to dislike the customer review..", "warningy");
+                // Log the exception or handle it accordingly
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+        // Add to Wishlist Function
+        protected void btnAddToWishlist_Click(object sender, EventArgs e)
+        {
+            // Check if the user is logged in, if no then redirect the user to the login page
+            if (Session["UserId"] == null)
+            {
+                Response.Redirect("/Client/LoginSignUp/SignUp.aspx");
+                return;
+            }
+
+            // Check if a variation is selected, if no show notification and return
+            if (string.IsNullOrEmpty(ddlProdVariant.SelectedValue))
+            {
+                ShowNotification("Please select a variation before adding to wishlist.", "warning");
+                return;
+            }
+
+            // Get user ID, product variant ID
+            string userId = Session["UserId"].ToString();
+            string productVariantId = ddlProdVariant.SelectedItem.Value.ToString();
+
+            // Get/create wishlist ID for the user
+            string wishlistId = GetOrCreateWishlistId(userId);
+
+            // Add the product variant to the wishlist details
+            bool addedToWishlist = AddToWishlistDetails(wishlistId, productVariantId);
+
+            // Show notification based on whether the product was successfully added to the wishlist
+            if (addedToWishlist)
+            {
+                ShowNotification("Product added to wishlist successfully!", "success");
+            }
+        }
+        private string GetOrCreateWishlistId(string userId)
+        {
+            string wishlistId = "";
+
+            try
+            {
+                // Check if the user already has a wishlist
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "SELECT SUM(quantity) FROM Cart_Details WHERE cart_id IN (SELECT cart_id FROM Cart WHERE user_id = @UserId)";
+                    string sql = "SELECT wishlist_id FROM Wishlist WHERE user_id = @UserId";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@UserId", userId);
                     object result = cmd.ExecuteScalar();
+
+                    // If a wishlist exists, retrieve the wishlist ID
                     if (result != null && result != DBNull.Value)
                     {
-                        cartQuantity = Convert.ToInt32(result);
+                        wishlistId = result.ToString();
+                    }
+                    else
+                    {
+                        // If no wishlist exists, create a new wishlist for the user
+                        wishlistId = CreateNewWishlist(userId);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ShowNotification(ex.Message, "warning");
+            }
+
+            return wishlistId;
+        }
+        private string CreateNewWishlist(string userId)
+        {
+            string wishlistId = "";
+
+            try
+            {
+                // Generate a new wishlist ID
+                wishlistId = GenerateWishlistId();
+
+                // Insert the new wishlist ID into the database for the user
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "INSERT INTO Wishlist (wishlist_id, user_id) VALUES (@WishlistId, @UserId)";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@WishlistId", wishlistId);
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Log the exception or handle it as needed
+            }
+
+            return wishlistId;
+        }
+        private string GenerateWishlistId()
+        {
+            string wishlistIdPrefix = "WISH";
+            int nextId = 1;
+
+            try
+            {
+                // Get the latest wishlist ID from the database
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "SELECT TOP 1 wishlist_id FROM Wishlist ORDER BY wishlist_id DESC";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    object result = cmd.ExecuteScalar();
+
+                    // If a wishlist ID exists, extract the numeric part and increment it
+                    if (result != null && result != DBNull.Value)
+                    {
+                        string lastWishlistId = result.ToString();
+                        string numericPart = lastWishlistId.Substring(wishlistIdPrefix.Length); // Remove the prefix
+                        nextId = int.Parse(numericPart) + 1;
                     }
                 }
             }
@@ -450,34 +640,55 @@ namespace webAssignment.Client.ProductDetails
             {
                 // Log the exception or handle it as needed
             }
-            return cartQuantity;
-        }
 
-        private void UpdateCartIconBadge(int cartQuantity)
+            // Format the next wishlist ID with leading zeros
+            string formattedId = wishlistIdPrefix + nextId.ToString("D4");
+            return formattedId;
+        }
+        private bool AddToWishlistDetails(string wishlistId, string productVariantId)
         {
+            bool success = false;
 
-            var cartBadge = (HtmlGenericControl)Master.FindControl("cartBadge");
-            
-            // Update the HTML element containing the cart icon badge
-            if (cartQuantity > 0)
+            try
             {
-                // Display the badge and update its value
-                cartBadge.Visible = true;
-                cartBadge.InnerText = cartQuantity.ToString();
+                // Check if the product variant already exists in the wishlist details table
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string checkExistingSql = "SELECT COUNT(*) FROM Wishlist_details WHERE wishlist_id = @WishlistId AND product_variant_id = @ProductVariantId";
+                    SqlCommand checkCmd = new SqlCommand(checkExistingSql, conn);
+                    checkCmd.Parameters.AddWithValue("@WishlistId", wishlistId);
+                    checkCmd.Parameters.AddWithValue("@ProductVariantId", productVariantId);
+                    int existingCount = (int)checkCmd.ExecuteScalar();
+
+                    if (existingCount > 0)
+                    {
+                        // Product variant already exists in the wishlist
+                        ShowNotification("Product already exists in the wishlist.", "warning");
+                    }
+                    else
+                    {
+                        // Add the product variant to the wishlist details table
+                        string insertSql = "INSERT INTO Wishlist_details (wishlist_id, product_variant_id, date_added) VALUES (@WishlistId, @ProductVariantId, GETDATE())";
+                        SqlCommand insertCmd = new SqlCommand(insertSql, conn);
+                        insertCmd.Parameters.AddWithValue("@WishlistId", wishlistId);
+                        insertCmd.Parameters.AddWithValue("@ProductVariantId", productVariantId);
+                        int rowsAffected = insertCmd.ExecuteNonQuery();
+                        success = (rowsAffected > 0);
+                    }
+                }
             }
-            else
+            catch (SqlException ex)
             {
-                // Hide the badge if there are no items in the cart
-                cartBadge.Visible = false;
+                ShowNotification(ex.Message, "warning");
+                Debug.WriteLine(ex.Message);
             }
+
+            return success;
         }
 
-        protected void btnAddToWishlist_Click(object sender, EventArgs e)
-        {
-            // update wishlist icon no. & add product to wishlist
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Product added to wishlist!');", true);
-        }
 
+        //Product Quantity Step Up & Down
         protected void StepDown_Click(object sender, EventArgs e)
         {
             int quantity = int.Parse(qtyInput.Text);
@@ -486,18 +697,19 @@ namespace webAssignment.Client.ProductDetails
                 qtyInput.Text = (quantity - 1).ToString();
             }
         }
-
         protected void StepUp_Click(object sender, EventArgs e)
         {
             int quantity = int.Parse(qtyInput.Text);
             qtyInput.Text = (quantity + 1).ToString();
         }
 
+        //Show Snakbar Function
         protected void ShowNotification(string message, string type)
         {
             string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
             ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
+
 
     }
 }

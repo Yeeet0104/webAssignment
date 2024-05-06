@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="EditOrder.aspx.cs" Inherits="webAssignment.Admin.Orders.EditOrder" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="ViewOrder.aspx.cs" Inherits="webAssignment.Admin.Orders.EditOrder" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -164,27 +164,38 @@
                                         <p>Subtotal</p>
                                     </td>
                                     <td class="col-span-1 text-center">
-                                        <asp:Label ID="lblSubtotal" runat="server" Text="$711.00"></asp:Label>
-                                    </td>
-                                </tr>
-                                <tr class="grid grid-cols-8 gap-6 w-full   border-b-2 py-5 ">
-                                    <!-- Span across all columns for VAT row -->
-                                    <td class="col-span-6"></td>
-                                    <td class="col-span-1 text-center  font-bold ">
-                                        <p>SST(0%)</p>
-                                    </td>
-                                    <td class="col-span-1 text-center">
-                                        <asp:Label ID="lblVAT" runat="server" Text="$0.00"></asp:Label>
+                                        <asp:Label ID="lblSubtotal" runat="server" Text="RM 711.00"></asp:Label>
                                     </td>
                                 </tr>
                                 <tr class="grid grid-cols-8 gap-6 w-ful border-b-2 py-5">
                                     <!-- Span across all columns for shipping row -->
                                     <td class="col-span-6"></td>
                                     <td class="col-span-1 text-center  font-bold ">
-                                        <p>Shipping Rate</p>
+                                        <p>Shipping</p>
                                     </td>
                                     <td class="col-span-1 text-center">
-                                        <asp:Label ID="lblShippingRate" runat="server" Text="$20.00"></asp:Label>
+                                        <asp:Label ID="lblShippingRate" runat="server" Text="RM 20.00"></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr class="grid grid-cols-8 gap-6 w-ful border-b-2 py-5">
+                                    <!-- Span across all columns for shipping row -->
+                                    <td class="col-span-6"></td>
+                                    <td class="col-span-1 text-center  font-bold ">
+                                        <p>Discount</p>
+                                        (<asp:Label ID="lblDisRate" runat="server" Text="0%"></asp:Label>)
+                                    </td>
+                                    <td class="col-span-1 text-center">
+                                        <asp:Label ID="lblDiscount" runat="server" Text="RM 20.00"></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr class="grid grid-cols-8 gap-6 w-full   border-b-2 py-5 ">
+                                    <!-- Span across all columns for VAT row -->
+                                    <td class="col-span-6"></td>
+                                    <td class="col-span-1 text-center  font-bold ">
+                                        <p>TAX(6%)</p>
+                                    </td>
+                                    <td class="col-span-1 text-center">
+                                        <asp:Label ID="lblTax" runat="server" Text="RM 0.00"></asp:Label>
                                     </td>
                                 </tr>
                                 <tr class="grid grid-cols-8 gap-6 w-full py-5 pb-6">
@@ -268,15 +279,12 @@
                     <div>
                     </div>
                     <p class="text-2xl text-gray-700 font-bold text-center">Change Status</p>
-                    <span class="w-auto flex items-center justify-end text-3xl rounded-full">
-
-
-                    </span>
+                    <span class="w-auto flex items-center justify-end text-3xl rounded-full"></span>
 
                 </div>
                 <div class="flex flex-col justify-center items-center gap-5">
 
-                   
+
                     <div class="bold w-1/2 text-lg flex flex-col items-center">
                         <div class="flex flex-col gap-4">
                             <div>
@@ -286,7 +294,7 @@
                             <div>
 
                                 <span>New Status</span>
-                            
+
                                 <asp:DropDownList ID="statusDDl" runat="server" CssClass="border drop-shadow cursor-pointer bg-gray-100 rounded-lg p-2">
                                     <asp:ListItem Value="Pending" Text="Pending"></asp:ListItem>
                                     <asp:ListItem Value="Packed" Text="Packed"></asp:ListItem>

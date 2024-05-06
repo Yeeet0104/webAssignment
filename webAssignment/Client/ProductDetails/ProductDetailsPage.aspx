@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Client/ClientMasterPage/ClientMasterPage.Master" AutoEventWireup="true" CodeBehind="ProductDetailsPage.aspx.cs" Inherits="webAssignment.Client.ProductDetails.ProductDetailsPage" %>
+﻿    <%@ Page Title="" Language="C#" MasterPageFile="~/Client/ClientMasterPage/ClientMasterPage.Master" AutoEventWireup="true" CodeBehind="ProductDetailsPage.aspx.cs" Inherits="webAssignment.Client.ProductDetails.ProductDetailsPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="ProductDetailsPage.css">
@@ -10,11 +10,6 @@
             <h2>Product Details</h2>
         </div>--%>
         <div class="product-details ">
-            <div class="product-small-image gap-4">
-                <img src="/Client/Product/Products Images/Corsair RMx Series RM850x.png" alt="Corsair RMx Series RM850x" />
-                <img src="/Client/Product/Products Images/Corsair RMx Series RM850x(2).jpg" alt="Corsair RMx Series RM850x" />
-                <img src="/Client/Product/Products Images/Corsair RMx Series RM850x(3).jpg" alt="Corsair RMx Series RM850x" />
-            </div>
             <div class="product-image">
                 <asp:Image ID="imgProduct" runat="server" CssClass="product-image" />
             </div>
@@ -27,9 +22,10 @@
                     <asp:Label ID="lblShortProductDesc1" runat="server" CssClass="product-desc" Text="Short Product Description" /></span>
                 <div class="product-variations">
                     <asp:HiddenField ID="selectedVariation" runat="server"  />
-                    <asp:Button ID="btnVariation1" runat="server" CssClass="variation-btn" Text="Variation 1" OnClick="UpdatePrice" runat="server" />
-                    <asp:Button ID="btnVariation2" runat="server" CssClass="variation-btn" Text="Variation 2" OnClick="UpdatePrice" runat="server" />
-                    <asp:Button ID="btnVariation3" runat="server" CssClass="variation-btn" Text="Variation 3" OnClick="UpdatePrice" runat="server" />  
+                     <asp:DropDownList AutoPostBack="true" CssClass="w-44 py-2 px-3 bg-gray-200 text-md text-black mb-4 text-gray-500 rounded-xl" ID="ddlProdVariant" runat="server" ViewStateMode="Enabled"
+                         OnSelectedIndexChanged="ddlProdVariant_SelectedIndexChanged">
+                        <asp:ListItem Value="-"> Select a variant</asp:ListItem>
+                    </asp:DropDownList> 
                 </div>
                 <div class="product-quantity">
                     <h5 class="mr-4">Quantity: </h5>
@@ -89,7 +85,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style="width: 90%;"></div>
+                                    <div id="starlbl1" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label5StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -107,7 +103,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl2" runat="server" class="bg-[#319ba1] h-2 rounded-lg"  style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label4StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -124,7 +120,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl3" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label3StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -140,7 +136,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl4" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label2StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -155,7 +151,7 @@
                                     </span>
                                 </div>
                                 <div class="col-span-5 bg-gray-300 w-full h-2 mx-2 rounded-lg">
-                                    <div class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
+                                    <div id="starlbl5" runat="server"  class="bg-[#319ba1] h-2 rounded-lg" style='<%# "width:" + Eval("fivestarPercent") + ";" %>'></div>
                                 </div>
                                 <div class="col-span-2 flex gap-1 justify-center">
                                     <asp:Label ID="Label1StarCount" runat="server" Text="9.9%"></asp:Label>
@@ -192,12 +188,12 @@
                                         </div>
                                         <div class="flex gap-3 items-center">
                                             <div class="cursor-pointer">
-                                                <asp:LinkButton ID="btnLike" runat="server" CssClass="like-button" CommandName="Like" CommandArgument='<%# Eval("ReviewId") %>'>
+                                                <asp:LinkButton ID="btnLike" runat="server" CssClass="like-button" CommandName="Like" CommandArgument='<%# Eval("ReviewId") %>' OnClick="btnLike_Click">
                                                     <%# Eval("Likes") %> <i class="fa-regular fa-thumbs-up"></i>
                                                 </asp:LinkButton>
                                             </div>
                                             <div class="cursor-pointer">
-                                                <asp:LinkButton ID="btnDislike" runat="server" CssClass="dislike-button" CommandName="Dislike" CommandArgument='<%# Eval("ReviewId") %>'>
+                                                <asp:LinkButton ID="btnDislike" runat="server" CssClass="dislike-button" CommandName="Dislike" CommandArgument='<%# Eval("ReviewId") %>' OnClick="btnDislike_Click">
                                                     <%# Eval("Dislikes") %> <i class="fa-regular fa-thumbs-down"></i>
                                                 </asp:LinkButton>
                                             </div>

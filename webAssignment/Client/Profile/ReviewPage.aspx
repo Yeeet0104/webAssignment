@@ -1,23 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Client/ProfileMaster/ProfileMasterPage.master" AutoEventWireup="true" CodeBehind="ReviewPage.aspx.cs" Inherits="webAssignment.Client.Profile.ReviewPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <script>
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var img = document.getElementById('<%= imgReview.ClientID %>');
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function triggerFileUpload() {
-            document.getElementById('<%= fileUpload.ClientID %>').click();
-            return false; // Prevent postback on LinkButton click
-        }
-    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <div class="min-h-[80vh] p-2 flex flex-col gap-3 w-full">
@@ -33,37 +16,26 @@
 
 
         <div class="border border-gray-300 bg-white shadow shadow-xl rounded-2xl  p-4 flex gap-2">
-            <div class="w-[20%] flex justify-center items-center p-2">
-                <div class=" flex flex-col">
-                    <div class="flex justify-center items-center">
-                        <asp:Image ID="imgReview" runat="server" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" ImageUrl="~/Client/Checkout/image/img_placeholder.jpg" class="border border-gray-300 rounded-2xl shadow shadow-xl" Style="height: 120px; width: 120px;" />
-                    </div>
-                    <div class="flex justify-center pt-6">
-                        <asp:FileUpload ID="fileUpload" runat="server" Style="display: none;cursor: pointer;" onchange="previewImage(this);" />
-                        
-                        <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
-                            Choose File
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="w-[80%] flex flex-col gap-3 p-2">
+
+            <!--Order Details-->
+            <div class="w-full flex flex-col gap-3 p-2">
                 <div class="flex gap-2">
 
                     <div>
                         <asp:Image ID="imgProd" CssClass="rounded-full w-16 h-auto drop-shadow-lg" runat="server" ImageUrl="~/Client/Cart/images/cryingKermit.png" />
                     </div>
                     <div class="flex flex-col gap-2">
-                        <h2 class="text-2xl font-bold">Crying Kermit</h2>
+                        <asp:Label ID="lbName" runat="server" Text="Crying Kermit" CssClass="font-bold"></asp:Label>
                         <div class="flex gap-3 items-center">
                             <span class="font-semibold">Rating: </span>
-                            <span class="text-yellow-400 text-lg ml-2 flex gap-2 rating items-center">
-                                <i class="fa-regular fa-star star-icon cursor-pointer" data-rating="1"></i>
-                                <i class="fa-regular fa-star star-icon cursor-pointer" data-rating="2"></i>
-                                <i class="fa-regular fa-star star-icon cursor-pointer" data-rating="3"></i>
-                                <i class="fa-regular fa-star star-icon cursor-pointer" data-rating="4"></i>
-                                <i class="fa-regular fa-star star-icon cursor-pointer" data-rating="5"></i>
-                            </span>
+                            <div class="rating text-yellow-400">
+                                <i class="star-icon fa fa-star fa-solid" id="star1" runat="server" data-rating="1" ></i>
+                                <i class="star-icon fa fa-star fa-regular" id="star2" runat="server" data-rating="2" ></i>
+                                <i class="star-icon fa fa-star fa-regular" id="star3" runat="server" data-rating="3" ></i>
+                                <i class="star-icon fa fa-star fa-regular" id="star4" runat="server" data-rating="4" ></i>
+                                <i class="star-icon fa fa-star fa-regular" id="star5" runat="server" data-rating="5" ></i>
+                            </div>
+                            <asp:TextBox ID="rateValue" runat="server">1</asp:TextBox>
                         </div>
                     </div>
                 </div>
@@ -71,17 +43,10 @@
             </div>
         </div>
 
-        <asp:ListView ID="lvProductList" runat="server">
-            <LayoutTemplate>
-                <div id="itemPlaceholder" runat="server"></div>
-            </LayoutTemplate>
-            <ItemTemplate>
-            </ItemTemplate>
-        </asp:ListView>
 
 
         <div class="flex flex-row justify-end w-full mt-2">
-            <asp:LinkButton ID="btnSubmitReview" CssClass="py-2 px-6 bg-blue-700 text-white font-semibold rounded-lg" runat="server">Submit</asp:LinkButton>
+            <asp:LinkButton ID="btnSubmitReview" CssClass="py-2 px-6 bg-blue-700 text-white font-semibold rounded-lg" runat="server" OnClick="btnSubmitReview_Click">Submit</asp:LinkButton>
         </div>
     </div>
 
@@ -93,10 +58,13 @@
             starIcon.addEventListener("click", function () {
                 const rating = this.dataset.rating;  // Get rating value from data-rating
                 updateRatingUI(rating);
+
             });
         });
 
         function updateRatingUI(selectedRating) {
+            document.getElementById("<%= rateValue.ClientID %>").value = selectedRating;
+
             starIcons.forEach(starIcon => {
                 const starRating = starIcon.dataset.rating;
                 if (starRating <= selectedRating) {
@@ -106,5 +74,7 @@
                 }
             });
         }
+
+
     </script>
 </asp:Content>

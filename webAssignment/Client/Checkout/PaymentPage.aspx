@@ -111,12 +111,15 @@
                         </table>
                     </LayoutTemplate>
                     <ItemTemplate>
-                        <tr class="grid grid-cols-4 items-center">
+                        <tr class="mb-2 grid grid-cols-4 items-center ">
                             <td class="col-span-1">
                                 <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath", "{0}") %>' class="h-14 w-14 " />
                             </td>
                             <td class="col-span-3 flex flex-col">
-                                <span class="font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("productName") %> <%# Eval("variantName") %></span>
+                                <span class="font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("productName") %>
+                                </span>
+                                <span class="font-medium overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("variantName") %>
+                                </span>
                                 <span class="text-gray-700">
                                     <%# Eval("quantity") %> x <span class="text-blue-700 font-bold">RM <%# Eval("price") %></span>
                                 </span>
@@ -152,6 +155,31 @@
                 </div>
             </div>
         </div>
+        <!--Display Panel after place order-->
+         <asp:Panel ID="popUpOrderPlaced" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+        <!-- Modal content -->
+        <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
 
+            <div class=" w-full h-fit justify-center flex p-0">
+                <p class="text-2xl text-blue-600 font-bold text-center">ORDER PLACED</p>
+
+            </div>
+            <div class="flex flex-col justify-center items-center gap-5">
+
+                <div style="font-size: 64px">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Client/Checkout/image/thanks.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
+
+                </div>
+
+                <p class="bold text-xl break-normal text-center">Thank you for purchasing our product!</p>
+                <div class=" ">
+                <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click" class="border border-gray-500 px-3 py-2 rounded-lg flex gap-2 items-center">
+                     <i class=" fa-solid fa-house"></i><span class="font-semibold">Back to Home</span>
+                </asp:LinkButton>
+                </div>
+            </div>
+        </div>
+
+    </asp:Panel>
     </div>
 </asp:Content>

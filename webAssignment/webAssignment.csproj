@@ -226,7 +226,7 @@
     <Content Include="Admin\Layout\AdminPage.css" />
     <Content Include="Admin\Layout\adminPage.js" />
     <Content Include="Admin\Layout\image\voucher.png" />
-    <Content Include="Admin\Orders\EditOrder.aspx" />
+    <Content Include="Admin\Orders\ViewOrder.aspx" />
     <Content Include="Admin\Orders\Images\trash.gif" />
     <Content Include="Admin\Orders\Order.aspx" />
     <Content Include="Admin\PopUpImages\add.gif" />
@@ -260,6 +260,7 @@
     <Content Include="Client\Cart\CartPage.aspx" />
     <Content Include="Client\Cart\images\cryingKermit.png" />
     <Content Include="Client\Checkout\image\img_placeholder.jpg" />
+    <Content Include="Client\Checkout\image\thanks.gif" />
     <Content Include="Client\Checkout\PaymentPage.aspx" />
     <Content Include="Client\ClientMasterPage\ClientPage.js" />
     <Content Include="Client\Home\Home Images\logitec.png" />
@@ -305,9 +306,11 @@
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
     <Content Include="Client\Profile\images\agreement.gif" />
+    <Content Include="Client\Profile\images\cancel.gif" />
     <Content Include="Client\Profile\images\confirmDelete.gif" />
     <Content Include="Client\Profile\images\defaultPic.jpg" />
     <Content Include="Client\Profile\images\package.gif" />
+    <Content Include="Client\Profile\images\save-money.gif" />
     <Content Include="Client\Profile\images\successCat.gif" />
     <Content Include="Client\Profile\images\truck.gif" />
     <Content Include="Client\Profile\OrderHistoryDetailsPage.aspx" />
@@ -402,12 +405,12 @@
     </Compile>
     <Compile Include="Admin\Layout\Filterable.cs" />
     <Compile Include="Admin\Orders\addressInfo.cs" />
-    <Compile Include="Admin\Orders\EditOrder.aspx.cs">
-      <DependentUpon>EditOrder.aspx</DependentUpon>
+    <Compile Include="Admin\Orders\ViewOrder.aspx.cs">
+      <DependentUpon>ViewOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Orders\EditOrder.aspx.designer.cs">
-      <DependentUpon>EditOrder.aspx</DependentUpon>
+    <Compile Include="Admin\Orders\ViewOrder.aspx.designer.cs">
+      <DependentUpon>ViewOrder.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Orders\Order.aspx.cs">
       <DependentUpon>Order.aspx</DependentUpon>
