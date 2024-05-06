@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -9,28 +8,39 @@ using static System.Collections.Specialized.BitVector32;
 using webAssignment.Client.Profile;
 using ClosedXML.Excel;
 using System.IO;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Drawing.Printing;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Diagnostics;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNet.Identity;
+using System;
+using webAssignment.Admin.Orders;
 
 namespace webAssignment.Admin.Customer
 {
-    public partial class customerManagement : System.Web.UI.Page//, IFilterable
+    public partial class customerManagement : System.Web.UI.Page, IFilterable
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private int pageSize = 5;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 // Check if the user is logged in
-                if (Session["userId"] == null)
+                if (Session["userId"] != null)
                 {
-                    // Handle the case where the user is not logged in
-                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+                    ViewState["PageIndex"] = 0;
+                    ViewState["FilterStatus"] = "";
+                    ViewState["onePageStartDate"] = "";
+                    ViewState["onePageEndDate"] = "";
+                    BindListView(0, pageSize, "");
                 }
                 else
                 {
-                    // By default, select the "All" button
-                    btnAllCustomers.CssClass = "col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg";
-                    btnActive.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-                    btnBlocked.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-
+                    // Handle the case where the user is not logged in
+                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
                 }
             }
         }
@@ -46,118 +56,10 @@ namespace webAssignment.Admin.Customer
             Response.Redirect("~/Admin/Customer Management/editCustomer.aspx" + query);
         }
 
-
-        //public void FilterListView(string searchTerm)
-        //{
-        //    DataTable dummyData = GetDummyData();
-        //    DataTable filteredData = FilterDataTable(dummyData, searchTerm);
-
-        //    customerListView.DataSource = filteredData;
-        //    customerListView.DataBind();
-        //}
-
-        //private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
-        //{
-        //    // Escape single quotes in the search term which can break the filter expression.
-        //    string safeSearchTerm = searchTerm.Replace("'", "''");
-
-        //    // Build a filter expression that checks if any of the columns contain the search term.
-        //    string expression = string.Format(
-        //        "CustomerName LIKE '%{0}%' OR " +
-        //        "CustomerEmail LIKE '%{0}%' OR " +
-        //        "PhoneNo LIKE '%{0}%' OR " +
-        //        "Convert(DOB, 'System.String') LIKE '%{0}%' OR " +
-        //        "Status LIKE '%{0}%' OR " +
-        //        "Convert(Added, 'System.String') LIKE '%{0}%'",
-        //        safeSearchTerm);
-
-        //    // Use the Select method to find all rows matching the filter expression.
-        //    DataRow[] filteredRows = dataTable.Select(expression);
-
-        //    // Create a new DataTable to hold the filtered rows.
-        //    DataTable filteredDataTable = dataTable.Clone(); // Clone the structure of the table.
-
-        //    // Import the filtered rows into the new DataTable.
-        //    foreach (DataRow row in filteredRows)
-        //    {
-        //        filteredDataTable.ImportRow(row);
-        //    }
-
-        //    return filteredDataTable;
-        //}
-
-
-        protected void showPopUp_Click(object sender, EventArgs e)
-        {
-            popUpDelete.Style.Add("display", "flex");
-        }
-
-        protected void closePopUp_Click(object sender, EventArgs e)
-        {
-            popUpDelete.Style.Add("display", "none");
-        }
-        protected void btnCancelDelete_Click(object sender, EventArgs e)
-        {
-            popUpDelete.Style.Add("display", "none");
-        }
-
-        protected void allCustomers_Click(object sender, EventArgs e)
-        {
-            // Construct the SELECT query for SqlDataSource to show all customers
-            string selectQuery = "SELECT * FROM [User] WHERE user_id LIKE 'CS%'";
-
-            // Set the SelectCommand of SqlDataSource to the updated query
-            SqlDataSource1.SelectCommand = selectQuery;
-
-            // Rebind the ListView to display all customers
-            customerListView.DataBind();
-
-            btnAllCustomers.CssClass = "col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg";
-            btnActive.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-            btnBlocked.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-
-        }
-
-        protected void active_Click(object sender, EventArgs e)
-        {
-            // Construct the SELECT query for SqlDataSource to filter active customers
-            string selectQuery = "SELECT * FROM [User] WHERE user_id LIKE 'CS%' AND status = 'Active'";
-
-            // Set the SelectCommand of SqlDataSource to the updated query
-            SqlDataSource1.SelectCommand = selectQuery;
-
-            // Rebind the ListView to reflect the filtered data
-            customerListView.DataBind();
-
-            btnAllCustomers.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-            btnActive.CssClass = "col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg";
-            btnBlocked.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-
-        }
-
-        protected void blocked_Click(object sender, EventArgs e)
-        {
-            // Construct the SELECT query for SqlDataSource to filter blocked customers
-            string selectQuery = "SELECT * FROM [User] WHERE user_id LIKE 'CS%' AND status = 'Blocked'";
-
-            // Set the SelectCommand of SqlDataSource to the updated query
-            SqlDataSource1.SelectCommand = selectQuery;
-
-            // Rebind the ListView to reflect the filtered data
-            customerListView.DataBind();
-
-            btnAllCustomers.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-            btnActive.CssClass = "col-span-1 px-3 py-1 hover:text-blue-600 hover:bg-gray-100 rounded-lg";
-            btnBlocked.CssClass = "col-span-1 px-3 py-1 text-blue-600 bg-gray-100 rounded-lg";
-
-        }
-
         //exporting to excel file
         protected void btnExport_Click(object sender, EventArgs e)
         {
-            // Retrieve the data from the SqlDataSource
-            DataView dataView = (DataView)SqlDataSource1.Select(DataSourceSelectArguments.Empty);
-            DataTable dataTable = dataView.ToTable();
+            DataTable dataTable = GetCustomerData();
 
             using (var workbook = new XLWorkbook())
             {
@@ -215,106 +117,530 @@ namespace webAssignment.Admin.Customer
                 }
             }
         }
-        //sort dob and date joined ascending and descending   
-        protected void SortByDOBDateJoined_Click(object sender, EventArgs e)
+
+        protected void showPopUp_Click(object sender, EventArgs e)
         {
-            // Determine which column triggered the event
-            string column = ((LinkButton)sender).ID == "filterDOB" ? "DOB" : "Joined";
-
-            // Retrieve the current sort expression and sort direction from ViewState
-            string sortExpression = ViewState["SortExpression"] as string ?? "";
-            string sortDirection = ViewState["SortDirection"] as string ?? "";
-
-            // Toggle the sort direction if the user clicks on the button repeatedly
-            if (sortExpression.Equals(column, StringComparison.OrdinalIgnoreCase))
-            {
-                sortDirection = sortDirection.Equals("ASC", StringComparison.OrdinalIgnoreCase) ? "DESC" : "ASC";
-            }
-            else
-            {
-                // Default to ascending order if sorting by a new column
-                sortExpression = column;
-                sortDirection = "ASC";
-            }
-
-            // Update the sort expression and sort direction in ViewState
-            ViewState["SortExpression"] = sortExpression;
-            ViewState["SortDirection"] = sortDirection;
-
-            // Reconstruct the SELECT query for SqlDataSource with the appropriate ORDER BY clause
-            string orderByClause = column == "DOB" ? "birth_date" : "date_created";
-            string selectQuery = $"SELECT * FROM [User] WHERE user_id LIKE 'CS%' ORDER BY {orderByClause} {sortDirection}";
-
-            // Set the SelectCommand of SqlDataSource to the updated query
-            SqlDataSource1.SelectCommand = selectQuery;
-
-            // Rebind the ListView to reflect the sorted data
-            customerListView.DataBind();
+            popUpDelete.Style.Add("display", "flex");
         }
-        //sort last login time asc desc 
-        protected void filterLastLogin_Click(object sender, EventArgs e)
+
+        protected void closePopUp_Click(object sender, EventArgs e)
         {
-            // Retrieve the current sort expression and sort direction from ViewState
-            string sortExpression = ViewState["SortExpression"] as string ?? "";
-            string sortDirection = ViewState["SortDirection"] as string ?? "";
-
-            // Toggle the sort direction if the user clicks on the button repeatedly
-            if (sortExpression.Equals("LastLogin", StringComparison.OrdinalIgnoreCase))
-            {
-                sortDirection = sortDirection.Equals("ASC", StringComparison.OrdinalIgnoreCase) ? "DESC" : "ASC";
-            }
-            else
-            {
-                // Default to ascending order if sorting by a new column
-                sortExpression = "LastLogin";
-                sortDirection = "ASC";
-            }
-
-            // Update the sort expression and sort direction in ViewState
-            ViewState["SortExpression"] = sortExpression;
-            ViewState["SortDirection"] = sortDirection;
-
-            // Reconstruct the SELECT query for SqlDataSource with the appropriate ORDER BY clause
-            string selectQuery = "SELECT * FROM [User] WHERE user_id LIKE 'CS%' ORDER BY last_login " + sortDirection;
-
-            // Set the SelectCommand of SqlDataSource to the updated query
-            SqlDataSource1.SelectCommand = selectQuery;
-
-            // Rebind the ListView to reflect the sorted data
-            customerListView.DataBind();
+            popUpDelete.Style.Add("display", "none");
         }
-        //sort name asc desc
-        protected void filterName_Click(object sender, EventArgs e)
+        protected void btnCancelDelete_Click(object sender, EventArgs e)
         {
-            // Retrieve the current sort expression and sort direction from ViewState
-            string sortExpression = ViewState["SortExpression"] as string ?? "";
-            string sortDirection = ViewState["SortDirection"] as string ?? "";
+            popUpDelete.Style.Add("display", "none");
+        }
 
-            // Toggle the sort direction if the user clicks on the button repeatedly
-            if (sortExpression.Equals("Name", StringComparison.OrdinalIgnoreCase))
+
+        private DataTable GetCustomerData()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                sortDirection = sortDirection.Equals("ASC", StringComparison.OrdinalIgnoreCase) ? "DESC" : "ASC";
+                conn.Open();
+                string query = "SELECT * FROM [User] WHERE user_id LIKE 'CS%'";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
             }
-            else
-            {
-                // Default to ascending order if sorting by a new column
-                sortExpression = "Name";
-                sortDirection = "ASC";
-            }
+            return dt;
+        }
 
-            // Update the sort expression and sort direction in ViewState
-            ViewState["SortExpression"] = sortExpression;
-            ViewState["SortDirection"] = sortDirection;
-
-            // Reconstruct the SELECT query for SqlDataSource with the appropriate ORDER BY clause
-            string selectQuery = "SELECT * FROM [User] WHERE user_id LIKE 'CS%' ORDER BY first_name " + sortDirection + ", last_name " + sortDirection;
-
-            // Set the SelectCommand of SqlDataSource to the updated query
-            SqlDataSource1.SelectCommand = selectQuery;
-
-            // Rebind the ListView to reflect the sorted data
+        // binding into listview
+        private void BindListView(int pageIndex, int pageSize, string status)
+        {
+            customerListView.DataSource = getCustomerData(pageIndex, pageSize, status ?? ViewState["FilterStatus"] as string);
             customerListView.DataBind();
         }
 
+        protected void customerListView_DataBound(object sender, EventArgs e)
+        {
+            Label pageNumFoot = customerListView.FindControl("pageNumFoot") as Label;
+            Label lblCurrPagination = customerListView.FindControl("lblCurrPagination") as Label;
+
+            if (pageNumFoot != null)
+            {
+                int totalItems = GetTotalCustomerCount(ViewState["FilterStatus"].ToString());
+                int currentPageIndex = ((int)ViewState["PageIndex"]);
+                int startRecord = (currentPageIndex * pageSize) + 1;
+                int endRecord = (currentPageIndex + 1) * pageSize;
+                endRecord = (endRecord > totalItems) ? totalItems : endRecord;
+
+                lblCurrPagination.Text = (currentPageIndex + 1).ToString();
+                pageNumFoot.Text = $"Showing {startRecord}-{endRecord} of {totalItems}";
+            }
+        }
+
+        private List<Customer> getCustomerData(int pageIndex, int pageSize, string status)
+        {
+            List<Customer> users = new List<Customer>();
+            string filter = ViewState["Filter"] as string;
+            string sortExpression = ViewState["SortExpression"] as string ?? "user_id";
+            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+            if (ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "")
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
+
+            List<string> conditions = new List<string>();
+            if (!string.IsNullOrEmpty(status))
+            {
+                conditions.Add("status = @customer_status");
+            }
+            if (sortStartDate.HasValue && sortEndDate.HasValue)
+            {
+                conditions.Add("date_created >= @startDate AND date_created <= @endDate");
+            }
+            conditions.Add("user_id LIKE 'CS%'");
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+
+            string sql = $@"SELECT 
+            user_id,
+            username,
+            first_name,
+            last_name,
+            phone_number,
+            email,
+            birth_date,
+            profile_pic_path,
+            date_created,
+            last_login,
+            status,
+            ROW_NUMBER() OVER (ORDER BY {sortExpression} {sortDirection}) AS RowNum
+        FROM 
+            [User]
+        {whereClause}
+        ORDER BY {sortExpression} {sortDirection}
+        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Offset", pageIndex * pageSize);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    if (sortStartDate.HasValue && sortEndDate.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
+                    if (!string.IsNullOrEmpty(status))
+                    {
+                        cmd.Parameters.AddWithValue("@customer_status", status);
+                    }
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            users.Add(new Customer
+                            {
+                                user_id = reader.GetString(0),
+                                username = reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
+                                first_name = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                                last_name = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
+                                phone_number = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                                email = reader.GetString(5),
+                                birth_date = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),
+                                profile_pic_path = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
+                                date_created = reader.IsDBNull(8) ? DateTime.MinValue : reader.GetDateTime(8),
+                                last_login = reader.IsDBNull(9) ? DateTime.MinValue : reader.GetDateTime(9),
+                                status = reader.GetString(10)
+                            });
+                        }
+                    }
+                }
+            }
+            return users;
+        }
+
+        private List<Customer> getAllCustomer()
+        {
+            List<Customer> users = new List<Customer>();
+            string filter = ViewState["Filter"] as string;
+            string sortExpression = ViewState["SortExpression"] as string ?? "user_id";
+            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+            string sql = @"SELECT 
+            user_id,
+            username,
+            first_name,
+            last_name,
+            phone_number,
+            email,
+            birth_date,
+            profile_pic_path,
+            date_created,
+            last_login,
+            status
+            FROM [User]";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            users.Add(new Customer
+                            {
+                                user_id = reader.GetString(0),
+                                username = reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
+                                first_name = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                                last_name = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
+                                phone_number = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                                email = reader.GetString(5),
+                                birth_date = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6),
+                                profile_pic_path = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
+                                date_created = reader.IsDBNull(8) ? DateTime.MinValue : reader.GetDateTime(8),
+                                last_login = reader.IsDBNull(9) ? DateTime.MinValue : reader.GetDateTime(9),
+                                status = reader.GetString(10)
+                            });
+                        }
+                    }
+                }
+            }
+            return users;
+        }
+        private int GetTotalCustomerCount(string status = "")
+        {
+            DateTime? sortStartDate = null;
+            DateTime? sortEndDate = null;
+
+            if (ViewState["onePageStartDate"].ToString() != "" && ViewState["onePageEndDate"].ToString() != "")
+            {
+                sortStartDate = (DateTime)ViewState["onePageStartDate"];
+                sortEndDate = (DateTime)ViewState["onePageEndDate"];
+            }
+            var customersList = new List<Customer>();
+            string sortExpression = ViewState["SortExpression"] as string ?? "user_id";
+            string sortDirection = ViewState["SortDirection"] as string ?? "ASC";
+
+            List<string> conditions = new List<string>();
+            if (!string.IsNullOrEmpty(status))
+            {
+                conditions.Add("status = @status");
+            }
+            if (sortStartDate.HasValue && sortEndDate.HasValue)
+            {
+                conditions.Add("date_created >= @startDate AND date_created <= @endDate");
+            }
+            conditions.Add("user_id LIKE 'CS%'");
+            string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+
+            string sql = $@"SELECT COUNT(*) FROM [User]{whereClause}";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    if (sortStartDate.HasValue && sortEndDate.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue("@startDate", sortStartDate.Value);
+                        cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
+                    }
+                    if (!string.IsNullOrEmpty(status))
+                    {
+                        cmd.Parameters.AddWithValue("status", status);
+                    }
+                    return (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        protected void prevPage_Click(object sender, EventArgs e)
+        {
+            int pageIndex = (int)ViewState["PageIndex"];
+
+            if (pageIndex > 0)
+            {
+                ViewState["PageIndex"] = pageIndex - 1;
+                BindListView((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
+            }
+        }
+        protected void nextPage_Click(object sender, EventArgs e)
+        {
+            int pageIndex = (int)ViewState["PageIndex"];
+            int totalCategories = GetTotalCustomerCount(ViewState["FilterStatus"].ToString());
+
+            if ((pageIndex + 1) * pageSize < totalCategories)
+            {
+                Debug.Write("BABAK1 " + pageIndex);
+                ViewState["PageIndex"] = pageIndex + 1;
+                BindListView((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
+            }
+        }
+
+        //sorting by clicking the table label functions
+        protected void customerListView_Sorting(object sender, ListViewSortEventArgs e)
+        {
+            List<Customer> customers = getAllCustomer();
+            string sortDirection = GetSortDirection(e.SortExpression);
+            IEnumerable<Customer> sortedCustomers;
+
+            // Sorting the list using LINQ dynamically based on SortExpression and SortDirection
+            if (sortDirection == "ASC")
+            {
+                sortedCustomers = customers.OrderBy(x => GetPropertyValue(x, e.SortExpression));
+            }
+            else
+            {
+                sortedCustomers = customers.OrderByDescending(x => GetPropertyValue(x, e.SortExpression));
+            }
+
+            customerListView.DataSource = getCustomerData((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
+            customerListView.DataBind();
+        }
+
+        private object GetPropertyValue(object obj, string propName)
+        {
+            return obj.GetType().GetProperty(propName).GetValue(obj, null);
+        }
+
+        private string GetSortDirection(string column)
+        {
+            // By default, set the sort direction to ascending
+            string sortDirection = "ASC";
+
+            // Retrieve the last column that was sorted.
+            string sortExpression = ViewState["SortExpression"] as string;
+
+            Debug.Write("babakqweqwe" + sortExpression);
+            if (sortExpression != null && sortExpression == column)
+            {
+                // Check if the same column is being sorted.
+                // Otherwise, the default value is returned.
+                string lastDirection = ViewState["SortDirection"] as string;
+                Debug.Write("babakqweqwelast" + lastDirection);
+                if ((lastDirection != null) && (lastDirection == "ASC"))
+                {
+                    sortDirection = "DESC";
+                    Debug.Write("babakqweqwelastqweeqwe" + sortDirection);
+                }
+            }
+
+            ViewState["SortDirection"] = sortDirection;
+            Debug.Write("babakqweqwe" + sortDirection);
+            ViewState["SortExpression"] = column;
+
+            return sortDirection;
+        }
+
+        //Delete User
+        protected void btnConfirmDelete_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(passwordForDelete.Text))
+            {
+                if (passwordForDelete.Text == "12345")
+                {
+                    // Check if Session["userIdToDelete"] is not null before using it
+                    if (Session["userIdToDelete"] != null)
+                    {
+                        // Get the userIdToDelete from the session variable
+                        string userIdToDelete = Session["userIdToDelete"].ToString();
+
+                        // Call the delete function with userIdToDelete
+                        deleteUser(userIdToDelete);
+
+                        // Redirect to refresh the page
+                        Response.Redirect(Request.RawUrl);
+                    }
+                }
+            }
+        }
+        protected void deleteCustomerLink_Click(object sender, EventArgs e)
+        {
+            // Get the userId of the customer to delete from the command argument of the delete button
+            LinkButton deleteCustomerLink = (LinkButton)sender;
+            string userIdToDelete = deleteCustomerLink.CommandArgument;
+
+            // Store the userIdToDelete in a session variable
+            Session["userIdToDelete"] = userIdToDelete;
+
+            // Display the confirmation popup or directly call the delete function
+            // For example: show confirmation popup
+            popUpDelete.Style.Add("display", "flex");
+        }
+        private void deleteUser(string userId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "DELETE FROM [User] WHERE user_id = @userId";
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            // Optionally, hide the delete confirmation popup
+            popUpDelete.Style.Add("display", "none");
+        }
+
+        protected void allFilter_click(object sender, EventArgs e)
+        {
+            ViewState["FilterStatus"] = "";
+            ViewState["PageIndex"] = 0;
+            BindListView(0, pageSize, "");
+            changeSelectedtabCss("");
+        }
+
+        protected void activeFilter_click(object sender, EventArgs e)
+        {
+            ViewState["FilterStatus"] = "Active";
+            ViewState["PageIndex"] = 0;
+            BindListView(0, pageSize, "Active");
+            changeSelectedtabCss("Active");
+        }
+
+        protected void blockedFilter_click(object sender, EventArgs e)
+        {
+            ViewState["FilterStatus"] = "Blocked";
+            ViewState["PageIndex"] = 0;
+            BindListView(0, pageSize, "Blocked");
+            changeSelectedtabCss("Blocked");
+        }
+
+        private void resetfilterTabSttyle()
+        {
+            RemoveCssClass(activeFilter, "text-blue-600");
+            RemoveCssClass(activeFilter, "bg-gray-100");
+            RemoveCssClass(blockedFilter, "text-blue-600");
+            RemoveCssClass(blockedFilter, "bg-gray-100");
+            RemoveCssClass(allFilter, "text-blue-600");
+            RemoveCssClass(allFilter, "bg-gray-100");
+        }
+
+        private void changeSelectedtabCss(string tabName)
+        {
+            resetfilterTabSttyle();
+            switch (tabName)
+            {
+                case "Active":
+                    activeFilter.CssClass += " text-blue-600 bg-gray-100";
+                    break;
+                case "Blocked":
+                    blockedFilter.CssClass += " text-blue-600 bg-gray-100";
+                    break;
+                default:
+                    allFilter.CssClass += " text-blue-600 bg-gray-100";
+                    break;
+            }
+        }
+
+        private void RemoveCssClass(WebControl control, string classToRemove)
+        {
+            List<string> classes = control.CssClass.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            // Remove the specific class
+            classes.Remove(classToRemove);
+
+            control.CssClass = String.Join(" ", classes);
+        }
+
+        //Search bar filter functions
+        public void FilterListView(string searchTerm)
+        {
+            List<Customer> customerData = getCustomerData(0, pageSize, ViewState["FilterStatus"].ToString());
+            List<Customer> filteredData = FilterCustomerList(customerData, searchTerm);
+
+            customerListView.DataSource = filteredData;
+            customerListView.DataBind();
+        }
+
+        // Lists and LINQ
+        private List<Customer> FilterCustomerList(List<Customer> customers, string searchTerm)
+        {
+            searchTerm = searchTerm?.ToLower() ?? string.Empty; // Handle null search term and convert to lowercase
+
+            return customers.Where(c =>
+                c.user_id.ToLower().Contains(searchTerm) ||
+                c.username.ToLower().Contains(searchTerm) ||
+                c.first_name.ToLower().Contains(searchTerm) ||
+                c.last_name.ToLower().Contains(searchTerm) ||
+                c.phone_number.ToLower().Contains(searchTerm) ||
+                c.email.ToLower().Contains(searchTerm) ||
+                c.birth_date.ToString("dd/MM/yyyy").Contains(searchTerm) ||
+                c.profile_pic_path.ToLower().Contains(searchTerm) ||
+                c.date_created.ToString("dd/MM/yyyy").Contains(searchTerm) ||
+                c.last_login.ToString("dd/MM/yyyy").Contains(searchTerm) ||
+                c.status.ToLower().Contains(searchTerm)
+            ).ToList();
+        }
+
+        //snackbar
+        protected void ShowNotification(string message, string type)
+        {
+            string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
+            ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
+        }
+
+        protected void clearDateFilter_Click(object sender, EventArgs e)
+        {
+            lblDate.Text = "Select Date";
+            ViewState["onePageStartDate"] = "";
+            ViewState["onePageEndDate"] = "";
+            BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
+        }
+
+        protected void btnApplyDateFilter_Click(object sender, EventArgs e)
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            if (!DateTime.TryParse(txtStartDate.Text, out startDate))
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtStartDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            // Check if the end date is a valid date
+            if (!DateTime.TryParse(txtEndDate.Text, out endDate))
+            {
+                ShowNotification("Missing Inputs", "warning");
+                txtEndDate.CssClass += " border-red-800 border-2";
+                return;
+            }
+
+            // Optional: Check if the start date is before the end date
+            if (startDate > endDate)
+            {
+                return;
+            }
+            if (startDate != null && endDate != null)
+            {
+                lblDate.Text = startDate.ToString("dd/MM/yyyy") + " - " + endDate.ToString("dd/MM/yyyy");
+                ViewState["onePageStartDate"] = startDate;
+                ViewState["onePageEndDate"] = endDate;
+                BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
+            }
+            else
+            {
+                txtEndDate.CssClass += "border-red-800";
+            }
+        }
+        protected void cancelDate_click(object sender, EventArgs e)
+        {
+            pnlDateFilter.Style.Add("display", "none");
+        }
+
+        //date filter funtions
+        protected void filterDateBtn_click(object sender, EventArgs e)
+        {
+            pnlDateFilter.Style.Add("display", "flex");
+        }
     }
 }

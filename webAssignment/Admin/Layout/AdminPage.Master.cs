@@ -28,7 +28,6 @@ namespace webAssignment
             //loadProfile();
             var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx","addnewproduct.aspx", "editproduct.aspx", "productvariant.aspx", "addvoucher.aspx", "editvoucher.aspx", "createcategory.aspx", "editcategory.aspx" };
 
-
             string currentPage = Path.GetFileName(Request.FilePath);
 
             if ( visiblePages.Contains(currentPage, StringComparer.OrdinalIgnoreCase) )
@@ -66,6 +65,7 @@ namespace webAssignment
                 {
                     lblDate.Text = "Today";
                 }
+
             }
         }
 
@@ -248,6 +248,10 @@ namespace webAssignment
             }
         }
 
-
+        protected void adminLogout_Click(object sender, EventArgs e)
+        {
+            Session.Remove("userId");
+            Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+        }
     }
 }

@@ -24,15 +24,23 @@ namespace webAssignment.Admin.Category
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private int pageSize = 5;
-        protected void Page_Load( object sender, EventArgs e )
+        protected void Page_Load( object sender, EventArgs e )  
         {
 
             if ( !IsPostBack )
             {
-                ViewState["PageIndex"] = 0;
-                ViewState["onePageStartDate"] = "";
-                ViewState["onePageEndDate"] = "";
-                BindListView(0, pageSize);
+                if (Session["userId"] != null)
+                {
+                    ViewState["PageIndex"] = 0;
+                    ViewState["onePageStartDate"] = "";
+                    ViewState["onePageEndDate"] = "";
+                    BindListView(0, pageSize);
+                }
+                else
+                {
+                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+                }
+                    
             }
         }
         // binding into listview

@@ -234,6 +234,7 @@ namespace webAssignment.Admin.Profile
                                 {
                                     if (IsStrongPassword(txtConfirmPass.Text))
                                     {
+                                        lblChangePass.Text = "Password changed successfuly!";
                                         reader.Close();
 
                                         string hashedNewPassword = EncryptPassword(txtConfirmPass.Text);
@@ -246,6 +247,7 @@ namespace webAssignment.Admin.Profile
                                             int rowsAffected = updateCmd.ExecuteNonQuery();
                                             conn.Close();
                                         }
+                                        
                                     }
                                     else
                                     {
@@ -265,7 +267,11 @@ namespace webAssignment.Admin.Profile
                     }
                 }
             }
-            
+            else
+            {
+                lblChangePass.Text = "Input fields cannot be empty!";
+            }
+
         }
 
         private bool ValidatePassword()

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="addNewAdmin.aspx.cs" Inherits="webAssignment.Admin.Admin_Management.addNewAdmin" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Layout/AdminPage.Master" AutoEventWireup="true" CodeBehind="EditAdmin.aspx.cs" Inherits="webAssignment.Admin.Admin_Management.EditAdmin" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
@@ -20,9 +20,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!--First Row-->
-    <div class="flex flex-row justify-between font-medium items-center pt-3 pb-5">
+    <div class="flex flex-row justify-between font-medium pt-3 pb-5 items-center">
         <div class="flex flex-col">
-            <div class="text-2xl font-bold">Admin Details</div>
+            <div class="text-2xl font-bold">Customer Details</div>
             <div class="flex flex-row text-sm py-2">
                 <asp:SiteMapPath
                     ID="SiteMapPath1"
@@ -40,7 +40,7 @@
             </div>
             <div class="relative ml-2">
                 <i class="fa-solid fa-plus absolute text-white text-lg left-5 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnAddAdmin" runat="server" Text="Add Admin" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" OnClick="btnAddAdmin_Click" />
+                <asp:Button ID="btnSaveDetails" runat="server" Text="Save Details" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer" OnClick="btnSaveDetails_Click"/>
             </div>
         </div>
     </div>
@@ -57,14 +57,13 @@
 
                     <!--Pic Box-->
                     <div class="py-1">
-                        <asp:Image CssClass="rounded-lg" ID="profilePic" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
+                        <asp:Image ID="profilePic" runat="server" ImageUrl="~/Admin/Layout/image/DexProfilePic.jpeg" Height="216" Width="216" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" />
                     </div>
                     <div class="flex justify-center pt-3">
                         <asp:FileUpload ID="fileUpload" runat="server" Style="cursor: pointer; display: none" onchange="previewImage(this);" />
                         <button type="button" onclick="document.getElementById('<%= fileUpload.ClientID %>').click();" class="bg-blue-500 text-white w-full py-1 rounded-lg cursor-pointer hover:bg-blue-600">
                             Choose File
                         </button>
-
                     </div>
                 </div>
             </div>
@@ -74,10 +73,10 @@
                 <div class="flex flex-col">
                     <div class="flex flex-row justify-between">
                         <span class="font-medium">Status</span>
-                        <asp:Label ID="lblStatus" runat="server" Text="Active" class="rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100"></asp:Label>
+                        <asp:Label ID="lblStatus" runat="server" Text="" class="rounded-xl font-medium flex items-center px-3 py-1.5 text-sm text-green-700 bg-green-100"></asp:Label>
                     </div>
                     <span class="font-medium text-lg pt-2 pb-1 text-gray-400">Admin Status</span>
-                    <asp:DropDownList ID="ddlStatus" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-xl" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged" AutoPostBack="True">
+                    <asp:DropDownList ID="ddlStatus" runat="server" class="w-full font-medium bg-gray-100 px-3 py-2 rounded-xl" AutoPostBack="True" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged">
                         <asp:ListItem>Active</asp:ListItem>
                         <asp:ListItem>Blocked</asp:ListItem>
                     </asp:DropDownList>
@@ -86,37 +85,44 @@
         </div>
         <!--End-->
 
-        <!--Admin Details-->
-        <div class="bg-white drop-shadow-lg h-full w-full ml-8 rounded-xl px-10 py-5">
+        <!--Customer Details-->
+        <div class="bg-white drop-shadow-lg w-full h-full ml-8 rounded-xl px-10 py-5">
             <div class="flex flex-col">
                 <span class="text-black pb-2 text-2xl font-medium">General Information</span>
                 <div class="w-full">
                     <div class="flex flex-row pb-4">
                         <div class="w-1/2 pr-8">
                             <span class="text-sm font-medium text-gray-600">First Name</span>
-                            <asp:TextBox ID="txtFirstName" runat="server" placeholder="Type Admin's First Name..." class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                            <asp:TextBox ID="txtEditFirstName" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
                         <div class="w-1/2 pl-8">
                             <span class="text-sm font-medium text-gray-600">Last Name</span>
-                            <asp:TextBox ID="txtLastName" runat="server" placeholder="Type Admin's Last Name..." class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                            <asp:TextBox ID="txtEditLastName" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
                     </div>
                 </div>
                 <div class="w-full">
-                    <div class="flex flex-row pb-6">
+                    <div class="pb-5 flex flex-row">
                         <div class="w-1/2 pr-8">
                             <span class="text-sm font-medium text-gray-600">Email</span>
-                            <asp:TextBox ID="txtEmail" runat="server" placeholder="Type Admin's Email..." class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                            <asp:TextBox ID="txtEditEmail" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
-                        <div class="w-1/2 justify-start pl-8">
+                        <div class="w-1/2 pl-8">
                             <span class="text-sm font-medium text-gray-600">Phone Number</span>
-                            <asp:TextBox ID="txtPhoneNo" runat="server" placeholder="Type Admin's Number..." class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
+                            <asp:TextBox ID="txtEditPhoneNo" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl"></asp:TextBox>
                         </div>
+                    </div>
+                    <div class="pb-5 flex flex-col w-1/2 pr-8">
+                        <span class="text-sm font-medium text-gray-600">Role</span>
+                        <asp:DropDownList ID="ddlRole" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl">
+                            <asp:ListItem>Admin</asp:ListItem>
+                            <asp:ListItem>Admin Manager</asp:ListItem>
+                        </asp:DropDownList>
                     </div>
                 </div>
                 <!--DOB-->
                 <span class="text-lg">Date Of Birth</span>
-                <div class="w-full flex flex-row pb-4">
+                <div class="w-full flex flex-row pb-5">
                     <div class="w-1/3 pr-8">
                         <span class="text-sm font-medium text-gray-600">Day</span>
                         <asp:DropDownList ID="ddlDay" runat="server" class="w-full font-medium bg-gray-100 p-3 rounded-xl">
@@ -125,10 +131,10 @@
                             <asp:ListItem>3</asp:ListItem>
                             <asp:ListItem>4</asp:ListItem>
                             <asp:ListItem>5</asp:ListItem>
-                            <asp:ListItem>6</asp:ListItem>
+                            <asp:ListItem Value="6"></asp:ListItem>
                             <asp:ListItem>7</asp:ListItem>
                             <asp:ListItem>8</asp:ListItem>
-                            <asp:ListItem>9</asp:ListItem>
+                            <asp:ListItem Value="9"></asp:ListItem>
                             <asp:ListItem>10</asp:ListItem>
                             <asp:ListItem>11</asp:ListItem>
                             <asp:ListItem>12</asp:ListItem>
@@ -251,11 +257,7 @@
                         </asp:DropDownList>
                     </div>
                 </div>
-                <div class="flex flex-row">
-                    <span class="text-lg">Add As Admin Manager</span>
-                    <asp:CheckBox ID="adminManagerChk" runat="server" class="pl-3 pt-1"/>
-                </div>                
-                <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600 pt-3" runat="server" Text=""></asp:Label>
+                <asp:Label ID="lblErrorMsg" CssClass="font-bold text-red-600" runat="server" Text=""></asp:Label>
                 <div>
                 </div>
             </div>
@@ -263,4 +265,3 @@
     </div>
     <!--End-->
 </asp:Content>
-

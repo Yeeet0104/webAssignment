@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
+    <Content Include="Admin\Admin Management\EditAdmin.aspx" />
     <Content Include="Admin\Dashboard\dashboardFunc.js" />
     <Content Include="Admin\VisitorCounter.cs" />
     <Content Include="Admin\Admin Management\adminManagement.aspx" />
@@ -334,12 +335,20 @@
     <Compile Include="Admin\Admin Management\addNewAdmin.aspx.designer.cs">
       <DependentUpon>addNewAdmin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Admin Management\Admin.cs" />
     <Compile Include="Admin\Admin Management\adminManagement.aspx.cs">
       <DependentUpon>adminManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\Admin Management\adminManagement.aspx.designer.cs">
       <DependentUpon>adminManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Admin Management\EditAdmin.aspx.cs">
+      <DependentUpon>EditAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\EditAdmin.aspx.designer.cs">
+      <DependentUpon>EditAdmin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Category\Category.aspx.cs">
       <DependentUpon>Category.aspx</DependentUpon>
@@ -365,6 +374,7 @@
     <Compile Include="Admin\Category\editCategory.aspx.designer.cs">
       <DependentUpon>editCategory.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Customer Management\Customer.cs" />
     <Compile Include="Admin\Customer Management\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

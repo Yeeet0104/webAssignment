@@ -19,12 +19,10 @@ namespace webAssignment.Client.ClientMasterPage
         protected void Page_Load(object sender, EventArgs e)
         {
            
-            
-            Session["UserId"] = "CS1001";
             // Check if the user is logged in and retrieve their cart quantity
-            if (Session["UserId"] != null)
+            if (Session["userId"] != null)
             {
-                string userId = Session["UserId"].ToString();
+                string userId = Session["userId"].ToString();
                 int cartQuantity = GetCartQuantity(userId);
                 int wishquant = getWishlistQuantity(userId);
 
@@ -181,5 +179,6 @@ namespace webAssignment.Client.ClientMasterPage
             txtFeedbackUsername.Style["border-color"] = isUsernameValid ? string.Empty : "#EF4444";
             return isEmailValid && isUsernameValid;
         }
+
     }
 }

@@ -17,12 +17,10 @@ namespace webAssignment.Client.ProfileMaster
 
         protected void lnkLogout_Click(object sender, EventArgs e)
         {
-            // Clear the "userInfo" cookie
-            if (Request.Cookies["userInfo"] != null)
+            
+            if(Session["userId"] != null)
             {
-                HttpCookie userInfoCookie = new HttpCookie("userInfo");
-                userInfoCookie.Expires = DateTime.Now.AddDays(-1); // Expire the cookie by setting expiration date in the past
-                Response.Cookies.Add(userInfoCookie);
+                Session.Remove("userId");
             }
 
             // Redirect the user to the login page

@@ -195,13 +195,13 @@ namespace webAssignment
         protected global::System.Web.UI.WebControls.HyperLink profilePageAdmin;
 
         /// <summary>
-        /// LogoutAdmin control.
+        /// adminLogout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink LogoutAdmin;
+        protected global::System.Web.UI.WebControls.LinkButton adminLogout;
 
         /// <summary>
         /// ContentPlaceHolder1 control.
