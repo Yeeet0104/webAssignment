@@ -6,6 +6,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -586,11 +588,128 @@ namespace webAssignment.Client.Profile
 
         protected void btnDoneCancel_Click(object sender, EventArgs e)
         {
-
-
             refund.Style.Add("display", "none");
             string encOrderID = Request.QueryString["OrderID"];
+            string orderID = DecryptString(encOrderID);
+            sendEmail(orderID);
             Response.Redirect($"~/Client/Profile/OrderHistoryDetailsPage.aspx?OrderID={encOrderID}");
+        }
+
+        private void sendEmail(string orderID)
+        {
+            try
+            {
+                string senderEmail = "gtechpc24@gmail.com";
+                string receiverEmail = getUserEmail();
+                if (receiverEmail != "" || receiverEmail != null)
+                {
+
+                    MailMessage verificationMail = new MailMessage(senderEmail, receiverEmail);
+                    string resetEmailParam = HttpUtility.UrlEncode(receiverEmail); // Encode email for URL
+                    string resetUrl = $"https://localhost:44356/Client/AboutUs/AboutUsPage.aspx";
+
+                    verificationMail.Subject = "Cancellation of Order #" + orderID;
+
+                    verificationMail.Body = $"<h3>Dear {getUsername()},</h3>" +
+                                            "<p>We wanted to inform you that your request to cancel the order has been successfully processed. </p>" +
+                                            "<p>Your cancellation request has been acknowledged, and the order will no longer be processed or shipped. If you have made any payment for this order, a refund will be initiated to your original payment method as soon as possible.</p>" +
+                                            "<p>If you have any further questions or concerns regarding this cancellation or any other matter, please do not hesitate to reply to this email. We are here to assist you and ensure a smooth shopping experience.</p>" +
+                                            "<p>Thank you for your understanding and cooperation in this matter.</p>" +
+                                            "<br>" +
+                                            "<p><b>Best Regards,</b></p>" +
+                                            "<p>G-Tech Team</p>";
+                    verificationMail.IsBodyHtml = true;
+                    SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(senderEmail, "lajd btuc nhuf qryg");
+
+                    smtpClient.Send(verificationMail);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                ShowNotification(ex.Message, "warning");
+            }
+        }
+
+        private string getUsername()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+
+            string getNextNum = "SELECT username FROM dbo.[User] WHERE user_id = @userid";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(getNextNum, connection))
+                    {
+                        command.Parameters.AddWithValue("@userid", getCurrentUserId());
+
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                return reader.GetString(0);
+                            }
+                        }
+                    }
+
+                }
+                catch (SqlException ex)
+                {
+                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning"); // Redirect to an error page if needed
+                }
+            }
+            return "";
+        }
+
+        private string getUserEmail()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+
+            string getNextNum = "SELECT email FROM dbo.[User] WHERE user_id = @userid";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(getNextNum, connection))
+                    {
+                        command.Parameters.AddWithValue("@userid", getCurrentUserId());
+
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                return reader.GetString(0);
+                            }
+                        }
+                    }
+
+                }
+                catch (SqlException ex)
+                {
+                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning"); // Redirect to an error page if needed
+                }
+            }
+            return "";
         }
     }
 }

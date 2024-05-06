@@ -1,29 +1,71 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Client/ClientMasterPage/ClientMasterPage.Master" AutoEventWireup="true" CodeBehind="AboutUsPage.aspx.cs" Inherits="webAssignment.Client.AboutUs.AboutUsPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 300px;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            background-color: #bbb;
+            color: black;
+        }
+
+        .flip-card-back {
+            background-color: #2980b9;
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="relative border border-black h-[675px] w-full ">
         <asp:Image ID="imgBackground" runat="server" CssClass="w-full h-full object-cover object-center" ImageUrl="~/Client/AboutUs/image/about-us.jpg" />
-        <div class="w-full h-full right-0 top-0 absolute " style="background: rgba(0, 0, 0, 0.4)"></div>
+        <div class="w-full h-full right-0 top-0 absolute " style="background: rgba(0, 0, 0, 0.6)"></div>
         <div class="w-full h-full right-0 top-0 absolute z-1 flex justify-center items-center">
-            <span class="text-8xl text-white font-bold mb-10">About Us</span>
+            <span class="text-8xl text-white font-bold mb-10">Welcome to G-Tech</span>
         </div>
     </div>
     <div class="max-w-7xl mx-auto py-12">
         <div class="w-full flex gap-5 p-4">
             <!-- Image -->
             <div class="flex-1">
-                <asp:Image ID="imgCompany" runat="server" ImageUrl="~/Client/AboutUs/image/comp.jpeg" />
+                <asp:Image ID="imgCompany" CssClass="rounded-xl shadow-gray-500 shadow-xl" runat="server" ImageUrl="~/Client/AboutUs/image/comp.jpeg" />
             </div>
             <!-- Company overview -->
             <div class="flex-1 flex flex-col gap-10 px-4 py-10">
-                <h2 class="font-bold text-5xl">Our Company Overview</h2>
-                <p class="text-lg text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ante arcu, porttitor in elit id, iaculis condimentum ligula. Sed blandit sem nec sem posuere, et dictum ligula commodo. Proin id leo id neque mollis mollis. Sed id tempor lorem, a laoreet massa. Ut a rutrum nisl. Ut nec scelerisque nulla, eget dignissim ipsum. Proin lacus nibh, finibus sed ultricies quis, tempor a velit.
+                <h2 class="font-bold text-5xl text-center">Company Overview</h2>
+                <p class="text-lg text-gray-600 text-justify">
+                    G-tech is a leading provider of high-quality computer parts and accessories. With a passion for technology and a commitment to customer satisfaction, we specialize in offering a wide range of products to meet the diverse needs of our customers.
                 </p>
-                <div class="flex justify-end">
-                    <asp:Button ID="btnLearnMore" runat="server" Text="Learn More" class="py-3 px-5 bg-blue-700 text-white font-semibold rounded-lg" />
+                <div class="flex justify-end text-gray-800">
+                    <span class="italic text-xl text-center">"We strive to provide superior products, exceptional service, and expert advice to help our customers maximize their computing experience."
+                    </span>
 
                 </div>
             </div>
@@ -59,23 +101,22 @@
 
     <div class="max-w-7xl mx-auto py-12">
         <div class="w-full flex gap-5 p-4">
-            
+
             <!-- Company overview -->
             <div class="flex-1 flex flex-col gap-10 px-4 py-10">
-                <h2 class="font-bold text-6xl">Our Team</h2>
-                <p class="text-lg text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ante arcu, porttitor in elit id, iaculis condimentum ligula. Sed blandit sem nec sem posuere, et dictum ligula commodo. Proin id leo id neque mollis mollis. Sed id tempor lorem, a laoreet massa. Ut a rutrum nisl. Ut nec scelerisque nulla, eget dignissim ipsum. Proin lacus nibh, finibus sed ultricies quis, tempor a velit.
+                <h2 class="font-bold text-6xl text-center">Our Services</h2>
+                <p class="text-lg text-gray-600 text-justify">
+                    At G-tech, we offer a comprehensive range of services tailored to meet the diverse needs of our customers in the technology sector. With a focus on quality, reliability, and customer satisfaction, we strive to deliver exceptional service experiences that empower individuals and businesses to thrive in the digital age.
                 </p>
                 <div>
-                    <asp:Button ID="Button1" runat="server" Text="Learn More" class="py-3 px-5 bg-blue-700 text-white font-semibold rounded-lg" />
+                    <asp:Button ID="Button1" PostBackUrl="~/Client/AboutUs/Services.aspx" runat="server" Text="Learn More" class="py-3 px-5 bg-blue-700 text-white font-semibold rounded-lg" />
 
                 </div>
             </div>
             <!-- Image -->
             <div class="flex-1">
-                <asp:Image ID="Image2" runat="server" ImageUrl="~/Client/AboutUs/image/group.jpg" />
+                <asp:Image ID="Image2" CssClass="rounded-xl shadow-gray-500 shadow-xl" runat="server" ImageUrl="~/Client/AboutUs/image/service.jpg" />
             </div>
         </div>
-
     </div>
 </asp:Content>
