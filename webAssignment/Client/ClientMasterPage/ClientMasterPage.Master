@@ -67,6 +67,21 @@
             height: 20px;
             text-align: center;
             font-weight: 600;
+        }       
+
+        #wishListBadge {
+            position: absolute;
+            top: -9px;
+            right: -15px;
+            background-color: #e50000;
+            color: white;
+            padding: 0px;
+            border-radius: 25px;
+            width: 20px;
+            font-size: 13px;
+            height: 20px;
+            text-align: center;
+            font-weight: 600;
         }
 
     </style>
@@ -100,8 +115,9 @@
                             <i class="fa-solid fa-cart-shopping"></i>
                              <span id="cartBadge" runat="server" class="badge">0</span>
                     </asp:LinkButton>
-                    <asp:LinkButton ID="lbWishlist" runat="server" PostBackUrl="~/Client/Wishlist/WishlistPage.aspx">
+                    <asp:LinkButton ID="lbWishlist" runat="server" PostBackUrl="~/Client/Wishlist/WishlistPage.aspx" style="position: relative; margin: 0px 10px;">
                             <i class="fa-regular fa-heart"></i>
+                             <span id="wishListBadge" runat="server" class="badge">0</span>
                     </asp:LinkButton>
                     <asp:LinkButton ID="lbProfile" runat="server" PostBackUrl="~/Client/Profile/AccountDetails.aspx">
                             <i class="fa-regular fa-user" class="h-5"></i>

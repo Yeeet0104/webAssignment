@@ -26,9 +26,11 @@ namespace webAssignment.Client.ClientMasterPage
             {
                 string userId = Session["UserId"].ToString();
                 int cartQuantity = GetCartQuantity(userId);
+                int wishquant = getWishlistQuantity(userId);
 
                 // Update the cart icon badge
                 UpdateCartIconBadge(cartQuantity);
+                UpdateWishIconBadge(wishquant);
             }
             
         }
@@ -58,6 +60,35 @@ namespace webAssignment.Client.ClientMasterPage
             return cartQuantity;
         }
 
+
+        private int getWishlistQuantity( string userId )
+        {
+            int wishQuant = 0;
+            try
+            {
+                using ( SqlConnection conn = new SqlConnection(connectionString) )
+                {
+                    conn.Open();
+                    string sql = @"SELECT COUNT(DISTINCT wd.product_variant_id) AS NumberOfWishlistedProducts
+                                    FROM Wishlist w
+                                    JOIN Wishlist_details wd ON w.wishlist_id = wd.wishlist_id
+                                    WHERE w.user_id = @UserID";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    object result = cmd.ExecuteScalar();
+                    if ( result != null && result != DBNull.Value )
+                    {
+                        wishQuant = Convert.ToInt32(result);
+                    }
+                }
+            }
+            catch ( SqlException ex )
+            {
+                // Log the exception or handle it as needed
+            }
+            return wishQuant;
+        }
+
         public void UpdateCartIconBadge(int cartQuantity)
         {
             // Update the HTML element containing the cart icon badge
@@ -73,7 +104,21 @@ namespace webAssignment.Client.ClientMasterPage
                 cartBadge.Visible = false;
             }
         }
-
+        public void UpdateWishIconBadge( int wishQuant )
+        {
+            // Update the HTML element containing the cart icon badge
+            if ( wishQuant > 0 )
+            {
+                // Display the badge and update its value
+                wishListBadge.Visible = true;
+                wishListBadge.InnerText = wishQuant.ToString();
+            }
+            else
+            {
+                // Hide the badge if there are no items in the cart
+                wishListBadge.Visible = false;
+            }
+        }
         protected void btnSendRequest_Click(object sender, EventArgs e)
         {
             if (ValidateForm())
