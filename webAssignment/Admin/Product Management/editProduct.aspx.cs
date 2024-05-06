@@ -38,7 +38,7 @@ namespace webAssignment.Admin.Product_Management
         {
             ViewState["imgChanged"] = false;
             string encProdcutID = Request.QueryString["ProdID"];
-            if ( string.IsNullOrEmpty(encProdcutID))
+            if ( string.IsNullOrEmpty(encProdcutID) )
             {
                 Response.Redirect("~/Admin/Product Management/adminProducts.aspx");
                 return;
@@ -61,7 +61,7 @@ namespace webAssignment.Admin.Product_Management
 
         protected string DecryptString( string cipherText )
         {
-            string EncryptionKey = "ABC123"; 
+            string EncryptionKey = "ABC123";
             cipherText = cipherText.Replace(" ", "+");
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using ( Aes encryptor = Aes.Create() )
@@ -157,7 +157,7 @@ namespace webAssignment.Admin.Product_Management
         }
 
 
-        private void CreateVariantControl( int index, string variantName, string price, string stock , string variantId = "" )
+        private void CreateVariantControl( int index, string variantName, string price, string stock, string variantId = "" )
         {
             TextBox variantTextBox = new TextBox
             {
@@ -280,7 +280,7 @@ namespace webAssignment.Admin.Product_Management
         }
         private void DisplayImages( List<string> imagePaths )
         {
-            imageContainer.Controls.Clear(); 
+            imageContainer.Controls.Clear();
 
             foreach ( string path in imagePaths )
             {
@@ -316,9 +316,10 @@ namespace webAssignment.Admin.Product_Management
             }
         }
 
-        protected void UpdateProductImages( string productID )
+        protected bool UpdateProductImages( string productID )
         {
-            if ( (bool) ViewState["imgChanged"] == true) {
+            if ( (bool)ViewState["imgChanged"] == true )
+            {
                 List<string> initialImages = ViewState["InitialImagePaths"] as List<string>;
                 List<string> uploadedImages = ViewState["UploadedImages"] as List<string> ?? new List<string>();
 
@@ -338,7 +339,7 @@ namespace webAssignment.Admin.Product_Management
                     }
                 }
             }
-
+            return true;
         }
 
         private void InsertImageDetails( string productId, string imagePath )
@@ -376,7 +377,7 @@ namespace webAssignment.Admin.Product_Management
         private string GetNextImageId( )
         {
             string prefix = "IMGP";
-            int maxId = 1000; 
+            int maxId = 1000;
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -405,10 +406,16 @@ namespace webAssignment.Admin.Product_Management
         {
             string encProdcutID = Request.QueryString["ProdID"];
             string productID = DecryptString(encProdcutID);
-            UpdateProduct();
-            UpdateVariants(productID);
-            UpdateProductImages(productID);
-            LoadImagePaths(productID); 
+            if ( UpdateProduct() && UpdateVariants(productID) && UpdateProductImages(productID) )
+            {
+                ShowNotification("Sucessfully Updated !", "success");
+            }
+            else
+            {
+                ShowNotification("Sucessfully Updated !", "warning");
+
+            }
+            LoadImagePaths(productID);
         }
 
         // for variant tab if the add varian button is clicked then add new rows
@@ -424,7 +431,7 @@ namespace webAssignment.Admin.Product_Management
         {
             panelVariantTextBoxes.Controls.Clear();
             string encProdcutID = Request.QueryString["ProdID"];
-            string productID = DecryptString(encProdcutID); 
+            string productID = DecryptString(encProdcutID);
             loadVariantData(productID);
         }
         private string FormatDescriptionsFromTextBox( )
@@ -452,7 +459,7 @@ namespace webAssignment.Admin.Product_Management
         }
 
         // updating the database
-        private void UpdateProduct( )
+        private bool UpdateProduct( )
         {
             string currentName = editTbProductName.Text;
             string currentDescription = editTbProductDes.Text;
@@ -462,6 +469,7 @@ namespace webAssignment.Admin.Product_Management
             bool isUpdated = false;
             SqlCommand cmd = new SqlCommand();
             StringBuilder sql = new StringBuilder("UPDATE Product SET ");
+
             if ( currentName != (string)ViewState["InitialProductName"] )
             {
                 sql.Append("product_name = @Name, ");
@@ -500,28 +508,43 @@ namespace webAssignment.Admin.Product_Management
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                ShowNotification("Successfully Updated !", "success");
+
             }
+            return true;
         }
-        protected void UpdateVariants( string productID )
+        protected bool UpdateVariants( string productID )
         {
             int variantCount = (int)ViewState["VariantCount"];
             for ( int i = 0 ; i < variantCount ; i++ )
             {
-                TextBox variantNameBox = (TextBox) panelVariantTextBoxes.FindControl("variant" + i + "Tb");
+                TextBox variantNameBox = (TextBox)panelVariantTextBoxes.FindControl("variant" + i + "Tb");
                 TextBox variantPriceBox = (TextBox)panelVariantTextBoxes.FindControl("priceVar" + i + "Tb");
                 TextBox variantStockBox = (TextBox)panelVariantTextBoxes.FindControl("stockVar" + i + "Tb");
-                HiddenField variantIdField = (HiddenField) panelVariantTextBoxes.FindControl("variantId" + i);
-                if ( variantIdField.Value == "")
+                HiddenField variantIdField = (HiddenField)panelVariantTextBoxes.FindControl("variantId" + i);
+
+
+                decimal price;
+                int stock;
+                if ( variantNameBox.Text == "" )
+                {
+                    ShowNotification("Please variant name !", "warning");
+                    return false;
+                }
+                if ( !decimal.TryParse(variantPriceBox.Text, out price) || !int.TryParse(variantStockBox.Text, out stock) )
+                {
+                    ShowNotification("Please only enter numbers !", "warning");
+                    return false;
+                }
+                if ( variantIdField.Value == "" )
                 {
                     InsertVariant(productID, variantNameBox.Text, decimal.Parse(variantPriceBox.Text), int.Parse(variantStockBox.Text));
-
                 }
                 else
                 {
                     UpdateVariant(variantIdField.Value, variantNameBox.Text, decimal.Parse(variantPriceBox.Text), int.Parse(variantStockBox.Text));
                 }
             }
+            return true;
         }
         private void InsertVariant( string productId, string name, decimal price, int stock )
         {
@@ -543,8 +566,8 @@ namespace webAssignment.Admin.Product_Management
         }
         private string GetNextProductVariantId( SqlConnection conn )
         {
-            string prefix = "PV"; 
-            int maxNumber = 1000; 
+            string prefix = "PV";
+            int maxNumber = 1000;
 
             string sql = "SELECT MAX(product_variant_id) FROM Product_Variant WHERE product_variant_id LIKE @Prefix + '%'";
             using ( SqlCommand cmd = new SqlCommand(sql, conn) )
@@ -561,7 +584,7 @@ namespace webAssignment.Admin.Product_Management
                 }
                 else
                 {
-                    maxNumber = 1; 
+                    maxNumber = 1;
                 }
             }
 
@@ -583,7 +606,7 @@ namespace webAssignment.Admin.Product_Management
                 }
             }
         }
-       
+
         protected void ShowNotification( string message, string type )
         {
             string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";

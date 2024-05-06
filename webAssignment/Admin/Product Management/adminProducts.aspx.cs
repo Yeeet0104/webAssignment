@@ -434,7 +434,6 @@ namespace webAssignment
                 if ( ( lastDirection != null ) && ( lastDirection == "ASC" ) )
                 {
                     sortDirection = "DESC";
-                    Debug.Write("babakqweqwelastqweeqwe" + sortDirection);
                 }
             }
 
@@ -624,6 +623,7 @@ namespace webAssignment
                 ViewState["onePageStartDate"] = startDate;
                 ViewState["onePageEndDate"] = endDate;
                 BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
+                pnlDateFilter.Style.Add("display", "none");
             }
             else
             {

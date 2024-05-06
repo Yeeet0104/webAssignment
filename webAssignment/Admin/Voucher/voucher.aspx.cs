@@ -202,11 +202,35 @@ namespace webAssignment.Admin.Voucher
                 string encryptedStr = EncryptString(voucherCodeID);
                 Response.Redirect($"~/Admin/Voucher/editVoucher.aspx?voucherCodeID={encryptedStr}");
             }
-            else if ( e.CommandName == "DeleteProduct" )
+            else if ( e.CommandName == "deleteVoucher" )
             {
-
+                popUpDelete.Style.Add("display", "flex");
+                Session["CategoryIdDel"] = e.CommandArgument.ToString();
             }
         }
+
+        private void deleteVoucher( string voucher_id )
+        {
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+
+                string query = "UPDATE Voucher SET voucher_status = 'Expired' WHERE voucher_id = @VoucherID";
+
+                using ( SqlCommand command = new SqlCommand(query, connection) )
+                {
+                    command.Parameters.AddWithValue("@VoucherID", voucher_id);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                    Session["CategoryIdDel"] = null;
+                    BindListView((int)ViewState["PageIndex"], pageSize, ViewState["FilterStatus"].ToString());
+                }
+            }
+
+            ShowNotification("Voucher status updated to expired.", "success");
+        }
+
         // when on bound handle events
         protected void voucherListView_DataBound( object sender, EventArgs e )
         {
@@ -447,10 +471,12 @@ namespace webAssignment.Admin.Voucher
         protected void closePopUp_Click( object sender, EventArgs e )
         {
             popUpDelete.Style.Add("display", "none");
+            Session["CategoryIdDel"] = null;
         }
         protected void btnCancelDelete_Click( object sender, EventArgs e )
         {
             popUpDelete.Style.Add("display", "none");
+            Session["CategoryIdDel"] = null;
         }
 
         protected void btnExport_Click( object sender, EventArgs e )
@@ -541,6 +567,7 @@ namespace webAssignment.Admin.Voucher
                 ViewState["onePageStartDate"] = startDate;
                 ViewState["onePageEndDate"] = endDate;
                 BindListView(0, pageSize, ViewState["FilterStatus"].ToString());
+                pnlDateFilter.Style.Add("display", "none");
             }
             else
             {
@@ -613,6 +640,24 @@ namespace webAssignment.Admin.Voucher
                     Response.End();
                 }
             }
+        }
+
+        protected void btnConfirmDelete_Click( object sender, EventArgs e )
+        {
+            if ( passwordForDelete.Text.ToString() == "12345" )
+            {
+                string id = Session["CategoryIdDel"].ToString();
+                if ( id != null )
+                {
+                    deleteVoucher(id);
+                    popUpDelete.Style.Add("display", "none");
+                }
+            }
+            else
+            {
+                ShowNotification("Invalid Password", "warning");
+            }
+
         }
     }
 }

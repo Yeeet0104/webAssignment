@@ -289,7 +289,6 @@ namespace webAssignment.Admin.Product_Management
                 if ( ( lastDirection != null ) && ( lastDirection == "ASC" ) )
                 {
                     sortDirection = "DESC";
-                    Debug.Write("babakqweqwelastqweeqwe" + sortDirection);
                 }
             }
 
