@@ -19,6 +19,7 @@ namespace webAssignment.Client.Profile
         protected void Page_Load(object sender, EventArgs e)
         {
             string encOrderID = Request.QueryString["OrderID"];
+            
             string encVariantID = Request.QueryString["VariantID"];
             string orderID = DecryptString(encOrderID);
             string variantID = DecryptString(encVariantID);
@@ -130,6 +131,8 @@ namespace webAssignment.Client.Profile
 
         protected void btnSubmitReview_Click(object sender, EventArgs e)
         {
+
+
             string encOrderID = Request.QueryString["OrderID"];
             string encVariantID = Request.QueryString["VariantID"];
             string orderID = DecryptString(encOrderID);
@@ -138,9 +141,11 @@ namespace webAssignment.Client.Profile
             //string orderID = "O1001";
             //string variantID = "PV1001";
             string userID = getCurrentUserId();
-            string date = DateTime.Now.Date.ToString("MM-dd-yyyy");
+            string date = DateTime.Now.ToString();
             string comment = txtComment.Text;
-            int rating = Convert.ToInt32(ddlRate.SelectedValue);
+            string strRating = rateValue.Text;
+            int rating = Convert.ToInt32(strRating);
+
 
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
@@ -165,6 +170,8 @@ namespace webAssignment.Client.Profile
                         command.Parameters.AddWithValue("@rating", rating);
 
                         command.ExecuteNonQuery();
+
+                        Response.Redirect($"~/Client/Profile/OrderHistoryDetailsPage.aspx?OrderID={encOrderID}");
                     }
 
                 }

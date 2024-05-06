@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -33,8 +34,49 @@ namespace webAssignment.Client.Profile
             updateOrderStatusBar(getOrderStatus(orderID));
             updateOrderInfo(orderID);
             updatePaymentInfo(orderID);
-            updateAddressInfo(orderID);
+            updateShippingAddressInfo(orderID);
+            updateBillingAddressInfo(orderID);
+            updateOrderNote(orderID);
         }
+
+        private void updateOrderNote(string orderID)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            string query =
+                @"SELECT note FROM dbo.[Order] WHERE order_id = @orderID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@orderID", orderID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                if (reader[0] != DBNull.Value)
+                                    lblOrderNote.Text = "\"" + Convert.ToString(reader[0]) + "\"";
+                                else
+                                {
+                                    lblOrderNote.Text = "\"Seems like you didn't add any note on this order. :D\"";
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning");
+                }
+            }
+        }
+
         private void updateOrderStatusBar(string status)
         {
 
@@ -130,22 +172,22 @@ namespace webAssignment.Client.Profile
             return "";
         }
 
-        private void updateAddressInfo(string orderID)
+        private void updateShippingAddressInfo(string orderID)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
             string query =
                 @"SELECT  
-    ad.address_line1,  
-    ad.address_line2, 
-    CONCAT(ad.zip_code, ', ', ad.city) AS address_line3,
-    CONCAT(ad.state, ', ', ad.countryCode) AS address_line4
-FROM 
-    dbo.[Address] ad 
-INNER JOIN 
-    dbo.[Order] o ON ad.address_id = o.address_id 
-WHERE 
-    o.order_id = @orderID";
+                    ad.address_line1,  
+                    ad.address_line2, 
+                    CONCAT(ad.zip_code, ', ', ad.city) AS address_line3,
+                    CONCAT(ad.state, ', ', ad.countryCode) AS address_line4
+                FROM 
+                    dbo.[Address] ad 
+                INNER JOIN 
+                    dbo.[Order] o ON ad.address_id = o.address_id 
+                WHERE 
+                    o.order_id = @orderID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -164,6 +206,51 @@ WHERE
                                 lblShippingAddress2.Text = reader["address_line2"].ToString();
                                 lblShippingAddress3.Text = reader["address_line3"].ToString();
                                 lblShippingAddress4.Text = reader["address_line4"].ToString();
+                            }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning");
+                }
+            }
+        }
+        private void updateBillingAddressInfo(string orderID)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            string query =
+                @"SELECT  
+                    ad.address_line1,  
+                    ad.address_line2, 
+                    CONCAT(ad.zip_code, ', ', ad.city) AS address_line3,
+                    CONCAT(ad.state, ', ', ad.countryCode) AS address_line4
+                FROM 
+                    dbo.[Address] ad 
+                INNER JOIN 
+                    dbo.[Order] o ON ad.address_id = o.billing_address_id 
+                WHERE 
+                    o.order_id = @orderID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@orderID", orderID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                lblBillingAddress1.Text = reader["address_line1"].ToString();
+                                lblBillingAddress2.Text = reader["address_line2"].ToString();
+                                lblBillingAddress3.Text = reader["address_line3"].ToString();
+                                lblBillingAddress4.Text = reader["address_line4"].ToString();
                             }
                         }
                     }
@@ -255,7 +342,7 @@ WHERE
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
             string getOrderHistoryQuery =
-                @"SELECT pv.product_variant_id AS variantID, p.product_name AS productName, pv.variant_name AS variantName, od.quantity, od.price, (od.quantity * od.price) AS amount, (Select TOP 1 path FROM Image_Path imgp WHERE imgp.product_id = p.product_id ORDER BY imgp.image_path_id ASC) AS imagePath
+                @"SELECT o.status, pv.product_variant_id AS variantID, p.product_name AS productName, pv.variant_name AS variantName, od.quantity, od.price, (od.quantity * od.price) AS amount, (Select TOP 1 path FROM Image_Path imgp WHERE imgp.product_id = p.product_id ORDER BY imgp.image_path_id ASC) AS imagePath
                 FROM Order_Details od 
                 INNER JOIN dbo.[Order] o ON od.order_id = o.order_id 
                 INNER JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id 
@@ -374,21 +461,136 @@ WHERE
 
         protected void lbCancel_Click(object sender, EventArgs e)
         {
+            popUpDelete.Style.Add("display", "flex");
 
+            string encOrderID = Request.QueryString["OrderID"];
+            string orderID = DecryptString(encOrderID);
+            Session["OrderIdCancel"] = orderID;
+        }
+
+        protected void closePopUp_Click(object sender, EventArgs e)
+        {
+            popUpDelete.Style.Add("display", "none");
+            Session["OrderIdCancel"] = null;
+        }
+        protected void btnCancelDelete_Click(object sender, EventArgs e)
+        {
+            popUpDelete.Style.Add("display", "none");
+            Session["OrderIdCancel"] = null;
+
+        }
+
+        protected void btnConfirmDelete_click(object sender, EventArgs e)
+        {
+
+            string id = Session["OrderIdCancel"].ToString();
+            if (id != null)
+            {
+                updateOrderCancelled(id);
+                refund.Style.Add("display", "flex");
+                
+            }
+        }
+
+        private void updateOrderCancelled(string id)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            string query =
+                @"UPDATE dbo.[Order] SET status = 'CANCELLED' WHERE order_id = @orderID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@orderID", id);
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning");
+                }
+            }
         }
 
         protected void orderListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-
             if (e.CommandName == "reviewClick")
             {
-                string variantID = e.CommandArgument.ToString();
-                string encVariantID = EncryptString(variantID);
                 string encOrderID = Request.QueryString["OrderID"];
+                string orderID = DecryptString(encOrderID);
+                if (getOrderStatus(orderID).ToUpper() == "DELIVERED")
+                {
+                    string variantID = e.CommandArgument.ToString();
 
+                    // check if user aldy rate the item
+                    if(!checkReview(orderID, variantID))
+                    {
+                        string encVariantID = EncryptString(variantID);
 
-                Response.Redirect($"~/Client/Profile/ReviewPage.aspx?OrderID={encOrderID}&VariantID={encVariantID}");
+                        Response.Redirect($"~/Client/Profile/ReviewPage.aspx?OrderID={encOrderID}&VariantID={encVariantID}");
+                    }
+                    else
+                    {
+                        ShowNotification("You can only rate each product once", "warning");
+                    }
+
+                    
+                }
+                else
+                {
+                    ShowNotification("You Can Only Review The Product After It Is Delivered", "warning");
+                }
             }
+        }
+
+        private bool checkReview(string orderID, string variantID)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+            string getOrderHistoryQuery =
+                @"SELECT review_id FROM dbo.[Review] WHERE order_id = @orderID AND product_variant_id = @pvID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(getOrderHistoryQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@orderID", orderID);
+                        command.Parameters.AddWithValue("@pvID", variantID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning");
+                }
+            }
+
+            return false;
+        }
+
+        protected void btnDoneCancel_Click(object sender, EventArgs e)
+        {
+
+
+            refund.Style.Add("display", "none");
+            string encOrderID = Request.QueryString["OrderID"];
+            Response.Redirect($"~/Client/Profile/OrderHistoryDetailsPage.aspx?OrderID={encOrderID}");
         }
     }
 }

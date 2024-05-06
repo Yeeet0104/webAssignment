@@ -22,12 +22,11 @@ namespace webAssignment.Client.Cart
         {
             if (!IsPostBack)
             {
-                // if user havent login
-                //if(Session["UserId"] == null)
-                //    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
+                //if user havent login
+                if (Session["UserId"] == null)
+                    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
 
-                //To be deleted
-                Session["UserId"] = "CS1001";
+
 
                 Session["taxRate"] = taxRate;
                 Session["Voucher"] = "";

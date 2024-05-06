@@ -590,7 +590,7 @@ namespace webAssignment.Client.Checkout
 
             if (cbxBill.Checked)
             {
-                Address billingAddress = new Address(firstName, lastName, phoneNumber, shippingAddressLine1, shippingAddressLine2, shippingCountry, shippingState, shippingCity, shippingZipcode);
+                Address billingAddress = new Address(firstName, lastName, phoneNumber, addressLine1, addressLine2, country, state, city, zipcode);
                 Session["billingAddress"] = billingAddress;
             }
             else
