@@ -225,7 +225,7 @@
     <Content Include="Admin\Layout\AdminPage.css" />
     <Content Include="Admin\Layout\adminPage.js" />
     <Content Include="Admin\Layout\image\voucher.png" />
-    <Content Include="Admin\Orders\EditOrder.aspx" />
+    <Content Include="Admin\Orders\ViewOrder.aspx" />
     <Content Include="Admin\Orders\Images\trash.gif" />
     <Content Include="Admin\Orders\Order.aspx" />
     <Content Include="Admin\PopUpImages\add.gif" />
@@ -393,12 +393,12 @@
     </Compile>
     <Compile Include="Admin\Layout\Filterable.cs" />
     <Compile Include="Admin\Orders\addressInfo.cs" />
-    <Compile Include="Admin\Orders\EditOrder.aspx.cs">
-      <DependentUpon>EditOrder.aspx</DependentUpon>
+    <Compile Include="Admin\Orders\ViewOrder.aspx.cs">
+      <DependentUpon>ViewOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Orders\EditOrder.aspx.designer.cs">
-      <DependentUpon>EditOrder.aspx</DependentUpon>
+    <Compile Include="Admin\Orders\ViewOrder.aspx.designer.cs">
+      <DependentUpon>ViewOrder.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Orders\Order.aspx.cs">
       <DependentUpon>Order.aspx</DependentUpon>

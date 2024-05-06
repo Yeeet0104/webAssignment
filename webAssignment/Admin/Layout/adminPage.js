@@ -17,7 +17,6 @@ window.showSnackbar = function (message, type) {
             snackbarIcon.classList.add("fa-triangle-exclamation");
             break;
         default:
-            // Optionally set a default background class
             snackbar.classList.add("bg-blue-500");
             break;
     }
@@ -25,7 +24,6 @@ window.showSnackbar = function (message, type) {
     snackbar.classList.remove('hidden');
     snackbar.classList.add('flex');
 
-    // After 3 seconds, hide the snackbar
     setTimeout(function () {
         snackbar.classList.remove('flex');
         snackbar.classList.add('hidden');

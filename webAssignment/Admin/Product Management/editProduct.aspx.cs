@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.VariantTypes;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.VariantTypes;
 using Irony.Parsing;
 using Newtonsoft.Json;
 using System;
@@ -20,29 +21,32 @@ namespace webAssignment.Admin.Product_Management
     public partial class editProduct : System.Web.UI.Page
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
         protected void Page_Load( object sender, EventArgs e )
         {
             if ( !IsPostBack )
             {
                 init();
                 initCategory();
-
             }
             else
             {
-                RecreateVariantControls();  // Recreate variant controls based on the count stored in ViewState
+                RecreateVariantControls();
             }
-
         }
         private void init( )
         {
             ViewState["imgChanged"] = false;
             string encProdcutID = Request.QueryString["ProdID"];
+            if ( string.IsNullOrEmpty(encProdcutID))
+            {
+                Response.Redirect("~/Admin/Product Management/adminProducts.aspx");
+                return;
+            }
             string productID = DecryptString(encProdcutID);
             LoadProductData(productID);
             loadVariantData(productID);
             LoadImagePaths(productID);
-
         }
         private void LoadImagePaths( string productID )
         {
@@ -54,10 +58,10 @@ namespace webAssignment.Admin.Product_Management
         {
             editLblProdStatus.Text = ddlnewProdStatus.SelectedValue;
         }
-        // decrypting the encrpyted string from the query string
+
         protected string DecryptString( string cipherText )
         {
-            string EncryptionKey = "ABC123"; // Use the same key you used during encryption
+            string EncryptionKey = "ABC123"; 
             cipherText = cipherText.Replace(" ", "+");
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using ( Aes encryptor = Aes.Create() )
@@ -88,7 +92,7 @@ namespace webAssignment.Admin.Product_Management
             }
             editTbProductDes.Text = formattedDescriptions.ToString();
         }
-        // loading data for initialize to the relavent inputs
+
         private void LoadProductData( string productId )
         {
             using ( SqlConnection conn = new SqlConnection(connectionString) )
@@ -152,7 +156,7 @@ namespace webAssignment.Admin.Product_Management
             return variants;
         }
 
-        // for creating variant rows
+
         private void CreateVariantControl( int index, string variantName, string price, string stock , string variantId = "" )
         {
             TextBox variantTextBox = new TextBox
@@ -191,7 +195,7 @@ namespace webAssignment.Admin.Product_Management
             panelVariantTextBoxes.Controls.Add(new Literal { Text = "</div>" });
         }
 
-        // this is for recreating the variant rows after postback happend
+
         private void RecreateVariantControls( )
         {
             int variantCount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 0;
@@ -202,11 +206,8 @@ namespace webAssignment.Admin.Product_Management
                 TextBox stockTextBox = (TextBox)panelVariantTextBoxes.FindControl("stockVar" + i + "Tb");
                 HiddenField variantIdField = (HiddenField)panelVariantTextBoxes.FindControl("variantId" + i);
 
-                Debug.WriteLine("VariantIDField" + variantIdField);
-
                 if ( variantTextBox == null || priceTextBox == null || stockTextBox == null )
                 {
-                    // Only recreate if they don't exist
                     CreateVariantControl(i, variantTextBox?.Text, priceTextBox?.Text, Convert.ToInt32(stockTextBox?.Text).ToString());
                 }
             }
@@ -216,12 +217,7 @@ namespace webAssignment.Admin.Product_Management
         private void initCategory( )
         {
             List<Category> categories = getCategories();
-
-            // Clear existing items
             editDdlCategory.Items.Clear();
-
-
-            // Check if categories were fetched successfully
             if ( categories != null && categories.Count > 0 )
             {
                 editDdlCategory.DataSource = categories;
@@ -238,17 +234,10 @@ namespace webAssignment.Admin.Product_Management
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
-                // Open the connection
                 conn.Open();
-
-                // SQL query to select data from the Category table
                 string sql = "SELECT category_id, category_name FROM Category;";
-
-                // Create a SqlCommand object
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
-
-                    // Execute the query and obtain a SqlDataReader
                     using ( SqlDataReader reader = cmd.ExecuteReader() )
                     {
 
@@ -263,9 +252,6 @@ namespace webAssignment.Admin.Product_Management
                     }
                 }
             }
-
-
-
             return categories;
         }
 
@@ -294,20 +280,17 @@ namespace webAssignment.Admin.Product_Management
         }
         private void DisplayImages( List<string> imagePaths )
         {
-            imageContainer.Controls.Clear(); // Clear existing images similar to innerHTML = ''
+            imageContainer.Controls.Clear(); 
 
             foreach ( string path in imagePaths )
             {
-                // Create a new image control
                 Image img = new Image
                 {
-                    ImageUrl = ResolveUrl(path),  // Resolve the URL to ensure it's correct
+                    ImageUrl = ResolveUrl(path),
                     CssClass = "preview-image",
                     Width = 216,
                     Height = 216
                 };
-
-                // Add the image control to the panel
                 imageContainer.Controls.Add(img);
             }
         }
@@ -326,12 +309,9 @@ namespace webAssignment.Admin.Product_Management
                     newImagePaths.Add("~/Admin/Product Management/productImages/" + uniqueFileName);
                 }
 
-                // Optionally, add new paths to ViewState for later processing or directly update the database
                 List<string> currentImages = ViewState["UploadedImages"] as List<string> ?? new List<string>();
                 currentImages.AddRange(newImagePaths);
                 ViewState["UploadedImages"] = currentImages;
-
-                // Refresh the display to include new images
                 DisplayImages(currentImages);
             }
         }
@@ -350,13 +330,10 @@ namespace webAssignment.Admin.Product_Management
                         InsertImageDetails(productID, imagePath);
                     }
                 }
-
-                // deleting existing images ( replacing )
                 foreach ( string initialPath in initialImages )
                 {
                     if ( !uploadedImages.Contains(initialPath) )
                     {
-                        // Delete image records and potentially delete files if no longer needed
                         DeleteImageDetails(productID, initialPath);
                     }
                 }
@@ -399,7 +376,7 @@ namespace webAssignment.Admin.Product_Management
         private string GetNextImageId( )
         {
             string prefix = "IMGP";
-            int maxId = 1000; // Default 0 
+            int maxId = 1000; 
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -431,7 +408,7 @@ namespace webAssignment.Admin.Product_Management
             UpdateProduct();
             UpdateVariants(productID);
             UpdateProductImages(productID);
-            LoadImagePaths(productID); // Reload image paths to update the display.
+            LoadImagePaths(productID); 
         }
 
         // for variant tab if the add varian button is clicked then add new rows
@@ -440,9 +417,6 @@ namespace webAssignment.Admin.Product_Management
             int variantCount = (int)ViewState["VariantCount"];
             CreateVariantControl(variantCount, "", "", "0");
             ViewState["VariantCount"] = variantCount + 1;
-
-            Debug.WriteLine("CIBAI");
-            Debug.WriteLine("CIBAI" + ViewState["VariantCount"]);
         }
 
         // for variant tab if the reset varian button is clicked then add new rows
@@ -453,15 +427,18 @@ namespace webAssignment.Admin.Product_Management
             string productID = DecryptString(encProdcutID); 
             loadVariantData(productID);
         }
-
         private string FormatDescriptionsFromTextBox( )
         {
-            // Assuming descriptions are separated by new lines and start with "DECx: "
             var lines = editTbProductDes.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             List<string> descriptions = lines.Select(line =>
             {
-                int idx = line.IndexOf(": ");
-                return idx != -1 ? line.Substring(idx + 2) : string.Empty;
+                int idx = line.IndexOf(":");
+                if ( idx != -1 )
+                {
+                    // Trim the part after the colon to remove any space
+                    return line.Substring(idx + 1).Trim();
+                }
+                return string.Empty;
             }).ToList();
 
             return JsonConvert.SerializeObject(descriptions);
@@ -473,6 +450,7 @@ namespace webAssignment.Admin.Product_Management
 
             return !String.Equals(currentDescription, initialDescription, StringComparison.Ordinal);
         }
+
         // updating the database
         private void UpdateProduct( )
         {
@@ -513,7 +491,7 @@ namespace webAssignment.Admin.Product_Management
             {
                 string encProdcutID = Request.QueryString["ProdID"];
                 string productID = DecryptString(encProdcutID);
-                sql.Length -= 2; // Remove the last comma and space
+                sql.Length -= 2; // Remove the last comma and space ( for the dynamic product dec )
                 sql.Append(" WHERE product_id = @ProductId");
                 cmd.Parameters.AddWithValue("@ProductId", productID);
 
@@ -565,8 +543,8 @@ namespace webAssignment.Admin.Product_Management
         }
         private string GetNextProductVariantId( SqlConnection conn )
         {
-            string prefix = "PV"; // Assuming IDs are like PV1001, PV1002, ...
-            int maxNumber = 1000; // Start from 0 if no entries exist
+            string prefix = "PV"; 
+            int maxNumber = 1000; 
 
             string sql = "SELECT MAX(product_variant_id) FROM Product_Variant WHERE product_variant_id LIKE @Prefix + '%'";
             using ( SqlCommand cmd = new SqlCommand(sql, conn) )
@@ -578,16 +556,16 @@ namespace webAssignment.Admin.Product_Management
                     string maxIdStr = result.ToString().Substring(prefix.Length);
                     if ( int.TryParse(maxIdStr, out maxNumber) )
                     {
-                        maxNumber++; // Increment the numeric part
+                        maxNumber++;
                     }
                 }
                 else
                 {
-                    maxNumber = 1; // Start with 1 if no IDs are found
+                    maxNumber = 1; 
                 }
             }
 
-            return prefix + maxNumber.ToString("D4"); // Ensure it is padded to four digits (e.g., PV1001)
+            return prefix + maxNumber.ToString("D4");
         }
         private void UpdateVariant( string variantId, string name, decimal price, int stock )
         {
@@ -606,8 +584,6 @@ namespace webAssignment.Admin.Product_Management
             }
         }
        
-       
-
         protected void ShowNotification( string message, string type )
         {
             string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";

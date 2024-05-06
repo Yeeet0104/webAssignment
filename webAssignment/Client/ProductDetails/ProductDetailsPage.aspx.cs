@@ -447,7 +447,7 @@ namespace webAssignment.Client.ProductDetails
             }
             catch (SqlException ex)
             {
-                // Log the exception or handle it as needed
+
                 success = false;
             }
             return success;
