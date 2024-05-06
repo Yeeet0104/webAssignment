@@ -26,7 +26,8 @@ namespace webAssignment
         {
             assignActiveClass();
             //loadProfile();
-            var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx" };
+            var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx","addnewproduct.aspx", "editproduct.aspx", "productvariant.aspx", "addvoucher.aspx", "editvoucher.aspx", "createcategory.aspx", "editcategory.aspx" };
+
 
             string currentPage = Path.GetFileName(Request.FilePath);
 

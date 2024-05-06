@@ -77,8 +77,7 @@
                     <asp:TextBox class="w-full p-3 bg-gray-100 rounded-xl" ID="newProductName" runat="server" ToolTip="Product Name" placeholder="Type Product Name..."></asp:TextBox>
 
                 </div>
-                <span class="text-gray-500 flex gap-2">
-                    Description
+                <span class="text-gray-500 flex gap-2">Description
 
                 </span>
                 <asp:TextBox class="p-3 rounded-xl h-60 bg-gray-100" ID="newProductDes" runat="server" ToolTip="Product Name" placeholder="Type Product Description here..." TextMode="MultiLine">
