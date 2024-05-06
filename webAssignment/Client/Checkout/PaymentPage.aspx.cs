@@ -230,8 +230,9 @@ namespace webAssignment.Client.Checkout
             }
             else
             {
-                return "CS1001";
+                Response.Redirect("~/Client/LoginSignUo/Login.aspx");
             }
+            return "";
         }
 
         protected void btnCard_Click(object sender, EventArgs e)

@@ -749,8 +749,9 @@ namespace webAssignment.Client.Checkout
             }
             else
             {
-                return "CS1001";
+                Response.Redirect("~/Client/LoginSignUo/Login.aspx");
             }
+            return "";
         }
 
         protected void btnSelectShippingAdd_Clicked(object sender, EventArgs e)

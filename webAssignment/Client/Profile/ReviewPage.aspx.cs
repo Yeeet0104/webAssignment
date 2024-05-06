@@ -113,8 +113,10 @@ namespace webAssignment.Client.Profile
             }
             else
             {
-                return "CS1001";
+                Response.Redirect("~/Client/LoginSignUo/Login.aspx");
+
             }
+            return "";
         }
 
 
