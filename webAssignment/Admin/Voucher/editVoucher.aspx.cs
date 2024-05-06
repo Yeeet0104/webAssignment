@@ -26,6 +26,7 @@ namespace webAssignment.Admin.Voucher
                     return;
                 }
                 string voucherId = DecryptString(encVou);
+                lblvoucherCode.Text = voucherId;
                 if ( !string.IsNullOrEmpty(voucherId) )
                 {
                     LoadVoucherDetails(voucherId);
@@ -46,7 +47,7 @@ namespace webAssignment.Admin.Voucher
                         if ( reader.Read() )
                         {
                             editVoucherCode.Text = reader["voucher_id"].ToString();
-                            discountRateTb.Text = ((double)reader["discount_rate"] * 100).ToString();
+                            discountRateTb.Text = ( (double)reader["discount_rate"] * 100 ).ToString();
                             maxTb.Text = reader["cap_at"].ToString();
                             minTb.Text = reader["min_spend"].ToString();
                             startDateTb.Text = Convert.ToDateTime(reader["started_date"]).ToString("yyyy-MM-dd");
@@ -75,7 +76,7 @@ namespace webAssignment.Admin.Voucher
                     {
                         cmd.Parameters.AddWithValue("@VoucherId", editVoucherCode.Text);
                         cmd.Parameters.AddWithValue("@qty", Convert.ToInt32(quantity.Text));
-                        cmd.Parameters.AddWithValue("@DiscountRate", (Convert.ToDouble(discountRateTb.Text)/100));
+                        cmd.Parameters.AddWithValue("@DiscountRate", ( Convert.ToDouble(discountRateTb.Text) / 100 ));
                         cmd.Parameters.AddWithValue("@CapAt", Convert.ToDecimal(maxTb.Text));
                         cmd.Parameters.AddWithValue("@MinSpend", Convert.ToDecimal(minTb.Text));
                         cmd.Parameters.AddWithValue("@StartedDate", Convert.ToDateTime(startDateTb.Text));
@@ -107,7 +108,7 @@ namespace webAssignment.Admin.Voucher
 
         protected string DecryptString( string cipherText )
         {
-            string EncryptionKey = "ABC123"; 
+            string EncryptionKey = "ABC123";
             cipherText = cipherText.Replace(" ", "+");
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using ( Aes encryptor = Aes.Create() )

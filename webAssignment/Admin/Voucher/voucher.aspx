@@ -258,15 +258,14 @@
                     <asp:Image ID="Image1" runat="server" ImageUrl="~/Admin/Orders/Images/trash.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
 
                 </div>
-                <p class="bold text-lg break-normal text-center">Are you sure you want to delete the following item?</p>
+                <p class="bold text-lg break-normal text-center">Are you sure you want to discontinue the following voucher?</p>
                 <p class="bold text-lg">
-                    <asp:Label ID="lblItemInfo" runat="server" Text="[OrderID]"></asp:Label>
                 </p>
                 <asp:TextBox ID="passwordForDelete" runat="server" TextMode="Password" CssClass="p-2 px-4 border rounded-xl" placeholder="Enter password to confirm"></asp:TextBox>
                 <div>
 
                     <asp:Button ID="btnCancelDelete" runat="server" Text="Cancel" CssClass="bg-gray-300 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnCancelDelete_Click" />
-                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" />
+                    <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="bg-red-400 p-2 px-4 rounded-lg cursor-pointer" OnClick="btnConfirmDelete_Click" />
                 </div>
             </div>
         </div>

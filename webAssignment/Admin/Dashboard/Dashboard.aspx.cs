@@ -310,7 +310,7 @@ namespace webAssignment
                 lblDateRange.Text = "Today";
             }
 
-            dateFilter = " AND date_ordered >= @startDate AND date_ordered <= @endDate ";
+            dateFilter = "date_ordered >= @startDate AND date_ordered <= @endDate ";
 
             using ( SqlConnection con = new SqlConnection(connectionString) )
             {
@@ -321,7 +321,6 @@ namespace webAssignment
                                 FROM
                                     [dbo].[Order]
                                 WHERE
-                                    status = 'Delivered'
                                     {dateFilter}
                                 GROUP BY
                                     CONVERT(VARCHAR(10), date_ordered, 120)

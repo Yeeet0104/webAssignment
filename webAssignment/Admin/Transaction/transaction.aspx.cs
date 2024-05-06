@@ -19,7 +19,7 @@ using webAssignment.Admin.Orders;
 
 namespace webAssignment.Admin.Transaction
 {
-    public partial class transaction : System.Web.UI.Page , IFilterable
+    public partial class transaction : System.Web.UI.Page, IFilterable
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private int pageSize = 5;
@@ -32,7 +32,7 @@ namespace webAssignment.Admin.Transaction
                 BindListView(0, pageSize);
             }
         }
-        private void BindListView( int pageIndex, int pageSize)
+        private void BindListView( int pageIndex, int pageSize )
         {
             transactionListView.DataSource = transactionData(pageIndex, pageSize);
             transactionListView.DataBind();
@@ -142,7 +142,7 @@ namespace webAssignment.Admin.Transaction
             }
             return transactionData;
         }
-        private List<transactionClass> getAlltransactionData()
+        private List<transactionClass> getAlltransactionData( )
         {
             List<transactionClass> transactionData = new List<transactionClass>();
             using ( SqlConnection conn = new SqlConnection(connectionString) )
@@ -246,7 +246,7 @@ namespace webAssignment.Admin.Transaction
             try
             {
                 JObject paymentJson = JObject.Parse(json);
-                string paymentMethod = paymentJson["card_number"] != null ? "Card" : ( paymentJson["bank_number"] != null ? "Bank" : "Other" );
+                string paymentMethod = paymentJson["card_number"] != null ? "Card" : ( paymentJson["bank_number"] != null ? "Bank" : ( paymentJson["COD"] != null ) ? "COD" : "Other" );
 
                 string details = "";
                 if ( paymentMethod == "Card" )
@@ -256,6 +256,14 @@ namespace webAssignment.Admin.Transaction
                 else if ( paymentMethod == "Bank" )
                 {
                     details += $"Bank ({paymentJson["bank_name"]}): " + paymentJson["bank_number"];
+                }
+                else if ( paymentMethod == "COD" )
+                {
+                    details += $"COD";
+                }
+                else
+                {
+                    details += "Other";
                 }
 
                 return details;
@@ -399,7 +407,7 @@ namespace webAssignment.Admin.Transaction
                 t.total_price.ToString().Contains(searchTerm) ||
                 t.payment_details.ToLower().Contains(searchTerm) ||
                 ( t.date_paid.ToString("dd/MM/yyyy").Contains(searchTerm) ) ||
-                t.product_details.ToLower().Contains(searchTerm) 
+                t.product_details.ToLower().Contains(searchTerm)
             ).ToList();
         }
 

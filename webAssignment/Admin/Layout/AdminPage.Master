@@ -140,16 +140,10 @@
 
 
                             </asp:HyperLink>
-
-                            <asp:HyperLink ID="logout" runat="server"
-                                class=" 
-                              flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
-                              "
-                                NavigateUrl="~/Client/LoginSignUp/AdminLogin.aspx">
-                              <i class="fa-solid fa-person-walking-arrow-right mr-4 icon-16x16"></i>Logout
-
-
-                            </asp:HyperLink>
+                            <asp:LinkButton ID="logoutBtn" class=" 
+flex items-center px-6 py-2 border-l-4 my-3 pr-6 sideNavItemAni
+"
+                                runat="server" OnClick="logoutBtn_Click"><i class="fa-solid fa-person-walking-arrow-right mr-4 icon-16x16"></i>logout</asp:LinkButton>
                         </div>
                     </div>
                 </nav>

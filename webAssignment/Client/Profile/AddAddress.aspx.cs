@@ -264,7 +264,7 @@ namespace webAssignment.Client.Profile
             string maxIdQuery = "SELECT MAX(address_id) FROM [Address]";
 
             // Initialize the new address ID
-            string newAddressId = "ADDR00001";
+            string newAddressId = "ADDR0001";
 
             // Establish connection and command objects
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -281,7 +281,7 @@ namespace webAssignment.Client.Profile
                         // If the result is not null, parse it to get the maximum address ID and increment it by 1
                         int maxAddressId = Convert.ToInt32(result.ToString().Substring(4)); // Extract the numeric part of the address ID
                         int nextAddressId = maxAddressId + 1;
-                        newAddressId = "ADDR" + nextAddressId.ToString("D5"); // Format the new address ID with leading zeros
+                        newAddressId = "ADDR" + nextAddressId.ToString("D4"); // Format the new address ID with leading zeros
                     }
                 }
             }

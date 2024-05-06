@@ -33,26 +33,26 @@
         }
 
         /* width */
-        ::-webkit-scrollbar {
+        /*::-webkit-scrollbar {
             width: 8px;
-        }
+        }*/
 
         /* Track */
-        ::-webkit-scrollbar-track {
+        /*::-webkit-scrollbar-track {
             background: #131618;
-        }
+        }*/
 
         /* Handle */
-        ::-webkit-scrollbar-thumb {
+        /*::-webkit-scrollbar-thumb {
             background: #1d4ed8;
             border-radius: 12px;
-        }
+        }*/
 
 
         /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
+        /*::-webkit-scrollbar-thumb:hover {
             background: #0e3a8c;
-        }
+        }*/
 
         #cartBadge {
             position: absolute;

@@ -21,24 +21,25 @@ namespace webAssignment.Admin.Product_Management
             if ( !IsPostBack )
             {
                 initCategory();
-                ViewState["VariantCount"] = 1;
+                ViewState["VariantCount"] = 0;
                 ViewState["addedOnce"] = 0;
             }
             else
             {
-                if ( (int)ViewState["addedOnce"] == 1 )
+                if ( ViewState["addedOnce"] != null && (int)ViewState["addedOnce"] == 1 )
                 {
                     recreateVariantTb();
-
                 }
             }
+
         }
 
         protected void recreateVariantTb( )
         {
             // the whole section here is to ensure that the text box is retain else it will disapear after refresh due to posback
-            int Variantcount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 1;
-            for ( int i = 1 ; i < ( Variantcount + 1 ) ; i++ )
+            panelVariantTextBoxes.Controls.Clear();
+            int variantCount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 1;
+            for ( int i = 1 ; i <= variantCount ; i++ )
             {
                 Literal divStart = new Literal { Text = "<div class='grid grid-cols-3 gap-4 items-center flex-wrap justify-evenly'>" };
                 Literal divEnd = new Literal { Text = "</div>" };
@@ -77,39 +78,41 @@ namespace webAssignment.Admin.Product_Management
         {
             ViewState["VariantCount"] = ( (int)ViewState["VariantCount"] + 1 );
             ViewState["addedOnce"] = 1;
-            int Variantcount = (int)ViewState["VariantCount"];
+            recreateVariantTb(); 
+            //int Variantcount = (int)ViewState["VariantCount"];
 
-            // Create the container div for the new row
-            Literal divStart = new Literal { Text = "<div class='grid grid-cols-3 gap-4 items-center flex-wrap justify-evenly>" };
-            int newId = Variantcount;
+            //// Create the container div for the new row
+            //Literal divStart = new Literal { Text = "<div class='grid grid-cols-3 gap-4 items-center flex-wrap justify-evenly>" };
+            //int newId = Variantcount;
 
-            // Create the Variant TextBox
-            TextBox newVariant = new TextBox();
-            newVariant.ID = "variant" + newId + "Tb";
-            newVariant.Attributes["Placeholder"] = "Variant Name " + newId;
-            newVariant.CssClass = "newVariation_input";
+            //// Create the Variant TextBox
+            //TextBox newVariant = new TextBox();
+            //newVariant.ID = "variant" + newId + "Tb";
+            //newVariant.Attributes["Placeholder"] = "Variant Name " + newId;
+            //newVariant.CssClass = "newVariation_input";
 
-            // Create the Price TextBox
-            TextBox newPrice = new TextBox();
-            newPrice.ID = "priceVar" + newId + "Tb";
-            newPrice.Attributes["placeholder"] = "Price for Variant " + newId;
-            newPrice.CssClass = "newVariation_input";
+            //// Create the Price TextBox
+            //TextBox newPrice = new TextBox();
+            //newPrice.ID = "priceVar" + newId + "Tb";
+            //newPrice.Attributes["placeholder"] = "Price for Variant " + newId;
+            //newPrice.CssClass = "newVariation_input";
 
-            // Create the Price TextBox
-            TextBox newStock = new TextBox();
-            newStock.ID = "stockVar" + newId + "Tb";
-            newStock.Attributes["placeholder"] = "Stock for Variant " + newId;
-            newStock.CssClass = "newVariation_input";
-            // Create the container div for the new row
-            Literal divEnd = new Literal { Text = "</div>" };
+            //// Create the Price TextBox
+            //TextBox newStock = new TextBox();
+            //newStock.ID = "stockVar" + newId + "Tb";
+            //newStock.Attributes["placeholder"] = "Stock for Variant " + newId;
+            //newStock.CssClass = "newVariation_input";
+            //// Create the container div for the new row
+            //Literal divEnd = new Literal { Text = "</div>" };
 
-            panelVariantTextBoxes.Controls.Add(divStart);
-            panelVariantTextBoxes.Controls.Add(newVariant);
-            panelVariantTextBoxes.Controls.Add(newPrice);
-            panelVariantTextBoxes.Controls.Add(newStock);
-            panelVariantTextBoxes.Controls.Add(divEnd);
+            //panelVariantTextBoxes.Controls.Add(divStart);
+            //panelVariantTextBoxes.Controls.Add(newVariant);
+            //panelVariantTextBoxes.Controls.Add(newPrice);
+            //panelVariantTextBoxes.Controls.Add(newStock);
+            //panelVariantTextBoxes.Controls.Add(divEnd);
 
-
+            //Debug.WriteLine("WUI" + panelVariantTextBoxes.Controls);
+            //Debug.WriteLine("WUI" + Variantcount);
         }
 
         protected void UploadButton_Click( object sender, EventArgs e )
@@ -178,7 +181,6 @@ namespace webAssignment.Admin.Product_Management
         private bool checkProdVariants( )
         {
             int variantCount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 1;
-
             for ( int i = 1 ; i <= variantCount ; i++ )
             {
                 TextBox textBoxVariant = (TextBox)panelVariantTextBoxes.FindControl("variant" + i + "Tb");
@@ -233,20 +235,6 @@ namespace webAssignment.Admin.Product_Management
             return imagePaths;
         }
 
-
-
-        protected void btnExport_Click( object sender, EventArgs e )
-        {
-            List<String> files = GetImagePaths();
-
-            foreach ( String file in files )
-            {
-                Console.WriteLine(file + "\n");
-
-            }
-
-
-        }
 
 
         // getting all the categories for display at the category ddl
@@ -384,6 +372,10 @@ namespace webAssignment.Admin.Product_Management
         private void SaveProductVariants( string productId )
         {
             int variantCount = ViewState["VariantCount"] != null ? (int)ViewState["VariantCount"] : 0;
+            if ( variantCount == 0)
+            {
+                variantCount = 1;
+            }
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 conn.Open();
@@ -400,6 +392,13 @@ namespace webAssignment.Admin.Product_Management
                         decimal price = decimal.Parse(textBoxPrice.Text);
                         int stock = int.Parse(textBoxStock.Text);
                         string variantId = GetNextProductVariantId(conn);
+
+                        Debug.WriteLine("TEstingCheck" + variantId);
+                        Debug.WriteLine("TEstingCheck" + productId);
+                        Debug.WriteLine("TEstingCheck" + variantName);
+                        Debug.WriteLine("TEstingCheck" + price);
+                        Debug.WriteLine("TEstingCheck" + stock);
+
 
                         string sql = "INSERT INTO Product_Variant (product_variant_id,product_id, variant_name, variant_price, stock,variant_status) VALUES (@VariantID,@ProductID, @VariantName, @VariantPrice, @Stock, @status)";
 
@@ -418,7 +417,7 @@ namespace webAssignment.Admin.Product_Management
             }
         }
 
-        private void SaveProductImages( string productId )
+        private bool SaveProductImages( string productId )
         {
             if ( fileImages.HasFiles )
             {
@@ -448,6 +447,7 @@ namespace webAssignment.Admin.Product_Management
                     }
                 }
             }
+            return true;
         }
 
         private void InsertImageDetails( string imageId, string productId, string imagePath )
@@ -587,6 +587,11 @@ namespace webAssignment.Admin.Product_Management
             ViewState["addedOnce"] = 0;
 
         }
-
+        private bool IsValidImageExtension( string fileName )
+        {
+            string extension = Path.GetExtension(fileName).ToLowerInvariant();
+            var validExtensions = new HashSet<string> { ".jpg", ".jpeg", ".png" };
+            return validExtensions.Contains(extension);
+        }
     }
 }

@@ -34,14 +34,16 @@ namespace webAssignment.Admin.Orders
             }
         }
         private void init() {
-            string orderId = DecryptString(Request.QueryString["orderId"]);
-            string userId = DecryptString(Request.QueryString["userID"]);
+            string encorderId =Request.QueryString["orderId"];
+            string encuserId = Request.QueryString["userID"];
 
-            if ( string.IsNullOrEmpty(orderId) || string.IsNullOrEmpty(userId) )
+            if ( string.IsNullOrEmpty(encuserId) || string.IsNullOrEmpty(encorderId) )
             {
                 Response.Redirect("~/Admin/Orders/Order.aspx");
                 return;
             }
+            string orderId = DecryptString(Request.QueryString["orderId"]);
+            string userId = DecryptString(Request.QueryString["userID"]);
             InitializeOrder(orderId);
             InitializeCustomer(userId);
             //InitializeAddress(orderId);
@@ -278,7 +280,11 @@ namespace webAssignment.Admin.Orders
                             });
                             if ( !reader.IsDBNull(7) )
                             {
-                                results.DiscountRate = reader.GetFloat(7); 
+                                results.DiscountRate = (float)reader.GetDouble(7);
+                            }
+                            else
+                            {
+                                results.DiscountRate = 0.0f; // or some default value
                             }
                         }
                     }
@@ -286,7 +292,7 @@ namespace webAssignment.Admin.Orders
             }
             if ( results.DiscountRate > 0 )
             {
-                results.Discount = results.Subtotal * (decimal)results.DiscountRate / 100;
+                results.Discount = results.Subtotal * (decimal)results.DiscountRate;
             }
             results.taxAmount =results.Subtotal * results.SSTRate;
             results.Total = results.Subtotal - results.Discount + results.ShippingRate + results.taxAmount;

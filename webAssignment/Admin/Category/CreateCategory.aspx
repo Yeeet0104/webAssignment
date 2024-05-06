@@ -105,7 +105,7 @@
                 </span>
                 <div class="flex flex-col justify-center items-center text-sm gap-2 border-dotted">
                     <div class="py-1">
-                        <asp:Image ID="profilePic" CssClass="hidden" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();" />
+                        <asp:Image ID="profilePic" CssClass="hidden" runat="server" Height="216" Width="216" onclick="document.getElementById('<%= fileUploadClientID %>').click();"  />
                     </div>
                     <div id="removeImage" class="w-full flex flex-row gap-10 items-center  justify-center">
 
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <asp:Panel ID="PanelBackground" runat="server" />
-                    <asp:FileUpload ID="fileImages" runat="server" Style="cursor: pointer; display: none" onchange="previewImages(this);" />
+                    <asp:FileUpload ID="fileImages" runat="server" Style="cursor: pointer; display: none" onchange="previewImages(this);" accept="image/*" />
                     <button type="button" onclick="document.getElementById('<%= fileImages.ClientID %>').click();" class="text-lg bg-blue-500 text-white py-1 px-3 rounded-lg cursor-pointer hover:bg-blue-600">
                         Choose File
                     </button>

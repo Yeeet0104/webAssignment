@@ -430,7 +430,7 @@ namespace webAssignment.Admin.Orders
                 case "Delivered":
                     deliveredFilter.CssClass += " text-blue-600 bg-gray-100";
                     break;
-                case "Cancel":
+                case "Cancelled":
                     cancelFilter.CssClass += " text-blue-600 bg-gray-100";
                     break;
                 default:

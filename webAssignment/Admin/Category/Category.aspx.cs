@@ -24,23 +24,17 @@ namespace webAssignment.Admin.Category
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private int pageSize = 5;
-        protected void Page_Load( object sender, EventArgs e )  
+        protected void Page_Load( object sender, EventArgs e )
         {
 
             if ( !IsPostBack )
             {
-                if (Session["userId"] != null)
-                {
-                    ViewState["PageIndex"] = 0;
-                    ViewState["onePageStartDate"] = "";
-                    ViewState["onePageEndDate"] = "";
-                    BindListView(0, pageSize);
-                }
-                else
-                {
-                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
-                }
-                    
+
+                ViewState["PageIndex"] = 0;
+                ViewState["onePageStartDate"] = "";
+                ViewState["onePageEndDate"] = "";
+                BindListView(0, pageSize);
+
             }
         }
         // binding into listview
@@ -290,8 +284,21 @@ namespace webAssignment.Admin.Category
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
                 conn.Open();
-                string sql = "DELETE FROM Category WHERE category_id = @categID";
+                // Check if there are any products in this category
+                string checkSql = "SELECT COUNT(*) FROM Product WHERE category_id = @categID";
+                using ( SqlCommand checkCmd = new SqlCommand(checkSql, conn) )
+                {
+                    checkCmd.Parameters.AddWithValue("@categID", categID);
+                    int productCount = (int)checkCmd.ExecuteScalar();
+                    if ( productCount > 0 )
+                    {
+                        ShowNotification("This category cannot be deleted because it is referenced by one or more products.", "warning");
+                        return; 
+                    }
+                }
 
+                // If no products are associated, proceed to delete
+                string sql = "DELETE FROM Category WHERE category_id = @categID";
                 using ( SqlCommand cmd = new SqlCommand(sql, conn) )
                 {
                     cmd.Parameters.AddWithValue("@categID", categID);
@@ -300,7 +307,6 @@ namespace webAssignment.Admin.Category
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if ( rowsAffected > 0 )
                         {
-                            Debug.Write("Delete successful");
                             categoryListView.DataSource = getCategoryData((int)ViewState["PageIndex"], pageSize);
                             categoryListView.DataBind();
                             popUpDelete.Style.Add("display", "none");
@@ -313,14 +319,7 @@ namespace webAssignment.Admin.Category
                     }
                     catch ( SqlException ex )
                     {
-                        if ( ex.Number == 547 ) // Check if the exception is a foreign key violation ( stack overflow )
-                        {
-                            ShowNotification("This category cannot be deleted because it is referenced by one or more products.", "warning");
-                        }
-                        else
-                        {
-                            ShowNotification("SQL Error: " + ex.Message, "warning");
-                        }
+                        ShowNotification("SQL Error: " + ex.Message, "warning");
                     }
                     catch ( Exception ex )
                     {
@@ -328,13 +327,12 @@ namespace webAssignment.Admin.Category
                     }
                 }
             }
-
         }
 
         // for encrypting the Category id then pass it to the edit page
         protected string EncryptString( string clearText )
         {
-            string EncryptionKey = "ABC123"; // Replace with a more complex key and store securely
+            string EncryptionKey = "ABC123"; 
             byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
             using ( Aes encryptor = Aes.Create() )
             {
@@ -411,20 +409,18 @@ namespace webAssignment.Admin.Category
             // Retrieve the last column that was sorted which means that which tab have been selected jn
             string sortExpression = ViewState["SortExpression"] as string;
 
-            Debug.Write("babakqweqwe" + sortExpression);
             if ( sortExpression != null && sortExpression == column )
             {
                 string lastDirection = ViewState["SortDirection"] as string;
-                Debug.Write("babakqweqwelast" + lastDirection);
+
                 if ( ( lastDirection != null ) && ( lastDirection == "ASC" ) )
                 {
                     sortDirection = "DESC";
-                    Debug.Write("babakqweqwelastqweeqwe" + sortDirection);
+
                 }
             }
 
             ViewState["SortDirection"] = sortDirection;
-            Debug.Write("babakqweqwe" + sortDirection);
             ViewState["SortExpression"] = column;
 
             return sortDirection;
@@ -491,6 +487,10 @@ namespace webAssignment.Admin.Category
                     deletedCategory(id);
                 }
             }
+            else
+            {
+                ShowNotification("Invalid Password", "warning");
+            }
         }
 
         protected void ShowNotification( string message, string type )
@@ -537,6 +537,7 @@ namespace webAssignment.Admin.Category
                 ViewState["onePageEndDate"] = endDate;
 
                 BindListView(0, pageSize);
+                pnlDateFilter.Style.Add("display", "none");
             }
             else
             {
@@ -556,7 +557,7 @@ namespace webAssignment.Admin.Category
         }
         protected void btnExportToExcel_Click( object sender, EventArgs e )
         {
-            var categories = getAllCategories(); 
+            var categories = getAllCategories();
 
             using ( var workbook = new XLWorkbook() )
             {

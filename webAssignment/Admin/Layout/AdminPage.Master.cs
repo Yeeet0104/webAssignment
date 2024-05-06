@@ -24,9 +24,18 @@ namespace webAssignment
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load( object sender, EventArgs e )
         {
+
+            if ( Session["userId"] != null )
+            {
+                loadProfile();
+            }
+            else
+            {
+                Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+            }
+
             assignActiveClass();
-            //loadProfile();
-            var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx","addnewproduct.aspx", "editproduct.aspx", "productvariant.aspx", "addvoucher.aspx", "editvoucher.aspx", "createcategory.aspx", "editcategory.aspx" };
+            var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx", "addnewproduct.aspx", "editproduct.aspx", "productvariant.aspx", "addvoucher.aspx", "editvoucher.aspx", "createcategory.aspx", "editcategory.aspx" , "vieworder." };
 
             string currentPage = Path.GetFileName(Request.FilePath);
 
@@ -248,7 +257,12 @@ namespace webAssignment
             }
         }
 
-        protected void adminLogout_Click(object sender, EventArgs e)
+        protected void adminLogout_Click( object sender, EventArgs e )
+        {
+            Session.Remove("userId");
+            Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+        }
+        protected void logoutBtn_Click( object sender, EventArgs e )
         {
             Session.Remove("userId");
             Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
