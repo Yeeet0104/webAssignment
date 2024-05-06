@@ -370,7 +370,7 @@
             <p class="font-bold text-xl break-normal text-center">Once account is deleted, you are no longer a member.<br />Are you sure?</p>
             <div>
                 <asp:Button ID="cancelBtn" runat="server" Text="Cancel" CssClass="bg-blue-600 mr-6 text-white font-bold text-xl p-2 px-4 rounded-lg cursor-pointer" OnClick="cancelBtn_Click"  />
-                <asp:Button ID="yesBtn" runat="server" Text="Yes" CssClass="bg-red-600 ml-6 text-white font-bold text-xl py-2 px-6 rounded-lg cursor-pointer" OnClick="yesBtn_Click"  />
+                <asp:Button ID="yesBtn" runat="server" Text="Confirm" CssClass="bg-red-600 ml-6 text-white font-bold text-xl py-2 px-6 rounded-lg cursor-pointer" OnClick="yesBtn_Click"  />
             </div>
         </div>
     </div>

@@ -26,7 +26,15 @@ namespace webAssignment
         {
             if ( !IsPostBack )
             {
-                init();
+                if (Session["userId"] != null)
+                {
+                    init();
+                }
+                else
+                {
+                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+                }
+                    
             }
 
             DateTime? startDate = Session["StartDate"] as DateTime?;

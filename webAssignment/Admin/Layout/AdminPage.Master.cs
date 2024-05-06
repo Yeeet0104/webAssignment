@@ -24,8 +24,28 @@ namespace webAssignment
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-            assignActiveClass();
-            loadProfile();
+            // Set the visibility of the button based on whether the current page is in the list
+            if (!IsPostBack)
+            {
+               if (Session["userId"] != null)
+                {
+                    loadProfile();
+                    if (Session["StartDate"] != null && Session["EndDate"] != null)
+                    {
+
+                        lblDate.Text = ((DateTime)Session["StartDate"]).ToString("dd/MMM/yyyy") + " - " + ((DateTime)Session["EndDate"]).ToString("dd/MMM/yyyy");
+                    }
+                    else
+                    {
+                        lblDate.Text = "Today";
+                    }
+                }
+                else
+                {
+                    // Handle the case where the user is not logged in
+                    Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+                }
+                assignActiveClass();            
             var visiblePages = new List<string> { "adminProducts.aspx", "Category.aspx", "voucher.aspx" };
 
             string currentPage = Path.GetFileName(Request.FilePath);
@@ -39,18 +59,7 @@ namespace webAssignment
             {
                 filterDatePopUp.Visible = true;
             }
-            // Set the visibility of the button based on whether the current page is in the list
-            if (!IsPostBack)
-            {
-                if ( Session["StartDate"] != null && Session["EndDate"] != null )
-                {
-                    
-                    lblDate.Text = ((DateTime)Session["StartDate"]).ToString("dd/MMM/yyyy") + " - " + ( (DateTime)Session["EndDate"] ).ToString("dd/MMM/yyyy");
-                }
-                else
-                {
-                    lblDate.Text = "Today";
-                }
+                          
             }
         }
 
@@ -234,6 +243,10 @@ namespace webAssignment
             }
         }
 
-
+        protected void adminLogout_Click(object sender, EventArgs e)
+        {
+            Session.Remove("userId");
+            Response.Redirect("~/Client/LoginSignUp/AdminLogin.aspx");
+        }
     }
 }

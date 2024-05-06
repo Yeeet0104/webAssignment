@@ -27,8 +27,6 @@ namespace webAssignment.Client.Cart
                 //    Response.Redirect("~/Client/LoginSignUp/Login.aspx");
 
                 //To be deleted
-                Session["UserId"] = "CS1001";
-
                 Session["taxRate"] = taxRate;
                 Session["Voucher"] = "";
 
@@ -91,9 +89,9 @@ namespace webAssignment.Client.Cart
 
         private String GetCurrentUserId()
         {
-            if (Session["UserId"] != null)
+            if (Session["userId"] != null)
             {
-                return Convert.ToString(Session["UserId"]);
+                return Convert.ToString(Session["userId"]);
             }
             else
             {

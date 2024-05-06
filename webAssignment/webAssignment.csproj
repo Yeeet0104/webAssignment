@@ -58,7 +58,6 @@
     <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
-
     <Reference Include="Google.Apis, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.68.0\lib\net462\Google.Apis.dll</HintPath>
     </Reference>
@@ -70,7 +69,7 @@
     </Reference>
     <Reference Include="Google.Apis.Gmail.v1, Version=1.68.0.3399, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.Gmail.v1.1.68.0.3399\lib\net462\Google.Apis.Gmail.v1.dll</HintPath>
-      </Reference>
+    </Reference>
     <Reference Include="Highcharts, Version=11.4.1.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
       <HintPath>..\packages\Highsoft.Highcharts.11.4.1\lib\netstandard2.0\Highcharts.dll</HintPath>
     </Reference>
@@ -84,7 +83,6 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.4\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-
     <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -204,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Admin Management\addNewAdmin.aspx" />
+    <Content Include="Admin\Admin Management\EditAdmin.aspx" />
     <Content Include="Admin\Dashboard\dashboardFunc.js" />
     <Content Include="Admin\VisitorCounter.cs" />
     <Content Include="Admin\Admin Management\adminManagement.aspx" />
@@ -333,12 +332,20 @@
     <Compile Include="Admin\Admin Management\addNewAdmin.aspx.designer.cs">
       <DependentUpon>addNewAdmin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Admin Management\Admin.cs" />
     <Compile Include="Admin\Admin Management\adminManagement.aspx.cs">
       <DependentUpon>adminManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\Admin Management\adminManagement.aspx.designer.cs">
       <DependentUpon>adminManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Admin Management\EditAdmin.aspx.cs">
+      <DependentUpon>EditAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin Management\EditAdmin.aspx.designer.cs">
+      <DependentUpon>EditAdmin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Category\Category.aspx.cs">
       <DependentUpon>Category.aspx</DependentUpon>
@@ -364,6 +371,7 @@
     <Compile Include="Admin\Category\editCategory.aspx.designer.cs">
       <DependentUpon>editCategory.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Customer Management\Customer.cs" />
     <Compile Include="Admin\Customer Management\customerManagement.aspx.cs">
       <DependentUpon>customerManagement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -642,7 +650,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
     <Compile Include="testingDb.aspx.cs">
       <DependentUpon>testingDb.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -656,7 +663,6 @@
     <Content Include="Admin\Layout\Admin.sitemap" />
     <Content Include="Client\ClientMasterPage\ClientMasterPage.Master" />
     <Content Include="Client\ProfileMaster\ProfileMasterPage.master" />
-    <Content Include="client_secret.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
