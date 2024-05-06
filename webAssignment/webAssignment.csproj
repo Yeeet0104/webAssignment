@@ -256,6 +256,16 @@
     <Content Include="Client\AboutUs\image\comp.jpeg" />
     <Content Include="Client\AboutUs\image\group.jpg" />
     <Content Include="Client\AboutUs\image\prod.jpeg" />
+    <Content Include="Client\AboutUs\image\repair.jpg" />
+    <Content Include="Client\AboutUs\image\service.jpg" />
+    <Content Include="Client\AboutUs\image\suggest.jpg" />
+    <Content Include="Client\AboutUs\image\tandc.jpg" />
+    <Content Include="Client\AboutUs\image\technical-service.jpg" />
+    <Content Include="Client\AboutUs\image\user-1.jpg" />
+    <Content Include="Client\AboutUs\image\user-2.jpg" />
+    <Content Include="Client\AboutUs\image\user-3.jpg" />
+    <Content Include="Client\AboutUs\Services.aspx" />
+    <Content Include="Client\AboutUs\TermsAndCondition.aspx" />
     <Content Include="Client\Cart\CartPage.aspx" />
     <Content Include="Client\Cart\images\cryingKermit.png" />
     <Content Include="Client\Checkout\image\img_placeholder.jpg" />
@@ -497,6 +507,20 @@
     </Compile>
     <Compile Include="Client\AboutUs\AboutUsPage.aspx.designer.cs">
       <DependentUpon>AboutUsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\AboutUs\Services.aspx.cs">
+      <DependentUpon>Services.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\AboutUs\Services.aspx.designer.cs">
+      <DependentUpon>Services.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Client\AboutUs\TermsAndCondition.aspx.cs">
+      <DependentUpon>TermsAndCondition.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Client\AboutUs\TermsAndCondition.aspx.designer.cs">
+      <DependentUpon>TermsAndCondition.aspx</DependentUpon>
     </Compile>
     <Compile Include="Client\Cart\CartPage.aspx.cs">
       <DependentUpon>CartPage.aspx</DependentUpon>

@@ -1061,7 +1061,7 @@ namespace webAssignment.Client.Checkout
 
                 MailMessage verificationMail = new MailMessage(senderEmail, receiverEmail);
                     string resetEmailParam = HttpUtility.UrlEncode(receiverEmail); // Encode email for URL
-                    string resetUrl = $"https://localhost:44356/Client/AboutUs/AboutUsPage.aspx";
+                    string resetUrl = $"https://localhost:44356/Client/AboutUs/TermsAndCondition.aspx";
 
                     verificationMail.Subject = "Confirmation of Recent Order #" + orderID;
 

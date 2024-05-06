@@ -11,7 +11,7 @@ namespace webAssignment.Client.AboutUs
 {
 
 
-    public partial class AboutUsPage
+    public partial class Services
     {
 
         /// <summary>
@@ -24,13 +24,13 @@ namespace webAssignment.Client.AboutUs
         protected global::System.Web.UI.WebControls.Image imgBackground;
 
         /// <summary>
-        /// imgCompany control.
+        /// Image2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgCompany;
+        protected global::System.Web.UI.WebControls.Image Image2;
 
         /// <summary>
         /// Image1 control.
@@ -42,30 +42,12 @@ namespace webAssignment.Client.AboutUs
         protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
-        /// lnProd control.
+        /// Image3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnProd;
-
-        /// <summary>
-        /// Button1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
-
-        /// <summary>
-        /// Image2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image2;
+        protected global::System.Web.UI.WebControls.Image Image3;
     }
 }
