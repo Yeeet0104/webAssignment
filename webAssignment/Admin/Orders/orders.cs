@@ -33,4 +33,5 @@ namespace webAssignment.Admin.Orders
         public decimal totalRowPrice { get; set; }
         public string ProductImageUrl { get; set; }
     }
+
 }

@@ -36,6 +36,12 @@ namespace webAssignment.Admin.Orders
         private void init() {
             string orderId = DecryptString(Request.QueryString["orderId"]);
             string userId = DecryptString(Request.QueryString["userID"]);
+
+            if ( string.IsNullOrEmpty(orderId) || string.IsNullOrEmpty(userId) )
+            {
+                Response.Redirect("~/Admin/Orders/Order.aspx");
+                return;
+            }
             InitializeOrder(orderId);
             InitializeCustomer(userId);
             //InitializeAddress(orderId);
@@ -230,19 +236,22 @@ namespace webAssignment.Admin.Orders
             var results = new OrderCalculationResults
             {
                 Subtotal = 0m,
-                ShippingRate = 20.00m,  // Assume shipping rate is fixed or retrieved from another source
-                SSTRate = 0.00m,        // Assuming 0% SST for simplicity
+                ShippingRate = 5.00m,  
+                SSTRate = 0.06m,        
+                taxAmount = 0.00m,        
                 Items = new List<ordersDetail>()
             };
 
             string sql = $@"SELECT pd.product_name, od.quantity, pv.variant_name, pv.variant_price, 
                     category_name, (pv.variant_price * od.quantity) as totalRowPrice, 
-                    (SELECT TOP 1 path FROM Image_Path img WHERE img.product_id = pd.product_id)
+                    (SELECT TOP 1 path FROM Image_Path img WHERE img.product_id = pd.product_id),
+                    v.discount_rate
                     FROM Order_details od
                     JOIN Product_Variant pv ON od.product_variant_id = pv.product_variant_id
                     JOIN Product pd ON pv.product_id = pd.product_id
                     JOIN Category c ON pd.category_id = c.category_id
                     JOIN [dbo].[Order] o ON o.order_id = od.order_id
+                    LEFT JOIN Voucher v ON o.voucher_id = v.voucher_id
                     WHERE od.order_id = @orderId";
             using ( SqlConnection conn = new SqlConnection(connectionString) )
             {
@@ -256,7 +265,6 @@ namespace webAssignment.Admin.Orders
                         {
                             var itemTotal = reader.GetDecimal(5);
                             results.Subtotal += itemTotal;
-                            Debug.WriteLine("WTF" + itemTotal);
                             results.Items.Add(new ordersDetail
                             {
                                 product_name = reader.GetString(0),
@@ -266,13 +274,22 @@ namespace webAssignment.Admin.Orders
                                 category_name = reader.GetString(4),
                                 totalRowPrice = itemTotal,
                                 ProductImageUrl = reader.GetString(6)
+                                
                             });
+                            if ( !reader.IsDBNull(7) )
+                            {
+                                results.DiscountRate = reader.GetFloat(7); 
+                            }
                         }
                     }
                 }
             }
-
-            results.Total = results.Subtotal + results.ShippingRate + results.SSTRate; // Total calculation
+            if ( results.DiscountRate > 0 )
+            {
+                results.Discount = results.Subtotal * (decimal)results.DiscountRate / 100;
+            }
+            results.taxAmount =results.Subtotal * results.SSTRate;
+            results.Total = results.Subtotal - results.Discount + results.ShippingRate + results.taxAmount;
             return results;
         }
         protected void ordersListView_DataBound( object sender, EventArgs e )
@@ -281,14 +298,18 @@ namespace webAssignment.Admin.Orders
             var orderDetails = CalculateOrderDetails(orderId);
             Label lblSubtotal = ordersListView.FindControl("lblSubtotal") as Label;
             Label lblShippingRate = ordersListView.FindControl("lblShippingRate") as Label;
-            Label lblVAT = ordersListView.FindControl("lblVAT") as Label;
+            Label lblTax = ordersListView.FindControl("lblTax") as Label;
             Label lblTotal = ordersListView.FindControl("lblTotal") as Label;
+            Label lblDiscount = ordersListView.FindControl("lblDiscount") as Label;
+            Label lblDisRate = ordersListView.FindControl("lblDisRate") as Label;
 
-
-            lblSubtotal.Text = $"${orderDetails.Subtotal.ToString("0.00")}";
-            lblShippingRate.Text = $"${orderDetails.ShippingRate.ToString("0.00")}";
-            lblVAT.Text = $"${orderDetails.SSTRate.ToString("0.00")}";
-            lblTotal.Text = $"${orderDetails.Total.ToString("0.00")}";
+            
+            lblSubtotal.Text = $"RM{orderDetails.Subtotal.ToString("0.00")}";
+            lblShippingRate.Text = $"RM{orderDetails.ShippingRate.ToString("0.00")}";
+            lblTax.Text = $"RM{orderDetails.taxAmount.ToString("0.00")}";
+            lblTotal.Text = $"RM{orderDetails.Total.ToString("0.00")}";
+            lblDiscount.Text = $"RM{orderDetails.Discount.ToString("0.00")}";
+            lblDisRate.Text = $"{orderDetails.DiscountRate + "%"}";
         }
 
         protected void editStatus_Click( object sender, EventArgs e )
@@ -352,13 +373,16 @@ namespace webAssignment.Admin.Orders
             string script = $"window.onload = function() {{ showSnackbar('{message}', '{type}'); }};";
             ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
+       
     }
-
     public class OrderCalculationResults
     {
         public decimal Subtotal { get; set; }
+        public decimal Discount { get; set; }
+        public float DiscountRate { get; set; } 
         public decimal ShippingRate { get; set; }
         public decimal SSTRate { get; set; }
+        public decimal taxAmount { get; set; }
         public decimal Total { get; set; }
         public List<ordersDetail> Items { get; set; }
     }

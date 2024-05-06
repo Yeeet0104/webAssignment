@@ -26,7 +26,7 @@ namespace webAssignment.Admin.Product_Management
             }
             else
             {
-                if ( (int) ViewState["addedOnce"] == 1)
+                if ( (int)ViewState["addedOnce"] == 1 )
                 {
                     recreateVariantTb();
 
@@ -82,28 +82,27 @@ namespace webAssignment.Admin.Product_Management
             // Create the container div for the new row
             Literal divStart = new Literal { Text = "<div class='grid grid-cols-3 gap-4 items-center flex-wrap justify-evenly>" };
             int newId = Variantcount;
+
             // Create the Variant TextBox
             TextBox newVariant = new TextBox();
             newVariant.ID = "variant" + newId + "Tb";
-
             newVariant.Attributes["Placeholder"] = "Variant Name " + newId;
             newVariant.CssClass = "newVariation_input";
 
             // Create the Price TextBox
             TextBox newPrice = new TextBox();
-            newPrice.ID = "priceVar" + newId + "Tb"; // Notice that we use Variantcount for both to keep them paired
+            newPrice.ID = "priceVar" + newId + "Tb";
             newPrice.Attributes["placeholder"] = "Price for Variant " + newId;
             newPrice.CssClass = "newVariation_input";
 
             // Create the Price TextBox
             TextBox newStock = new TextBox();
-            newStock.ID = "stockVar" + newId + "Tb"; // Notice that we use Variantcount for both to keep them paired
+            newStock.ID = "stockVar" + newId + "Tb";
             newStock.Attributes["placeholder"] = "Stock for Variant " + newId;
             newStock.CssClass = "newVariation_input";
             // Create the container div for the new row
             Literal divEnd = new Literal { Text = "</div>" };
 
-            // Add the opening div tag, the variant TextBox, the price TextBox, and the closing div tag to the panel
             panelVariantTextBoxes.Controls.Add(divStart);
             panelVariantTextBoxes.Controls.Add(newVariant);
             panelVariantTextBoxes.Controls.Add(newPrice);
@@ -111,9 +110,6 @@ namespace webAssignment.Admin.Product_Management
             panelVariantTextBoxes.Controls.Add(divEnd);
 
 
-            // For debugging (visible in output window during debugging)
-            System.Diagnostics.Debug.WriteLine("Variant TextBox created with ID: " + newVariant.ID);
-            System.Diagnostics.Debug.WriteLine("Price TextBox created with ID: " + newPrice.ID);
         }
 
         protected void UploadButton_Click( object sender, EventArgs e )
@@ -125,22 +121,15 @@ namespace webAssignment.Admin.Product_Management
 
             if ( checkInputs() == false )
             {
-                ShowNotification("Please correct the highlighted errors and try again.", "error");
+                ShowNotification("Please correct the highlighted errors and try again.", "warning");
                 return;
             }
             if ( checkProdVariants() == false )
             {
                 return;
             }
-            if ( productDec() == "" )
-            {
-                ShowNotification("Please Include Atleast One DEC1:  !.", "error");
-                return;
-            }
-
             if ( Page.IsValid )
             {
-                // Insert the new product into the database
                 string productId = InsertProduct(prodName, prodDesc, category, status);
 
                 if ( productId != "" )
@@ -150,25 +139,19 @@ namespace webAssignment.Admin.Product_Management
                 }
                 else
                 {
-                    ShowNotification("Please correct the highlighted errors and try again.", "error");
+                    ShowNotification("Input are not complete!.", "warning");
                 }
-                ShowNotification("Successfully added new product", "Success");
+                ShowNotification("Successfully added new product", "success");
             }
         }
 
         private bool checkInputs( )
         {
             String prodName = newProductName.Text.Trim();
-            String prodDesc = newProductDes.Text.Trim();
             String category = ddlCategory.SelectedValue;
             if ( prodName == "" )
             {
                 ShowNotification("Please type product name!.", "warning");
-                return false;
-            }
-            if ( prodDesc == "" )
-            {
-                ShowNotification("Please type product descriptions!.", "warning");
                 return false;
             }
             if ( category == "" )
@@ -181,14 +164,14 @@ namespace webAssignment.Admin.Product_Management
                 ShowNotification("Please insert Atleast a Image and try again.", "warning");
                 return false;
             }
-            if ( category == "" )
+            List<string> descriptions = productDec();
+            Debug.WriteLine("qwqcqwwq" + descriptions);
+            Debug.WriteLine("qwqcqwwq" + descriptions.Any());
+            if ( descriptions.Any() == false )
             {
-                ShowNotification("Please correct the highlighted errors and try again.", "error");
+                ShowNotification("Please include at least one valid DEC label with a description.", "warning");
                 return false;
             }
-
-
-
             return true;
         }
 
@@ -232,16 +215,12 @@ namespace webAssignment.Admin.Product_Management
         }
         public List<string> GetImagePaths( )
         {
-            // List to hold the image paths
             List<string> imagePaths = new List<string>();
 
-            // The path to the ProductImage directory
             string folderPath = HttpContext.Current.Server.MapPath("~/ProductImage/");
 
-            // Get all files in the directory
             string[] files = Directory.GetFiles(folderPath);
 
-            // Add paths to the list, converting them to a relative path to be used on the client side
             foreach ( string file in files )
             {
                 if ( IsImage(file) )
@@ -327,25 +306,59 @@ namespace webAssignment.Admin.Product_Management
             ddlCategory.Items.Insert(0, new ListItem("Select a category", ""));
 
         }
+        //private string productDec( )
+        //{
+        //    var lines = newProductDes.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        //    var descriptions = new List<string>();
 
-        // adding new product functions
+        //    foreach ( var line in lines )
+        //    {
+        //        var splitIndex = line.IndexOf(":");
+        //        if ( splitIndex != -1 && line.StartsWith("DEC") ) 
+        //        {
+        //            descriptions.Add(line.Substring(splitIndex + 1).Trim()); 
+        //        }
+        //    }
 
-        private string productDec( )
+        //    return JsonConvert.SerializeObject(descriptions);
+        //}
+        private List<string> productDec( )
         {
             var lines = newProductDes.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             var descriptions = new List<string>();
+            bool hasValidDec = false;
 
             foreach ( var line in lines )
             {
-                // Assuming the format is "DECx: description here"
-                var splitIndex = line.IndexOf(":");
-                if ( splitIndex != -1 && line.StartsWith("DEC") ) // Ensuring it starts with "DEC"
+                if ( line.Trim().StartsWith("DEC") && line.Contains(":") )
                 {
-                    descriptions.Add(line.Substring(splitIndex + 1).Trim()); // +1 to skip the colon itself
+                    var splitIndex = line.IndexOf(":");
+                    if ( splitIndex != -1 && splitIndex + 1 < line.Length )
+                    {
+                        string descriptionContent = line.Substring(splitIndex + 1).Trim();
+                        if ( !string.IsNullOrWhiteSpace(descriptionContent) )
+                        {
+                            descriptions.Add(descriptionContent);
+                            hasValidDec = true;
+                        }
+                        else
+                        {
+                            return new List<string>();
+                        }
+                    }
+                }
+                else
+                {
+                    return new List<string>();
                 }
             }
 
-            return JsonConvert.SerializeObject(descriptions);
+            if ( !hasValidDec )
+            {
+                return new List<string>();
+            }
+
+            return descriptions;
         }
         private string InsertProduct( string prodName, string prodDesc, string categoryId, string status )
         {
@@ -360,7 +373,7 @@ namespace webAssignment.Admin.Product_Management
                     cmd.Parameters.AddWithValue("@productID", GetNextProductId(conn));
                     cmd.Parameters.AddWithValue("@CategoryID", categoryId);
                     cmd.Parameters.AddWithValue("@ProductName", prodName);
-                    cmd.Parameters.AddWithValue("@ProductDescription", productDec());
+                    cmd.Parameters.AddWithValue("@ProductDescription", JsonConvert.SerializeObject(productDec()));
                     cmd.Parameters.AddWithValue("@Status", status);
                     cmd.Parameters.Add("@date_Added", SqlDbType.DateTime).Value = DateTime.UtcNow;
                     string productId = cmd.ExecuteScalar().ToString();
@@ -458,7 +471,7 @@ namespace webAssignment.Admin.Product_Management
         private string GetNextProductId( SqlConnection conn )
         {
             string prefix = "P";
-            int maxNumber = 1000; // Start from 1000 if no entries exist
+            int maxNumber = 1000;
 
             string sql = "SELECT MAX(product_id) FROM Product WHERE product_id LIKE @Prefix + '%'";
             using ( SqlCommand cmd = new SqlCommand(sql, conn) )
@@ -475,7 +488,7 @@ namespace webAssignment.Admin.Product_Management
                 }
                 else
                 {
-                    maxNumber = 1; // Start with 1 if no IDs are found
+                    maxNumber = 1;
                 }
             }
 
@@ -549,5 +562,30 @@ namespace webAssignment.Admin.Product_Management
             ClientScript.RegisterStartupScript(this.GetType(), "ShowSnackbar", script, true);
         }
 
+        private void clearAllFields( )
+        {
+            // Clear text boxes 
+            newProductName.Text = String.Empty;
+            newProductDes.Text = String.Empty;
+
+            // Reset to default
+            if ( ddlCategory.Items.Count > 0 )
+                ddlCategory.SelectedIndex = 0;
+
+            // Reset to default
+            if ( ddlnewProdStatus.Items.Count > 0 )
+                ddlnewProdStatus.SelectedIndex = 0;
+
+            // Clear all variant text boxes
+            panelVariantTextBoxes.Controls.Clear();
+            ViewState["VariantCount"] = 1;
+
+            // Clear the file upload control
+            fileImages.Attributes.Clear();
+
+            // Reset added once flag
+            ViewState["addedOnce"] = 0;
+
+        }
     }
 }

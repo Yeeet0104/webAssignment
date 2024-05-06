@@ -19,8 +19,13 @@ namespace webAssignment.Admin.Voucher
         {
             if ( !IsPostBack )
             {
-                string enc = Request.QueryString["voucherCodeID"];
-                string voucherId = DecryptString(enc);
+                string encVou = Request.QueryString["voucherCodeID"];
+                if ( string.IsNullOrEmpty(encVou) )
+                {
+                    Response.Redirect("~/Admin/Product Management/adminProducts.aspx");
+                    return;
+                }
+                string voucherId = DecryptString(encVou);
                 if ( !string.IsNullOrEmpty(voucherId) )
                 {
                     LoadVoucherDetails(voucherId);
@@ -47,7 +52,6 @@ namespace webAssignment.Admin.Voucher
                             startDateTb.Text = Convert.ToDateTime(reader["started_date"]).ToString("yyyy-MM-dd");
                             expireDateTb.Text = Convert.ToDateTime(reader["expiry_date"]).ToString("yyyy-MM-dd");
                             quantity.Text = reader["quantity"].ToString();
-                            // Update other controls as needed
                         }
                     }
                 }

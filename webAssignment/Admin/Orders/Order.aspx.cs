@@ -39,13 +39,13 @@ namespace webAssignment.Admin.Orders
 
         protected void OrdersListView_ItemCommand( object sender, ListViewCommandEventArgs e )
         {
-            if ( e.CommandName == "EditOrder" )
+            if ( e.CommandName == "ViewOrder" )
             {
                 string orderId = e.CommandArgument.ToString();
                 string encryptedStr = EncryptString(orderId);
                 string userID = getCusID(orderId);
                 string encryptedUserStr = EncryptString(userID);
-                Response.Redirect($"~/Admin/orders/EditOrder.aspx?OrderID={encryptedStr}&userID={encryptedUserStr}");
+                Response.Redirect($"~/Admin/orders/ViewOrder.aspx?OrderID={encryptedStr}&userID={encryptedUserStr}");
             }
             else if ( e.CommandName == "DeleteOrder" )
             {
