@@ -305,9 +305,11 @@
     <Content Include="Client\Product\ProductPage.aspx" />
     <Content Include="Client\Profile\AccountDetails.aspx" />
     <Content Include="Client\Profile\images\agreement.gif" />
+    <Content Include="Client\Profile\images\cancel.gif" />
     <Content Include="Client\Profile\images\confirmDelete.gif" />
     <Content Include="Client\Profile\images\defaultPic.jpg" />
     <Content Include="Client\Profile\images\package.gif" />
+    <Content Include="Client\Profile\images\save-money.gif" />
     <Content Include="Client\Profile\images\successCat.gif" />
     <Content Include="Client\Profile\images\truck.gif" />
     <Content Include="Client\Profile\OrderHistoryDetailsPage.aspx" />

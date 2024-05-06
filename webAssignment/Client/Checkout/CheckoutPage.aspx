@@ -173,16 +173,19 @@
                     <LayoutTemplate>
                         <table class="orders-table w-full">
                             <p class="text-gray-900 font-bold text-xl">Order Summary</p>
-                            <tr id="itemPlaceHolder" runat="server"></tr>
+                                <tr id="itemPlaceHolder" runat="server"></tr>
                         </table>
                     </LayoutTemplate>
                     <ItemTemplate>
-                        <tr class="grid grid-cols-4 items-center">
+                        <tr class="mb-2 grid grid-cols-4 items-center ">
                             <td class="col-span-1">
                                 <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("imagePath", "{0}") %>' class="h-14 w-14 " />
                             </td>
                             <td class="col-span-3 flex flex-col">
-                                <span class="font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("productName") %> <%# Eval("variantName") %></span>
+                                <span class="font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("productName") %>
+                                </span>
+                                <span class="font-medium overflow-hidden whitespace-nowrap overflow-ellipsis"><%# Eval("variantName") %>
+                                </span>
                                 <span class="text-gray-700">
                                     <%# Eval("quantity") %> x <span class="text-blue-700 font-bold">RM <%# Eval("price") %></span>
                                 </span>

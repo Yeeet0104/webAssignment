@@ -27,12 +27,10 @@ namespace webAssignment.Client.Checkout
         Address shippingAddress;
         Address billingAddress;
 
-        decimal discountRate = 0.5m;
         decimal taxRate = 0.00m;
         protected void Page_Load(object sender, EventArgs e)
         {
             Address add = (Address)Session["shippingAddress"];
-
             if (!IsPostBack)
             {
                 if (Session["taxRate"] == null)
@@ -314,9 +312,15 @@ namespace webAssignment.Client.Checkout
                 {
                     addressID = createAddress(shippingAddress, "SHIPPING");
                 }
+                billingAddress = (Address)Session["billingAddress"];
+                string billingAddressID = checkAddressExist(billingAddress);
+                if (billingAddressID == "")
+                {
+                    billingAddressID = createAddress(billingAddress, "BILLING");
+                }
 
                 // Update Order Table
-                string orderID = createOrder(addressID);
+                string orderID = createOrder(addressID, billingAddressID);
 
 
                 // Payment Details
@@ -352,7 +356,7 @@ namespace webAssignment.Client.Checkout
                 }
                 clearSession();
 
-                sendEmail();
+                sendEmail(orderID);
 
                 popUpOrderPlaced.Style.Add("display", "flex");
 
@@ -380,7 +384,6 @@ namespace webAssignment.Client.Checkout
                     return;
                 }
 
-
                 // Update Address Table
                 shippingAddress = (Address)Session["shippingAddress"];
                 string addressID = checkAddressExist(shippingAddress);
@@ -388,9 +391,15 @@ namespace webAssignment.Client.Checkout
                 {
                     addressID = createAddress(shippingAddress, "SHIPPING");
                 }
+                billingAddress = (Address)Session["billingAddress"];
+                string billingAddressID = checkAddressExist(billingAddress);
+                if (billingAddressID == "")
+                {
+                    billingAddressID = createAddress(billingAddress, "BILLING");
+                }
 
                 // Update Order Table
-                string orderID = createOrder(addressID);
+                string orderID = createOrder(addressID, billingAddressID);
 
 
                 // Payment Details
@@ -423,7 +432,7 @@ namespace webAssignment.Client.Checkout
                 {
                     updateVoucherQuantity();
                 }
-                sendEmail();
+                sendEmail(orderID);
 
 
                 clearSession();
@@ -441,9 +450,15 @@ namespace webAssignment.Client.Checkout
                 {
                     addressID = createAddress(shippingAddress, "SHIPPING");
                 }
+                billingAddress = (Address)Session["billingAddress"];
+                string billingAddressID = checkAddressExist(billingAddress);
+                if (billingAddressID == "")
+                {
+                    billingAddressID = createAddress(billingAddress, "BILLING");
+                }
 
                 // Update Order Table
-                string orderID = createOrder(addressID);
+                string orderID = createOrder(addressID, billingAddressID);
 
 
                 // Payment Details
@@ -475,13 +490,17 @@ namespace webAssignment.Client.Checkout
                     updateVoucherQuantity();
                 }
 
-                sendEmail();
+                sendEmail(orderID);
 
                 // Remove Session 
                 clearSession();
 
 
                 popUpOrderPlaced.Style.Add("display", "flex");
+            }
+            else
+            {
+                ShowNotification("Please select one payment method.", "warning");
             }
 
 
@@ -535,7 +554,7 @@ namespace webAssignment.Client.Checkout
                 }
             }
         }
-    
+
 
         private void getStock()
         {
@@ -579,7 +598,7 @@ namespace webAssignment.Client.Checkout
             }
         }
 
-        private void updateStock( string prodID, int newStock)
+        private void updateStock(string prodID, int newStock)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
@@ -714,7 +733,7 @@ namespace webAssignment.Client.Checkout
                     {
                         connection.Open();
                         command.ExecuteNonQuery();
-                        
+
                     }
                     catch (SqlException ex)
                     {
@@ -725,12 +744,12 @@ namespace webAssignment.Client.Checkout
             }
         }
 
-        private string createOrder(String addressID)
+        private string createOrder(string addressID, string billingAddressID)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
 
-            string getNextNum = "INSERT INTO dbo.[Order] ([order_id], [user_id], [voucher_id], [total_price], [date_ordered], [status], [address_id], [note]) VALUES (@orderID, @userID, @voucherID, @total, @date, @status, @addressID, @note)";
+            string getNextNum = "INSERT INTO dbo.[Order] ([order_id], [user_id], [voucher_id], [total_price], [date_ordered], [status], [address_id], [billing_address_id], [note]) VALUES (@orderID, @userID, @voucherID, @total, @date, @status, @addressID, @billingAddressID, @note)";
 
             string newOrderID = getNextOrderID();
 
@@ -741,7 +760,7 @@ namespace webAssignment.Client.Checkout
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(getNextNum, connection))
                     {
-                        
+
                         string userID = getCurrentUserId();
                         string voucherID = getVoucher();
                         decimal total = Convert.ToDecimal(Session["orderTotal"]);
@@ -753,14 +772,15 @@ namespace webAssignment.Client.Checkout
                         command.Parameters.AddWithValue("@orderID", newOrderID);
                         command.Parameters.AddWithValue("@userID", getCurrentUserId());
                         command.Parameters.AddWithValue("@total", total);
-                        if(voucherID == null)
+                        if (voucherID == null)
                             command.Parameters.AddWithValue("@voucherID", DBNull.Value);
                         else
                             command.Parameters.AddWithValue("@voucherID", voucherID);
                         command.Parameters.AddWithValue("@date", formattedDate);
                         command.Parameters.AddWithValue("@status", status);
                         command.Parameters.AddWithValue("@addressID", addressID);
-                        if(note == null)
+                        command.Parameters.AddWithValue("@billingAddressID", billingAddressID);
+                        if (note == null || note == "")
                             command.Parameters.AddWithValue("@note", DBNull.Value);
                         else
                             command.Parameters.AddWithValue("@note", note);
@@ -887,7 +907,7 @@ namespace webAssignment.Client.Checkout
             }
         }
 
-        
+
 
         private string createAddress(Address address, string type)
         {
@@ -1029,18 +1049,30 @@ namespace webAssignment.Client.Checkout
         }
 
 
-        private void sendEmail()
+        private void sendEmail(string orderID)
         {
             try
             {
                 string senderEmail = "gtechpc24@gmail.com";
-                MailMessage verificationMail = new MailMessage(senderEmail, getUserEmail());
-                verificationMail.Subject = "Order Pending";
+                string receiverEmail = getUserEmail();
+                string estArrivedDate = DateTime.Now.AddDays(5).ToString("ddd dd/MMMM/yyyy");
+                if (receiverEmail != "" || receiverEmail != null)
+                {
 
-                verificationMail.Body = $"<h3>Hi User {getCurrentUserId()},</h3>" +
-                                        "<p>We have received your order. Your order status is currently pending</p>" +
-                                        "<p>Your order will be packed and shipped within 3 business days.</p>" +
-                                        "<p>Thank you for choosing us, G-Tech Team.</p>";
+                MailMessage verificationMail = new MailMessage(senderEmail, receiverEmail);
+                    string resetEmailParam = HttpUtility.UrlEncode(receiverEmail); // Encode email for URL
+                    string resetUrl = $"https://localhost:44356/Client/AboutUs/AboutUsPage.aspx";
+
+                    verificationMail.Subject = "Confirmation of Recent Order #" + orderID;
+
+                    verificationMail.Body = $"<h3>Dear {getUsername()},</h3>" +
+                                            "<p>We have successfully received your recent order. You order will be packed and delivered soon! Please allow 3 to 5 working days for your order to arrive. </p>" +
+                                            "<b>Estimated Delivery Date:</b> " + estArrivedDate + "<p>For information on our return and exchange policy, please visit our website:"+ $"<a href=\"{resetUrl}\" style=\"color:blue;\">Click Here</a>" + "</p>" +
+                                            "<p>If you have any questions or concerns regarding your order, please feel free to reply to this email. We are here to assist you and ensure a smooth shopping experience.</p>" +
+                                            "<p>Thank you for choosing G-Tech. We truly appreciate your support.</p>" + 
+                                            "<br>" +
+                                            "<p><b>Best Regards,</b></p>" +
+                                            "<p>G-Tech Team</p>";
                 verificationMail.IsBodyHtml = true;
                 SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
                 smtpClient.EnableSsl = true;
@@ -1048,11 +1080,55 @@ namespace webAssignment.Client.Checkout
                 smtpClient.Credentials = new NetworkCredential(senderEmail, "lajd btuc nhuf qryg");
 
                 smtpClient.Send(verificationMail);
+                }
+                else
+                    txtCardNumber.Text = receiverEmail;
             }
             catch (Exception ex)
             {
+                txtCardNumber.Text = ex.Message;
+                txtBankNumber.Text = getUserEmail();
                 ShowNotification(ex.Message, "warning");
             }
+        }
+
+        private string getUsername()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+
+            string getNextNum = "SELECT username FROM dbo.[User] WHERE user_id = @userid";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(getNextNum, connection))
+                    {
+                        command.Parameters.AddWithValue("@userid", getCurrentUserId());
+
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                return reader.GetString(0);
+                            }
+                        }
+                    }
+
+                }
+                catch (SqlException ex)
+                {
+                    // Handle database errors gracefully (e.g., log the error, display a user-friendly message)
+                    LogError(ex.Message);
+                    ShowNotification(ex.Message, "warning"); // Redirect to an error page if needed
+                }
+            }
+            return "";
         }
 
         private string getUserEmail()
@@ -1060,7 +1136,7 @@ namespace webAssignment.Client.Checkout
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
 
-            string getNextNum = "SELECT email FROM User WHERE user_id = @userid";
+            string getNextNum = "SELECT email FROM dbo.[User] WHERE user_id = @userid";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
