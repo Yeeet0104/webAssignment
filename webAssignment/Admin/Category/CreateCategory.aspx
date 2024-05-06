@@ -75,10 +75,6 @@
             </div>
         </div>
         <div class="flex w-full justify-end mb-3">
-            <%--            <div class="relative mr-2">
-                <i class="fa-solid fa-download text-blue-500 absolute text-lg left-4 top-5 transform -translate-y-1/2"></i>
-                <asp:Button ID="btnExport" runat="server" Text="Export" class="pl-11 pr-5 py-2.5 text-sm bg-gray-200 text-blue-500 rounded-lg" />
-            </div>--%>
             <div class="relative ml-2">
                 <i class="fa-solid fa-plus absolute text-2xl left-4 top-5 text-white transform -translate-y-1/2"></i>
                 <asp:Button ID="btnAddNewCust" runat="server" Text="Add Category" class="pl-11 pr-5 py-2.5 text-sm bg-blue-500 text-white rounded-lg" OnClick="btnAddNewCust_Click" />
@@ -94,7 +90,6 @@
             <div class="p-5 flex flex-col bg-white rounded-xl">
                 <span class="mb-3 text-lg">General information</span>
                 <span class="text-gray-500">Category Name</span>
-                <div id="errorCateName" class="hidden text-red-500 font-bold">Please Write Fill The Name</div>
                 <asp:TextBox CssClass="p-3 rounded-xl bg-gray-100 mb-4" ID="newCategoryName" runat="server"  ToolTip="Category Name" placeholder="Type Category Name..."></asp:TextBox>
                 <span class="text-gray-500">Description (Optional)</span>
 

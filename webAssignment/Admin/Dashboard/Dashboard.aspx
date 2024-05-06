@@ -120,7 +120,7 @@
 
                         <p class=" text-lg">
                             Sales Details
-                            <asp:Label ID="lblDateRange" runat="server" Text=""></asp:Label>
+                            (<asp:Label ID="lblDateRange" runat="server" Text=""></asp:Label>)
                         </p>
                         <div>
                             <i class="fa-solid fa-circle text-blue-600"></i>

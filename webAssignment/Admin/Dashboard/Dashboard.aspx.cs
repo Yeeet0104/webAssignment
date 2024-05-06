@@ -31,14 +31,12 @@ namespace webAssignment
 
             DateTime? startDate = Session["StartDate"] as DateTime?;
             DateTime? endDate = Session["EndDate"] as DateTime?;
-            Debug.WriteLine("WOIO" + startDate);
-            Debug.WriteLine("WOIO" + endDate);
             if ( startDate != null && endDate != null )
             {
                 init();
             }
         }
-   
+
         private void init( )
         {
             itemSolded.Text = GetTotalNumberOfOrders().ToString() + " Items Solded Today";
@@ -49,6 +47,7 @@ namespace webAssignment
             bestSellingItemLv.DataSource = GetBestSellingProductVariants();
             bestSellingItemLv.DataBind();
             chartBoxInit();
+
         }
         private void chartBoxInit( )
         {
@@ -61,30 +60,9 @@ namespace webAssignment
                 todaySales.Text = "RM " + salesData.ToString();
             }
         }
-        protected void ordersListView_SelectedIndexChanged( object sender, EventArgs e )
-        {
-
-        }
-        protected void OrdersListView_ItemCommand( object sender, ListViewCommandEventArgs e )
-        {
-            if ( e.CommandName == "EditOrder" )
-            {
-                string orderId = e.CommandArgument.ToString();
-                string encryptedStr = EncryptString(orderId);
-                Response.Redirect($"~/Admin/orders/EditOrder.aspx?OrderID={encryptedStr}");
-            }
-            else if ( e.CommandName == "DeleteOrder" )
-            {
-                // Show the popup
-                //popUpDelete.Style.Add("display", "flex");
-
-                //// Set the Order ID in the label within the popup
-                //lblItemInfo.Text = e.CommandArgument.ToString();
-            }
-        }
         protected string EncryptString( string clearText )
         {
-            string EncryptionKey = "ABC123"; // Replace with a more complex key and store securely
+            string EncryptionKey = "ABC123"; 
             byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
             using ( Aes encryptor = Aes.Create() )
             {
@@ -111,7 +89,7 @@ namespace webAssignment
             DateTime? sortStartDate = null;
             DateTime? sortEndDate = null;
 
-            // Check Session and assign dates if available
+            // Check Session and assign dates if got
             if ( Session["StartDate"] != null && Session["EndDate"] != null )
             {
                 sortStartDate = (DateTime)Session["StartDate"];
@@ -123,7 +101,7 @@ namespace webAssignment
                 sortStartDate = DateTime.Today;
                 sortEndDate = DateTime.Today;
             }
-            dateFilter = " AND date_ordered >= @startDate AND date_ordered <= @endDate ";
+            dateFilter = " WHERE date_ordered >= @startDate AND date_ordered <= @endDate ";
 
             using ( SqlConnection con = new SqlConnection(connectionString) )
             {
@@ -132,8 +110,6 @@ namespace webAssignment
                             COUNT(*) AS TotalOrders
                         FROM
                             [dbo].[Order]
-                        WHERE
-                            status = 'Delivered'
                             {dateFilter}";
 
                 using ( SqlCommand cmd = new SqlCommand(sql, con) )
@@ -144,11 +120,11 @@ namespace webAssignment
                         cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
                     }
                     con.Open();
-                    object result = cmd.ExecuteScalar(); // ExecuteScalar is used for fetching a single value
+                    object result = cmd.ExecuteScalar(); 
                     if ( result != DBNull.Value && result != null )
                     {
 
-                        return (int)result; // Convert result to int and return
+                        return (int)result; 
                     }
                     else
                     {
@@ -166,7 +142,6 @@ namespace webAssignment
             DateTime? sortStartDate = null;
             DateTime? sortEndDate = null;
 
-            // Check Session and assign dates if available
             if ( Session["StartDate"] != null && Session["EndDate"] != null )
             {
                 sortStartDate = (DateTime)Session["StartDate"];
@@ -199,7 +174,7 @@ namespace webAssignment
                         cmd.Parameters.AddWithValue("@endDate", sortEndDate.Value);
                     }
                     con.Open();
-                    object result = cmd.ExecuteScalar(); // ExecuteScalar is used for fetching a single value
+                    object result = cmd.ExecuteScalar(); 
                     if ( result != DBNull.Value && result != null )
                     {
 
@@ -218,7 +193,6 @@ namespace webAssignment
             DateTime? sortStartDate = null;
             DateTime? sortEndDate = null;
 
-            // Check Session and assign dates if available
             if ( Session["StartDate"] != null && Session["EndDate"] != null )
             {
                 sortStartDate = (DateTime)Session["StartDate"];
@@ -264,7 +238,6 @@ namespace webAssignment
             DateTime? sortStartDate = null;
             DateTime? sortEndDate = null;
 
-            // Check Session and assign dates if available
             if ( Session["StartDate"] != null && Session["EndDate"] != null )
             {
                 sortStartDate = (DateTime)Session["StartDate"];
@@ -275,7 +248,7 @@ namespace webAssignment
                 sortStartDate = DateTime.Today;
                 sortEndDate = DateTime.Today;
             }
-            dateFilter = " AND date_ordered >= @startDate AND date_ordered <= @endDate ";
+            dateFilter = "WHERE date_ordered >= @startDate AND date_ordered <= @endDate ";
 
             using ( SqlConnection con = new SqlConnection(connectionString) )
             {
@@ -284,8 +257,6 @@ namespace webAssignment
                                 SUM(total_price) AS TotalSales
                                 FROM
                                 [dbo].[Order]
-                                WHERE
-                                status = 'Delivered'
                             {dateFilter}";
 
                 using ( SqlCommand cmd = new SqlCommand(sql, con) )
@@ -296,11 +267,11 @@ namespace webAssignment
                         cmd.Parameters.AddWithValue("@endDate", sortEndDate);
                     }
                     con.Open();
-                    object result = cmd.ExecuteScalar(); // ExecuteScalar is used for fetching a single value
+                    object result = cmd.ExecuteScalar();
                     if ( result != DBNull.Value && result != null )
                     {
 
-                        return (decimal)result; // Convert result to int and return
+                        return (decimal)result;
                     }
                     else
                     {
@@ -317,14 +288,21 @@ namespace webAssignment
             DateTime? sortStartDate = null;
             DateTime? sortEndDate = null;
 
-            // Check session and assign dates if available
             if ( Session["StartDate"] != null && Session["EndDate"] != null )
             {
                 sortStartDate = (DateTime)Session["StartDate"];
                 sortEndDate = (DateTime)Session["EndDate"];
+            lblDateRange.Text = ((DateTime)Session["StartDate"]).ToString("dd/MM/yyyy") + " - " + ( (DateTime)Session["EndDate"] ).ToString("dd/MM/yyyy");
 
-                dateFilter = " AND date_ordered >= @startDate AND date_ordered <= @endDate ";
             }
+            else
+            {
+                sortStartDate = DateTime.Today;
+                sortEndDate = DateTime.Today;
+                lblDateRange.Text = "Today";
+            }
+
+            dateFilter = " AND date_ordered >= @startDate AND date_ordered <= @endDate ";
 
             using ( SqlConnection con = new SqlConnection(connectionString) )
             {
@@ -387,7 +365,7 @@ namespace webAssignment
             using ( SqlConnection con = new SqlConnection(connectionString) )
             {
                 string sql = @"
-                    SELECT 
+                    SELECT TOP 4
                         pv.product_variant_id,
                         pv.variant_name,
                         pv.variant_price,

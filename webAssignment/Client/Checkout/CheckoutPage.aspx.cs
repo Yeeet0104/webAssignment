@@ -687,23 +687,23 @@ namespace webAssignment.Client.Checkout
                                     decimal price = Convert.ToDecimal(reader[1]);
                                     subtotal += qty * price;
                                 }
-                                decimal shipping = (subtotal > 100.0m) ? 0.0m : 15.0m;
-                                string voucher = Convert.ToString(Session["Voucher"]);
-                                decimal discountRate = 0.0m;
-                                if (voucher != "")
-                                    discountRate = checkDiscountRate(voucher, command, connection);
-                                decimal discount = subtotal * discountRate;
-                                decimal tax = (subtotal - discount) * taxRate;
-                                decimal total = subtotal - discount + tax + shipping;
+                                    decimal shipping = (subtotal > 100.0m) ? 0.0m : 15.0m;
+                                    string voucher = Convert.ToString(Session["Voucher"]);
+                                    decimal discountRate = 0.0m;
+                                    if (voucher != "")
+                                        discountRate = checkDiscountRate(voucher, command, connection);
+                                    decimal discount = subtotal * discountRate;
+                                    decimal tax = (subtotal - discount) * taxRate;
+                                    decimal total = subtotal - discount + tax + shipping;
 
-                                lblCartSubtotal.Text = "RM " + $"{subtotal:F2}";
-                                if (shipping == 0.0m)
-                                    lblCartShipping.Text = "Free";
-                                else
-                                    lblCartShipping.Text = "RM " + $"{shipping:F2}";
-                                lblCartDiscount.Text = "[-" + $"{discountRate * 100:F0}" + "%] RM " + $"{discount:F2}";
-                                lblCartTax.Text = "[" + $"{taxRate * 100:F0}" + "%] RM " + $"{tax:F2}";
-                                lblCartTotal.Text = "RM " + $"{total:F2}";
+                                    lblCartSubtotal.Text = "RM " + $"{subtotal:F2}";
+                                    if (shipping == 0.0m)
+                                        lblCartShipping.Text = "Free";
+                                    else
+                                        lblCartShipping.Text = "RM " + $"{shipping:F2}";
+                                    lblCartDiscount.Text = "[-" + $"{discountRate * 100:F0}" + "%] RM " + $"{discount:F2}";
+                                    lblCartTax.Text = "[" + $"{taxRate * 100:F0}" + "%] RM " + $"{tax:F2}";
+                                    lblCartTotal.Text = "RM " + $"{total:F2}";
 
 
                             }

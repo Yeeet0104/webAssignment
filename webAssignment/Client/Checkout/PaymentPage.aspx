@@ -152,6 +152,30 @@
                 </div>
             </div>
         </div>
+         <asp:Panel ID="popUpOrderPlaced" runat="server" CssClass="hidden popUp fixed z-1 w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 flex justify-center items-center ">
+        <!-- Modal content -->
+        <div class="popUp-content w-1/3 h-fit flex flex-col bg-white p-5 rounded-xl flex flex-col gap-3 drop-shadow-lg">
 
+            <div class=" w-full h-fit justify-center flex p-0">
+                <p class="text-2xl text-blue-600 font-bold text-center">ORDER PLACED</p>
+
+            </div>
+            <div class="flex flex-col justify-center items-center gap-5">
+
+                <div style="font-size: 64px">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Client/Checkout/image/thanks.gif" AlternateText="trashcan" CssClass="w-28 h-28 " />
+
+                </div>
+
+                <p class="bold text-xl break-normal text-center">Thank you for purchasing our product!</p>
+                <div class=" ">
+                <asp:LinkButton ID="closePopUp" runat="server" OnClick="closePopUp_Click" class="border border-gray-500 px-3 py-2 rounded-lg flex gap-2 items-center">
+                     <i class=" fa-solid fa-house"></i><span class="font-semibold">Back to Home</span>
+                </asp:LinkButton>
+                </div>
+            </div>
+        </div>
+
+    </asp:Panel>
     </div>
 </asp:Content>

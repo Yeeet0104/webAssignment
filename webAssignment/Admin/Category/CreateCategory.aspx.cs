@@ -41,18 +41,13 @@ namespace webAssignment.Admin.Category
                         fileSavePath = Server.MapPath("~/CategoryBannerImg/") + fileName;
                         try
                         {
-                            // Save the file.
                             postedFile.SaveAs(fileSavePath);
-                            Debug.WriteLine("Saving file to: " + fileSavePath);
-                            // You can add logic here to add the file details to your database if needed.
                         }
                         catch ( Exception ex )
                         {
                             Debug.WriteLine("Error: " + ex.Message);
-                            // Handle the error
                         }
                     }
-                    // After handling all files, you can redirect or update the page as needed.
                 }
 
                 String newCategoryID = GenerateNextCategoryId();
@@ -60,23 +55,22 @@ namespace webAssignment.Admin.Category
                 ViewState["newCategoryID"] = newCategoryID;
                 ViewState["FileSavePath"] = ( "~/CategoryBannerImg/" + fileName );
 
-                // Show the popup for confirmation
                 popUpPanel.Style.Add("display", "flex");
 
-                // Set the text of the labels in the popup
                 categoryID.Text = newCategoryID;
                 categoryName.Text = newCateName;
                 bannerImage.ImageUrl = ( "~/CategoryBannerImg/" + fileName );
             }
             else
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "notypeName", "showInputNameError();", true);
+
+                ShowNotification("Please dont leave Empty input", "warning");
             }
 
         }
         private string GenerateNextCategoryId( )
         {
-            string newCategoryId = "CAT1001"; // default if no entries are present
+            string newCategoryId = "CAT1001";
             string query = "SELECT MAX(category_id) as MaxCategoryId FROM Category";
 
             using ( SqlConnection conn = new SqlConnection(connectionString) )
@@ -90,15 +84,14 @@ namespace webAssignment.Admin.Category
 
                     if ( result != DBNull.Value && result != null )
                     {
-                        int maxId = int.Parse(result.ToString().Substring(3)); 
-                        maxId++; // Increment the numerical part
-                        newCategoryId = "CAT" + maxId.ToString("D3"); // Format as CAT + three digit number
+                        int maxId = int.Parse(result.ToString().Substring(3));
+                        maxId++;
+                        newCategoryId = "CAT" + maxId.ToString("D3");
                     }
                 }
                 catch ( Exception ex )
                 {
-                    // Handle exceptions (logging, throw further, etc.)
-                    Console.WriteLine("Error in GenerateNextCategoryId: " + ex.Message);
+                    ShowNotification($"GenerateNextCategoryId Error:{ex.Message}", "warning");
                 }
             }
 
@@ -123,16 +116,12 @@ namespace webAssignment.Admin.Category
                         conn.Open();
                         int result = cmd.ExecuteNonQuery();
 
-                        // Check Error
                         if ( result < 0 )
-                            Debug.WriteLine("Error inserting data into Database!");
-                        else
-                            Debug.WriteLine("Data inserted successfully!");
+                            ShowNotification("Error inserting data into Database!", "warning");
                     }
                     catch ( Exception ex )
                     {
-                        Debug.WriteLine("Database Error: " + ex.Message);
-                        // Handle more specific database errors if needed
+                        ShowNotification($"Database Error:{ex.Message}", "warning");
                     }
                 }
             }
@@ -163,20 +152,16 @@ namespace webAssignment.Admin.Category
             {
                 if ( Page.IsValid && passwordForConfirm.Text.ToString() == "12345" )
                 {
-                    // Retrieve the stored values
+
                     string newCateName = ViewState["NewCateName"]?.ToString();
                     string newCategoryID = ViewState["newCategoryID"]?.ToString();
                     string fileSavePath = ViewState["FileSavePath"]?.ToString();
 
-                    // Perform the insertion using these values
                     InsertCategoryIntoDatabase(newCategoryID, newCateName, fileSavePath);
 
-                    // Optionally, close the popup
-                    // popUpPanel.Style.Add("display", "none");
 
                     popUpPanel.Style.Add("display", "none");
 
-                    // Clear the ViewState
                     ViewState.Remove("NewCateName");
                     ViewState.Remove("NewCateDes");
                     ViewState.Remove("FileSavePath");

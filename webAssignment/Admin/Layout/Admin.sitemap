@@ -11,7 +11,7 @@
 			<siteMapNode url="~/Admin/Category/editCategory.aspx" title="Edit Category"  description="" />
 		</siteMapNode>
 		<siteMapNode url="~/Admin/Orders/Order.aspx" title="Orders list"  description="">
-			<siteMapNode url="~/Admin/Orders/EditOrder.aspx" title="Edit Order"  description="" />
+			<siteMapNode url="~/Admin/Orders/ViewOrder.aspx" title="View Order"  description="" />
 		</siteMapNode>
 		<siteMapNode url="~/Admin/Transaction/transaction.aspx" title="Transaction list"  description="" />
 		<siteMapNode url="~/Admin/Voucher/voucher.aspx" title="Voucher list"  description="">
