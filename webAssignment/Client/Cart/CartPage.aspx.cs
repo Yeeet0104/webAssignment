@@ -94,8 +94,9 @@ namespace webAssignment.Client.Cart
             }
             else
             {
-                return "";
+                Response.Redirect("/Client/LoginSignUp/Login.aspx");
             }
+            return "";
         }
 
         private void LogError(string message)

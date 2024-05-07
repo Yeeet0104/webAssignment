@@ -19,8 +19,6 @@ namespace webAssignment.Client.Profile
         {
             if (!IsPostBack)
             {
-                // To be deleted
-                Session["UserId"] = "CS1001";
                 getHistory();
             }
         }
@@ -77,14 +75,15 @@ namespace webAssignment.Client.Profile
         }
         private String getCurrentUserId()
         {
-            if (Session["UserId"] != null)
+            if (Session["userId"] != null)
             {
-                return Convert.ToString(Session["UserId"]);
+                return Convert.ToString(Session["userId"]);
             }
             else
             {
-                return "CS1001";
+                Response.Redirect("/Client/LoginSignUp/Login.aspx");
             }
+            return "";
         }
 
 

@@ -36,9 +36,9 @@ namespace webAssignment.Client.Wishlist
         private void BindWishlistItems( )
         {
 
-            if ( Session["UserId"] != null )
+            if ( Session["userId"] != null )
             {
-             string userId = Session["UserId"].ToString();
+             string userId = Session["userId"].ToString();
                 try
                 {
 
@@ -74,7 +74,8 @@ namespace webAssignment.Client.Wishlist
             }
             else
             {
-                lvWishlist.DataBind();
+                Response.Redirect("/Client/LoginSignUp/Login.aspx");
+
             }
         }
 

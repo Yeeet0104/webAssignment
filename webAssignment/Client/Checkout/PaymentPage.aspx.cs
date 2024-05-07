@@ -224,14 +224,15 @@ namespace webAssignment.Client.Checkout
 
         private String getCurrentUserId()
         {
-            if (Session["UserId"] != null)
+            if (Session["userId"] != null)
             {
-                return Convert.ToString(Session["UserId"]);
+                return Convert.ToString(Session["userId"]);
             }
             else
             {
-                return "CS1001";
+                Response.Redirect("/Client/LoginSignUp/Login.aspx");
             }
+            return "";
         }
 
         protected void btnCard_Click(object sender, EventArgs e)
@@ -1059,7 +1060,7 @@ namespace webAssignment.Client.Checkout
                 if (receiverEmail != "" || receiverEmail != null)
                 {
 
-                MailMessage verificationMail = new MailMessage(senderEmail, receiverEmail);
+                    MailMessage verificationMail = new MailMessage(senderEmail, receiverEmail);
                     string resetEmailParam = HttpUtility.UrlEncode(receiverEmail); // Encode email for URL
                     string resetUrl = $"https://localhost:44356/Client/AboutUs/TermsAndCondition.aspx";
 
@@ -1067,19 +1068,19 @@ namespace webAssignment.Client.Checkout
 
                     verificationMail.Body = $"<h3>Dear {getUsername()},</h3>" +
                                             "<p>We have successfully received your recent order. You order will be packed and delivered soon! Please allow 3 to 5 working days for your order to arrive. </p>" +
-                                            "<b>Estimated Delivery Date:</b> " + estArrivedDate + "<p>For information on our return and exchange policy, please visit our website:"+ $"<a href=\"{resetUrl}\" style=\"color:blue;\">Click Here</a>" + "</p>" +
+                                            "<b>Estimated Delivery Date:</b> " + estArrivedDate + "<p>For information on our return and exchange policy, please visit our website:" + $"<a href=\"{resetUrl}\" style=\"color:blue;\">Click Here</a>" + "</p>" +
                                             "<p>If you have any questions or concerns regarding your order, please feel free to reply to this email. We are here to assist you and ensure a smooth shopping experience.</p>" +
-                                            "<p>Thank you for choosing G-Tech. We truly appreciate your support.</p>" + 
+                                            "<p>Thank you for choosing G-Tech. We truly appreciate your support.</p>" +
                                             "<br>" +
                                             "<p><b>Best Regards,</b></p>" +
                                             "<p>G-Tech Team</p>";
-                verificationMail.IsBodyHtml = true;
-                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
-                smtpClient.EnableSsl = true;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential(senderEmail, "lajd btuc nhuf qryg");
+                    verificationMail.IsBodyHtml = true;
+                    SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(senderEmail, "lajd btuc nhuf qryg");
 
-                smtpClient.Send(verificationMail);
+                    smtpClient.Send(verificationMail);
                 }
                 else
                     txtCardNumber.Text = receiverEmail;

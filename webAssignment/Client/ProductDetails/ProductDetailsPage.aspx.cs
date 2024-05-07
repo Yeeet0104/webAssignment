@@ -26,7 +26,6 @@ namespace webAssignment.Client.ProductDetails
             {
                 if (Request.QueryString["ProductId"] != null)
                 {
-                    Session["UserId"] = "CS1001";
                     string productId = Request.QueryString["ProductId"].ToString();
                     PopulateProductDetails(productId);
                     PopulateReviewData(productId);
@@ -335,10 +334,10 @@ namespace webAssignment.Client.ProductDetails
         protected void btnAddToCart_Click(object sender, EventArgs e)
         {
             // Check if the user is logged in
-            if (Session["UserId"] == null)
+            if (Session["userId"] == null)
             {
                 // Redirect the user to the login page or show a message to log in
-                Response.Redirect("/Client/LoginSignUp/SignUp.aspx");
+                Response.Redirect("/Client/LoginSignUp/Login.aspx");
                 return;
             }
 
@@ -351,7 +350,7 @@ namespace webAssignment.Client.ProductDetails
             }
 
             // Get user ID, variation, qty
-            string userId = Session["UserId"].ToString();
+            string userId = Session["userId"].ToString();
             string productVariantId = ddlProdVariant.SelectedItem.Value.ToString();
             int quantity = int.Parse(qtyInput.Text);
 
