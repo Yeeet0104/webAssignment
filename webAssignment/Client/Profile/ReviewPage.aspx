@@ -35,7 +35,7 @@
                                 <i class="star-icon fa fa-star fa-regular" id="star4" runat="server" data-rating="4" ></i>
                                 <i class="star-icon fa fa-star fa-regular" id="star5" runat="server" data-rating="5" ></i>
                             </div>
-                            <asp:TextBox ID="rateValue" runat="server">1</asp:TextBox>
+                            <asp:TextBox ID="rateValue" CssClass="hidden" runat="server">1</asp:TextBox>
                         </div>
                     </div>
                 </div>
