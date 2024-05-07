@@ -240,7 +240,7 @@
                     <div class="text-lg mb-2">
                         <p>Address</p>
                     </div>
-                    <div class="flex flex-row justify-between items-center text-sm">
+ <%--                   <div class="flex flex-row justify-between items-center text-sm">
                         <div class="flex justify-start items-center gap-2">
                             <div class="flex justify-center  items-center rounded-full bg-gray-200 p-3 w-10 h-10">
                                 <i class="fa-solid fa-location-dot"></i>
@@ -253,7 +253,7 @@
                         </div>
                         <div>
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="flex flex-row justify-between items-center text-sm">
                         <div class="flex justify-start items-center gap-2">
                             <div class="flex justify-center  items-center rounded-full bg-gray-200 w-10 h-10">

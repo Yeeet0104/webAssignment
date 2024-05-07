@@ -191,6 +191,10 @@ namespace webAssignment.Client.Cart
                         }
 
                     }
+                    else
+                    {
+                        ShowNotification("Invalid Voucher Code", "warning");
+                    }
                 }
             }
             Session["Voucher"] = "";

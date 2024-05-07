@@ -46,7 +46,7 @@ namespace webAssignment.Admin.Orders
             string userId = DecryptString(Request.QueryString["userID"]);
             InitializeOrder(orderId);
             InitializeCustomer(userId);
-            //InitializeAddress(orderId);
+            InitializeAddress(orderId);
             InitializeOrderList(orderId);
         }
         public orderInfo GetOrderDetails( string orderId )
@@ -166,11 +166,46 @@ namespace webAssignment.Admin.Orders
             cusPhoneNum.Text = user.phone_number;
         }
 
-        //private void InitializeAddress( string orderId )
-        //{
-        //    var address = GetAddressDetails(orderId);
-        //    // Set labels and other controls as needed
-        //}
+        private void InitializeAddress( string orderId )
+        {
+            string query =
+                @"SELECT  
+                    ad.address_line1,  
+                    ad.address_line2, 
+                    CONCAT(ad.zip_code, ', ', ad.city) AS address_line3,
+                    CONCAT(ad.state, ', ', ad.countryCode) AS address_line4
+                FROM 
+                    dbo.[Address] ad 
+                INNER JOIN 
+                    dbo.[Order] o ON ad.address_id = o.address_id 
+                WHERE 
+                    o.order_id = @orderID";
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                try
+                {
+                    connection.Open();
+                    using ( SqlCommand command = new SqlCommand(query, connection) )
+                    {
+                        command.Parameters.AddWithValue("@orderID", orderId);
+                        using ( SqlDataReader reader = command.ExecuteReader() )
+                        {
+                            if ( reader.HasRows )
+                            {
+                                reader.Read();
+                                shippingAddresslbl.Text = reader["address_line1"].ToString() + " " + reader["address_line2"].ToString() + " " + reader["address_line3"].ToString() + " " + reader["address_line4"].ToString();
+
+                            }
+                        }
+                    }
+                }
+                catch ( SqlException ex )
+                {
+                    ShowNotification(ex.Message, "warning");
+                }
+            }
+        }
 
         private void InitializeOrderList( string orderId )
         {
